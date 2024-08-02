@@ -99,7 +99,7 @@ const SideBar = () => {
               ml="15px"
             >
               <Typography variant="h2" fontWeight="400">
-                <span className="purple-style">Fit</span>
+                <span style={{ color: "#6d76fa" }}>Fit</span>
                 <span style={{ color: `${colors.primary[100]}` }}>Tracker</span>
               </Typography>
               <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>

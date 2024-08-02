@@ -6,6 +6,8 @@ import Dashboard from "./scences/dashboard/Dashboard";
 import Login from "./scences/auth/LoginPage";
 import NotFoundPage from "./scences/notFoundPage/NotFoundPage";
 import Signup from "./scences/auth/SignUpPage";
+import ForgotPassword from "./scences/auth/ForgotPasswordPage";
+
 function App() {
   const [theme, colorMode] = useMode();
 
@@ -19,6 +21,7 @@ function App() {
           </Route>
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
+          <Route path="forgot" element={<ForgotPassword />} />
           <Route path="/*" element={<NotFoundPage />} />
         </Routes>
       </ThemeProvider>

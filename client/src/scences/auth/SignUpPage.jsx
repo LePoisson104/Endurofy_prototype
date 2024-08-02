@@ -1,12 +1,14 @@
 import { Button, Box, TextField, Typography, Checkbox } from "@mui/material";
 import { Link } from "react-router-dom";
+import Footer from "../../components/Footer";
+import NavBar from "../../components/NavBar";
 
-const Login = () => {
+const SignUp = () => {
   return (
     <Box
       sx={{
         position: "relative", // Allows absolute positioning of the logo
-        height: "100vh",
+        minHeight: { xl: "135vh", lg: "160vh" },
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -14,26 +16,7 @@ const Login = () => {
         background: "#f4f4f4",
       }}
     >
-      <Box
-        sx={{
-          position: "absolute",
-          top: 40,
-          left: 40,
-        }}
-      >
-        <Typography
-          variant="h2"
-          fontWeight="400"
-          sx={{
-            cursor: "pointer",
-          }}
-        >
-          <Link to="#" style={{ textDecoration: "none" }}>
-            <span className="purple-style">Fit</span>
-            <span className="grey-style">Tracker</span>
-          </Link>
-        </Typography>
-      </Box>
+      <NavBar />
       <Box
         component="form"
         noValidate
@@ -50,6 +33,8 @@ const Login = () => {
             "rgba(0, 0, 0, 0.05) 0 6px 24px, rgba(0, 0, 0, 0.08) 0 0 0 1px",
           width: "100%",
           maxWidth: 450,
+          mt: 21,
+          mb: { xs: 14, lg: 14 },
         }}
       >
         <Typography
@@ -199,8 +184,9 @@ const Login = () => {
           </Link>
         </Typography>
       </Box>
+      <Footer />
     </Box>
   );
 };
 
-export default Login;
+export default SignUp;

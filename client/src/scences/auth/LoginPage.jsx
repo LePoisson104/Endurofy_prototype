@@ -17,8 +17,15 @@ const Login = () => {
       <Box
         sx={{
           position: "absolute",
-          top: 40,
-          left: 40,
+          top: 0,
+          left: 0,
+          backgroundColor: "white",
+          width: "100%",
+          height: "70px",
+          display: "flex",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+          gap: 80,
         }}
       >
         <Typography
@@ -33,6 +40,23 @@ const Login = () => {
             <span className="grey-style">Tracker</span>
           </Link>
         </Typography>
+        <Link to="/signup">
+          <Button
+            sx={{
+              textTransform: "none",
+              backgroundColor: "#6d76fa",
+              color: "white",
+              paddingLeft: "15px",
+              paddingRight: "15px",
+              height: "35px",
+              "&:hover": {
+                backgroundColor: "#868dfb",
+              },
+            }}
+          >
+            Sign Up
+          </Button>
+        </Link>
       </Box>
       <Box
         component="form"
@@ -139,7 +163,7 @@ const Login = () => {
         >
           Sign in
         </Button>
-        <Link to="#" style={{ textDecoration: "none" }}>
+        <Link to="/forgot" style={{ textDecoration: "none" }}>
           <Typography
             sx={{
               color: "#6d76fa",
