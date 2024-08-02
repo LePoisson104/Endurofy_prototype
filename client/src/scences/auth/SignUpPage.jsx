@@ -91,8 +91,8 @@ const SignUp = () => {
           }}
         />
         <TextField
-          id="confirm-password"
-          label="Confirm Password"
+          id="password"
+          label="Password"
           variant="outlined"
           type="password"
           required
@@ -113,8 +113,8 @@ const SignUp = () => {
           }}
         />
         <TextField
-          id="password"
-          label="Password"
+          id="confirm-password"
+          label="Confirm Password"
           variant="outlined"
           type="password"
           required
