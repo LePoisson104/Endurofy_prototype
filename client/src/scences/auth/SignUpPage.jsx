@@ -32,7 +32,7 @@ const SignUp = () => {
           boxShadow:
             "rgba(0, 0, 0, 0.05) 0 6px 24px, rgba(0, 0, 0, 0.08) 0 0 0 1px",
           width: "100%",
-          maxWidth: 450,
+          maxWidth: 420,
           mt: 21,
           mb: { xs: 14, lg: 14 },
         }}
