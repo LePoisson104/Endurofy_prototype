@@ -14,7 +14,9 @@ import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
 import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
+// SidebarItem.js
 const Item = ({ title, to, icon, selected, setSelected, isCollapsed }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -29,32 +31,33 @@ const Item = ({ title, to, icon, selected, setSelected, isCollapsed }) => {
       arrow
       disableHoverListener={!isCollapsed}
     >
-      <MenuItem
-        active={selected === title}
-        style={{
-          color: colors.grey[100],
-        }}
-        onClick={() => setSelected(title)}
-        icon={icon}
-        rootStyles={{
-          [`.${menuClasses.active}`]: {
-            color: "#868dfb",
-          },
-          [`.${menuClasses.button}`]: {
-            "&:hover": {
-              [`.${menuClasses.icon}`]: {
-                color: "#868dfb",
-              },
-              [`.${menuClasses.label}`]: {
-                color: "#868dfb",
+      <Link to={to} style={{ textDecoration: "none", color: "inherit" }}>
+        <MenuItem
+          active={selected === title}
+          style={{
+            color: colors.grey[100],
+          }}
+          onClick={() => setSelected(title)}
+          icon={icon}
+          rootStyles={{
+            [`.${menuClasses.active}`]: {
+              color: "#868dfb",
+            },
+            [`.${menuClasses.button}`]: {
+              "&:hover": {
+                [`.${menuClasses.icon}`]: {
+                  color: "#868dfb",
+                },
+                [`.${menuClasses.label}`]: {
+                  color: "#868dfb",
+                },
               },
             },
-          },
-        }}
-      >
-        {!isCollapsed && <Typography>{title}</Typography>}
-        <Link to={to} />
-      </MenuItem>
+          }}
+        >
+          {!isCollapsed && <Typography>{title}</Typography>}
+        </MenuItem>
+      </Link>
     </Tooltip>
   );
 };
@@ -177,7 +180,7 @@ const SideBar = () => {
           </Typography>
           <Item
             title="Profile"
-            to="/form"
+            to="/profile"
             icon={<PersonOutlinedIcon />}
             selected={selected}
             setSelected={setSelected}
@@ -199,7 +202,14 @@ const SideBar = () => {
             setSelected={setSelected}
             isCollapsed={isCollapsed}
           />
-
+          <Item
+            title="Settings"
+            to="/settings"
+            icon={<SettingsOutlinedIcon />}
+            selected={selected}
+            setSelected={setSelected}
+            isCollapsed={isCollapsed}
+          />
           <Typography
             variant="h6"
             color={colors.grey[300]}
@@ -208,7 +218,7 @@ const SideBar = () => {
             Charts
           </Typography>
           <Item
-            title="Bar Chart"
+            title="Calories History"
             to="/bar"
             icon={<BarChartOutlinedIcon />}
             selected={selected}
@@ -224,7 +234,7 @@ const SideBar = () => {
             isCollapsed={isCollapsed}
           />
           <Item
-            title="Weight Report"
+            title="Overall Report"
             to="/line"
             icon={<TimelineOutlinedIcon />}
             selected={selected}

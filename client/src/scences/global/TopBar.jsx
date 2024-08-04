@@ -1,4 +1,5 @@
 import { Box, IconButton, useTheme } from "@mui/material";
+import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { ColorModeContext, tokens } from "../../theme";
 import InputBase from "@mui/material/InputBase";
@@ -44,9 +45,14 @@ const TopBar = () => {
         <IconButton>
           <SettingsOutlinedIcon />
         </IconButton>
-        <IconButton>
-          <PersonOutlinedIcon />
-        </IconButton>
+        <Link
+          to="/profile"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <IconButton>
+            <PersonOutlinedIcon />
+          </IconButton>
+        </Link>
         <IconButton>
           <LogoutIcon />
         </IconButton>
