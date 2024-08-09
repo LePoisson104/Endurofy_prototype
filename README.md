@@ -33,10 +33,10 @@ npm install
 
 # Start the client/server
 npm run start
+```
 
 Data flow
 ![alt text](image.png)
 
 Access & refresh token flow
 ![alt text](image-1.png)
-```
