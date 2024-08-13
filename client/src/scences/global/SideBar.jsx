@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { Sidebar, Menu, MenuItem, menuClasses } from "react-pro-sidebar";
+import {
+  Sidebar,
+  Menu,
+  MenuItem,
+  menuClasses,
+  sidebarClasses,
+} from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme, Tooltip } from "@mui/material";
 import { Link } from "react-router-dom";
 import { tokens } from "../../theme";
@@ -67,12 +73,18 @@ const SideBar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+  const sidebarWidth = isCollapsed ? "80px" : "250px"; // Adjust these values as needed
 
   return (
     <Sidebar
       collapsed={isCollapsed}
       backgroundColor={`${colors.primary[400]}`}
-      transitionDuration={"500"}
+      rootStyles={{
+        [`.${sidebarClasses.container}`]: {
+          position: "fixed",
+          width: sidebarWidth,
+        },
+      }}
     >
       <Menu
         iconShape="square"

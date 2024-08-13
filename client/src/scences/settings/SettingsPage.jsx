@@ -75,6 +75,7 @@ const Settings = () => {
           />
         </Box>
       </Box>
+      <Box sx={{ width: "100%", borderTop: "1px solid #888", mb: 3 }}></Box>
       <Typography variant="h4" sx={{ mb: 3 }}>
         Notification
       </Typography>
