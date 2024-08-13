@@ -1,7 +1,7 @@
 import { Box, TextField, Typography } from "@mui/material";
 import Header from "../../components/Header";
-import UpdateButton from "../../components/UpdateButton";
 import IOSSwitch from "../../components/IOSSwitch";
+import UpdateModal from "../../components/UpdateModal";
 
 const Settings = () => {
   return (
@@ -24,7 +24,17 @@ const Settings = () => {
             value="Pham"
             sx={{ width: "40%" }}
           />
-          <UpdateButton />
+          <UpdateModal
+            title="Update Your Name"
+            id1="firstName"
+            name1="firstName"
+            label1="First Name"
+            type1="text"
+            id2="lastName"
+            name2="lastName"
+            label2="Last Name"
+            type2="text"
+          />
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}>
           <TextField
@@ -33,7 +43,17 @@ const Settings = () => {
             value="vietpham2017@gmail.com"
             sx={{ width: "81%" }}
           />
-          <UpdateButton />
+          <UpdateModal
+            title="Update Your Email"
+            id1="newEmail"
+            name1="newEmail"
+            label1="New Email"
+            type1="email"
+            id2="confirmEmail"
+            name2="confirmEmail"
+            label2="Confirm Email"
+            type2="email"
+          />
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}>
           <TextField
@@ -42,7 +62,17 @@ const Settings = () => {
             value="**************"
             sx={{ width: "81%" }}
           />
-          <UpdateButton />
+          <UpdateModal
+            title="Update Your Password"
+            id1="newPassword"
+            name1="newPassword"
+            label1="New Password"
+            type1="password"
+            id2="confirmPassword"
+            name2="confirmPassword"
+            label2="Confirm Password"
+            type2="password"
+          />
         </Box>
       </Box>
       <Typography variant="h4" sx={{ mb: 3 }}>
