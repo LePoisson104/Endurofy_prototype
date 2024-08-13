@@ -1,127 +1,61 @@
-import { Box, Button, TextField } from "@mui/material";
-import { Formik } from "formik";
-import * as yup from "yup";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import { Box, TextField, Typography } from "@mui/material";
 import Header from "../../components/Header";
+import UpdateButton from "../../components/UpdateButton";
+import IOSSwitch from "../../components/IOSSwitch";
 
 const Settings = () => {
-  const isNonMobile = useMediaQuery("(min-width:600px)");
-
-  const handleFormSubmit = (values) => {
-    console.log(values);
-  };
-
   return (
     <Box m="20px">
       <Header title="Account Settings" />
-
-      <Formik
-        onSubmit={handleFormSubmit}
-        initialValues={initialValues}
-        validationSchema={checkoutSchema}
-      >
-        {({
-          values,
-          errors,
-          touched,
-          handleBlur,
-          handleChange,
-          handleSubmit,
-        }) => (
-          <form onSubmit={handleSubmit}>
-            <Box
-              display="grid"
-              gap="30px"
-              gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-              sx={{
-                "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-              }}
-            >
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Full Name"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.firstName}
-                name="firstName"
-                error={!!touched.firstName && !!errors.firstName}
-                helperText={touched.firstName && errors.firstName}
-                sx={{ gridColumn: "span 4" }}
-              />
-
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Email"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.email}
-                name="email"
-                error={!!touched.email && !!errors.email}
-                helperText={touched.email && errors.email}
-                sx={{ gridColumn: "span 4" }}
-              />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Password"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.contact}
-                name="contact"
-                error={!!touched.contact && !!errors.contact}
-                helperText={touched.contact && errors.contact}
-                sx={{ gridColumn: "span 4" }}
-              />
-            </Box>
-            <Box display="flex" justifyContent="end" mt="20px">
-              <Button
-                type="submit"
-                sx={{
-                  textTransform: "none",
-                  backgroundColor: "#6d76fa",
-                  color: "white",
-                  "&:hover": {
-                    backgroundColor: "#868dfb",
-                  },
-                }}
-              >
-                Update
-              </Button>
-            </Box>
-          </form>
-        )}
-      </Formik>
+      <Box>
+        <Typography variant="h4" sx={{ mb: 3 }}>
+          Login
+        </Typography>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}>
+          <TextField
+            disabled
+            label="First Name"
+            value="Viet"
+            sx={{ width: "40%" }}
+          />
+          <TextField
+            disabled
+            label="Last Name"
+            value="Pham"
+            sx={{ width: "40%" }}
+          />
+          <UpdateButton />
+        </Box>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}>
+          <TextField
+            disabled
+            label="Email"
+            value="vietpham2017@gmail.com"
+            sx={{ width: "81%" }}
+          />
+          <UpdateButton />
+        </Box>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}>
+          <TextField
+            disabled
+            label="Password"
+            value="**************"
+            sx={{ width: "81%" }}
+          />
+          <UpdateButton />
+        </Box>
+      </Box>
+      <Typography variant="h4" sx={{ mb: 3 }}>
+        Notification
+      </Typography>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 20, mb: 3 }}>
+        <Typography variant="h5">
+          Send me a reminder to enter my daily logs
+        </Typography>
+        <IOSSwitch />
+      </Box>
     </Box>
   );
-};
-
-const phoneRegExp =
-  /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
-
-const checkoutSchema = yup.object().shape({
-  firstName: yup.string().required("required"),
-  lastName: yup.string().required("required"),
-  email: yup.string().email("invalid email").required("required"),
-  contact: yup
-    .string()
-    .matches(phoneRegExp, "Phone number is not valid")
-    .required("required"),
-  address1: yup.string().required("required"),
-  address2: yup.string().required("required"),
-});
-
-const initialValues = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  contact: "",
-  address1: "",
-  address2: "",
 };
 
 export default Settings;

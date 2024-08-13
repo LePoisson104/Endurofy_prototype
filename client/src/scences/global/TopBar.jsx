@@ -42,9 +42,14 @@ const TopBar = () => {
         <IconButton>
           <NotificationsOutlinedIcon />
         </IconButton>
-        <IconButton>
-          <SettingsOutlinedIcon />
-        </IconButton>
+        <Link
+          to="/settings"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <IconButton>
+            <SettingsOutlinedIcon />
+          </IconButton>
+        </Link>
         <Link
           to="/profile"
           style={{ textDecoration: "none", color: "inherit" }}
