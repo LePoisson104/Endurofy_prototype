@@ -17,16 +17,26 @@ const getAllUsers = (req, res) => {
   });
 };
 
-const updateUser = async (req, res) => {
+// todo: divide this into three cases where the user update name, or email, or password
+const updateUserAccount = async (req, res) => {
   const { userId } = req.params;
-  const { password, name } = req.body;
+  const { email, currentPassword, newPassword, first_name, last_name } =
+    req.body;
 
-  if (!password || !name) {
+  if (!password || !email || !first_name || !last_name) {
     return res.status(400).json({ message: "All fields are require" });
   }
 
-  const hashed_password = await bcrypt.hash(password, 10);
-  const updateUser = Users.queryUpdateUser(userId, hashed_password, name);
+  const updateDate = new Date();
+  const hashed_password = await bcrypt.hash(newPassword, 10);
+  const updateUser = Users.queryUpdateUserAccount(
+    userId,
+    email,
+    hashed_password,
+    first_name,
+    last_name,
+    updateDate
+  );
   updateUser
     .then((status) => {
       if (status.affectedRows !== 1) {
@@ -37,6 +47,7 @@ const updateUser = async (req, res) => {
     .catch((err) => console.error(err));
 };
 
+// close account
 const deleteUser = (req, res) => {
   const { userId } = req.params;
   const deleteUser = Users.queryDeleteUser(userId);
@@ -50,4 +61,4 @@ const deleteUser = (req, res) => {
     .catch((err) => console.error(err));
 };
 
-module.exports = { getAllUsers, updateUser, deleteUser };
+module.exports = { getAllUsers, updateUserAccount, deleteUser };

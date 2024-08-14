@@ -15,6 +15,10 @@ const UpdateModal = ({
   name2,
   label2,
   type2,
+  id3, // Optional TextField props
+  name3,
+  label3,
+  type3,
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -56,8 +60,7 @@ const UpdateModal = ({
             event.preventDefault();
             const formData = new FormData(event.currentTarget);
             const formJson = Object.fromEntries(formData.entries());
-            const email = formJson.email;
-            console.log(email);
+            console.log(formJson); // Log the form data
             handleClose();
           },
           sx: { width: "500px" },
@@ -76,7 +79,20 @@ const UpdateModal = ({
             label={label1}
             type={type1}
             fullWidth
-            variant="standard"
+            variant="outlined"
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "gray", // Default border color
+                },
+                "&:hover fieldset": {
+                  borderColor: "#6d76fa", // Border color on hover
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#6d76fa", // Border color when focused
+                },
+              },
+            }}
           />
           <TextField
             autoFocus
@@ -87,20 +103,64 @@ const UpdateModal = ({
             label={label2}
             type={type2}
             fullWidth
-            variant="standard"
+            variant="outlined"
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "gray", // Default border color
+                },
+                "&:hover fieldset": {
+                  borderColor: "#6d76fa", // Border color on hover
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#6d76fa", // Border color when focused
+                },
+              },
+            }}
           />
+          {/* Conditionally render the optional TextField */}
+          {id3 && name3 && label3 && type3 && (
+            <TextField
+              autoFocus
+              margin="dense"
+              id={id3}
+              name={name3}
+              label={label3}
+              type={type3}
+              fullWidth
+              variant="outlined"
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "gray", // Default border color
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "#6d76fa", // Border color on hover
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#6d76fa", // Border color when focused
+                  },
+                },
+              }}
+            />
+          )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} sx={{ textTransform: "none" }}>
+          <Button
+            onClick={handleClose}
+            sx={{ textTransform: "none", color: "#6d76fa" }}
+          >
             Cancel
           </Button>
           <Button
             type="submit"
             sx={{
               textTransform: "none",
+              backgroundColor: "#6d76fa",
+              color: "white",
               "&:hover": {
                 color: "white",
-                backgroundColor: "#6d76fa",
+                backgroundColor: "#868dfb",
               },
             }}
           >

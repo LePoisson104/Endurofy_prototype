@@ -1,7 +1,8 @@
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import Header from "../../components/Header";
 import IOSSwitch from "../../components/IOSSwitch";
 import UpdateModal from "../../components/UpdateModal";
+import DeleteAccountModal from "../../components/DeleteAccountModal";
 
 const Settings = () => {
   return (
@@ -64,14 +65,18 @@ const Settings = () => {
           />
           <UpdateModal
             title="Update Your Password"
-            id1="newPassword"
-            name1="newPassword"
-            label1="New Password"
+            id1="currentPassword"
+            name1="currentPassword"
+            label1="Current Password"
             type1="password"
-            id2="confirmPassword"
-            name2="confirmPassword"
-            label2="Confirm Password"
+            id2="password"
+            name2="password"
+            label2="Password"
             type2="password"
+            id3="confirmPassword"
+            name3="confirmPassword"
+            label3="Confirm Password"
+            type3="password"
           />
         </Box>
       </Box>
@@ -84,6 +89,20 @@ const Settings = () => {
           Send me a reminder to enter my daily logs
         </Typography>
         <IOSSwitch />
+      </Box>
+      <Box sx={{ width: "100%", borderTop: "1px solid #888", mb: 3 }}></Box>
+      <Typography variant="h4" sx={{ mb: 3 }}>
+        Account Data
+      </Typography>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 30, mb: 3 }}>
+        <Box>
+          <Typography variant="h5">Delete Account</Typography>
+          <Typography fontWeight="light">
+            If you delete your account, all your data will be permanently
+            deleted.
+          </Typography>
+        </Box>
+        <DeleteAccountModal />
       </Box>
     </Box>
   );

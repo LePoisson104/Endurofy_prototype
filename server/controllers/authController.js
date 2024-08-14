@@ -7,9 +7,27 @@ const { v4: uuidv4 } = require("uuid");
 // @route POST/auth
 // @access Public
 const signup = async (req, res) => {
-  const { email, password, name } = req.body;
+  const {
+    firstName,
+    lastName,
+    email,
+    password,
+    gender,
+    birthdate,
+    height,
+    weight,
+  } = req.body;
 
-  if (!email || !password || !name) {
+  if (
+    !email ||
+    !password ||
+    !firstName ||
+    !lastName ||
+    !gender ||
+    !birthdate ||
+    !height ||
+    !weight
+  ) {
     return res.status(400).json({ message: "All fields are require" });
   }
 
@@ -19,7 +37,12 @@ const signup = async (req, res) => {
     userId,
     email,
     hashedPassword,
-    name
+    firstName,
+    lastName,
+    gender,
+    birthdate,
+    height,
+    weight
   );
   createUser
     .then((status) => {
@@ -61,7 +84,7 @@ const login = async (req, res) => {
       {
         UserInfo: {
           email: foundUser[0].email,
-          name: foundUser[0].name,
+          name: foundUser[0].first_name,
         },
       },
       process.env.ACCESS_TOKEN_SECRET,

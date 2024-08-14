@@ -1,9 +1,11 @@
 import { Button, Box, TextField, Typography, Checkbox } from "@mui/material";
 import { Link } from "react-router-dom";
-
+import PasswordField from "../../components/PasswordField";
 import ForgotPasswordModal from "../../components/ForgotPassModal";
-
+import { useState } from "react";
 const Login = () => {
+  const [password, setPassword] = useState("");
+
   return (
     <Box
       sx={{
@@ -126,27 +128,15 @@ const Login = () => {
             },
           }}
         />
-        <TextField
+        <PasswordField
           id="password"
           label="Password"
-          variant="outlined"
-          type="password"
-          required
-          sx={{
-            width: "350px",
-            "& .MuiOutlinedInput-root": {
-              "& fieldset": {
-                borderColor: "grey", // Default border color
-              },
-              "&:hover fieldset": {
-                borderColor: "#6d76fa", // Border color on hover
-              },
-              "&.Mui-focused fieldset": {
-                borderColor: "#3c47f9", // Border color when focused
-              },
-            },
-          }}
+          value={password}
+          setValue={setPassword}
+          fieldName="password"
+          validate={false} // Disable validation
         />
+
         <Box
           sx={{
             display: "flex",
@@ -164,7 +154,7 @@ const Login = () => {
                 },
               }}
             />
-            Show Password
+            Remember me
           </Typography>
         </Box>
         <Button

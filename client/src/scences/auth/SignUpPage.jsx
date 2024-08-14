@@ -1,13 +1,71 @@
-import { Button, Box, TextField, Typography, Checkbox } from "@mui/material";
+import { useState } from "react";
+import { Button, Box, TextField, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import Footer from "../../components/Footer";
 import NavBar from "../../components/NavBar";
+import RowRadioButtonsGroup from "../../components/RowRadioButtonGroup";
+import MonthSelect from "../../components/MonthSelect";
+import InchesSelect from "../../components/InchesSelect";
+import FeetSelect from "../../components/FeetSelect";
+import PasswordField from "../../components/PasswordField";
 
 const SignUp = () => {
+  // State for form fields
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [month, setMonth] = useState("");
+  const [day, setDay] = useState("");
+  const [year, setYear] = useState("");
+  const [feet, setFeet] = useState("");
+  const [inches, setInches] = useState("");
+  const [weight, setWeight] = useState("");
+
+  const [errors, setErrors] = useState({
+    firstName: false,
+    lastName: false,
+    email: false,
+    password: false,
+    confirmPassword: false,
+    month: false,
+    day: false,
+    year: false,
+    feet: false,
+    inches: false,
+    weight: false,
+  });
+
+  const [touched, setTouched] = useState({
+    firstName: false,
+    lastName: false,
+    email: false,
+    password: false,
+    confirmPassword: false,
+    day: false,
+    year: false,
+    weight: false,
+  });
+
+  const validateField = (fieldName, value) => {
+    if (value.trim() === "") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: true,
+      }));
+    } else {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: false,
+      }));
+    }
+  };
+
   return (
     <Box
       sx={{
-        position: "relative", // Allows absolute positioning of the logo
+        position: "relative",
         minHeight: { xl: "135vh", lg: "160vh" },
         display: "flex",
         justifyContent: "center",
@@ -32,7 +90,7 @@ const SignUp = () => {
           boxShadow:
             "rgba(0, 0, 0, 0.05) 0 6px 24px, rgba(0, 0, 0, 0.08) 0 0 0 1px",
           width: "100%",
-          maxWidth: 420,
+          maxWidth: 430,
           mt: 21,
           mb: { xs: 14, lg: 14 },
         }}
@@ -47,23 +105,73 @@ const SignUp = () => {
           Sign Up
         </Typography>
         <TextField
-          id="name"
-          label="Full Name"
+          id="first-name"
+          label="First Name"
           variant="outlined"
           type="text"
           required
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          onBlur={() => {
+            setTouched((prevTouched) => ({
+              ...prevTouched,
+              firstName: true,
+            }));
+            validateField("firstName", firstName);
+          }}
+          error={touched.firstName && errors.firstName}
+          helperText={
+            touched.firstName && errors.firstName
+              ? "first name is required"
+              : ""
+          }
           sx={{
             mb: 3,
             width: "350px",
             "& .MuiOutlinedInput-root": {
               "& fieldset": {
-                borderColor: "grey", // Default border color
+                borderColor: errors.lastName ? "red" : "grey",
               },
               "&:hover fieldset": {
-                borderColor: "#6d76fa", // Border color on hover
+                borderColor: errors.lastName ? "red" : "#6d76fa",
               },
               "&.Mui-focused fieldset": {
-                borderColor: "#3c47f9", // Border color when focused
+                borderColor: errors.lastName ? "red" : "#3c47f9",
+              },
+            },
+          }}
+        />
+        <TextField
+          id="last-name"
+          label="Last Name"
+          variant="outlined"
+          type="text"
+          required
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          onBlur={() => {
+            setTouched((prevTouched) => ({
+              ...prevTouched,
+              lastName: true,
+            }));
+            validateField("lastName", lastName);
+          }}
+          error={touched.lastName && errors.lastName}
+          helperText={
+            touched.lastName && errors.lastName ? "last name is required" : ""
+          }
+          sx={{
+            mb: 3,
+            width: "350px",
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: errors.lastName ? "red" : "grey",
+              },
+              "&:hover fieldset": {
+                borderColor: errors.lastName ? "red" : "#6d76fa",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: errors.lastName ? "red" : "#3c47f9",
               },
             },
           }}
@@ -74,88 +182,203 @@ const SignUp = () => {
           variant="outlined"
           type="email"
           required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          onBlur={() => {
+            setTouched((prevTouched) => ({
+              ...prevTouched,
+              email: true,
+            }));
+            validateField("email", email);
+          }}
+          error={touched.email && errors.email}
+          helperText={touched.email && errors.email ? "Email is required" : ""}
           sx={{
             mb: 3,
             width: "350px",
             "& .MuiOutlinedInput-root": {
               "& fieldset": {
-                borderColor: "grey", // Default border color
+                borderColor: errors.email ? "red" : "grey",
               },
               "&:hover fieldset": {
-                borderColor: "#6d76fa", // Border color on hover
+                borderColor: errors.email ? "red" : "#6d76fa",
               },
               "&.Mui-focused fieldset": {
-                borderColor: "#3c47f9", // Border color when focused
+                borderColor: errors.email ? "red" : "#3c47f9",
               },
             },
           }}
         />
-        <TextField
+        <PasswordField
           id="password"
           label="Password"
-          variant="outlined"
-          type="password"
-          required
-          sx={{
-            width: "350px",
-            mb: 3,
-            "& .MuiOutlinedInput-root": {
-              "& fieldset": {
-                borderColor: "grey", // Default border color
-              },
-              "&:hover fieldset": {
-                borderColor: "#6d76fa", // Border color on hover
-              },
-              "&.Mui-focused fieldset": {
-                borderColor: "#3c47f9", // Border color when focused
-              },
-            },
-          }}
+          value={password}
+          setValue={setPassword}
+          touched={touched}
+          errors={errors}
+          setTouched={setTouched}
+          validateField={validateField}
+          fieldName="password"
+          validate={true}
         />
-        <TextField
+
+        <PasswordField
           id="confirm-password"
           label="Confirm Password"
-          variant="outlined"
-          type="password"
-          required
-          sx={{
-            width: "350px",
-            "& .MuiOutlinedInput-root": {
-              "& fieldset": {
-                borderColor: "grey", // Default border color
-              },
-              "&:hover fieldset": {
-                borderColor: "#6d76fa", // Border color on hover
-              },
-              "&.Mui-focused fieldset": {
-                borderColor: "#3c47f9", // Border color when focused
-              },
-            },
-          }}
+          value={confirmPassword}
+          setValue={setConfirmPassword}
+          touched={touched}
+          errors={errors}
+          setTouched={setTouched}
+          validateField={validateField}
+          fieldName="confirmPassword"
+          validate={true}
         />
 
         <Box
           sx={{
             display: "flex",
+            alignItems: "center",
             width: "350px",
-            mb: 4,
+            mb: 3,
+            justifyContent: "space-between",
           }}
         >
-          <Typography>
-            <Checkbox
-              size="small"
-              sx={{
-                color: "#6d76fa",
-                "&.Mui-checked": {
-                  color: "#6d76fa",
-                },
-              }}
-            />
-            Show Password
-          </Typography>
+          <Typography>Sex</Typography>
+          <RowRadioButtonsGroup />
         </Box>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            width: "350px",
+            mb: 3,
+            gap: 1,
+          }}
+        >
+          <MonthSelect />
+          <TextField
+            label="Day"
+            sx={{ width: "5rem" }}
+            value={day}
+            onChange={(e) => setDay(e.target.value)}
+            onBlur={() => {
+              setTouched((prevTouched) => ({
+                ...prevTouched,
+                day: true,
+              }));
+              validateField("day", day);
+            }}
+            error={touched.day && errors.day}
+            helperText={touched.day && errors.day ? "Day is required" : ""}
+            InputProps={{
+              sx: {
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: errors.day ? "red" : "grey",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: errors.day ? "red" : "#6d76fa",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: errors.day ? "red" : "#3c47f9",
+                  },
+                },
+              },
+            }}
+          />
+          <TextField
+            label="Year"
+            value={year}
+            onChange={(e) => setYear(e.target.value)}
+            onBlur={() => {
+              setTouched((prevTouched) => ({
+                ...prevTouched,
+                year: true,
+              }));
+              validateField("year", year);
+            }}
+            error={touched.year && errors.year}
+            helperText={touched.year && errors.year ? "Year is required" : ""}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: errors.year ? "red" : "grey",
+                },
+                "&:hover fieldset": {
+                  borderColor: errors.year ? "red" : "#6d76fa",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: errors.year ? "red" : "#3c47f9",
+                },
+              },
+            }}
+          />
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            width: "350px",
+            mb: 3,
+            justifyContent: "space-between",
+          }}
+        >
+          <Typography>Height</Typography>
+          <Box
+            sx={{
+              display: "flex",
+              gap: 1,
+            }}
+          >
+            <FeetSelect />
+            <InchesSelect />
+          </Box>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            width: "350px",
+            mb: 3,
+            justifyContent: "space-between",
+          }}
+        >
+          <Typography>Weight</Typography>
+          <TextField
+            label="lbs"
+            value={weight}
+            onChange={(e) => setWeight(e.target.value)}
+            onBlur={() => {
+              setTouched((prevTouched) => ({
+                ...prevTouched,
+                weight: true,
+              }));
+              validateField("weight", weight);
+            }}
+            error={touched.weight && errors.weight}
+            helperText={
+              touched.weight && errors.weight ? "Weight is required" : ""
+            }
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: errors.weight ? "red" : "grey",
+                },
+                "&:hover fieldset": {
+                  borderColor: errors.weight ? "red" : "#6d76fa",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: errors.weight ? "red" : "#3c47f9",
+                },
+              },
+            }}
+          />
+        </Box>
+        <Box sx={{ width: "100%", borderTop: "1px solid #888", mb: 3 }}></Box>
+
         <Button
-          variant="containe"
+          variant="contained"
           type="submit"
           sx={{
             width: "350px",
@@ -167,7 +390,7 @@ const SignUp = () => {
             },
           }}
         >
-          sign up
+          Sign Up
         </Button>
 
         <Typography sx={{ mb: 3 }}>
