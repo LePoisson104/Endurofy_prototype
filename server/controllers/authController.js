@@ -31,29 +31,30 @@ const signup = async (req, res) => {
     return res.status(400).json({ message: "All fields are require" });
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const userId = uuidv4();
-  const createUser = Users.queryCreateNewUser(
-    userId,
-    email,
-    hashedPassword,
-    firstName,
-    lastName,
-    gender,
-    birthdate,
-    height,
-    weight
-  );
-  createUser
-    .then((status) => {
-      if (!status) {
-        return res.status(400).json({ message: "Duplicate Email" });
-      }
-      if (status.affectedRows === 1) {
-        return res.status(200).json({ message: "User Created Successfully!" });
-      }
-    })
-    .catch((err) => console.error(err));
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const userId = uuidv4();
+    const createUser = await Users.queryCreateNewUser(
+      userId,
+      email,
+      hashedPassword,
+      firstName,
+      lastName,
+      gender,
+      birthdate,
+      height,
+      weight
+    );
+
+    if (!createUser) {
+      return res.status(400).json({ message: "Duplicate Email" });
+    }
+    if (createUser.affectedRows == 1) {
+      return res.status(200).json({ message: "User Created Successfully!" });
+    }
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 // @desc Login
@@ -84,7 +85,7 @@ const login = async (req, res) => {
       {
         UserInfo: {
           email: foundUser[0].email,
-          name: foundUser[0].first_name,
+          firstName: foundUser[0].first_name,
         },
       },
       process.env.ACCESS_TOKEN_SECRET,

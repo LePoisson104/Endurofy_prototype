@@ -43,12 +43,12 @@ const queryCreateNewUser = async (
   }
 };
 
-const queryGetAllUsers = async (email) => {
+const queryGetAllUsers = async (userId) => {
   try {
     const response = await new Promise((resolve, reject) => {
       const query =
-        "SELECT user_id, email, first_name, last_name, gender, birth_date, height, weight FROM users WHERE email = ?";
-      pool.query(query, [email], (err, results) => {
+        "SELECT user_id, email, first_name, last_name, gender, birth_date, height, weight FROM users WHERE user_id = ?";
+      pool.query(query, [userId], (err, results) => {
         if (err) {
           reject(new Error(err));
         } else {
@@ -81,29 +81,18 @@ const queryGetUsersCredentials = async (email) => {
   }
 };
 
-const queryUpdateUserAccount = async (
-  userId,
-  email,
-  hashedPassword,
-  first_name,
-  last_name,
-  updateDate
-) => {
+const queryUpdateUserAccount = async (userId, updatePayload) => {
   try {
     const response = await new Promise((resolve, reject) => {
-      const query =
-        "UPDATE users SET email = ?, hashed_password = ?, first_name = ?, last_name = ?, update_at = ? WHERE user_id = ?";
-      pool.query(
-        query,
-        [email, hashedPassword, first_name, last_name, updateDate, userId],
-        (err, results) => {
-          if (err) {
-            reject(new Error(err));
-          } else {
-            resolve(results);
-          }
+      const query = "UPDATE users SET ? WHERE user_id = ?";
+      const values = [updatePayload, userId];
+      pool.query(query, values, (err, results) => {
+        if (err) {
+          reject(new Error(err));
+        } else {
+          resolve(results);
         }
-      );
+      });
     });
     return response;
   } catch (err) {
