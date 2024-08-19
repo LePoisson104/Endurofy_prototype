@@ -23,14 +23,21 @@ To get started with FitTracker, follow these steps:
 ### Clone the Repository
 
 ```bash
+# Clone this repo
 git clone https://github.com/LePoisson104/fit_tracker.git
+```
 
+```bash
 # Navigate to the client directory
 cd client/server
+```
 
+```bash
 # Install dependencies
 npm install
+```
 
+```bash
 # Start the client/server
 npm run start
 ```
