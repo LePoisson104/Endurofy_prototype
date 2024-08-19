@@ -12,7 +12,7 @@ const getAllUserInfo = async (req, res) => {
   try {
     const getUsers = await Users.queryGetAllUsers(userId);
     if (getUsers.length === 0) {
-      return res.status(400).json({ message: "User Not Found " });
+      return res.status(404).json({ message: "User Not Found " });
     }
 
     return res.status(200).json(getUsers);
@@ -47,7 +47,7 @@ const updateUserAccount = async (req, res) => {
     try {
       const userCredentials = await Users.queryGetUsersCredentials(email);
       if (userCredentials.length === 0) {
-        return res.status(400).json({ message: "User Not Found!" });
+        return res.status(404).json({ message: "User Not Found!" });
       }
       const match = await bcrypt.compare(
         currentPassword,

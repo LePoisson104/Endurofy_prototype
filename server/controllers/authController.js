@@ -71,7 +71,7 @@ const login = async (req, res) => {
     const foundUser = await Users.queryGetUsersCredentials(email);
 
     if (foundUser.length === 0) {
-      return res.status(401).json({ message: "User not found" });
+      return res.status(404).json({ message: "User not found" });
     }
 
     const match = await bcrypt.compare(password, foundUser[0].hashed_password);

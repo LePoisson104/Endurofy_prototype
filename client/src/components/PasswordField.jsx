@@ -8,10 +8,10 @@ const PasswordField = ({
   label,
   value,
   setValue,
-  touched = false, // Default to false if not provided
-  errors = false, // Default to false if not provided
+  touched = false,
+  errors = false,
   setTouched = () => {}, // No-op function if not provided
-  validateField = () => {}, // No-op function if not provided
+  validateField = () => {},
   fieldName,
   validate = true,
 }) => {

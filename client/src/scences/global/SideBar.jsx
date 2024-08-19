@@ -160,7 +160,7 @@ const SideBar = () => {
           </Typography>
           <Item
             title="Food Diary"
-            to="/team"
+            to="/food"
             icon={<LocalDiningIcon />}
             selected={selected}
             setSelected={setSelected}
@@ -168,7 +168,7 @@ const SideBar = () => {
           />
           <Item
             title="Weight Tracker"
-            to="/contacts"
+            to="/weight"
             icon={<ScaleOutlinedIcon />}
             selected={selected}
             setSelected={setSelected}
@@ -176,7 +176,7 @@ const SideBar = () => {
           />
           <Item
             title="Workout Log"
-            to="/invoices"
+            to="/workout"
             icon={<FitnessCenterIcon />}
             selected={selected}
             setSelected={setSelected}

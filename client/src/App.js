@@ -13,6 +13,9 @@ import Line from "./scences/line/LineChartPage";
 import Pie from "./scences/pie/PieChartPage";
 import Profile from "./scences/profile/Profile";
 import Settings from "./scences/settings/SettingsPage";
+import FoodPage from "./scences/food/FoodPage";
+import WeightPage from "./scences/weight/WeightPage";
+import WorkoutPage from "./scences/workout/WorkoutPage";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -24,6 +27,9 @@ function App() {
         <Routes>
           <Route path="/" element={<MainLayout />}>
             <Route index element={<Dashboard />} />
+            <Route path="food" element={<FoodPage />} />
+            <Route path="weight" element={<WeightPage />} />
+            <Route path="workout" element={<WorkoutPage />} />
             <Route path="profile" element={<Profile />} />
             <Route path="calendar" element={<Calendar />} />
             <Route path="faq" element={<FAQ />} />
