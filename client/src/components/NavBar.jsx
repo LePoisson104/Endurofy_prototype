@@ -103,7 +103,7 @@ const NavBar = () => {
               paddingLeft: "22px",
               paddingRight: "22px",
               height: "35px",
-              border: "1px solid gray",
+              border: "1px solid #D3D3D3",
               "&:hover": {
                 backgroundColor: "#f0f0f0",
               },
