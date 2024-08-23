@@ -1,6 +1,5 @@
 import { Box, Button, Typography } from "@mui/material";
-import FoodCalendar from "../../components/FoodCalendar";
-import Header from "../../components/Header";
+import Header from "../../components/global/Header";
 
 const WorkoutPage = () => {
   return (

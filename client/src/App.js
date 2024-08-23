@@ -7,7 +7,6 @@ import Login from "./scences/auth/LoginPage";
 import NotFoundPage from "./scences/notFoundPage/NotFoundPage";
 import Signup from "./scences/auth/SignUpPage";
 import Calendar from "./scences/calendar/CalendarPage";
-import FAQ from "./scences/faq/FaqPage";
 import Bar from "./scences/bar/BarChartPage";
 import Line from "./scences/line/LineChartPage";
 import Pie from "./scences/pie/PieChartPage";
@@ -32,7 +31,6 @@ function App() {
             <Route path="workout" element={<WorkoutPage />} />
             <Route path="profile" element={<Profile />} />
             <Route path="calendar" element={<Calendar />} />
-            <Route path="faq" element={<FAQ />} />
             <Route path="bar" element={<Bar />} />
             <Route path="pie" element={<Pie />} />
             <Route path="line" element={<Line />} />

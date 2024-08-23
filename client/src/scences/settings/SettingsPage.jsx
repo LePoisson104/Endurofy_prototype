@@ -1,16 +1,17 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
-import Header from "../../components/Header";
+import Header from "../../components/global/Header";
 import IOSSwitch from "../../components/IOSSwitch";
-import UpdateModal from "../../components/UpdateModal";
-import DeleteAccountModal from "../../components/DeleteAccountModal";
+import UpdateModal from "../../components/modals/UpdateModal";
+import DeleteAccountModal from "../../components/modals/DeleteAccountModal";
 
 const Settings = () => {
   return (
     <Box m="20px">
       <Header title="Account Settings" />
       <Box>
-        <Typography variant="h4" sx={{ mb: 3 }}>
-          Login
+        <Typography variant="h4">Login</Typography>
+        <Typography fontWeight="light" sx={{ mb: 3 }}>
+          Last updated on Jul 22, 2024
         </Typography>
         <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}>
           <TextField

@@ -32,6 +32,7 @@ const FoodCalendar = () => {
       >
         <Button
           sx={{
+            height: 25,
             fontSize: "1rem",
             textTransform: "none",
             backgroundColor: "#6d76fa",
@@ -48,6 +49,7 @@ const FoodCalendar = () => {
         </Typography>
         <Button
           sx={{
+            height: 25,
             fontSize: "1rem",
             textTransform: "none",
             backgroundColor: "#6d76fa",

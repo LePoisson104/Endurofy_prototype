@@ -1,9 +1,9 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
-import Header from "../../components/Header";
-import MonthSelect from "../../components/MonthSelect";
+import Header from "../../components/global/Header";
+import MonthSelect from "../../components/selects/MonthSelect";
 import RowRadioButtonsGroup from "../../components/RowRadioButtonGroup";
-import FeetSelect from "../../components/FeetSelect";
-import InchesSelect from "../../components/InchesSelect";
+import FeetSelect from "../../components/selects/FeetSelect";
+import InchesSelect from "../../components/selects/InchesSelect";
 
 const Profile = () => {
   return (
@@ -13,6 +13,7 @@ const Profile = () => {
         <Typography variant="h4" fontWeight="bold">
           Profile
         </Typography>
+        <Typography fontWeight="light">Last updated on Jul 22, 2024</Typography>
         <Box component="form">
           <Box
             sx={{
@@ -47,6 +48,7 @@ const Profile = () => {
           >
             <Box sx={{ width: "50%" }}>
               <Typography variant="h5">Birthday</Typography>
+              <Typography fontWeight="light">Age: 21</Typography>
             </Box>
             <Box
               sx={{
@@ -96,9 +98,6 @@ const Profile = () => {
           >
             <Box sx={{ width: "50%" }}>
               <Typography variant="h5">Current Weight</Typography>
-              <Typography fontWeight="light">
-                Last updated on Jul 22, 2024
-              </Typography>
             </Box>
             <Box
               sx={{

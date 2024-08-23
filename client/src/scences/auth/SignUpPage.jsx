@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Button, Box, TextField, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import Footer from "../../components/Footer";
-import NavBar from "../../components/NavBar";
+import Footer from "../../components/global/Footer";
+import NavBar from "../../components/global/NavBar";
 import RowRadioButtonsGroup from "../../components/RowRadioButtonGroup";
-import MonthSelect from "../../components/MonthSelect";
-import InchesSelect from "../../components/InchesSelect";
-import FeetSelect from "../../components/FeetSelect";
+import MonthSelect from "../../components/selects/MonthSelect";
+import InchesSelect from "../../components/selects/InchesSelect";
+import FeetSelect from "../../components/selects/FeetSelect";
 import PasswordField from "../../components/PasswordField";
 
 const SignUp = () => {

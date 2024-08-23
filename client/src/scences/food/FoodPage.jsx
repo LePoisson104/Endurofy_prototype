@@ -1,8 +1,9 @@
-import { Box, Typography } from "@mui/material";
-import FoodCalendar from "../../components/FoodCalendar";
-import Header from "../../components/Header";
+import { Box } from "@mui/material";
 import { tokens } from "../../theme";
 import { useTheme } from "@emotion/react";
+import FoodCalendar from "../../components/FoodCalendar";
+import Header from "../../components/global/Header";
+import AccordionUsage from "../../components/AccordionUsage";
 
 const FoodPage = () => {
   const theme = useTheme();
@@ -11,37 +12,39 @@ const FoodPage = () => {
   return (
     <Box m="20px" sx={{ display: "flex", flexDirection: "column" }}>
       <Header title="Diary" subtitle="Your daily food intake and summary" />
-      <Box sx={{ display: "flex", flexDirection: "row", height: "200vh" }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: { xs: "column", md: "column", lg: "row" },
+          height: "100vh",
+        }}
+      >
+        {/* Left Box (food input) */}
         <Box
           backgroundColor={colors.primary[400]}
           sx={{
-            width: "80%",
+            width: { md: "100%", lg: "80%" },
             padding: "20px",
             marginRight: "20px",
           }}
           id="left"
         >
-          <Typography variant="h1">Left Section</Typography>
-          <Box sx={{ width: "100%", borderTop: "1px solid #888", mb: 3 }}></Box>
-          <Typography variant="body1">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-            imperdiet, nulla et dictum interdum, nisi lorem egestas odio, vitae
-            scelerisque enim ligula venenatis dolor. Maecenas nisl est, ultrices
-            nec congue eget, auctor vitae massa. Lorem ipsum dolor sit amet,
-            consectetur adipiscing elit. Phasellus imperdiet, nulla et dictum
-            interdum, nisi lorem egestas odio, vitae scelerisque enim ligula
-            venenatis dolor. Maecenas nisl est, ultrices nec congue eget, auctor
-            vitae massa.
-          </Typography>
+          <AccordionUsage />
         </Box>
+        {/* Right Box (calendar) */}
         <Box
           backgroundColor={colors.primary[400]}
           sx={{
-            width: { xl: "25%", xs: "30%" },
+            width: { xl: "20%", lg: "30%" },
             padding: "20px",
-            position: "sticky",
+            position: { md: "sticky" },
             top: 0,
-            height: "50vh",
+            height: {
+              xs: "2px", // For small screens
+              sm: "250px", // For medium screens
+              md: "300px", // For large screens
+              lg: "350px", // For extra-large screens
+            },
           }}
           id="right"
         >

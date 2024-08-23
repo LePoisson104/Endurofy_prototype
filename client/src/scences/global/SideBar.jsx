@@ -10,18 +10,16 @@ import { Box, IconButton, Typography, useTheme, Tooltip } from "@mui/material";
 import { Link } from "react-router-dom";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import LocalDiningIcon from "@mui/icons-material/LocalDining";
-import ScaleOutlinedIcon from "@mui/icons-material/ScaleOutlined";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
+import RamenDiningOutlinedIcon from "@mui/icons-material/RamenDiningOutlined";
 import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
 import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-
+import MonitorWeightOutlinedIcon from "@mui/icons-material/MonitorWeightOutlined";
 // SidebarItem.js
 const Item = ({ title, to, icon, selected, setSelected, isCollapsed }) => {
   const theme = useTheme();
@@ -161,7 +159,7 @@ const SideBar = () => {
           <Item
             title="Food Diary"
             to="/food"
-            icon={<LocalDiningIcon />}
+            icon={<RamenDiningOutlinedIcon />}
             selected={selected}
             setSelected={setSelected}
             isCollapsed={isCollapsed}
@@ -169,7 +167,7 @@ const SideBar = () => {
           <Item
             title="Weight Tracker"
             to="/weight"
-            icon={<ScaleOutlinedIcon />}
+            icon={<MonitorWeightOutlinedIcon />}
             selected={selected}
             setSelected={setSelected}
             isCollapsed={isCollapsed}
@@ -202,14 +200,6 @@ const SideBar = () => {
             title="Calendar"
             to="/calendar"
             icon={<CalendarTodayOutlinedIcon />}
-            selected={selected}
-            setSelected={setSelected}
-            isCollapsed={isCollapsed}
-          />
-          <Item
-            title="FAQ Page"
-            to="/faq"
-            icon={<HelpOutlineOutlinedIcon />}
             selected={selected}
             setSelected={setSelected}
             isCollapsed={isCollapsed}

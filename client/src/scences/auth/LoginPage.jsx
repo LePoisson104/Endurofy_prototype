@@ -1,8 +1,9 @@
 import { Button, Box, TextField, Typography, Checkbox } from "@mui/material";
 import { Link } from "react-router-dom";
 import PasswordField from "../../components/PasswordField";
-import ForgotPasswordModal from "../../components/ForgotPassModal";
+import ForgotPasswordModal from "../../components/modals/ForgotPassModal";
 import { useState } from "react";
+
 const Login = () => {
   const [password, setPassword] = useState("");
 
