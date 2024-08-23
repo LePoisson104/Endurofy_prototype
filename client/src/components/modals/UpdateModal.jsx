@@ -92,6 +92,12 @@ const UpdateModal = ({
                   borderColor: "#6d76fa", // Border color when focused
                 },
               },
+              "& .MuiInputLabel-root": {
+                color: "grey", // Default label color
+              },
+              "& .MuiInputLabel-root.Mui-focused": {
+                color: "#6d76fa", // Label color when focused
+              },
             }}
           />
           <TextField
@@ -115,6 +121,12 @@ const UpdateModal = ({
                 "&.Mui-focused fieldset": {
                   borderColor: "#6d76fa", // Border color when focused
                 },
+              },
+              "& .MuiInputLabel-root": {
+                color: "grey", // Default label color
+              },
+              "& .MuiInputLabel-root.Mui-focused": {
+                color: "#6d76fa", // Label color when focused
               },
             }}
           />
@@ -140,6 +152,12 @@ const UpdateModal = ({
                   "&.Mui-focused fieldset": {
                     borderColor: "#6d76fa", // Border color when focused
                   },
+                },
+                "& .MuiInputLabel-root": {
+                  color: "grey", // Default label color
+                },
+                "& .MuiInputLabel-root.Mui-focused": {
+                  color: "#6d76fa", // Label color when focused
                 },
               }}
             />

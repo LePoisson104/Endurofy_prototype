@@ -4,6 +4,7 @@ import MonthSelect from "../../components/selects/MonthSelect";
 import RowRadioButtonsGroup from "../../components/RowRadioButtonGroup";
 import FeetSelect from "../../components/selects/FeetSelect";
 import InchesSelect from "../../components/selects/InchesSelect";
+import { textFieldStyles } from "./TextFieldStyles";
 
 const Profile = () => {
   return (
@@ -59,8 +60,12 @@ const Profile = () => {
               }}
             >
               <MonthSelect />
-              <TextField label="day" sx={{ width: "90px" }} />
-              <TextField label="year" />
+              <TextField
+                label="Day"
+                sx={{ ...textFieldStyles, width: "90px" }}
+              />
+
+              <TextField label="year" sx={textFieldStyles} />
             </Box>
           </Box>
           <Box
@@ -85,7 +90,10 @@ const Profile = () => {
               <FeetSelect />
               <InchesSelect />
               <Typography>or</Typography>
-              <TextField label="cm" sx={{ width: "90px" }} />
+              <TextField
+                label="cm"
+                sx={{ ...textFieldStyles, width: "90px" }}
+              />
             </Box>
           </Box>
           <Box
@@ -107,9 +115,9 @@ const Profile = () => {
                 gap: 1,
               }}
             >
-              <TextField label="lbs" />
+              <TextField label="lbs" sx={textFieldStyles} />
               <Typography>or</Typography>
-              <TextField label="kg" />
+              <TextField label="kg" sx={textFieldStyles} />
             </Box>
           </Box>
           <Box
@@ -180,7 +188,7 @@ const Profile = () => {
                 gap: 1,
               }}
             >
-              <TextField label="kcal" />
+              <TextField label="kcal" sx={textFieldStyles} />
             </Box>
           </Box>
           <Box
@@ -202,7 +210,7 @@ const Profile = () => {
                 gap: 1,
               }}
             >
-              <TextField label="lbs" />
+              <TextField label="lbs" sx={textFieldStyles} />
             </Box>
           </Box>
           <Box sx={{ display: "flex", justifyContent: "end", mb: 3, mr: 6 }}>
@@ -272,7 +280,7 @@ const Profile = () => {
             }}
           >
             <Typography sx={{ mr: 2 }}>468 kcal</Typography>
-            <TextField label="%" />
+            <TextField label="%" sx={textFieldStyles} />
           </Box>
         </Box>
         <Box
@@ -313,7 +321,7 @@ const Profile = () => {
             }}
           >
             <Typography sx={{ mr: 2 }}>842 kcal</Typography>
-            <TextField label="%" />
+            <TextField label="%" sx={textFieldStyles} />
           </Box>
         </Box>
         <Box
@@ -354,7 +362,7 @@ const Profile = () => {
             }}
           >
             <Typography sx={{ mr: 2 }}>562 kcal</Typography>
-            <TextField label="%" />
+            <TextField label="%" sx={textFieldStyles} />
           </Box>
         </Box>
         <Box

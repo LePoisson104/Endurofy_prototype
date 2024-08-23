@@ -13,11 +13,15 @@ const AccordionUsage = () => {
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1-content"
           id="panel1-header"
-          sx={{ fontWeight: "bold" }}
+          sx={{
+            fontWeight: "bold",
+            color: "white",
+            backgroundColor: "#6d76fa",
+          }}
         >
           Uncategorized
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails sx={{ backgroundColor: "white", color: "black" }}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
           malesuada lacus ex, sit amet blandit leo lobortis eget.
         </AccordionDetails>
@@ -27,11 +31,15 @@ const AccordionUsage = () => {
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2-content"
           id="panel2-header"
-          sx={{ fontWeight: "bold" }}
+          sx={{
+            fontWeight: "bold",
+            color: "white",
+            backgroundColor: "#6d76fa",
+          }}
         >
           Breakfast
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails sx={{ backgroundColor: "white", color: "black" }}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
           malesuada lacus ex, sit amet blandit leo lobortis eget.
         </AccordionDetails>
@@ -41,11 +49,15 @@ const AccordionUsage = () => {
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2-content"
           id="panel2-header"
-          sx={{ fontWeight: "bold" }}
+          sx={{
+            fontWeight: "bold",
+            color: "white",
+            backgroundColor: "#6d76fa",
+          }}
         >
           Lunch
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails sx={{ backgroundColor: "white", color: "black" }}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
           malesuada lacus ex, sit amet blandit leo lobortis eget.
         </AccordionDetails>
@@ -55,11 +67,15 @@ const AccordionUsage = () => {
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2-content"
           id="panel2-header"
-          sx={{ fontWeight: "bold" }}
+          sx={{
+            fontWeight: "bold",
+            color: "white",
+            backgroundColor: "#6d76fa",
+          }}
         >
           Dinner
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails sx={{ backgroundColor: "white", color: "black" }}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
           malesuada lacus ex, sit amet blandit leo lobortis eget.
         </AccordionDetails>
@@ -69,11 +85,15 @@ const AccordionUsage = () => {
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2-content"
           id="panel2-header"
-          sx={{ fontWeight: "bold" }}
+          sx={{
+            fontWeight: "bold",
+            color: "white",
+            backgroundColor: "#6d76fa",
+          }}
         >
           Snacks
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails sx={{ backgroundColor: "white", color: "black" }}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
           malesuada lacus ex, sit amet blandit leo lobortis eget.
         </AccordionDetails>

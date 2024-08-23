@@ -15,25 +15,36 @@ const InchesSelect = () => {
   return (
     <Box sx={{ minWidth: 100 }}>
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">in</InputLabel>
+        <InputLabel
+          id="demo-simple-select-label"
+          sx={{
+            "&.Mui-focused": {
+              color: "#6d76fa",
+            },
+          }}
+        >
+          in
+        </InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={inch}
-          label="Age"
+          label="in"
           onChange={handleChange}
+          sx={{
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#6d76fa", // Border color on hover
+            },
+            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#6d76fa",
+            },
+          }}
         >
-          <MenuItem value={1}>1</MenuItem>
-          <MenuItem value={2}>2</MenuItem>
-          <MenuItem value={3}>3</MenuItem>
-          <MenuItem value={4}>4</MenuItem>
-          <MenuItem value={5}>5</MenuItem>
-          <MenuItem value={6}>6</MenuItem>
-          <MenuItem value={7}>7</MenuItem>
-          <MenuItem value={8}>8</MenuItem>
-          <MenuItem value={9}>9</MenuItem>
-          <MenuItem value={10}>10</MenuItem>
-          <MenuItem value={11}>11</MenuItem>
+          {[...Array(11).keys()].map((value) => (
+            <MenuItem key={value + 1} value={value + 1}>
+              {value + 1}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
     </Box>

@@ -77,6 +77,12 @@ const DeleteAccountModal = () => {
                   borderColor: "#FF5B61", // Border color when focused
                 },
               },
+              "& .MuiInputLabel-root": {
+                color: "grey", // Default label color
+              },
+              "& .MuiInputLabel-root.Mui-focused": {
+                color: "#FF5B61", // Label color when focused
+              },
             }}
           />
         </DialogContent>

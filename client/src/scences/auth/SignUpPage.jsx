@@ -174,6 +174,12 @@ const SignUp = () => {
                 borderColor: errors.lastName ? "red" : "#3c47f9",
               },
             },
+            "& .MuiInputLabel-root": {
+              color: "grey", // Default label color
+            },
+            "& .MuiInputLabel-root.Mui-focused": {
+              color: "#6d76fa", // Label color when focused
+            },
           }}
         />
         <TextField
@@ -206,6 +212,12 @@ const SignUp = () => {
               "&.Mui-focused fieldset": {
                 borderColor: errors.email ? "red" : "#3c47f9",
               },
+            },
+            "& .MuiInputLabel-root": {
+              color: "grey", // Default label color
+            },
+            "& .MuiInputLabel-root.Mui-focused": {
+              color: "#6d76fa", // Label color when focused
             },
           }}
         />
@@ -259,7 +271,6 @@ const SignUp = () => {
           <MonthSelect />
           <TextField
             label="Day"
-            sx={{ width: "5rem" }}
             value={day}
             onChange={(e) => setDay(e.target.value)}
             onBlur={() => {
@@ -271,19 +282,23 @@ const SignUp = () => {
             }}
             error={touched.day && errors.day}
             helperText={touched.day && errors.day ? "Day is required" : ""}
-            InputProps={{
-              sx: {
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: errors.day ? "red" : "grey",
-                  },
-                  "&:hover fieldset": {
-                    borderColor: errors.day ? "red" : "#6d76fa",
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: errors.day ? "red" : "#3c47f9",
-                  },
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: errors.day ? "red" : "grey",
                 },
+                "&:hover fieldset": {
+                  borderColor: errors.day ? "red" : "#6d76fa",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: errors.day ? "red" : "#3c47f9",
+                },
+              },
+              "& .MuiInputLabel-root": {
+                color: "grey", // Default label color
+              },
+              "& .MuiInputLabel-root.Mui-focused": {
+                color: "#6d76fa", // Label color when focused
               },
             }}
           />
@@ -311,6 +326,12 @@ const SignUp = () => {
                 "&.Mui-focused fieldset": {
                   borderColor: errors.year ? "red" : "#3c47f9",
                 },
+              },
+              "& .MuiInputLabel-root": {
+                color: "grey", // Default label color
+              },
+              "& .MuiInputLabel-root.Mui-focused": {
+                color: "#6d76fa", // Label color when focused
               },
             }}
           />
@@ -371,6 +392,12 @@ const SignUp = () => {
                 "&.Mui-focused fieldset": {
                   borderColor: errors.weight ? "red" : "#3c47f9",
                 },
+              },
+              "& .MuiInputLabel-root": {
+                color: "grey", // Default label color
+              },
+              "& .MuiInputLabel-root.Mui-focused": {
+                color: "#6d76fa", // Label color when focused
               },
             }}
           />
