@@ -14,6 +14,7 @@
 .react-calendar {
   border: none;
   width: 100%;
+  background-color: #e9e9e9;
 }
 
 /* Remove border from individual tiles */

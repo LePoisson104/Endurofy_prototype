@@ -4,8 +4,39 @@ import { useTheme } from "@emotion/react";
 import FoodCalendar from "../../components/FoodCalendar";
 import Header from "../../components/global/Header";
 import AccordionUsage from "../../components/AccordionUsage";
+import PieChart from "../../components/charts/PieChart";
 
 const FoodPage = () => {
+  // mock data
+  const data = {
+    breakfast: [
+      { name: "Eggs", amount: 200, kcal: 150, protein: 12, carbs: 1, fat: 10 },
+      { name: "Toast", amount: 50, kcal: 80, protein: 2, carbs: 15, fat: 1 },
+    ],
+    lunch: [
+      {
+        name: "Chicken",
+        amount: 250,
+        kcal: 300,
+        protein: 30,
+        carbs: 0,
+        fat: 15,
+      },
+      { name: "Rice", amount: 100, kcal: 130, protein: 3, carbs: 28, fat: 1 },
+    ],
+    dinner: [
+      {
+        name: "Salmon",
+        amount: 200,
+        kcal: 250,
+        protein: 25,
+        carbs: 0,
+        fat: 20,
+      },
+      { name: "Quinoa", amount: 150, kcal: 120, protein: 5, carbs: 21, fat: 2 },
+    ],
+  };
+
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -29,7 +60,26 @@ const FoodPage = () => {
           }}
           id="left"
         >
-          <AccordionUsage />
+          <Box>
+            <AccordionUsage
+              title={"Uncategorized"}
+              data={data.uncatergorized}
+            />
+            <AccordionUsage title={"Breakfast"} data={data.breakfast} />
+            <AccordionUsage title={"Lunch"} data={data.lunch} />
+            <AccordionUsage title={"Dinner"} data={data.dinner} />
+            <AccordionUsage title={"Snacks"} data={data.snacks} />
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              mt: 3,
+              backgroundColor: "blue",
+            }}
+          >
+            <PieChart />
+          </Box>
         </Box>
         {/* Right Box (calendar) */}
         <Box
