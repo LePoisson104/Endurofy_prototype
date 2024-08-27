@@ -1,12 +1,21 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { tokens } from "../../theme";
 import { useTheme } from "@emotion/react";
 import FoodCalendar from "../../components/FoodCalendar";
 import Header from "../../components/global/Header";
 import AccordionUsage from "../../components/AccordionUsage";
-import PieChart from "../../components/charts/PieChart";
+import NutrientDoughnutChart from "../../components/charts/NutrientDoughnutChart";
 
 const FoodPage = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const progressColors = {
+    Fat: "#FFE2BD",
+    Energy: "#bfb1ff",
+    Carbs: "#66b7cd",
+    Protein: "#68afac",
+  };
+
   // mock data
   const data = {
     breakfast: [
@@ -37,8 +46,54 @@ const FoodPage = () => {
     ],
   };
 
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+  const MacroItems = ({ title, amount, targetAmount, percent }) => {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Typography fontWeight={600}>{title}</Typography>
+        {/* outerbar */}
+
+        <Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <Typography>
+              {amount} / {targetAmount}
+            </Typography>
+            <Typography>{percent}%</Typography>
+          </Box>
+          <Box
+            sx={{
+              width: "400px",
+              height: "14px",
+              backgroundColor: "rgb(216, 216, 216)",
+              borderRadius: "7px",
+              overflow: "hidden",
+            }}
+          >
+            {/* inner bar */}
+            <Box
+              sx={{
+                width: `${percent}%`,
+                backgroundColor: `${progressColors[title]}`, // Directly use title as key
+                height: "14px",
+              }}
+            />
+          </Box>
+        </Box>
+      </Box>
+    );
+  };
 
   return (
     <Box m="20px" sx={{ display: "flex", flexDirection: "column" }}>
@@ -71,14 +126,80 @@ const FoodPage = () => {
             <AccordionUsage title={"Snacks"} data={data.snacks} />
           </Box>
           <Box
+            sx={{ width: "100%", borderTop: "1px solid #888", mb: 3, mt: 3 }}
+          ></Box>
+          <Box
             sx={{
               display: "flex",
               flexDirection: "row",
               mt: 3,
-              backgroundColor: "blue",
+              height: "25vh",
             }}
           >
-            <PieChart />
+            {/* Energy Summary */}
+            <Box
+              sx={{
+                width: "50%",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+              }}
+            >
+              <Typography variant="h3" fontWeight={600} sx={{ mb: 5 }}>
+                Energy Summary
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-evenly",
+                }}
+              >
+                <NutrientDoughnutChart />
+                <NutrientDoughnutChart />
+                <NutrientDoughnutChart />
+              </Box>
+            </Box>
+            {/* Macro Targets */}
+            <Box
+              sx={{
+                width: "50%",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+              }}
+            >
+              {/* Hard code change it later */}
+              <Typography variant="h3" fontWeight={600} sx={{ mb: 5 }}>
+                Macronutrient Targets
+              </Typography>
+              <Box>
+                <MacroItems
+                  title={"Energy"}
+                  amount={`${2052}kcal`}
+                  targetAmount={`${1892}kcal`}
+                  percent={110}
+                />
+                <MacroItems
+                  title={"Protein"}
+                  amount={`${199}g`}
+                  targetAmount={`${177}g`}
+                  percent={170}
+                />
+                <MacroItems
+                  title={"Carbs"}
+                  amount={`${148}g`}
+                  targetAmount={`${210}g`}
+                  percent={71}
+                />
+                <MacroItems
+                  title={"Fat"}
+                  amount={`${63}g`}
+                  targetAmount={`${62}g`}
+                  percent={102}
+                />
+              </Box>
+            </Box>
           </Box>
         </Box>
         {/* Right Box (calendar) */}
