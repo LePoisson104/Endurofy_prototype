@@ -5,9 +5,14 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import EditNoteIcon from "@mui/icons-material/EditNote";
+import AddFoodModal from "./modals/AddFoodModal";
 import { Box, Typography, IconButton } from "@mui/material";
+import { useState } from "react";
 
 const AccordionUsage = ({ title, data }) => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const handleOpenModal = () => setModalOpen(true);
+  const handleCloseModal = () => setModalOpen(false);
   let kcal = 0;
   let protein = 0;
   let carbs = 0;
@@ -101,9 +106,10 @@ const AccordionUsage = ({ title, data }) => {
               gap: 1,
             }}
           >
-            <IconButton size="small">
+            <IconButton size="small" onClick={handleOpenModal}>
               <AddIcon />
             </IconButton>
+            <AddFoodModal open={modalOpen} onClose={handleCloseModal} />
             <Typography fontWeight="bold">{title}</Typography>
           </Box>
           <Box

@@ -10,10 +10,43 @@ const FoodPage = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const progressColors = {
-    Fat: "#FFE2BD",
-    Energy: "#bfb1ff",
-    Carbs: "#66b7cd",
+    Energy: "#9a9ff1",
     Protein: "#68afac",
+    Carbs: "#66b7cd",
+    Fat: "#FFCC8A",
+  };
+
+  const chartsMockData = {
+    data1: {
+      datasets: [
+        {
+          data: [20, 50, 30], // Example values, adjust as needed
+          backgroundColor: ["#FFCC8A", "#68afac", "#66b7cd"], // Fat, Protein, Carbs
+          hoverBackgroundColor: ["#FFCC8A", "#68afac", "#66b7cd"],
+        },
+      ],
+      totalCalories: 500,
+    },
+    data2: {
+      datasets: [
+        {
+          data: [48, 52], // Example values, adjust as needed
+          backgroundColor: ["#9a9ff1", "#70d8bd"],
+          hoverBackgroundColor: ["#9a9ff1 ", "#70d8bd"],
+        },
+      ],
+      totalCalories: 3490,
+    },
+    data3: {
+      datasets: [
+        {
+          data: [100], // Example values, adjust as needed
+          backgroundColor: ["#9a9ff1"],
+          hoverBackgroundColor: ["#9a9ff1"],
+        },
+      ],
+      totalCalories: 2997,
+    },
   };
 
   // mock data
@@ -62,6 +95,7 @@ const FoodPage = () => {
         <Box>
           <Box
             sx={{
+              width: { xl: "500px", lg: "300px", md: "200px" },
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-between",
@@ -74,7 +108,7 @@ const FoodPage = () => {
           </Box>
           <Box
             sx={{
-              width: "400px",
+              width: "100% ",
               height: "14px",
               backgroundColor: "rgb(216, 216, 216)",
               borderRadius: "7px",
@@ -102,7 +136,6 @@ const FoodPage = () => {
         sx={{
           display: "flex",
           flexDirection: { xs: "column", md: "column", lg: "row" },
-          height: "100vh",
         }}
       >
         {/* Left Box (food input) */}
@@ -146,20 +179,32 @@ const FoodPage = () => {
               }}
             >
               <Typography variant="h3" fontWeight={600} sx={{ mb: 5 }}>
-                Energy Summary
+                Summary Charts
               </Typography>
               <Box
                 sx={{
                   display: "flex",
                   flexDirection: "row",
                   justifyContent: "space-evenly",
+                  height: "15.6vh",
                 }}
               >
-                <NutrientDoughnutChart />
-                <NutrientDoughnutChart />
-                <NutrientDoughnutChart />
+                <NutrientDoughnutChart
+                  title={"Consumed"}
+                  data={chartsMockData.data1}
+                />
+                <NutrientDoughnutChart
+                  title={"Burned"}
+                  data={chartsMockData.data2}
+                />
+                <NutrientDoughnutChart
+                  title={"Remaining"}
+                  data={chartsMockData.data3}
+                />
               </Box>
             </Box>
+            {/* Vertical line */}
+            <Box sx={{ borderLeft: "1px solid #888", ml: 2, mr: 2 }}></Box>
             {/* Macro Targets */}
             <Box
               sx={{
@@ -201,12 +246,244 @@ const FoodPage = () => {
               </Box>
             </Box>
           </Box>
+          <Box
+            sx={{ width: "100%", borderTop: "1px solid #888", mb: 3, mt: 3 }}
+          ></Box>
+          {/* Energy Summary */}
+          <Typography variant="h3" fontWeight={600} sx={{ mb: 2 }}>
+            Energy Summary
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+            }}
+          >
+            {/* Calories Consumed (kcal) */}
+            <Box
+              sx={{ display: "flex", flexDirection: "column", width: "33.33%" }}
+            >
+              <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
+                Calories Consumed (kcal)
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  fontWeight={600}
+                  sx={{ color: "#68afac" }}
+                >
+                  Protein
+                </Typography>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    width: "30%",
+                  }}
+                >
+                  <Typography variant="h6">662 kcal</Typography>
+                  <Typography variant="h6">50%</Typography>
+                </Box>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  fontWeight={600}
+                  sx={{ color: "#66b7cd" }}
+                >
+                  Carbs
+                </Typography>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    width: "30%",
+                  }}
+                >
+                  <Typography variant="h6">344 kcal</Typography>
+                  <Typography variant="h6">30%</Typography>
+                </Box>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  fontWeight={600}
+                  sx={{ color: "#FFCC8A" }}
+                >
+                  Fat
+                </Typography>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    width: "30%",
+                  }}
+                >
+                  <Typography variant="h6">231 kcal</Typography>
+                  <Typography variant="h6">20%</Typography>
+                </Box>
+              </Box>
+            </Box>
+            {/* Vertical line */}
+            <Box sx={{ borderLeft: "1px solid #888", ml: 2, mr: 2 }}></Box>
+            {/* Calories Burned (kcal) */}
+            <Box
+              sx={{ display: "flex", flexDirection: "column", width: "33.33%" }}
+            >
+              <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
+                Calories Burned (kcal)
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  fontWeight={600}
+                  sx={{ color: "#9a9ff1" }}
+                >
+                  Basal Metabolic Rate (BMR)
+                </Typography>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    width: "30%",
+                  }}
+                >
+                  <Typography variant="h6">1872 kcal</Typography>
+                  <Typography variant="h6">48%</Typography>
+                </Box>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  fontWeight={600}
+                  sx={{ color: "#70d8bd" }}
+                >
+                  Baseline Activiy
+                </Typography>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    width: "30%",
+                  }}
+                >
+                  <Typography variant="h6">2000 kcal</Typography>
+                  <Typography variant="h6">52%</Typography>
+                </Box>
+              </Box>
+            </Box>
+            {/* Vertical line */}
+            <Box sx={{ borderLeft: "1px solid #888", ml: 2, mr: 2 }}></Box>
+            {/* Energy Target*/}
+            <Box
+              sx={{ display: "flex", flexDirection: "column", width: "33.33%" }}
+            >
+              <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
+                Energy Target
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Typography variant="h6">Target</Typography>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Typography variant="h6">1872 kcal</Typography>
+                </Box>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Typography variant="h6">Consumed</Typography>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Typography variant="h6">-1420 kcal</Typography>
+                </Box>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  fontWeight="bold"
+                  sx={{ color: "#9a9ff1" }}
+                >
+                  Remaining
+                </Typography>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Typography variant="h6">452 kcal</Typography>
+                </Box>
+              </Box>
+            </Box>
+          </Box>
         </Box>
         {/* Right Box (calendar) */}
         <Box
           backgroundColor={colors.primary[400]}
           sx={{
-            width: { xl: "20%", lg: "30%" },
+            width: { xl: "20%", lg: "25%" },
             padding: "20px",
             position: { md: "sticky" },
             top: 0,
