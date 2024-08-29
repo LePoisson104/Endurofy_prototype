@@ -63,6 +63,12 @@ const PasswordField = ({
             borderColor: errors[fieldName] && validate ? "red" : "#3c47f9",
           },
         },
+        "& .MuiInputLabel-root": {
+          color: errors[fieldName] && validate ? "red" : "grey", // Default label color
+        },
+        "& .MuiInputLabel-root.Mui-focused": {
+          color: errors[fieldName] && validate ? "red" : "#868dfb", // Label color when focused
+        },
       }}
       InputProps={{
         endAdornment: (

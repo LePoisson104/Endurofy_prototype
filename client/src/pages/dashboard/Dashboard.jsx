@@ -11,25 +11,39 @@ import LineChart from "../../components/charts/LineChart";
 import BarChart from "../../components/charts/BarChart";
 import StatBox from "../../components/charts/StatBox";
 import ProgressCircle from "../../components/charts/ProgressCircle";
+import NutrientDoughnutChart from "../../components/charts/NutrientDoughnutChart";
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const data = {
+    datasets: [
+      {
+        data: [100], // Example values, adjust as needed
+        backgroundColor: ["#9a9ff1"],
+        hoverBackgroundColor: ["#9a9ff1"],
+      },
+    ],
+    totalCalories: 2997,
+  };
 
   return (
     <Box m="20px">
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
+        <Header title="DASHBOARD" subtitle="August 29, 2024 | 12:22 AM" />
 
         <Box>
           <Button
             sx={{
-              backgroundColor: colors.blueAccent[700],
-              color: colors.grey[100],
+              backgroundColor: "#6d76fa",
+              color: "white",
               fontSize: "14px",
               fontWeight: "bold",
               padding: "10px 20px",
+              "&:hover": {
+                backgroundColor: "#9a9ff1",
+              },
             }}
           >
             <DownloadOutlinedIcon sx={{ mr: "10px" }} />
@@ -138,18 +152,18 @@ const Dashboard = () => {
           >
             <Box>
               <Typography
-                variant="h5"
+                variant="h4"
                 fontWeight="600"
                 color={colors.grey[100]}
               >
-                Revenue Generated
+                Weight Chart
               </Typography>
               <Typography
-                variant="h3"
+                variant="h5"
                 fontWeight="bold"
                 color={colors.greenAccent[500]}
               >
-                $59,342.32
+                Down 2lbs this week
               </Typography>
             </Box>
             <Box>
@@ -178,20 +192,19 @@ const Dashboard = () => {
             colors={colors.grey[100]}
             p="15px"
           >
-            <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-              Recent Transactions
+            <Typography color={colors.grey[100]} variant="h4" fontWeight="600">
+              Recent Workout Log
             </Typography>
           </Box>
           {mockTransactions.map((transaction, i) => (
             <Box
               key={`${transaction.txId}-${i}`}
               display="flex"
-              justifyContent="space-between"
               alignItems="center"
               borderBottom={`4px solid ${colors.primary[500]}`}
               p="15px"
             >
-              <Box>
+              <Box sx={{ width: "33.33%" }}>
                 <Typography
                   color={colors.greenAccent[500]}
                   variant="h5"
@@ -199,17 +212,33 @@ const Dashboard = () => {
                 >
                   {transaction.txId}
                 </Typography>
-                <Typography color={colors.grey[100]}>
-                  {transaction.user}
-                </Typography>
               </Box>
-              <Box color={colors.grey[100]}>{transaction.date}</Box>
               <Box
-                backgroundColor={colors.greenAccent[500]}
-                p="5px 10px"
-                borderRadius="4px"
+                sx={{
+                  color: colors.primary[100],
+                  width: "33.33%",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
               >
-                ${transaction.cost}
+                {transaction.date}
+              </Box>
+              <Box
+                sx={{ width: "33.33%", display: "flex", justifyContent: "end" }}
+              >
+                <Button
+                  sx={{
+                    backgroundColor: "#32B593",
+                    p: "5px 10px",
+                    borderRadius: "4px",
+                    textTransform: "none",
+                    "&:hover": {
+                      backgroundColor: "#4CCEAC",
+                    },
+                  }}
+                >
+                  View
+                </Button>
               </Box>
             </Box>
           ))}
@@ -217,13 +246,13 @@ const Dashboard = () => {
 
         {/* ROW 3 */}
         <Box
-          gridColumn="span 4"
+          gridColumn="span 2"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
           p="30px"
         >
-          <Typography variant="h5" fontWeight="600">
-            Campaign
+          <Typography variant="h4" fontWeight="600">
+            Calories Remained
           </Typography>
           <Box
             display="flex"
@@ -231,15 +260,7 @@ const Dashboard = () => {
             alignItems="center"
             mt="25px"
           >
-            <ProgressCircle size="125" />
-            <Typography
-              variant="h5"
-              color={colors.greenAccent[500]}
-              sx={{ mt: "15px" }}
-            >
-              $48,352 revenue generated
-            </Typography>
-            <Typography>Includes extra misc expenditures and costs</Typography>
+            <NutrientDoughnutChart data={data} title={"Remained"} />
           </Box>
         </Box>
         <Box
@@ -248,11 +269,11 @@ const Dashboard = () => {
           backgroundColor={colors.primary[400]}
         >
           <Typography
-            variant="h5"
+            variant="h4"
             fontWeight="600"
             sx={{ padding: "30px 30px 0 30px" }}
           >
-            Sales Quantity
+            Calories History
           </Typography>
           <Box height="250px" mt="-20px">
             <BarChart isDashboard={true} />

@@ -19,7 +19,7 @@ const InchesSelect = () => {
           id="demo-simple-select-label"
           sx={{
             "&.Mui-focused": {
-              color: "#6d76fa",
+              color: "#868dfb",
             },
           }}
         >
@@ -33,10 +33,10 @@ const InchesSelect = () => {
           onChange={handleChange}
           sx={{
             "&:hover .MuiOutlinedInput-notchedOutline": {
-              borderColor: "#6d76fa", // Border color on hover
+              borderColor: "#868dfb", // Border color on hover
             },
             "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-              borderColor: "#6d76fa",
+              borderColor: "#868dfb",
             },
           }}
         >

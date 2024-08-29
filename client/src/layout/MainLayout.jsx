@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { useState } from "react";
-import TopBar from "../scences/global/TopBar";
-import SideBar from "../scences/global/SideBar";
+import TopBar from "../pages/global/TopBar";
+import SideBar from "../pages/global/SideBar";
 import { Box, useTheme } from "@mui/material";
 
 const MainLayout = () => {

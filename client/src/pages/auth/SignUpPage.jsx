@@ -130,14 +130,20 @@ const SignUp = () => {
             width: "350px",
             "& .MuiOutlinedInput-root": {
               "& fieldset": {
-                borderColor: errors.lastName ? "red" : "grey",
+                borderColor: errors.firstName ? "red" : "grey",
               },
               "&:hover fieldset": {
-                borderColor: errors.lastName ? "red" : "#6d76fa",
+                borderColor: errors.firstName ? "red" : "#868dfb",
               },
               "&.Mui-focused fieldset": {
-                borderColor: errors.lastName ? "red" : "#3c47f9",
+                borderColor: errors.firstName ? "red" : "#3c47f9",
               },
+            },
+            "& .MuiInputLabel-root": {
+              color: errors.firstName ? "red" : "grey", // Default label color
+            },
+            "& .MuiInputLabel-root.Mui-focused": {
+              color: errors.firstName ? "red" : "#868dfb", // Label color when focused
             },
           }}
         />
@@ -168,17 +174,17 @@ const SignUp = () => {
                 borderColor: errors.lastName ? "red" : "grey",
               },
               "&:hover fieldset": {
-                borderColor: errors.lastName ? "red" : "#6d76fa",
+                borderColor: errors.lastName ? "red" : "#868dfb",
               },
               "&.Mui-focused fieldset": {
                 borderColor: errors.lastName ? "red" : "#3c47f9",
               },
             },
             "& .MuiInputLabel-root": {
-              color: "grey", // Default label color
+              color: errors.lastName ? "red" : "grey", // Default label color
             },
             "& .MuiInputLabel-root.Mui-focused": {
-              color: "#6d76fa", // Label color when focused
+              color: errors.lastName ? "red" : "#868dfb", // Label color when focused
             },
           }}
         />
@@ -207,17 +213,17 @@ const SignUp = () => {
                 borderColor: errors.email ? "red" : "grey",
               },
               "&:hover fieldset": {
-                borderColor: errors.email ? "red" : "#6d76fa",
+                borderColor: errors.email ? "red" : "#868dfb",
               },
               "&.Mui-focused fieldset": {
                 borderColor: errors.email ? "red" : "#3c47f9",
               },
             },
             "& .MuiInputLabel-root": {
-              color: "grey", // Default label color
+              color: errors.email ? "red" : "grey", // Default label color
             },
             "& .MuiInputLabel-root.Mui-focused": {
-              color: "#6d76fa", // Label color when focused
+              color: errors.email ? "red" : "#868dfb", // Label color when focused
             },
           }}
         />
@@ -256,7 +262,7 @@ const SignUp = () => {
             justifyContent: "space-between",
           }}
         >
-          <Typography>Sex</Typography>
+          <Typography>Gender</Typography>
           <RowRadioButtonsGroup />
         </Box>
         <Box
@@ -288,17 +294,17 @@ const SignUp = () => {
                   borderColor: errors.day ? "red" : "grey",
                 },
                 "&:hover fieldset": {
-                  borderColor: errors.day ? "red" : "#6d76fa",
+                  borderColor: errors.day ? "red" : "#868dfb",
                 },
                 "&.Mui-focused fieldset": {
                   borderColor: errors.day ? "red" : "#3c47f9",
                 },
               },
               "& .MuiInputLabel-root": {
-                color: "grey", // Default label color
+                color: errors.day ? "red" : "grey", // Default label color
               },
               "& .MuiInputLabel-root.Mui-focused": {
-                color: "#6d76fa", // Label color when focused
+                color: errors.day ? "red" : "#868dfb", // Label color when focused
               },
             }}
           />
@@ -321,17 +327,17 @@ const SignUp = () => {
                   borderColor: errors.year ? "red" : "grey",
                 },
                 "&:hover fieldset": {
-                  borderColor: errors.year ? "red" : "#6d76fa",
+                  borderColor: errors.year ? "red" : "#868dfb",
                 },
                 "&.Mui-focused fieldset": {
                   borderColor: errors.year ? "red" : "#3c47f9",
                 },
               },
               "& .MuiInputLabel-root": {
-                color: "grey", // Default label color
+                color: errors.year ? "red" : "grey", // Default label color
               },
               "& .MuiInputLabel-root.Mui-focused": {
-                color: "#6d76fa", // Label color when focused
+                color: errors.year ? "red" : "#868dfb", // Label color when focused
               },
             }}
           />
@@ -387,17 +393,17 @@ const SignUp = () => {
                   borderColor: errors.weight ? "red" : "grey",
                 },
                 "&:hover fieldset": {
-                  borderColor: errors.weight ? "red" : "#6d76fa",
+                  borderColor: errors.weight ? "red" : "#868dfb",
                 },
                 "&.Mui-focused fieldset": {
                   borderColor: errors.weight ? "red" : "#3c47f9",
                 },
               },
               "& .MuiInputLabel-root": {
-                color: "grey", // Default label color
+                color: errors.weight ? "red" : "grey", // Default label color
               },
               "& .MuiInputLabel-root.Mui-focused": {
-                color: "#6d76fa", // Label color when focused
+                color: errors.weight ? "red" : "#868dfb", // Label color when focused
               },
             }}
           />

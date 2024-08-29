@@ -26,7 +26,7 @@ const Profile = () => {
             }}
           >
             <Box sx={{ width: "50%" }}>
-              <Typography variant="h5">Sex</Typography>
+              <Typography variant="h5">Gender</Typography>
               <Typography fontWeight="light">
                 Nutrient targets can vary based on sex. Update your profile
               </Typography>{" "}

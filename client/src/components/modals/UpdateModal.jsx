@@ -4,6 +4,8 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Button, TextField, Typography } from "@mui/material";
+import { useTheme } from "@emotion/react";
+import { tokens } from "../../theme";
 
 const UpdateModal = ({
   title,
@@ -20,6 +22,8 @@ const UpdateModal = ({
   label3,
   type3,
 }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -56,6 +60,11 @@ const UpdateModal = ({
         onClose={handleClose}
         PaperProps={{
           component: "form",
+          sx: {
+            bgcolor:
+              theme.palette.mode === "dark" ? colors.primary[500] : "white", // Background color of the modal
+            width: "500px", // Modal width
+          },
           onSubmit: (event) => {
             event.preventDefault();
             const formData = new FormData(event.currentTarget);
@@ -63,10 +72,9 @@ const UpdateModal = ({
             console.log(formJson); // Log the form data
             handleClose();
           },
-          sx: { width: "500px" },
         }}
       >
-        <DialogTitle variant="h4" sx={{ color: "#6d76fa" }}>
+        <DialogTitle variant="h4" sx={{ color: "#868dfb" }}>
           {title}
         </DialogTitle>
         <DialogContent>
@@ -86,17 +94,17 @@ const UpdateModal = ({
                   borderColor: "gray", // Default border color
                 },
                 "&:hover fieldset": {
-                  borderColor: "#6d76fa", // Border color on hover
+                  borderColor: "#868dfb", // Border color on hover
                 },
                 "&.Mui-focused fieldset": {
-                  borderColor: "#6d76fa", // Border color when focused
+                  borderColor: "#868dfb", // Border color when focused
                 },
               },
               "& .MuiInputLabel-root": {
                 color: "grey", // Default label color
               },
               "& .MuiInputLabel-root.Mui-focused": {
-                color: "#6d76fa", // Label color when focused
+                color: "#868dfb", // Label color when focused
               },
             }}
           />
@@ -116,17 +124,17 @@ const UpdateModal = ({
                   borderColor: "gray", // Default border color
                 },
                 "&:hover fieldset": {
-                  borderColor: "#6d76fa", // Border color on hover
+                  borderColor: "#868dfb", // Border color on hover
                 },
                 "&.Mui-focused fieldset": {
-                  borderColor: "#6d76fa", // Border color when focused
+                  borderColor: "#868dfb", // Border color when focused
                 },
               },
               "& .MuiInputLabel-root": {
                 color: "grey", // Default label color
               },
               "& .MuiInputLabel-root.Mui-focused": {
-                color: "#6d76fa", // Label color when focused
+                color: "#868dfb", // Label color when focused
               },
             }}
           />
@@ -147,17 +155,17 @@ const UpdateModal = ({
                     borderColor: "gray", // Default border color
                   },
                   "&:hover fieldset": {
-                    borderColor: "#6d76fa", // Border color on hover
+                    borderColor: "#868dfb", // Border color on hover
                   },
                   "&.Mui-focused fieldset": {
-                    borderColor: "#6d76fa", // Border color when focused
+                    borderColor: "#868dfb", // Border color when focused
                   },
                 },
                 "& .MuiInputLabel-root": {
                   color: "grey", // Default label color
                 },
                 "& .MuiInputLabel-root.Mui-focused": {
-                  color: "#6d76fa", // Label color when focused
+                  color: "#868dfb", // Label color when focused
                 },
               }}
             />
@@ -166,7 +174,7 @@ const UpdateModal = ({
         <DialogActions>
           <Button
             onClick={handleClose}
-            sx={{ textTransform: "none", color: "#6d76fa" }}
+            sx={{ textTransform: "none", color: "#868dfb" }}
           >
             Cancel
           </Button>

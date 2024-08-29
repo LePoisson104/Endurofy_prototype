@@ -121,11 +121,17 @@ const Login = () => {
                 borderColor: "grey", // Default border color
               },
               "&:hover fieldset": {
-                borderColor: "#6d76fa", // Border color on hover
+                borderColor: "#868dfb", // Border color on hover
               },
               "&.Mui-focused fieldset": {
                 borderColor: "#3c47f9", // Border color when focused
               },
+            },
+            "& .MuiInputLabel-root": {
+              color: "grey", // Default label color
+            },
+            "& .MuiInputLabel-root.Mui-focused": {
+              color: "#868dfb", // Label color when focused
             },
           }}
         />

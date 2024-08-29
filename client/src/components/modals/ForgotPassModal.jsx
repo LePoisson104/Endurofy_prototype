@@ -67,16 +67,20 @@ const ForgotPasswordModal = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} sx={{ textTransform: "none" }}>
+          <Button
+            onClick={handleClose}
+            sx={{ textTransform: "none", color: "#6d76fa" }}
+          >
             Cancel
           </Button>
           <Button
             type="submit"
             sx={{
               textTransform: "none",
+              bgcolor: "#6d76fa",
+              color: "white",
               "&:hover": {
-                color: "white",
-                backgroundColor: "#6d76fa",
+                backgroundColor: "#868dfb",
               },
             }}
           >

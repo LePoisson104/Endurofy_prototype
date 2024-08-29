@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -6,13 +7,33 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import AddFoodModal from "./modals/AddFoodModal";
+import FoodMacrosModal from "./modals/FoodMacrosModal";
 import { Box, Typography, IconButton } from "@mui/material";
-import { useState } from "react";
 
 const AccordionUsage = ({ title, data }) => {
   const [modalOpen, setModalOpen] = useState(false);
-  const handleOpenModal = () => setModalOpen(true);
+  const [expanded, setExpanded] = useState(false);
+  const [foodModal, setFoodModal] = useState(false);
+
+  const handleOpenModal = (event) => {
+    event.stopPropagation(); // Stop the event from propagating to the AccordionSummary
+    setModalOpen(true);
+    setExpanded(true); // Always expand the accordion when opening the modal
+  };
+
   const handleCloseModal = () => setModalOpen(false);
+
+  const handleAccordionChange = (event, isExpanded) => {
+    setExpanded(isExpanded);
+  };
+
+  const handleEditModal = (event) => {
+    event.stopPropagation();
+    setFoodModal(true);
+  };
+
+  const handleCloseEditModal = () => setFoodModal(false);
+
   let kcal = 0;
   let protein = 0;
   let carbs = 0;
@@ -25,7 +46,6 @@ const AccordionUsage = ({ title, data }) => {
     fat = data.reduce((acc, item) => acc + item.fat, 0);
   }
 
-  // AccordionItem is conditionally rendered if 'data' is present
   const AccordionItem = () => {
     if (data && data.length > 0) {
       return data.map((item, index) => (
@@ -56,6 +76,7 @@ const AccordionUsage = ({ title, data }) => {
             <IconButton
               size="small"
               sx={{ color: "black", "&:hover": { background: "#d8d8d8" } }}
+              onClick={handleEditModal}
             >
               <EditNoteIcon />
             </IconButton>
@@ -81,7 +102,7 @@ const AccordionUsage = ({ title, data }) => {
   };
 
   return (
-    <Accordion>
+    <Accordion expanded={expanded} onChange={handleAccordionChange}>
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
         aria-controls="panel1-content"
@@ -106,10 +127,13 @@ const AccordionUsage = ({ title, data }) => {
               gap: 1,
             }}
           >
-            <IconButton size="small" onClick={handleOpenModal}>
+            <IconButton
+              size="small"
+              onClick={handleOpenModal}
+              sx={{ color: "white" }}
+            >
               <AddIcon />
             </IconButton>
-            <AddFoodModal open={modalOpen} onClose={handleCloseModal} />
             <Typography fontWeight="bold">{title}</Typography>
           </Box>
           <Box
@@ -123,20 +147,26 @@ const AccordionUsage = ({ title, data }) => {
               paddingRight: 2,
             }}
           >
-            {kcal == 0
-              ? false
-              : true && (
-                  <>
-                    <Typography fontWeight="bold">{`${kcal} g kcal |`}</Typography>
-                    <Typography fontWeight="bold">{`${protein} g protein |`}</Typography>
-                    <Typography fontWeight="bold">{`${carbs} g carbs |`}</Typography>
-                    <Typography fontWeight="bold">{`${fat} g fat `}</Typography>
-                  </>
-                )}
+            {kcal > 0 && (
+              <>
+                <Typography fontWeight="bold">{`${kcal} kcal |`}</Typography>
+                <Typography fontWeight="bold">{`${protein.toFixed(
+                  1
+                )}g protein | `}</Typography>
+                <Typography fontWeight="bold">{`${carbs.toFixed(
+                  1
+                )}g carbs | `}</Typography>
+                <Typography fontWeight="bold">{`${fat.toFixed(
+                  1
+                )}g fat`}</Typography>
+              </>
+            )}
           </Box>
         </Box>
       </AccordionSummary>
       <AccordionItem />
+      <AddFoodModal open={modalOpen} onClose={handleCloseModal} />
+      <FoodMacrosModal open={foodModal} onClose={handleCloseEditModal} />
     </Accordion>
   );
 };

@@ -76,7 +76,7 @@ const NutritionChart = ({ title, data }) => {
         </Typography>
       </Box>
       <Typography variant="h5" fontWeight={500} sx={{ mt: 2 }}>
-        {title}
+        {title ? title : ""}
       </Typography>
     </Box>
   );

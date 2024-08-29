@@ -2,52 +2,36 @@ import { tokens } from "../theme";
 
 export const mockTransactions = [
   {
-    txId: "01e4dsa",
-    user: "johndoe",
+    txId: "Push",
     date: "2021-09-01",
-    cost: "43.95",
   },
   {
-    txId: "0315dsaa",
-    user: "jackdower",
+    txId: "Pull",
     date: "2022-04-01",
-    cost: "133.45",
   },
   {
-    txId: "01e4dsa",
-    user: "aberdohnny",
+    txId: "Legs",
     date: "2021-09-01",
-    cost: "43.95",
   },
   {
-    txId: "51034szv",
-    user: "goodmanave",
+    txId: "Chest Back",
     date: "2022-11-05",
-    cost: "200.95",
   },
   {
-    txId: "0a123sb",
-    user: "stevebower",
+    txId: "SARMS",
     date: "2022-11-02",
-    cost: "13.55",
   },
   {
-    txId: "01e4dsa",
-    user: "aberdohnny",
+    txId: "Push",
     date: "2021-09-01",
-    cost: "43.95",
   },
   {
-    txId: "120s51a",
-    user: "wootzifer",
+    txId: "Pull",
     date: "2019-04-15",
-    cost: "24.20",
   },
   {
-    txId: "0315dsaa",
-    user: "jackdower",
+    txId: "Legs ",
     date: "2022-04-01",
-    cost: "133.45",
   },
 ];
 

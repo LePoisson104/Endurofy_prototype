@@ -6,8 +6,12 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { useTheme } from "@emotion/react";
+import { tokens } from "../../theme";
 
 const DeleteAccountModal = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -39,6 +43,10 @@ const DeleteAccountModal = () => {
         onClose={handleClose}
         PaperProps={{
           component: "form",
+          sx: {
+            bgcolor:
+              theme.palette.mode === "dark" ? colors.primary[500] : "white",
+          },
           onSubmit: (event) => {
             event.preventDefault();
             const formData = new FormData(event.currentTarget);
