@@ -1,2 +1,5 @@
 - after the user update their info (let say their password) what should we do?
 - why after logout how does the access token still valid
+- Refactor code (do not repeat code)
+- Make AddFood page reponsive
+- Find new line chart 
