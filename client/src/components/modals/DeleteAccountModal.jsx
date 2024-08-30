@@ -45,7 +45,7 @@ const DeleteAccountModal = () => {
           component: "form",
           sx: {
             bgcolor:
-              theme.palette.mode === "dark" ? colors.primary[500] : "white",
+              theme.palette.mode === "dark" ? colors.primary[700] : "white",
           },
           onSubmit: (event) => {
             event.preventDefault();

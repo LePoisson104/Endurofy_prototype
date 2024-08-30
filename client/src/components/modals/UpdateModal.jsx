@@ -62,7 +62,7 @@ const UpdateModal = ({
           component: "form",
           sx: {
             bgcolor:
-              theme.palette.mode === "dark" ? colors.primary[500] : "white", // Background color of the modal
+              theme.palette.mode === "dark" ? colors.primary[700] : "white", // Background color of the modal
             width: "500px", // Modal width
           },
           onSubmit: (event) => {
@@ -74,9 +74,7 @@ const UpdateModal = ({
           },
         }}
       >
-        <DialogTitle variant="h4" sx={{ color: "#868dfb" }}>
-          {title}
-        </DialogTitle>
+        <DialogTitle>{title}</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus

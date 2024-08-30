@@ -260,7 +260,7 @@ const Profile = () => {
                   display: "inline-block",
                   width: "15px",
                   height: "15px",
-                  backgroundColor: "lightGreen",
+                  backgroundColor: "#68afac",
                   borderRadius: "50%",
                   mr: 1,
                 }}
@@ -301,7 +301,7 @@ const Profile = () => {
                   display: "inline-block",
                   width: "15px",
                   height: "15px",
-                  backgroundColor: "skyBlue",
+                  backgroundColor: "#66b7cd",
                   borderRadius: "50%",
                   mr: 1,
                 }}
@@ -342,7 +342,7 @@ const Profile = () => {
                   display: "inline-block",
                   width: "15px",
                   height: "15px",
-                  backgroundColor: "#FF5B61",
+                  backgroundColor: "#FFCC8A",
                   borderRadius: "50%",
                   mr: 1,
                 }}

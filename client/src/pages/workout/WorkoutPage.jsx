@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import EditNoteIcon from "@mui/icons-material/EditNote";
 import Header from "../../components/global/Header";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
@@ -62,17 +63,17 @@ const WorkoutLog = () => {
                     borderColor: "grey",
                   },
                   "&:hover fieldset": {
-                    borderColor: "#6d76fa",
+                    borderColor: "#868dfb",
                   },
                   "&.Mui-focused fieldset": {
-                    borderColor: "#6d76fa",
+                    borderColor: "#868dfb",
                   },
                 },
                 "& .MuiInputLabel-root": {
                   color: "grey", // Default label color
                 },
                 "& .MuiInputLabel-root.Mui-focused": {
-                  color: "#6d76fa", // Label color when focused
+                  color: "#868dfb", // Label color when focused
                 },
               }}
             />
@@ -89,17 +90,17 @@ const WorkoutLog = () => {
                     borderColor: "grey",
                   },
                   "&:hover fieldset": {
-                    borderColor: "#6d76fa",
+                    borderColor: "#868dfb",
                   },
                   "&.Mui-focused fieldset": {
-                    borderColor: "#6d76fa",
+                    borderColor: "#868dfb",
                   },
                 },
                 "& .MuiInputLabel-root": {
                   color: "grey", // Default label color
                 },
                 "& .MuiInputLabel-root.Mui-focused": {
-                  color: "#6d76fa", // Label color when focused
+                  color: "#868dfb", // Label color when focused
                 },
               }}
             />
@@ -116,17 +117,17 @@ const WorkoutLog = () => {
                     borderColor: "grey",
                   },
                   "&:hover fieldset": {
-                    borderColor: "#6d76fa",
+                    borderColor: "#868dfb",
                   },
                   "&.Mui-focused fieldset": {
-                    borderColor: "#6d76fa",
+                    borderColor: "#868dfb",
                   },
                 },
                 "& .MuiInputLabel-root": {
                   color: "grey", // Default label color
                 },
                 "& .MuiInputLabel-root.Mui-focused": {
-                  color: "#6d76fa", // Label color when focused
+                  color: "#868dfb", // Label color when focused
                 },
               }}
             />
@@ -143,17 +144,17 @@ const WorkoutLog = () => {
                     borderColor: "grey",
                   },
                   "&:hover fieldset": {
-                    borderColor: "#6d76fa",
+                    borderColor: "#868dfb",
                   },
                   "&.Mui-focused fieldset": {
-                    borderColor: "#6d76fa",
+                    borderColor: "#868dfb",
                   },
                 },
                 "& .MuiInputLabel-root": {
                   color: "grey", // Default label color
                 },
                 "& .MuiInputLabel-root.Mui-focused": {
-                  color: "#6d76fa", // Label color when focused
+                  color: "#868dfb", // Label color when focused
                 },
               }}
             />
