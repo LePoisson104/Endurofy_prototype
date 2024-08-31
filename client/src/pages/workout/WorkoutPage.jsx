@@ -211,6 +211,9 @@ const WorkoutLog = () => {
                 >
                   <RemoveIcon />
                 </IconButton>
+                <IconButton size="small" sx={{ color: "#fbc02d" }}>
+                  <EditNoteIcon />
+                </IconButton>
                 <Typography>
                   {workout.exercise} - {workout.sets} sets of {workout.reps}{" "}
                   reps @ {workout.weight} lbs

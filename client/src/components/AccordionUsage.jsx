@@ -9,8 +9,12 @@ import EditNoteIcon from "@mui/icons-material/EditNote";
 import AddFoodModal from "./modals/AddFoodModal";
 import FoodMacrosModal from "./modals/FoodMacrosModal";
 import { Box, Typography, IconButton } from "@mui/material";
+import { useTheme } from "@emotion/react";
+import { tokens } from "../theme";
 
 const AccordionUsage = ({ title, data }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [modalOpen, setModalOpen] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [foodModal, setFoodModal] = useState(false);
@@ -54,8 +58,8 @@ const AccordionUsage = ({ title, data }) => {
           sx={{
             display: "flex",
             justifyContent: "space-between",
-            backgroundColor: "#e9e9e9",
-            color: "black",
+            backgroundColor:
+              theme.palette.mode === "dark" ? "#23395d" : "white",
             borderBottom: "1px solid black",
           }}
         >
@@ -67,15 +71,12 @@ const AccordionUsage = ({ title, data }) => {
               gap: 1,
             }}
           >
-            <IconButton
-              size="small"
-              sx={{ color: "black", "&:hover": { background: "#d8d8d8" } }}
-            >
+            <IconButton color="error" size="small">
               <RemoveIcon />
             </IconButton>
             <IconButton
               size="small"
-              sx={{ color: "black", "&:hover": { background: "#d8d8d8" } }}
+              sx={{ color: "#fbc02d" }}
               onClick={handleEditModal}
             >
               <EditNoteIcon />
