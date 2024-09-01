@@ -3,3 +3,4 @@
 - Refactor code (do not repeat code)
 - Make AddFood page reponsive
 - Find new line chart 
+- Fix Food Calendar style for light and dark mode
