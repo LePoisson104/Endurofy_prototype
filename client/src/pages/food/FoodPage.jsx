@@ -491,7 +491,7 @@ const FoodPage = () => {
               xs: "2px", // For small screens
               sm: "250px", // For medium screens
               md: "300px", // For large screens
-              lg: "350px", // For extra-large screens
+              lg: "380px", // For extra-large screens
             },
           }}
           id="right"

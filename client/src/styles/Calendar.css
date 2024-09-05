@@ -1,13 +1,6 @@
 :root {
   --calendar-bg: "#e9e9e9";
   --calendar-color: "black";
-  --calendar-hover-bg: "#f0f0f0";
-}
-
-[data-theme="dark"] {
-  --calendar-bg: "#23395d";
-  --calendar-color: "white";
-  --calendar-hover-bg: "#4f617d";
 }
 
 /* Increase specificity for selected date */
@@ -18,14 +11,12 @@
 
 /* Increase specificity for current date */
 .react-calendar .react-calendar__tile--now {
-  background-color: #9a9ff1 !important;
+  background-color: #a4a9fc !important;
   color: white !important;
 }
 
 .react-calendar .react-calendar__tile:hover {
-  background-color: var(
-    --calendar-hover-bg
-  ) !important; /* Change to your desired hover background color */
+  background-color: #6d76fa !important; /* Change to your desired hover background color */
   color: var(
     --calendar-color
   ) !important; /* Change to your desired hover text color */
@@ -58,13 +49,13 @@
 
 /* Hover state for navigation buttons */
 .react-calendar__navigation button:hover {
-  background-color: #9a9ff1 !important; /* Background color on hover */
+  background-color: #383ab7 !important; /* Background color on hover */
   color: white !important; /* Text color on hover */
 }
 
 /* Optional: Hover state for focus to ensure accessibility */
 .react-calendar__navigation button:focus {
-  background-color: #9a9ff1 !important; /* Background color on focus */
+  background-color: #383ab7 !important; /* Background color on focus */
   color: white !important; /* Text color on focus */
 }
 

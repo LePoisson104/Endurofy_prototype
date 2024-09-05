@@ -75,6 +75,7 @@ const Calendar = () => {
                   backgroundColor: colors.greenAccent[500],
                   margin: "10px 0",
                   borderRadius: "2px",
+                  color: "black",
                 }}
               >
                 <ListItemText

@@ -32,6 +32,7 @@ const FoodCalendar = () => {
           alignItems: "center",
           width: "100%",
           mb: 2,
+          mt: 1,
         }}
       >
         <Button
@@ -49,7 +50,7 @@ const FoodCalendar = () => {
           {"<"}
         </Button>
         <Typography variant="h4" fontWeight="bold">
-          August 19
+          Sep 19
         </Typography>
         <Button
           sx={{

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Box, Button, Typography } from "@mui/material";
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 
 const NotFoundPage = () => {
   return (
@@ -36,11 +37,18 @@ const NotFoundPage = () => {
           </Link>
         </Typography>
       </Box>
-      <Typography variant="h1" color="#868dfb" fontWeight="bold">
-        404 NOT FOUND
+      <SentimentVeryDissatisfiedIcon
+        sx={{ fontSize: "200px", color: "#AEAEAE" }}
+      />
+      <Typography color="#AEAEAE" fontWeight="400" fontSize="60px">
+        404
       </Typography>
-      <Typography variant="h5" color="#555" mt={2}>
-        Sorry, the page you are looking for does not exist.
+      <Typography color="#AEAEAE" fontWeight="400" fontSize="20px">
+        Page Not Found
+      </Typography>
+      <Typography color="#555" mt={2}>
+        Sorry, the page you are looking for does not exist or an error has
+        occured.
       </Typography>
       <Button
         variant="contained"
