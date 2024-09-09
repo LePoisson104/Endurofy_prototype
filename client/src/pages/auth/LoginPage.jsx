@@ -56,7 +56,7 @@ const Login = () => {
             alignItems: "center",
           }}
         >
-          <Link to="#" style={{ textDecoration: "none", color: "inherit" }}>
+          <Link to="/home" style={{ textDecoration: "none", color: "inherit" }}>
             <span className="purple-style">Fit</span>
             <span className="grey-style">Tracker</span>
           </Link>

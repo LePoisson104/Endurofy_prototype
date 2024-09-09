@@ -217,28 +217,12 @@ const SideBar = () => {
             color={colors.grey[300]}
             sx={{ m: "15px 0 5px 20px" }}
           >
-            Charts
+            Reports
           </Typography>
           <Item
-            title="Calories History"
+            title="Report Summary"
             to="/bar"
             icon={<BarChartOutlinedIcon />}
-            selected={selected}
-            setSelected={setSelected}
-            isCollapsed={isCollapsed}
-          />
-          <Item
-            title="Nutrition Report"
-            to="/pie"
-            icon={<PieChartOutlineOutlinedIcon />}
-            selected={selected}
-            setSelected={setSelected}
-            isCollapsed={isCollapsed}
-          />
-          <Item
-            title="Overall Report"
-            to="/line"
-            icon={<TimelineOutlinedIcon />}
             selected={selected}
             setSelected={setSelected}
             isCollapsed={isCollapsed}

@@ -4,13 +4,13 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
 import EditNoteIcon from "@mui/icons-material/EditNote";
-import AddFoodModal from "./modals/AddFoodModal";
-import FoodMacrosModal from "./modals/FoodMacrosModal";
+import AddFoodModal from "../modals/AddFoodModal";
+import FoodMacrosModal from "../modals/FoodMacrosModal";
 import { Box, Typography, IconButton } from "@mui/material";
 import { useTheme } from "@emotion/react";
-import { tokens } from "../theme";
+import { tokens } from "../../theme";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const AccordionUsage = ({ title, data }) => {
   const theme = useTheme();
@@ -71,8 +71,8 @@ const AccordionUsage = ({ title, data }) => {
               gap: 1,
             }}
           >
-            <IconButton color="error" size="small">
-              <RemoveIcon />
+            <IconButton size="small" sx={{ color: "#F56565" }}>
+              <DeleteIcon />
             </IconButton>
             <IconButton
               size="small"

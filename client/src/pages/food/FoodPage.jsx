@@ -3,7 +3,7 @@ import { tokens } from "../../theme";
 import { useTheme } from "@emotion/react";
 import FoodCalendar from "../../components/FoodCalendar";
 import Header from "../../components/global/Header";
-import AccordionUsage from "../../components/AccordionUsage";
+import AccordionUsage from "../../components/accordion/AccordionUsage";
 import NutrientDoughnutChart from "../../components/charts/NutrientDoughnutChart";
 
 const FoodPage = () => {

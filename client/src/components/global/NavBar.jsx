@@ -21,7 +21,7 @@ const NavBar = () => {
   return (
     <Box
       sx={{
-        position: "absolute",
+        position: "sticky",
         top: 0,
         left: 0,
         backgroundColor: "white",
@@ -56,7 +56,7 @@ const NavBar = () => {
           alignItems: "center",
         }}
       >
-        <Link to="#" style={{ textDecoration: "none", color: "inherit" }}>
+        <Link to="/home" style={{ textDecoration: "none", color: "inherit" }}>
           <span className="purple-style">Fit</span>
           <span className="grey-style">Tracker</span>
         </Link>

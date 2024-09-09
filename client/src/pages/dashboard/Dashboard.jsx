@@ -74,6 +74,7 @@ const Dashboard = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            borderRadius: 2,
           }}
         >
           <CircularProgressBar value={29} />
@@ -87,6 +88,7 @@ const Dashboard = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            borderRadius: 2,
           }}
         ></Box>
         <Box
@@ -98,6 +100,7 @@ const Dashboard = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            borderRadius: 2,
           }}
         ></Box>
         <Box
@@ -109,6 +112,7 @@ const Dashboard = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            borderRadius: 2,
           }}
         ></Box>
 
@@ -122,6 +126,7 @@ const Dashboard = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            borderRadius: 2,
           }}
         >
           <Typography variant="h4" fontWeight="600">
@@ -145,6 +150,7 @@ const Dashboard = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            borderRadius: 2,
           }}
         >
           <Typography variant="h4" fontWeight="600">
@@ -168,6 +174,7 @@ const Dashboard = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            borderRadius: 2,
           }}
         >
           <Typography variant="h4" fontWeight="600">
@@ -209,6 +216,7 @@ const Dashboard = () => {
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
           overflow="auto"
+          sx={{ borderRadius: 2 }}
         >
           <Box
             display="flex"
@@ -270,11 +278,12 @@ const Dashboard = () => {
             </Box>
           ))}
         </Box>
-        {/* ROW 2 */}
+        {/* ROW 3 */}
         <Box
           gridColumn="span 7"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
+          sx={{ borderRadius: 2 }}
         >
           <Typography
             variant="h4"
@@ -291,6 +300,7 @@ const Dashboard = () => {
           gridColumn="span 7"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
+          sx={{ borderRadius: 2 }}
         >
           <Box
             mt="25px"

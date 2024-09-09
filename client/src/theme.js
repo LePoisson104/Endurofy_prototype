@@ -117,6 +117,12 @@ export const tokens = (mode) => ({
           800: "#c3c6fd",
           900: "#e1e2fe",
         },
+        purpleAccent: {
+          100: "#b5b8f4",
+          200: "#9a9ff1",
+          300: "#8a93fc",
+          400: "#6d76fa",
+        },
       }),
 });
 

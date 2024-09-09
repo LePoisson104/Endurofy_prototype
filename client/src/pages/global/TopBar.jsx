@@ -1,8 +1,14 @@
-import { Box, IconButton, useTheme } from "@mui/material";
+import { useState, useEffect } from "react";
+import {
+  Box,
+  IconButton,
+  InputBase,
+  useTheme,
+  Typography,
+} from "@mui/material";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { ColorModeContext, tokens } from "../../theme";
-import InputBase from "@mui/material/InputBase";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
@@ -16,51 +22,71 @@ const TopBar = () => {
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
 
-  return (
-    <Box display="flex" justifyContent="space-between" p={2}>
-      {/* SEARCH BAR */}
-      <Box
-        display="flex"
-        backgroundColor={colors.primary[400]}
-        borderRadius="3px"
-      >
-        <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search" />
-        <IconButton type="button" sx={{ p: 1 }}>
-          <SearchIcon />
-        </IconButton>
-      </Box>
+  const [isScrolled, setIsScrolled] = useState(false);
 
-      {/* ICONS */}
-      <Box display="flex">
-        <IconButton onClick={colorMode.toggleColorMode}>
-          {theme.palette.mode === "dark" ? (
-            <DarkModeOutlinedIcon />
-          ) : (
-            <LightModeOutlinedIcon />
-          )}
-        </IconButton>
-        <IconButton>
-          <NotificationsOutlinedIcon />
-        </IconButton>
-        <Link
-          to="/settings"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50); // Adjust the scroll threshold as needed
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  return (
+    <Box
+      sx={{
+        position: "sticky",
+        top: 0,
+        left: 0,
+        width: "100%",
+        zIndex: 1000,
+        p: 2,
+        backdropFilter: isScrolled ? "blur(10px)" : "none", // Apply blur when scrolled
+        transition: "background-color 0.3s ease, backdrop-filter 0.3s ease", // Smooth transition
+      }}
+    >
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        {/* SEARCH BAR */}
+        <Box display="flex" alignItems="center">
+          <InputBase
+            placeholder="Search…"
+            sx={{
+              backgroundColor: colors.primary[400],
+              borderRadius: "5px",
+              padding: "0 10px",
+              width: "250px",
+            }}
+          />
+          <IconButton type="submit" sx={{ p: 1 }}>
+            <SearchIcon />
+          </IconButton>
+        </Box>
+
+        {/* ICONS */}
+        <Box display="flex">
+          <IconButton onClick={colorMode.toggleColorMode}>
+            {theme.palette.mode === "dark" ? (
+              <LightModeOutlinedIcon />
+            ) : (
+              <DarkModeOutlinedIcon />
+            )}
+          </IconButton>
+          <IconButton>
+            <NotificationsOutlinedIcon />
+          </IconButton>
           <IconButton>
             <SettingsOutlinedIcon />
           </IconButton>
-        </Link>
-        <Link
-          to="/profile"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
           <IconButton>
             <PersonOutlinedIcon />
           </IconButton>
-        </Link>
-        <IconButton>
-          <LogoutIcon />
-        </IconButton>
+          <IconButton>
+            <LogoutIcon />
+          </IconButton>
+        </Box>
       </Box>
     </Box>
   );
