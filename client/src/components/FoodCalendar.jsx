@@ -41,6 +41,7 @@ const FoodCalendar = () => {
             fontSize: "1rem",
             textTransform: "none",
             backgroundColor: "#6d76fa",
+            borderRadius: 0,
             color: "white",
             "&:hover ": {
               backgroundColor: "#9a9ff1",
@@ -58,6 +59,7 @@ const FoodCalendar = () => {
             fontSize: "1rem",
             textTransform: "none",
             backgroundColor: "#6d76fa",
+            borderRadius: 0,
             color: "white",
             "&:hover ": {
               backgroundColor: "#9a9ff1",

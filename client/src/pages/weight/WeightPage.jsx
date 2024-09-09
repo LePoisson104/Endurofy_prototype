@@ -15,20 +15,23 @@ import {
 import Header from "../../components/global/Header";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
+import DatePickerSelector from "../../components/DatePickerSelector";
 
 const WeightLogPage = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [weightLogs, setWeightLogs] = useState([]);
   const [weight, setWeight] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(null);
 
   const handleAddWeightLog = (event) => {
     event.preventDefault();
-    const newLog = { weight, date };
-    setWeightLogs([...weightLogs, newLog]);
-    setWeight("");
-    setDate("");
+    if (date && weight) {
+      const newLog = { weight, date: date.toDateString() }; // Convert date to string for display
+      setWeightLogs([...weightLogs, newLog]);
+      setWeight("");
+      setDate(null); // Reset date to null after adding
+    }
   };
 
   const handleDeleteLog = (index) => {
@@ -58,15 +61,7 @@ const WeightLogPage = () => {
           onChange={(e) => setWeight(e.target.value)}
           fullWidth
         />
-        <TextField
-          required
-          label="Date"
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          InputLabelProps={{ shrink: true }}
-          fullWidth
-        />
+        <DatePickerSelector date={date} setDate={setDate} />
         <Button
           type="submit"
           variant="contained"
@@ -92,7 +87,7 @@ const WeightLogPage = () => {
           <TableBody>
             {weightLogs.map((log, index) => (
               <TableRow key={index}>
-                <TableCell>{log.date}</TableCell>
+                <TableCell>{log.date}</TableCell>{" "}
                 <TableCell>{log.weight}</TableCell>
                 <TableCell align="right">
                   <Button
