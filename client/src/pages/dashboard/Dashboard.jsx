@@ -1,4 +1,10 @@
-import { Box, Button, IconButton, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Typography,
+  LinearProgress,
+} from "@mui/material";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
 import { mockTransactions } from "../../data/mockData";
@@ -9,6 +15,10 @@ import BarChart from "../../components/charts/BarChart";
 import NutrientDoughnutChart from "../../components/charts/NutrientDoughnutChart";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import CircularProgressBar from "../../components/CircularProgressBar";
+import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
+import WaterDropIcon from "@mui/icons-material/WaterDrop";
+import BedtimeIcon from "@mui/icons-material/Bedtime";
+import LightModeIcon from "@mui/icons-material/LightMode";
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -60,6 +70,7 @@ const Dashboard = () => {
         </Box>
       </Box>
       {/* GRID & CHARTS */}
+      {/* row 1 */}
       <Box
         display="grid"
         gridTemplateColumns="repeat(14, 1fr)"
@@ -74,37 +85,197 @@ const Dashboard = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            borderRadius: 2,
+            borderRadius: 1,
           }}
         >
           <CircularProgressBar value={29} />
         </Box>
+        {/* Steps */}
         <Box
-          gridColumn="span 4"
+          gridColumn="span 3"
           gridRow="span 1"
-          backgroundColor={colors.primary[400]}
-          p="30px"
+          backgroundColor={"#1BCFB4"}
+          p={"15px"}
           sx={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            borderRadius: 2,
+            borderRadius: 1,
+            color: "white",
           }}
-        ></Box>
+        >
+          <Box sx={{ display: "flex", width: "100%" }}>
+            <Typography
+              variant="h3"
+              fontWeight={600}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                color: "#D9F6F0",
+              }}
+            >
+              <DirectionsRunIcon fontSize="14px" />
+              Steps
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 1,
+              width: "100%",
+            }}
+          >
+            <Typography variant="h2" fontWeight={"bold"}>
+              2,500
+            </Typography>
+            <Typography variant="h4" fontWeight={500} sx={{ color: "#D9F6F0" }}>
+              Steps
+            </Typography>
+          </Box>
+          <Box sx={{ width: "100%", mt: 1 }}>
+            <LinearProgress
+              variant="determinate"
+              value={50}
+              sx={{
+                height: 7,
+                borderRadius: 2,
+                backgroundColor: "#A6E6DD", // Lighter shade of #1BCFB4
+                "& .MuiLinearProgress-bar": {
+                  backgroundColor: "#FFFFFF", // White progress bar
+                },
+              }}
+            />
+            <Typography variant="body1">Progress: 50% of your goal</Typography>
+          </Box>
+        </Box>
+        {/* water */}
         <Box
-          gridColumn="span 4"
+          gridColumn="span 3"
           gridRow="span 1"
-          backgroundColor={colors.primary[400]}
-          p="30px"
+          backgroundColor={"#4BCBEB"}
+          p={"15px"}
           sx={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            borderRadius: 2,
+            borderRadius: 1,
+            color: "white",
           }}
-        ></Box>
+        >
+          <Box sx={{ display: "flex", width: "100%" }}>
+            <Typography
+              variant="h3"
+              fontWeight={600}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                color: "#C4F0F3",
+              }}
+            >
+              <WaterDropIcon />
+              Water
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 1,
+              width: "100%",
+            }}
+          >
+            <Typography variant="h2" fontWeight={"bold"}>
+              64
+            </Typography>
+            <Typography variant="h4" fontWeight={500} sx={{ color: "#C4F0F3" }}>
+              fl oz
+            </Typography>
+          </Box>
+          <Box sx={{ width: "100%", mt: 1 }}>
+            <LinearProgress
+              variant="determinate"
+              value={50}
+              sx={{
+                height: 7,
+                borderRadius: 2,
+                backgroundColor: "#C4F0F3", // Lighter shade of #1BCFB4
+                "& .MuiLinearProgress-bar": {
+                  backgroundColor: "#FFFFFF", // White progress bar
+                },
+              }}
+            />
+            <Typography variant="body1">Progress: 50% of your goal</Typography>
+          </Box>
+        </Box>
+        {/* sleep */}
         <Box
-          gridColumn="span 4"
+          gridColumn="span 3"
+          gridRow="span 1"
+          backgroundColor={"#FE9496"}
+          p={"15px"}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            borderRadius: 1,
+            color: "white",
+          }}
+        >
+          <Box sx={{ display: "flex", width: "100%" }}>
+            <Typography
+              variant="h3"
+              fontWeight={600}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                color: "#FFE1E3",
+              }}
+            >
+              <BedtimeIcon />
+              Sleep
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 1,
+              width: "100%",
+            }}
+          >
+            <Typography variant="h2" fontWeight={"bold"}>
+              8
+            </Typography>
+            <Typography variant="h4" fontWeight={500} sx={{ color: "#FFE1E3" }}>
+              Hours
+            </Typography>
+          </Box>
+          <Box sx={{ width: "100%" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "row",
+                width: "100%",
+              }}
+            >
+              <BedtimeIcon fontSize="small" />
+              <Typography>12:00 am</Typography>
+              <Box
+                sx={{ border: "1px solid white", ml: 1, mr: 1, width: "25%" }}
+              ></Box>
+              <LightModeIcon fontSize="small" />
+              <Typography>08:00 am</Typography>
+            </Box>
+            <Typography variant="body1">Average: 7.5 hours</Typography>
+          </Box>
+        </Box>
+        <Box
+          gridColumn="span 3"
           gridRow="span 1"
           backgroundColor={colors.primary[400]}
           p="30px"
@@ -112,11 +283,11 @@ const Dashboard = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            borderRadius: 2,
+            borderRadius: 1,
           }}
         ></Box>
 
-        {/* ROW 1 */}
+        {/* ROW 2 */}
         <Box
           gridColumn="span 3"
           gridRow="span 2"
@@ -126,7 +297,7 @@ const Dashboard = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            borderRadius: 2,
+            borderRadius: 1,
           }}
         >
           <Typography variant="h4" fontWeight="600">
@@ -150,7 +321,7 @@ const Dashboard = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            borderRadius: 2,
+            borderRadius: 1,
           }}
         >
           <Typography variant="h4" fontWeight="600">
@@ -174,7 +345,7 @@ const Dashboard = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            borderRadius: 2,
+            borderRadius: 1,
           }}
         >
           <Typography variant="h4" fontWeight="600">
@@ -216,7 +387,7 @@ const Dashboard = () => {
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
           overflow="auto"
-          sx={{ borderRadius: 2 }}
+          sx={{ borderRadius: 1 }}
         >
           <Box
             display="flex"
@@ -283,7 +454,7 @@ const Dashboard = () => {
           gridColumn="span 7"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
-          sx={{ borderRadius: 2 }}
+          sx={{ borderRadius: 1 }}
         >
           <Typography
             variant="h4"
@@ -300,7 +471,7 @@ const Dashboard = () => {
           gridColumn="span 7"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
-          sx={{ borderRadius: 2 }}
+          sx={{ borderRadius: 1 }}
         >
           <Box
             mt="25px"

@@ -17,7 +17,7 @@ const CircularProgressBar = ({ value }) => {
         size={100}
         thickness={4}
         sx={{
-          color: theme.palette.mode == "dark" ? "white" : "#C5C5C5",
+          color: theme.palette.mode == "dark" ? "white" : "#ffff",
         }}
       />
       <CircularProgress
