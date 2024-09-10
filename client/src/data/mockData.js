@@ -151,7 +151,7 @@ export const mockPieData = [
 export const mockLineData = [
   {
     id: "Weight",
-    color: tokens("dark").greenAccent[500],
+    color: tokens("dark").redAccent[300],
     data: [
       {
         x: "9/1",

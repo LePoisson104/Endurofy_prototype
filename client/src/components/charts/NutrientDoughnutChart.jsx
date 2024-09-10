@@ -72,7 +72,7 @@ const NutritionChart = ({ title, data }) => {
             color: colors.primary[100],
           }}
         >
-          cal
+          Kcal
         </Typography>
       </Box>
       <Typography variant="h5" fontWeight={500} sx={{ mt: 2 }}>

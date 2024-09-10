@@ -8,8 +8,12 @@ import MonthSelect from "../../components/selects/MonthSelect";
 import InchesSelect from "../../components/selects/InchesSelect";
 import FeetSelect from "../../components/selects/FeetSelect";
 import PasswordField from "../../components/PasswordField";
+import { useTheme } from "@emotion/react";
+import { tokens } from "../../theme";
 
 const SignUp = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   // State for form fields
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -71,7 +75,7 @@ const SignUp = () => {
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
-        background: "#f4f4f4",
+        background: colors.grey[1000],
       }}
     >
       <NavBar />
@@ -91,7 +95,7 @@ const SignUp = () => {
             "rgba(0, 0, 0, 0.05) 0 6px 24px, rgba(0, 0, 0, 0.08) 0 0 0 1px",
           width: "100%",
           maxWidth: 430,
-          mt: 21,
+          mt: 14,
           mb: { xs: 14, lg: 14 },
         }}
       >

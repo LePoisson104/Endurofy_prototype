@@ -77,12 +77,16 @@ const TopBar = () => {
           <IconButton>
             <NotificationsOutlinedIcon />
           </IconButton>
-          <IconButton>
-            <SettingsOutlinedIcon />
-          </IconButton>
-          <IconButton>
-            <PersonOutlinedIcon />
-          </IconButton>
+          <Link to={"/settings"}>
+            <IconButton>
+              <SettingsOutlinedIcon />
+            </IconButton>
+          </Link>
+          <Link to={"/profile"}>
+            <IconButton>
+              <PersonOutlinedIcon />
+            </IconButton>
+          </Link>
           <IconButton>
             <LogoutIcon />
           </IconButton>

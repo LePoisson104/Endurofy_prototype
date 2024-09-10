@@ -2,10 +2,15 @@ import React from "react";
 import { Button, Typography, Box, IconButton, Drawer } from "@mui/material";
 import { Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useTheme } from "@emotion/react";
+import { tokens } from "../../theme";
 
-const NavBar = () => {
+const NavBar = ({ bgcolor }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   // Function to toggle the drawer open/close
   const toggleDrawer = (open) => (event) => {
@@ -18,13 +23,24 @@ const NavBar = () => {
     setDrawerOpen(open);
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50); // Adjust the scroll threshold as needed
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <Box
       sx={{
         position: "sticky",
         top: 0,
         left: 0,
-        backgroundColor: "white",
+        backgroundColor: isScrolled ? "white" : `${bgcolor}`,
         width: "100%",
         height: "70px",
         display: "flex",
@@ -39,6 +55,8 @@ const NavBar = () => {
         },
         zIndex: 1000, // Ensure the navbar stays above other content
         gap: 30,
+        backdropFilter: isScrolled ? "blur(10px)" : "none", // Apply blur when scrolled
+        transition: "background-color 0.3s ease, backdrop-filter 0.3s ease", // Smooth transition
       }}
     >
       {/* Logo */}
@@ -56,8 +74,8 @@ const NavBar = () => {
         }}
       >
         <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-          <span className="purple-style">Fit</span>
-          <span className="grey-style">Tracker</span>
+          <span style={{ fontWeight: "bold", color: "white" }}>Fit</span>
+          <span style={{ fontWeight: "bold", color: "white" }}>Tracker</span>
         </Link>
       </Typography>
 
@@ -97,14 +115,10 @@ const NavBar = () => {
             sx={{
               textTransform: "none",
               backgroundColor: "transparent",
-              color: "black",
               paddingLeft: "22px",
               paddingRight: "22px",
               height: "35px",
-              border: "1px solid #D3D3D3",
-              "&:hover": {
-                backgroundColor: "#f0f0f0",
-              },
+              fontSize: "14px",
             }}
           >
             Log In
@@ -114,13 +128,13 @@ const NavBar = () => {
           <Button
             sx={{
               textTransform: "none",
-              backgroundColor: "#6d76fa",
-              color: "white",
+              backgroundColor: "white",
+              color: colors.purpleAccent[400],
               paddingLeft: "15px",
               paddingRight: "15px",
               height: "35px",
               "&:hover": {
-                backgroundColor: "#868dfb",
+                backgroundColor: colors.grey[1000],
               },
             }}
           >

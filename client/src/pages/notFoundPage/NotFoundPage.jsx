@@ -1,8 +1,13 @@
 import { Link } from "react-router-dom";
 import { Box, Button, Typography } from "@mui/material";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
+import { useTheme } from "@emotion/react";
+import { tokens } from "../../theme";
 
 const NotFoundPage = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   return (
     <Box
       sx={{
@@ -13,7 +18,7 @@ const NotFoundPage = () => {
         width: "100%",
         flexDirection: "column",
         textAlign: "center",
-        bgcolor: "#f0f0f0",
+        bgcolor: colors.grey[1000],
         p: "2",
       }}
     >
@@ -31,7 +36,7 @@ const NotFoundPage = () => {
             cursor: "pointer",
           }}
         >
-          <Link to="#" style={{ textDecoration: "none" }}>
+          <Link to="/ " style={{ textDecoration: "none" }}>
             <span className="purple-style">Fit</span>
             <span className="grey-style">Tracker</span>
           </Link>

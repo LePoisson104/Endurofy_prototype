@@ -19,6 +19,7 @@ import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
 import WaterDropIcon from "@mui/icons-material/WaterDrop";
 import BedtimeIcon from "@mui/icons-material/Bedtime";
 import LightModeIcon from "@mui/icons-material/LightMode";
+import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -28,8 +29,8 @@ const Dashboard = () => {
       datasets: [
         {
           data: [100], // Example values, adjust as needed
-          backgroundColor: ["#9a9ff1"],
-          hoverBackgroundColor: ["#9a9ff1"],
+          backgroundColor: ["#7a7be0"],
+          hoverBackgroundColor: ["#7a7be0"],
         },
       ],
       totalCalories: 2997,
@@ -54,7 +55,7 @@ const Dashboard = () => {
         <Box>
           <Button
             sx={{
-              backgroundColor: "#6d76fa",
+              backgroundColor: colors.purpleAccent[400],
               color: "white",
               fontSize: "14px",
               fontWeight: "bold",
@@ -71,6 +72,7 @@ const Dashboard = () => {
       </Box>
       {/* GRID & CHARTS */}
       {/* row 1 */}
+      {/* progress circle */}
       <Box
         display="grid"
         gridTemplateColumns="repeat(14, 1fr)"
@@ -88,7 +90,7 @@ const Dashboard = () => {
             borderRadius: 1,
           }}
         >
-          <CircularProgressBar value={29} />
+          <CircularProgressBar value={32} />
         </Box>
         {/* Steps */}
         <Box
@@ -210,11 +212,60 @@ const Dashboard = () => {
             <Typography variant="body1">Progress: 50% of your goal</Typography>
           </Box>
         </Box>
-        {/* sleep */}
+        {/* calories burned */}
         <Box
           gridColumn="span 3"
           gridRow="span 1"
           backgroundColor={"#FE9496"}
+          p={"15px"}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            borderRadius: 1,
+            color: "white",
+          }}
+        >
+          <Box sx={{ display: "flex", width: "100%" }}>
+            <Typography
+              variant="h3"
+              fontWeight={600}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                color: "#FFE1E3",
+              }}
+            >
+              <LocalFireDepartmentIcon />
+              Calories
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 1,
+              width: "100%",
+            }}
+          >
+            <Typography variant="h2" fontWeight={"bold"}>
+              3872
+            </Typography>
+            <Typography variant="h4" fontWeight={500} sx={{ color: "#FFE1E3" }}>
+              Kcal
+            </Typography>
+          </Box>
+          <Box sx={{ width: "100%" }}>
+            <Typography>Basal Metabolic Rate (BMR): 1872 kcal</Typography>
+            <Typography>Baseline Activity: 2000 kcal</Typography>
+          </Box>
+        </Box>
+        {/* sleep */}
+        <Box
+          gridColumn="span 3"
+          gridRow="span 1"
+          backgroundColor={"#A05AFF"}
           p={"15px"}
           sx={{
             display: "flex",
@@ -274,19 +325,6 @@ const Dashboard = () => {
             <Typography variant="body1">Average: 7.5 hours</Typography>
           </Box>
         </Box>
-        <Box
-          gridColumn="span 3"
-          gridRow="span 1"
-          backgroundColor={colors.primary[400]}
-          p="30px"
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            borderRadius: 1,
-          }}
-        ></Box>
-
         {/* ROW 2 */}
         <Box
           gridColumn="span 3"
@@ -393,7 +431,7 @@ const Dashboard = () => {
             display="flex"
             justifyContent="space-between"
             alignItems="center"
-            borderBottom={`4px solid ${colors.primary[500]}`}
+            borderBottom={`3px solid ${colors.primary[200]}`}
             colors={colors.grey[100]}
             p="15px"
           >
@@ -406,7 +444,7 @@ const Dashboard = () => {
               key={`${transaction.txId}-${i}`}
               display="flex"
               alignItems="center"
-              borderBottom={`4px solid ${colors.primary[500]}`}
+              borderBottom={`1px solid ${colors.primary[200]}`}
               p="15px"
             >
               <Box sx={{ width: "33.33%" }}>
@@ -433,7 +471,7 @@ const Dashboard = () => {
               >
                 <Button
                   sx={{
-                    color: colors.primary[400],
+                    color: theme.palette.mode == "dark" ? "white" : "black",
                     backgroundColor: "#32B593",
                     p: "5px 10px",
                     borderRadius: "4px",
@@ -489,8 +527,8 @@ const Dashboard = () => {
                 Weight Chart
               </Typography>
               <Typography
-                variant="h5"
-                fontWeight="bold"
+                variant="h6"
+                fontWeight="400"
                 color={colors.greenAccent[500]}
               >
                 Down 2lbs this week
@@ -505,7 +543,7 @@ const Dashboard = () => {
             </Box>
           </Box>
           <Box height="250px" m="-20px 0 0 0">
-            <LineChart isDashboard={true} />
+            <LineChart />
           </Box>
         </Box>
       </Box>

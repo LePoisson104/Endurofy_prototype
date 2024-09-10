@@ -3,8 +3,12 @@ import { Link } from "react-router-dom";
 import PasswordField from "../../components/PasswordField";
 import ForgotPasswordModal from "../../components/modals/ForgotPassModal";
 import { useState } from "react";
+import { useTheme } from "@emotion/react";
+import { tokens } from "../../theme";
 
 const Login = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [password, setPassword] = useState("");
 
   return (
@@ -16,7 +20,7 @@ const Login = () => {
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
-        background: "#f4f4f4",
+        background: colors.grey[1000],
       }}
     >
       <Box
@@ -37,7 +41,6 @@ const Login = () => {
             xs: "0 20px", // Mobile: 20px padding on sides
             md: "0 50px", // Desktop: 50px padding on sides
           },
-          boxShadow: "0px 2px 4px rgba(0,0,0,0.1)", // Shadow for better visibility
           zIndex: 1000, // Ensure the navbar stays above other content
           gap: { xl: 60, lg: 60, sm: 30, xs: 20 },
         }}
@@ -56,7 +59,7 @@ const Login = () => {
             alignItems: "center",
           }}
         >
-          <Link to="/home" style={{ textDecoration: "none", color: "inherit" }}>
+          <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
             <span className="purple-style">Fit</span>
             <span className="grey-style">Tracker</span>
           </Link>

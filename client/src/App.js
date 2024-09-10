@@ -1,6 +1,6 @@
 import { ColorModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import MainLayout from "./layout/MainLayout";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Login from "./pages/auth/LoginPage";
@@ -23,8 +23,12 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Routes>
+          {/* Landing Page Route */}
+          <Route path="/" element={<HomePage />} />
+
+          {/* Routes under MainLayout */}
           <Route path="/" element={<MainLayout />}>
-            <Route index element={<Dashboard />} />
+            <Route path="dashboard" element={<Dashboard />} />
             <Route path="food" element={<FoodPage />} />
             <Route path="weight" element={<WeightPage />} />
             <Route path="workout" element={<WorkoutPage />} />
@@ -33,7 +37,8 @@ function App() {
             <Route path="bar" element={<Bar />} />
             <Route path="settings" element={<Settings />} />
           </Route>
-          <Route path="home" element={<HomePage />} />
+
+          {/* Auth and error pages */}
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="/*" element={<NotFoundPage />} />

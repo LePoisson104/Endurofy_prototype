@@ -15,6 +15,7 @@ export const tokens = (mode) => ({
           700: "#3d3d3d",
           800: "#292929",
           900: "#141414",
+          1000: "#F8FAFC",
         },
         primary: {
           100: "#d0d1d5",
@@ -60,6 +61,12 @@ export const tokens = (mode) => ({
           800: "#2a2d64",
           900: "#151632",
         },
+        purpleAccent: {
+          100: "#b5b8f4",
+          200: "#9a9ff1",
+          300: "#8a93fc",
+          400: "#6d76fa",
+        },
       }
     : {
         grey: {
@@ -72,12 +79,13 @@ export const tokens = (mode) => ({
           700: "#a3a3a3",
           800: "#c2c2c2",
           900: "#e0e0e0",
+          1000: "#F8FAFC",
         },
         primary: {
           100: "#040509",
           200: "#080b12",
           300: "#0c101b",
-          400: "#f6f6f6", // manually changed
+          400: "#FFFFFF", // manually changed
           500: "#141b2d",
           600: "#1F2A40",
           700: "#727681",
@@ -164,7 +172,7 @@ export const themeSettings = (mode) => {
               light: colors.grey[100],
             },
             background: {
-              default: "#fcfcfc",
+              default: "#F8FAFC",
             },
           }),
     },

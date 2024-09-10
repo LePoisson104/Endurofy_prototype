@@ -24,7 +24,7 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from "@mui/material";
-import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
+import { ExpandMore as ExpandMoreIcon, Sort } from "@mui/icons-material";
 import Header from "../../components/global/Header";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
@@ -34,6 +34,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import { textFieldStyles } from "../profile/TextFieldStyles";
 import LineChart from "../../components/charts/LineChart";
+import SystemUpdateAltIcon from "@mui/icons-material/SystemUpdateAlt";
+import SortIcon from "@mui/icons-material/Sort";
 
 const WeightLogPage = () => {
   const theme = useTheme();
@@ -109,13 +111,33 @@ const WeightLogPage = () => {
     <Box sx={{ padding: "20px" }}>
       <Header title={"Weight Log"} subtitle={"Sep 9, 2024 | Streaks: 2 days"} />
       {/* Filter Date */}
+      <Box sx={{ display: "flex", flexDirection: "row", mb: 1 }}>
+        <SortIcon />
+        <Typography>Filter</Typography>
+      </Box>
       <Box sx={{ display: "flex", mb: 3, justifyContent: "space-between" }}>
         <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-          <DatePickerSelector />
-          <DatePickerSelector />
+          <DatePickerSelector label={"Start Date"} />
+          <DatePickerSelector label={"End Date"} />
           <FilterSelect />
         </Box>
         <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+          <IconButton
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "80px",
+              height: "30px",
+              fontSize: "12px",
+              borderRadius: 1,
+              gap: 1,
+              color: "#6d76fa",
+            }}
+          >
+            <SystemUpdateAltIcon fontSize="small" />
+            Export
+          </IconButton>
           <Button
             sx={{
               color: "#6d76fa",
@@ -270,7 +292,11 @@ const WeightLogPage = () => {
               fullWidth
               sx={{ ...textFieldStyles }}
             />
-            <DatePickerSelector date={date} setDate={setDate} />
+            <DatePickerSelector
+              date={date}
+              setDate={setDate}
+              label={"Select Date"}
+            />
           </Box>
         </DialogContent>
         <DialogActions>

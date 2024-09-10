@@ -15,20 +15,23 @@ const CircularProgressBar = ({ value }) => {
         variant="determinate"
         value={100}
         size={100}
-        thickness={4}
+        thickness={3}
         sx={{
-          color: theme.palette.mode == "dark" ? "white" : "#ffff",
+          color: "#e2e6fc",
         }}
       />
       <CircularProgress
         variant="determinate"
         value={value}
         size={100}
-        thickness={4}
+        thickness={5}
         sx={{
           color: "#9a9ff1",
           position: "absolute",
           left: 0,
+          "& .MuiCircularProgress-circle": {
+            strokeLinecap: "round", // Make the ends rounded
+          },
         }}
       />
       <Box
@@ -44,7 +47,7 @@ const CircularProgressBar = ({ value }) => {
         }}
       >
         <Typography
-          variant="h6"
+          variant="h4"
           component="div"
           color="textSecondary"
           fontWeight="bold"

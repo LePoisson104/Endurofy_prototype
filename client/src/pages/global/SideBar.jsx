@@ -141,7 +141,7 @@ const SideBar = () => {
         <Box mb={"30px"}>
           <Item
             title="Dashboard"
-            to="/"
+            to="/dashboard"
             icon={<HomeOutlinedIcon />}
             selected={selected}
             setSelected={setSelected}
