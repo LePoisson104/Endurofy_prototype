@@ -26,7 +26,7 @@ const NavBar = () => {
         left: 0,
         backgroundColor: "white",
         width: "100%",
-        height: "70px",
+        height: "80px",
         display: "flex",
         justifyContent: {
           xs: "space-between", // Mobile: space-between
@@ -97,11 +97,12 @@ const NavBar = () => {
             sx={{
               textTransform: "none",
               backgroundColor: "transparent",
-              color: "black",
+              color: "#4f4f4f",
               paddingLeft: "22px",
               paddingRight: "22px",
               height: "35px",
-              border: "1px solid #D3D3D3",
+              fontSize: "14px",
+              fontWeight: 600,
               "&:hover": {
                 backgroundColor: "#f0f0f0",
               },
@@ -119,6 +120,7 @@ const NavBar = () => {
               paddingLeft: "15px",
               paddingRight: "15px",
               height: "35px",
+              fontWeight: 600,
               "&:hover": {
                 backgroundColor: "#868dfb",
               },

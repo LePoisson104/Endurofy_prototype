@@ -9,9 +9,9 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { tokens } from "../../theme";
-import NavBar from "../../components/global/NavBar";
 import HomeNavBar from "../../components/global/HomeNavBar";
 import Footer from "../../components/global/Footer";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 const HomePage = () => {
   const theme = useTheme();
@@ -20,7 +20,7 @@ const HomePage = () => {
   return (
     <Box>
       {/* Navigation */}
-      <HomeNavBar bgcolor={`${colors.purpleAccent[400]}`} />
+      <HomeNavBar bgcolor={`${colors.purpleAccent[500]}`} />
 
       {/* Hero Section */}
       <Box
@@ -29,14 +29,15 @@ const HomePage = () => {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          minHeight: "75vh",
-          background: `linear-gradient(180deg, ${colors.purpleAccent[400]} 0%, ${colors.grey[1000]} 100%)`,
+          minHeight: "95vh",
+          // background: `linear-gradient(180deg, ${colors.purpleAccent[500]} 0%, ${colors.grey[1000]} 100%)`,
+          backgroundColor: colors.purpleAccent[500],
           textAlign: "center",
           padding: "40px 20px",
         }}
       >
         <Typography
-          variant="h2"
+          variant="h1"
           color="white"
           sx={{ mb: 2, fontWeight: "bold" }}
         >
@@ -52,17 +53,22 @@ const HomePage = () => {
         </Typography>
         <Link to="/signup" style={{ textDecoration: "none" }}>
           <Button
-            variant="contained"
             size="large"
             sx={{
-              backgroundColor: "#ffffff",
-              color: colors.primary[500],
-              "&:hover": { backgroundColor: "#f3f3f3" },
+              backgroundColor: "white",
+              color: colors.purpleAccent[400],
+              "&:hover": { backgroundColor: colors.grey[1000] },
               padding: "10px 20px",
               fontSize: "18px",
+              textTransform: "none",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 1,
             }}
           >
             Get Started
+            <ArrowForwardIcon sx={{ fontSize: "20px" }} />
           </Button>
         </Link>
       </Box>
@@ -109,7 +115,7 @@ const HomePage = () => {
         sx={{
           mt: 6,
           mb: 6,
-          backgroundColor: colors.grey[200],
+          backgroundColor: "white",
           padding: "40px 20px",
         }}
       >

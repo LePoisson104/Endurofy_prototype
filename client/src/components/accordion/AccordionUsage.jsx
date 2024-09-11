@@ -110,7 +110,7 @@ const AccordionUsage = ({ title, data }) => {
         id="panel1-header"
         sx={{
           color: "white",
-          backgroundColor: "#6d76fa",
+          backgroundColor: colors.purpleAccent[400],
         }}
       >
         <Box

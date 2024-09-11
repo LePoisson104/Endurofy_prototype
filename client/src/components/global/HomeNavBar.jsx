@@ -5,8 +5,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { useState, useEffect } from "react";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
+import NavBar from "./NavBar";
 
-const NavBar = ({ bgcolor }) => {
+const HomeNavBar = ({ bgcolor }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -42,7 +43,7 @@ const NavBar = ({ bgcolor }) => {
         left: 0,
         backgroundColor: isScrolled ? "white" : `${bgcolor}`,
         width: "100%",
-        height: "70px",
+        height: "80px",
         display: "flex",
         justifyContent: {
           xs: "space-between", // Mobile: space-between
@@ -51,7 +52,7 @@ const NavBar = ({ bgcolor }) => {
         alignItems: "center",
         padding: {
           xs: "0 20px", // Mobile: 20px padding on sides
-          md: "0 50px", // Desktop: 50px padding on sides
+          md: "0 0px", // Desktop: 50px padding on sides
         },
         zIndex: 1000, // Ensure the navbar stays above other content
         gap: 30,
@@ -74,8 +75,22 @@ const NavBar = ({ bgcolor }) => {
         }}
       >
         <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-          <span style={{ fontWeight: "bold", color: "white" }}>Fit</span>
-          <span style={{ fontWeight: "bold", color: "white" }}>Tracker</span>
+          <span
+            style={{
+              fontWeight: "bold",
+              color: `${isScrolled ? "#6d76fa" : "white"}`,
+            }}
+          >
+            Fit
+          </span>
+          <span
+            style={{
+              fontWeight: "bold",
+              color: `${isScrolled ? "#9a9ff1" : "white"}`,
+            }}
+          >
+            Tracker
+          </span>
         </Link>
       </Typography>
 
@@ -86,9 +101,9 @@ const NavBar = ({ bgcolor }) => {
             xs: "flex", // Mobile: Show icon
             md: "none", // Desktop: Hide icon
           },
-          color: "black",
+          color: isScrolled ? "black" : "white",
           "&:hover": {
-            color: "#6d76fa",
+            color: isScrolled ? "#6d76fa" : colors.purpleAccent[100],
           },
         }}
         onClick={toggleDrawer(true)}
@@ -107,9 +122,36 @@ const NavBar = ({ bgcolor }) => {
           alignItems: "center",
         }}
       >
-        <Link className="nav-link">About</Link>
-        <Link className="nav-link">Features</Link>
-        <Link className="nav-link">Exercise</Link>
+        <Link
+          style={{
+            color: isScrolled ? "#4f4f4f" : "white",
+            textDecoration: "none",
+            fontSize: "18px",
+            fontWeight: "500",
+          }}
+        >
+          About
+        </Link>
+        <Link
+          style={{
+            color: isScrolled ? "#4f4f4f" : "white",
+            textDecoration: "none",
+            fontSize: "18px",
+            fontWeight: "500",
+          }}
+        >
+          Features
+        </Link>
+        <Link
+          style={{
+            color: isScrolled ? "#4f4f4f" : "white",
+            textDecoration: "none",
+            fontSize: "18px",
+            fontWeight: "500",
+          }}
+        >
+          Exercise
+        </Link>
         <Link to="/login">
           <Button
             sx={{
@@ -119,6 +161,8 @@ const NavBar = ({ bgcolor }) => {
               paddingRight: "22px",
               height: "35px",
               fontSize: "14px",
+              color: isScrolled ? "#4f4f4f" : "white",
+              fontWeight: 600,
             }}
           >
             Log In
@@ -128,11 +172,12 @@ const NavBar = ({ bgcolor }) => {
           <Button
             sx={{
               textTransform: "none",
-              backgroundColor: "white",
-              color: colors.purpleAccent[400],
+              backgroundColor: isScrolled ? colors.purpleAccent[400] : "white",
+              color: isScrolled ? "white" : colors.purpleAccent[400],
               paddingLeft: "15px",
               paddingRight: "15px",
               height: "35px",
+              fontWeight: 600,
               "&:hover": {
                 backgroundColor: colors.grey[1000],
               },
@@ -154,7 +199,7 @@ const NavBar = ({ bgcolor }) => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            backgroundColor: "#f9f9f9",
+            backgroundColor: colors.grey[1000],
             boxShadow: "0px 4px 8px rgba(0,0,0,0.2)",
           },
         }}
@@ -215,4 +260,4 @@ const NavBar = ({ bgcolor }) => {
   );
 };
 
-export default NavBar;
+export default HomeNavBar;
