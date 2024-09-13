@@ -93,6 +93,19 @@ const Settings = () => {
       </Box>
       <Box sx={{ width: "100%", borderTop: "1px solid #888", mb: 3 }}></Box>
       <Typography variant="h4" sx={{ mb: 3 }}>
+        Appearance
+      </Typography>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 20, mb: 3 }}>
+        <Box>
+          <Typography variant="h5">Light</Typography>
+          <Typography fontWeight={"light"}>
+            Turn the switch to turn on dark mode
+          </Typography>
+        </Box>
+        <IOSSwitch />
+      </Box>
+      <Box sx={{ width: "100%", borderTop: "1px solid #888", mb: 3 }}></Box>
+      <Typography variant="h4" sx={{ mb: 3 }}>
         Account Data
       </Typography>
       <Box sx={{ display: "flex", alignItems: "center", gap: 30, mb: 3 }}>

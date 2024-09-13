@@ -1,17 +1,16 @@
 import React, { useState } from "react";
-import {
-  Box,
-  Typography,
-  Button,
-  TextField,
-  IconButton,
-  Paper,
-  Divider,
-  Grid,
-} from "@mui/material";
+import { Box, Typography, Button, TextField, IconButton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import EditNoteIcon from "@mui/icons-material/EditNote";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import TodayIcon from "@mui/icons-material/Today";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ScaleIcon from "@mui/icons-material/Scale";
+import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
+import TextFormatIcon from "@mui/icons-material/TextFormat";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import GridOnIcon from "@mui/icons-material/GridOn";
 import Header from "../../components/global/Header";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
@@ -19,212 +18,238 @@ import { tokens } from "../../theme";
 const WorkoutLog = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [workouts, setWorkouts] = useState([]);
-  const [exercise, setExercise] = useState("");
-  const [sets, setSets] = useState("");
-  const [reps, setReps] = useState("");
-  const [weight, setWeight] = useState("");
+  const [selectedTab, setSelectedTab] = useState("today");
+  const [isEdit, setIsEdit] = useState(false);
+  const [sessionName, setSessionName] = useState("Today's Session");
+  const [sessionNameInput, setSessionNameInput] = useState(sessionName);
 
-  const handleAddWorkout = () => {
-    const newWorkout = { exercise, sets, reps, weight };
-    setWorkouts([...workouts, newWorkout]);
-    setExercise("");
-    setSets("");
-    setReps("");
-    setWeight("");
+  const WEEKDAYS = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thusday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
+
+  const handleEdit = () => {
+    setIsEdit(true);
   };
 
-  const handleRemoveWorkout = (index) => {
-    const updatedWorkouts = workouts.filter((_, i) => i !== index);
-    setWorkouts(updatedWorkouts);
+  const HandleCancelEdit = () => {
+    setIsEdit(false);
+  };
+
+  const handleSaveChanges = () => {
+    setSessionName(sessionNameInput);
+    setIsEdit(false);
+  };
+
+  const handleTabClick = (tab) => {
+    setSelectedTab(tab);
   };
 
   return (
     <Box sx={{ p: "20px" }}>
-      <Header title={"Workout Log"} subtitle={"August 29, 2024 | 4:32 AM"} />
+      <Header title={"Workouts"} subtitle={"August 29, 2024 | 4:32 AM"} />
+      {/* filter tab */}
+      <Box sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
+        <IconButton
+          sx={{
+            display: "flex",
+            gap: 1,
+            fontSize: "13px",
+            borderRadius: 0,
+            height: "35px",
+            borderBottom:
+              selectedTab === "today"
+                ? `2px solid ${colors.primary[100]}`
+                : "none", // Add underline if selected
+          }}
+          onClick={() => handleTabClick("today")}
+        >
+          <TodayIcon fontSize="small" />
+          Today
+        </IconButton>
+        <IconButton
+          sx={{
+            display: "flex",
+            gap: 1,
+            fontSize: "13px",
+            borderRadius: 0,
+            height: "35px",
+            borderBottom:
+              selectedTab === "week"
+                ? `2px solid ${colors.primary[100]}`
+                : "none", // Add underline if selected
+          }}
+          onClick={() => handleTabClick("week")}
+        >
+          <CalendarMonthIcon fontSize="small" />
+          Week
+        </IconButton>
 
-      {/* Add Exercise Form */}
-      <Paper
-        sx={{ p: 2, mb: 2, bgcolor: colors.primary[400], borderRadius: 0 }}
+        <IconButton
+          sx={{
+            display: "flex",
+            gap: 1,
+            fontSize: "13px",
+            borderRadius: 0,
+            height: "35px",
+            borderBottom:
+              selectedTab === "month"
+                ? `2px solid ${colors.primary[100]}`
+                : "none", // Add underline if selected
+          }}
+          onClick={() => handleTabClick("month")}
+        >
+          <CalendarMonthIcon fontSize="small" />
+          Month
+        </IconButton>
+
+        <IconButton
+          sx={{
+            display: "flex",
+            gap: 1,
+            fontSize: "13px",
+            borderRadius: 0,
+            height: "35px",
+            borderBottom:
+              selectedTab === "all"
+                ? `2px solid ${colors.primary[100]}`
+                : "none", // Add underline if selected
+          }}
+          onClick={() => handleTabClick("all")}
+        >
+          <GridOnIcon fontSize="small" />
+          All
+        </IconButton>
+      </Box>
+      <Box
+        sx={{ width: "100%", borderTop: "1px solid #888", mb: 3, mt: 1 }}
+      ></Box>
+      {/* <Typography variant="h3" fontWeight={"bold"}>
+        Training Sessions
+      </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          mt: 3,
+          flexDirection: "row",
+          gap: 10,
+          alignItems: "center",
+        }}
       >
-        <Typography variant="h6" fontWeight="bold">
-          Log a New Exercise
+        <Typography variant="h5" fontWeight={600}>
+          September 2024
         </Typography>
-        <Grid container spacing={2} sx={{ mt: 1 }}>
-          <Grid item xs={12} sm={6} md={3}>
-            <TextField
-              label="Exercise"
-              value={exercise}
-              onChange={(e) => setExercise(e.target.value)}
-              fullWidth
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "grey",
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "#868dfb",
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "#868dfb",
-                  },
-                },
-                "& .MuiInputLabel-root": {
-                  color: "grey", // Default label color
-                },
-                "& .MuiInputLabel-root.Mui-focused": {
-                  color: "#868dfb", // Label color when focused
-                },
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <TextField
-              label="Sets"
-              value={sets}
-              onChange={(e) => setSets(e.target.value)}
-              fullWidth
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "grey",
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "#868dfb",
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "#868dfb",
-                  },
-                },
-                "& .MuiInputLabel-root": {
-                  color: "grey", // Default label color
-                },
-                "& .MuiInputLabel-root.Mui-focused": {
-                  color: "#868dfb", // Label color when focused
-                },
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <TextField
-              label="Reps"
-              value={reps}
-              onChange={(e) => setReps(e.target.value)}
-              fullWidth
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "grey",
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "#868dfb",
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "#868dfb",
-                  },
-                },
-                "& .MuiInputLabel-root": {
-                  color: "grey", // Default label color
-                },
-                "& .MuiInputLabel-root.Mui-focused": {
-                  color: "#868dfb", // Label color when focused
-                },
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <TextField
-              label="Weight (lbs)"
-              value={weight}
-              onChange={(e) => setWeight(e.target.value)}
-              fullWidth
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "grey",
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "#868dfb",
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "#868dfb",
-                  },
-                },
-                "& .MuiInputLabel-root": {
-                  color: "grey", // Default label color
-                },
-                "& .MuiInputLabel-root.Mui-focused": {
-                  color: "#868dfb", // Label color when focused
-                },
-              }}
-            />
-          </Grid>
-          <Grid item xs={12}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            gap: 1,
+            alignItems: "center",
+          }}
+        >
+          <IconButton>
+            <ChevronLeftIcon />
+          </IconButton>
+          <Typography>Today</Typography>
+          <IconButton>
+            <ChevronRightIcon />
+          </IconButton>
+        </Box>
+      </Box> */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "row",
+          gap: 1,
+        }}
+      >
+        {!isEdit && (
+          <Typography variant="h3" fontWeight={"bold"}>
+            {sessionName}
+          </Typography>
+        )}
+        {isEdit && (
+          <TextField
+            value={sessionNameInput}
+            variant="standard"
+            onChange={(e) => setSessionNameInput(e.target.value)}
+          />
+        )}
+
+        <IconButton onClick={handleEdit}>
+          <EditNoteIcon />
+        </IconButton>
+        {isEdit && (
+          <>
             <Button
-              variant="contained"
-              startIcon={<AddIcon />}
-              onClick={handleAddWorkout}
               sx={{
-                mt: 2,
-                backgroundColor: "#6d76fa",
+                color: "#6d76fa",
+                textTransform: "none",
+                bgcolor: colors.primary[400],
+              }}
+              onClick={HandleCancelEdit}
+            >
+              Cancel
+            </Button>
+            <Button
+              sx={{
+                color: "white",
+                bgcolor: "#6d76fa",
                 textTransform: "none",
                 "&:hover": {
                   backgroundColor: "#868dfb",
                 },
               }}
+              onClick={handleSaveChanges}
             >
-              Add Exercise
+              Save Changes
             </Button>
-          </Grid>
-        </Grid>
-      </Paper>
-
-      {/* Workout List */}
-      <Paper sx={{ p: 2, bgcolor: colors.primary[400], borderRadius: 0 }}>
-        <Typography variant="h6" fontWeight="bold">
-          Today's Workout
-        </Typography>
-        <Divider sx={{ my: 2 }} />
-        {workouts.length > 0 ? (
-          workouts.map((workout, index) => (
-            <Box
-              key={index}
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                mb: 1,
-              }}
-            >
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  gap: 1,
-                  alignItems: "center",
-                }}
-              >
-                <IconButton
-                  size="small"
-                  color="error"
-                  onClick={() => handleRemoveWorkout(index)}
-                >
-                  <RemoveIcon />
-                </IconButton>
-                <IconButton size="small" sx={{ color: "#fbc02d" }}>
-                  <EditNoteIcon />
-                </IconButton>
-                <Typography>
-                  {workout.exercise} - {workout.sets} sets of {workout.reps}{" "}
-                  reps @ {workout.weight} lbs
-                </Typography>
-              </Box>
-            </Box>
-          ))
-        ) : (
-          <Typography>No exercises logged yet.</Typography>
+          </>
         )}
-      </Paper>
+        <IconButton
+          size="small"
+          sx={{
+            color: "white",
+            bgcolor: "#6d76fa",
+            "&:hover": {
+              backgroundColor: "#868dfb",
+            },
+          }}
+        >
+          <AddIcon />
+        </IconButton>
+      </Box>
+      <Box
+        sx={{ width: "100%", borderTop: "1px solid #888", mb: 1, mt: 1 }}
+      ></Box>
+      <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+        <Typography sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+          <TextFormatIcon />
+          Exercise Name
+        </Typography>
+        <Box sx={{ borderLeft: "1px solid #888", ml: 30 }}></Box>
+        <Typography sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+          <FormatListNumberedIcon fontSize="small" />
+          Set
+        </Typography>
+        <Box sx={{ borderLeft: "1px solid #888", ml: 30 }}></Box>
+        <Typography sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+          <FormatListNumberedIcon fontSize="small" /> Reps
+        </Typography>
+        <Box sx={{ borderLeft: "1px solid #888", ml: 30 }}></Box>
+        <Typography sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+          <ScaleIcon fontSize="small" /> Weight
+        </Typography>
+      </Box>
+      <Box
+        sx={{ width: "100%", borderTop: "1px solid #888", mb: 1, mt: 1 }}
+      ></Box>
     </Box>
   );
 };
