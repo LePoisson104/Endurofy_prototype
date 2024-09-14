@@ -24,7 +24,7 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from "@mui/material";
-import { ExpandMore as ExpandMoreIcon, Sort } from "@mui/icons-material";
+import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
 import Header from "../../components/global/Header";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
