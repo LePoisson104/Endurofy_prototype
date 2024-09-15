@@ -7,7 +7,7 @@ import Login from "./pages/auth/LoginPage";
 import NotFoundPage from "./pages/notFoundPage/NotFoundPage";
 import Signup from "./pages/auth/SignUpPage";
 import Calendar from "./pages/calendar/CalendarPage";
-import Bar from "./pages/bar/BarChartPage";
+import Reports from "./pages/reports/ReportCharts";
 import Profile from "./pages/profile/Profile";
 import Settings from "./pages/settings/SettingsPage";
 import FoodPage from "./pages/food/FoodPage";
@@ -34,7 +34,7 @@ function App() {
             <Route path="workout" element={<WorkoutPage />} />
             <Route path="profile" element={<Profile />} />
             <Route path="calendar" element={<Calendar />} />
-            <Route path="bar" element={<Bar />} />
+            <Route path="bar" element={<Reports />} />
             <Route path="settings" element={<Settings />} />
           </Route>
 

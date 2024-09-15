@@ -494,15 +494,33 @@ const Dashboard = () => {
           backgroundColor={colors.primary[400]}
           sx={{ borderRadius: 1 }}
         >
-          <Typography
-            variant="h4"
-            fontWeight="600"
-            sx={{ padding: "30px 30px 0 30px" }}
+          <Box
+            mt="25px"
+            p="0 30px"
+            display="flex "
+            justifyContent="space-between"
+            alignItems="center"
           >
-            Calories History
-          </Typography>
-          <Box height="250px" mt="-20px">
-            <BarChart isDashboard={true} />
+            <Box>
+              <Typography
+                variant="h4"
+                fontWeight="600"
+                color={colors.grey[100]}
+              >
+                Calories History
+              </Typography>
+              <Typography
+                variant="h6"
+                fontWeight="400"
+                color={colors.greenAccent[500]}
+                mb={3}
+              >
+                From Sep 1, 2024 to Sep 8, 2024
+              </Typography>
+            </Box>
+          </Box>
+          <Box height="230px" m="-20px 0 0 0">
+            <BarChart />
           </Box>
         </Box>
         <Box
@@ -533,13 +551,6 @@ const Dashboard = () => {
               >
                 Down 2lbs this week
               </Typography>
-            </Box>
-            <Box>
-              <IconButton>
-                <DownloadOutlinedIcon
-                  sx={{ fontSize: "26px", color: colors.greenAccent[500] }}
-                />
-              </IconButton>
             </Box>
           </Box>
           <Box height="250px" m="-20px 0 0 0">
