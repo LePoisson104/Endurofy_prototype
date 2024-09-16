@@ -12,7 +12,7 @@ import Profile from "./pages/profile/Profile";
 import Settings from "./pages/settings/SettingsPage";
 import FoodPage from "./pages/food/FoodPage";
 import WeightPage from "./pages/weight/WeightPage";
-import WorkoutPage from "./pages/workout/WorkoutPage";
+import WorkoutPage from "./pages/workout";
 import HomePage from "./pages/home/HomePage";
 
 function App() {

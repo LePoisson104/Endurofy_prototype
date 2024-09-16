@@ -108,7 +108,7 @@ const Login = () => {
           fontWeight="bold"
           color="#6d76fa"
         >
-          Login
+          Log In
         </Typography>
         <TextField
           id="email"
@@ -180,7 +180,7 @@ const Login = () => {
             },
           }}
         >
-          Sign in
+          Log In
         </Button>
         <ForgotPasswordModal />
         <Typography sx={{ mb: 3 }}>

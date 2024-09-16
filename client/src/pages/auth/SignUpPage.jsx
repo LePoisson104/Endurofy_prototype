@@ -440,7 +440,7 @@ const SignUp = () => {
               display: "inline-block",
             }}
           >
-            Sign in
+            Log In
           </Link>
         </Typography>
       </Box>

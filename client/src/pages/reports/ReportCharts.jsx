@@ -109,7 +109,8 @@ const Bar = () => {
                   gap: 2,
                   borderRight: "1px solid gray",
                   borderLeft: "1px solid gray",
-                  p: 1,
+                  pl: 2,
+                  pr: 2,
                 }}
               >
                 <DatePickerSelector label={"Start Date"} />
@@ -183,7 +184,8 @@ const Bar = () => {
                   gap: 2,
                   borderRight: "1px solid gray",
                   borderLeft: "1px solid gray",
-                  p: 1,
+                  pl: 2,
+                  pr: 2,
                 }}
               >
                 <DatePickerSelector label={"Start Date"} />
