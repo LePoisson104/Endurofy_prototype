@@ -5,6 +5,7 @@ import FoodCalendar from "../../components/FoodCalendar";
 import Header from "../../components/global/Header";
 import AccordionUsage from "../../components/accordion/AccordionUsage";
 import NutrientDoughnutChart from "../../components/charts/NutrientDoughnutChart";
+import WaterAccordion from "../../components/accordion/WaterAccordion";
 
 const FoodPage = () => {
   const theme = useTheme();
@@ -149,6 +150,7 @@ const FoodPage = () => {
           id="left"
         >
           <Box>
+            <WaterAccordion />
             <AccordionUsage
               title={"Uncategorized"}
               data={data.uncatergorized}

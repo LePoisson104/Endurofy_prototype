@@ -1,6 +1,5 @@
 const bcrypt = require("bcrypt");
 const Users = require("../models/userModels");
-const { message } = require("prompt");
 
 const getAllUserInfo = async (req, res) => {
   const { userId } = req.params;

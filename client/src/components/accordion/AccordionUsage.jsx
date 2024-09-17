@@ -59,7 +59,7 @@ const AccordionUsage = ({ title, data }) => {
             display: "flex",
             justifyContent: "space-between",
             backgroundColor:
-              theme.palette.mode === "dark" ? "#23395d" : "white",
+              theme.palette.mode === "dark" ? colors.primary[400] : "white",
             borderBottom: "1px solid black",
           }}
         >
@@ -109,8 +109,9 @@ const AccordionUsage = ({ title, data }) => {
         aria-controls="panel1-content"
         id="panel1-header"
         sx={{
-          color: "white",
-          backgroundColor: colors.purpleAccent[400],
+          color: theme.palette.mode == "dark" ? "white" : "black",
+          backgroundColor:
+            theme.palette.mode === "dark" ? "#23395d" : colors.grey[1000],
         }}
       >
         <Box
@@ -131,7 +132,7 @@ const AccordionUsage = ({ title, data }) => {
             <IconButton
               size="small"
               onClick={handleOpenModal}
-              sx={{ color: "white" }}
+              sx={{ color: theme.palette.mode == "dark" ? "white" : "black" }}
             >
               <AddIcon />
             </IconButton>
