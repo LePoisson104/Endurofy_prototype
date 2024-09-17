@@ -55,26 +55,20 @@ const AddWorkoutModal = ({
       weight,
     };
 
-    setExerciseData((prevData) => [...prevData, newExercise]);
+    if (!currentExercise) {
+      setExerciseData((prevData) => [...prevData, newExercise]);
+    } else {
+      setExerciseData(newExercise);
+    }
 
     // Reset the form and close the modal
     setExerciseName("");
     setSets("");
     setReps("");
     setWeight("");
-    setOpenModal(false);
-  };
 
-  // const handleAddExercise = () => {
-  //   const newExercise = {
-  //     name: exerciseName,
-  //     sets,
-  //     reps,
-  //     weight,
-  //   };
-  //   setExerciseData(newExercise);
-  //   handleCloseModal();
-  // };
+    handleCloseModal();
+  };
 
   return (
     <Dialog

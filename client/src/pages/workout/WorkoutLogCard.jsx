@@ -34,6 +34,7 @@ const WorkoutLogCard = ({
     setExpanded(!expanded);
   };
 
+  // index is used for when open modal to edit
   const handleOpenModal = (index = null) => {
     setEditIndex(index);
     if (index !== null) {
@@ -79,6 +80,7 @@ const WorkoutLogCard = ({
           p: 2,
           backgroundColor: colors.primary[400],
         }}
+        onClick={handleExpandClick}
       >
         <Box>
           <Typography variant="h5" fontWeight={600}>
