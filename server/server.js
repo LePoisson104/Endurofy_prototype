@@ -10,7 +10,7 @@ app.use(cookieParser());
 
 app.use("/users", require("./routes/userRoutes"));
 app.use("/auth", require("./routes/authRoutes"));
-app.use("/food", require("./routes/foodRoutes"));
+// app.use("/food", require("./routes/foodRoutes"));
 
 app.listen(PORT, () =>
   console.log(`Server is running at http://localhost:${PORT}`)

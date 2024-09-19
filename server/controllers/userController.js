@@ -1,22 +1,13 @@
-const bcrypt = require("bcrypt");
-const Users = require("../models/userModels");
+const userService = require("../services/userService");
 
-const getAllUserInfo = async (req, res) => {
+const getUserInfoById = async (req, res) => {
   const { userId } = req.params;
 
-  if (!userId) {
-    return res.status(400).json({ message: "Required userID" });
-  }
-
   try {
-    const getUsers = await Users.queryGetAllUsers(userId);
-    if (getUsers.length === 0) {
-      return res.status(404).json({ message: "User Not Found " });
-    }
-
-    return res.status(200).json(getUsers);
+    const getUserInfo = await userService.getUserInfoById(userId);
+    return res.status(200).json(getUserInfo);
   } catch (err) {
-    console.error(err);
+    return res.status(400).json({ message: err.message });
   }
 };
 
@@ -122,4 +113,4 @@ const deleteUser = async (req, res) => {
   }
 };
 
-module.exports = { getAllUserInfo, updateUserAccount, deleteUser };
+module.exports = { getUserInfoById, updateUserAccount, deleteUser };
