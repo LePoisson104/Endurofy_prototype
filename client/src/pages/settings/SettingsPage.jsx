@@ -47,14 +47,18 @@ const Settings = () => {
           />
           <UpdateModal
             title="Update Your Email"
-            id1="newEmail"
-            name1="newEmail"
-            label1="New Email"
-            type1="email"
-            id2="confirmEmail"
-            name2="confirmEmail"
-            label2="Confirm Email"
+            id1="currentPassword"
+            name1="currentPassword"
+            label1="Current Password"
+            type1="password"
+            id2="newEmail"
+            name2="newEmail"
+            label2="New Email"
             type2="email"
+            id3="confirmEmail"
+            name3="confirmEmail"
+            label3="Confirm Email"
+            type3="email"
           />
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}>
