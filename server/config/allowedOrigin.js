@@ -1,3 +1,3 @@
-const allowedOrigin = ["http://localhost:8000"];
+const allowedOrigin = [process.env.CLIENT_URL];
 
 module.exports = allowedOrigin;

@@ -2,8 +2,11 @@ const cookieParser = require("cookie-parser");
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const helmet = require("helmet");
+const coreOptions = require("./config/corOptions");
 
-app.use(cors());
+app.use(helmet());
+app.use(cors(coreOptions));
 app.use(express.json());
 app.use(cookieParser());
 
