@@ -8,7 +8,7 @@ const getUserInfoById = async (req, res) => {
     return res.status(200).json(getUserInfo);
   } catch (err) {
     const statusCode = err.statusCode || 500; // default to 500 if not provided
-    return res.status(statusCode).json({ message: err.message });
+    return res.status(statusCode).json({ error: err.message });
   }
 };
 
@@ -26,10 +26,27 @@ const updateUserAccount = async (req, res) => {
   try {
     await userService.updateUserAccount(userId, userData);
 
-    return res.status(200).json({ message: "User Updated Successfully!" });
+    return res
+      .status(200)
+      .json({ message: "User Account Updated Successfully!" });
   } catch (err) {
     const statusCode = err.statusCode || 500;
-    return res.status(statusCode).json({ message: err.message });
+    return res.status(statusCode).json({ error: err.message });
+  }
+};
+
+const updateUserProfile = async (req, res) => {
+  const { userId } = req.params;
+  const userData = ({ gender, birthdate, height, weight } = req.body);
+
+  try {
+    await userService.updateUserProfile(userId, userData);
+    return res
+      .status(200)
+      .json({ mesage: "User Profile Updated Successfully! " });
+  } catch (err) {
+    const statusCode = err.statusCode || 500;
+    return res.status(statusCode).json({ error: err.message });
   }
 };
 
@@ -47,8 +64,13 @@ const deleteUserAccount = async (req, res) => {
     return res.status(200).json({ message: "User Deleted Successfully!" });
   } catch (err) {
     const statusCode = err.statusCode || 500;
-    return res.status(statusCode).json({ message: err.message });
+    return res.status(statusCode).json({ error: err.message });
   }
 };
 
-module.exports = { getUserInfoById, updateUserAccount, deleteUserAccount };
+module.exports = {
+  getUserInfoById,
+  updateUserAccount,
+  updateUserProfile,
+  deleteUserAccount,
+};
