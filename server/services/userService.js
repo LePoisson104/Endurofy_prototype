@@ -17,7 +17,7 @@ const getUserCredentials = async (email, currentPassword) => {
     getCredentials[0].hashed_password
   );
   // return true or false
-  return match;
+  return { getCredentials, match };
 };
 
 const getUserInfoById = async (userId) => {
@@ -54,7 +54,7 @@ const updateUserAccount = async (userId, userData) => {
     !firstName &&
     !lastName
   ) {
-    const match = await getUserCredentials(email, currentPassword);
+    const { match } = await getUserCredentials(email, currentPassword);
 
     if (!match) {
       throw new errorResponse("Password Does Not Match!", 401);

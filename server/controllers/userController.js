@@ -14,18 +14,17 @@ const getUserInfoById = async (req, res) => {
 
 const updateUserAccount = async (req, res) => {
   const { userId } = req.params;
-  const { email, newEmail, currentPassword, newPassword, firstName, lastName } =
-    req.body;
+  const userData = ({
+    email,
+    newEmail,
+    currentPassword,
+    newPassword,
+    firstName,
+    lastName,
+  } = req.body);
 
   try {
-    await userService.updateUserAccount(userId, {
-      email,
-      newEmail,
-      currentPassword,
-      newPassword,
-      firstName,
-      lastName,
-    });
+    await userService.updateUserAccount(userId, userData);
 
     return res.status(200).json({ message: "User Updated Successfully!" });
   } catch (err) {
