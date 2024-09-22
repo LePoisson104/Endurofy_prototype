@@ -126,7 +126,7 @@ const queryGetUsersCredentials = async (email) => {
 const queryUpdateUsers = async (userId, updatePayload, table) => {
   try {
     const response = await new Promise((resolve, reject) => {
-      const query = `UPDATE ${table} SET ? WHERE user_id = ?`;
+      const query = `UPDATE \`${table}\` SET ? WHERE user_id = ?`;
       const values = [updatePayload, userId];
       pool.query(query, values, (err, results) => {
         if (err) {

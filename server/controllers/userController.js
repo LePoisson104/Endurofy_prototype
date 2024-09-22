@@ -50,6 +50,22 @@ const updateUserProfile = async (req, res) => {
   }
 };
 
+const updateUserTarget = async (req, res) => {
+  const { userId } = req.params;
+  const userData = ({ caloriesTarget, weightGoal, protein, carbs, fat } =
+    req.body);
+
+  try {
+    await userService.updateUserTarget(userId, userData);
+    return res
+      .status(200)
+      .json({ message: "User Target Updated Successfully!" });
+  } catch (err) {
+    const statusCode = err.statusCode || 500;
+    return res.status(statusCode).json({ error: err.message });
+  }
+};
+
 // close account
 const deleteUserAccount = async (req, res) => {
   const { userId } = req.params;
@@ -72,5 +88,6 @@ module.exports = {
   getUserInfoById,
   updateUserAccount,
   updateUserProfile,
+  updateUserTarget,
   deleteUserAccount,
 };

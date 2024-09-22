@@ -145,11 +145,16 @@ const updateUserAccount = async (userId, userData) => {
 const updateUserProfile = async (userId, userData) => {
   const { gender, birthdate, height, weight } = userData;
 
+  if (!userId) {
+    throw new errorResponse("userId is Required!", 400);
+  }
+
   if (!gender || !birthdate || !height || !weight) {
     throw new errorResponse("All Fields Are Required!", 400);
   }
   const updateDate = new Date();
   userData.updated_at = updateDate;
+
   const updateUserProfile = await Users.queryUpdateUsers(
     userId,
     userData,
@@ -161,6 +166,55 @@ const updateUserProfile = async (userId, userData) => {
   }
 
   return updateUserProfile;
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// @updateUserTarget
+////////////////////////////////////////////////////////////////////////////////////////////////
+const updateUserTarget = async (userId, userData) => {
+  const { caloriesTarget, weightGoal, protein, carbs, fat } = userData;
+  const updatePayload = {};
+
+  if (!userId) {
+    throw new errorResponse("userId is Required!", 400);
+  }
+
+  if (caloriesTarget && weightGoal && !protein && !carbs && !fat) {
+    updatePayload.calories_target = caloriesTarget;
+    updatePayload.weight_goal = weightGoal;
+  }
+
+  if (protein && carbs && fat && !caloriesTarget && !weightGoal) {
+    if (
+      parseInt(protein, 10) + parseInt(carbs, 10) + parseInt(fat, 10) !==
+      100
+    ) {
+      throw new errorResponse(
+        "The sum of protein, carbs, and fat should not exceed or below 100%",
+        400
+      );
+    }
+
+    updatePayload.protein = protein;
+    updatePayload.carbs = carbs;
+    updatePayload.fat = fat;
+  }
+
+  if (Object.keys(updatePayload).length === 0) {
+    throw new errorResponse("No Fields to Update", 400);
+  }
+
+  const updateTarget = await Users.queryUpdateUsers(
+    userId,
+    updatePayload,
+    "userProfile"
+  );
+
+  if (updateTarget.affectedRows !== 1) {
+    throw new errorResponse("userId Does Not Match!", 400);
+  }
+
+  return updateTarget;
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -193,5 +247,6 @@ module.exports = {
   getUserCredentials,
   updateUserAccount,
   updateUserProfile,
+  updateUserTarget,
   deleteUserAccount,
 };
