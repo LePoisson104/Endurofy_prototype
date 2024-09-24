@@ -35,6 +35,21 @@ const updateUserAccount = async (req, res) => {
   }
 };
 
+// const updateUserAccountSettings = async (req, res) => {
+//   const { userId } = req.params;
+//   const userData = ({ appearance, notification } = req.body); // dark or light mode and true or false
+
+//   try {
+//     await userService.updateUserAccountSettings(userId, userData);
+//     return res
+//       .status(200)
+//       .json({ message: "User Target Updated Successfully!" });
+//   } catch (err) {
+//     const statusCode = err.statusCode || 500;
+//     return res.status(statusCode).json({ error: err.message });
+//   }
+// };
+
 const updateUserProfile = async (req, res) => {
   const { userId } = req.params;
   const userData = ({ gender, birthdate, height, weight } = req.body);
@@ -87,6 +102,7 @@ const deleteUserAccount = async (req, res) => {
 module.exports = {
   getUserInfoById,
   updateUserAccount,
+  // updateUserAccountSettings,
   updateUserProfile,
   updateUserTarget,
   deleteUserAccount,

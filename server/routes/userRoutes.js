@@ -7,6 +7,10 @@ const verifyJWT = require("../middleware/verifyJWT");
 
 router.route("/:userId").get(userController.getUserInfoById);
 router.patch("/update-account/:userId", userController.updateUserAccount);
+// router.patch(
+//   "/update-account-settings/:userId",
+//   userController.updateUserAccountSettings
+// );
 router.patch("/update-profile/:userId", userController.updateUserProfile);
 router.patch("/update-target/:userId", userController.updateUserTarget);
 router.delete("/delete/:userId", userController.deleteUserAccount);
