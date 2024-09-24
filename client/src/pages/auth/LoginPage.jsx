@@ -1,15 +1,29 @@
 import { Button, Box, TextField, Typography, Checkbox } from "@mui/material";
-import { Link } from "react-router-dom";
-import PasswordField from "../../components/PasswordField";
-import ForgotPasswordModal from "../../components/modals/ForgotPassModal";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
+import { useDispatch } from "react-redux";
+import { useLoginMutation } from "../../features/auth/authApiSlice";
+import { setCredentials } from "../../features/auth/authSlice";
+import PasswordField from "../../components/PasswordField";
+import ForgotPasswordModal from "../../components/modals/ForgotPassModal";
 
 const Login = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const userRef = useRef();
+  const errRef = useRef();
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errMsg, setErrMsg] = useState("");
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [login, { isLoading }] = useLoginMutation();
+  const errClass = errMsg ? "errmsg" : "offscreen";
 
   return (
     <Box

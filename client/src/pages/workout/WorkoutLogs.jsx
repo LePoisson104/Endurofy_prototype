@@ -98,35 +98,45 @@ const WorkoutLogs = ({ selectedTab }) => {
   };
 
   const filteredLogs = filterWorkoutLogs(workoutLogs, selectedTab);
-  console.log(filteredLogs);
+  console.log(filteredLogs.length);
+
   return (
     <Box>
-      <Typography variant="h6">
-        From{" "}
-        <span style={{ color: colors.greenAccent[400] }}>
-          {filteredLogs[filteredLogs.length - 1].date}
-        </span>{" "}
-        to{" "}
-        <span style={{ color: colors.greenAccent[400] }}>
-          {filteredLogs[0].date}
-        </span>
-      </Typography>
-      <Box sx={{ mt: 2, display: "flex", flexDirection: "column" }}>
-        {filteredLogs.map((log, index) => (
-          <WorkoutLogCard
-            key={index}
-            logName={log.logName}
-            date={log.date}
-            exercises={log.exercises}
-            onAddExercise={(newExercise) =>
-              handleAddExercise(index, newExercise)
-            }
-            onEditExercise={(exerciseIndex, updatedExercise) =>
-              handleEditExercise(index, exerciseIndex, updatedExercise)
-            }
-          />
-        ))}
-      </Box>
+      {filteredLogs.length === 0 ? (
+        <Typography variant="h5" display="flex" justifyContent="center">
+          No Data
+        </Typography>
+      ) : (
+        <>
+          {" "}
+          <Typography variant="h6">
+            From{" "}
+            <span style={{ color: colors.greenAccent[400] }}>
+              {filteredLogs[filteredLogs.length - 1].date}
+            </span>{" "}
+            to{" "}
+            <span style={{ color: colors.greenAccent[400] }}>
+              {filteredLogs[0].date}
+            </span>
+          </Typography>
+          <Box sx={{ mt: 2, display: "flex", flexDirection: "column" }}>
+            {filteredLogs.map((log, index) => (
+              <WorkoutLogCard
+                key={index}
+                logName={log.logName}
+                date={log.date}
+                exercises={log.exercises}
+                onAddExercise={(newExercise) =>
+                  handleAddExercise(index, newExercise)
+                }
+                onEditExercise={(exerciseIndex, updatedExercise) =>
+                  handleEditExercise(index, exerciseIndex, updatedExercise)
+                }
+              />
+            ))}
+          </Box>
+        </>
+      )}
     </Box>
   );
 };

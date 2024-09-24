@@ -32,7 +32,8 @@ export const authApiSlice = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
-          dispatch(logOut()), dispatch(apiSlice.util.resetApiState());
+          dispatch(logOut());
+          dispatch(apiSlice.util.resetApiState());
         } catch (err) {
           console.log(err);
         }
@@ -46,3 +47,11 @@ export const authApiSlice = apiSlice.injectEndpoints({
     }),
   }),
 });
+
+export const {
+  useLoginMutation,
+  useSignupMutation,
+  useLogoutMutation,
+  useRefreshMutation,
+  useForgotPasswordMutation,
+} = authApiSlice;
