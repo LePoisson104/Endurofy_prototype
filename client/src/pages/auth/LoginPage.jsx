@@ -15,7 +15,7 @@ const Login = () => {
 
   const userRef = useRef();
   const errRef = useRef();
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
 
@@ -24,6 +24,14 @@ const Login = () => {
 
   const [login, { isLoading }] = useLoginMutation();
   const errClass = errMsg ? "errmsg" : "offscreen";
+
+  const handleEmailInput = (e) => setEmail(e.target.value);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+    } catch (err) {}
+  };
 
   return (
     <Box
@@ -129,6 +137,7 @@ const Login = () => {
           label="Email"
           variant="outlined"
           type="email"
+          onChange={handleEmailInput}
           required
           sx={{
             mb: 3,
