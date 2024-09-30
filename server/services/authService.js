@@ -79,7 +79,7 @@ const logIn = async (userData, res) => {
       },
     },
     process.env.ACCESS_TOKEN_SECRET,
-    { expiresIn: "1m" }
+    { expiresIn: "15m" }
   );
 
   // Generating JWT Refresh Token
@@ -133,7 +133,7 @@ const refresh = async (cookies) => {
             },
           },
           process.env.ACCESS_TOKEN_SECRET,
-          { expiresIn: "1m" }
+          { expiresIn: "15m" }
         );
         resolve(accessToken);
       }

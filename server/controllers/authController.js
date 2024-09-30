@@ -36,7 +36,7 @@ const login = async (req, res) => {
     res.status(200).json({ message: "Success!", accessToken });
   } catch (err) {
     const statusCode = err.statusCode || 500;
-    return res.status(statusCode).json({ error: err.message });
+    return res.status(statusCode).json({ message: err.message });
   }
 };
 
@@ -50,7 +50,7 @@ const refresh = async (req, res) => {
     return res.status(200).json({ accessToken });
   } catch (err) {
     const statusCode = err.statusCode || 500;
-    return res.status(statusCode).json({ error: err.message });
+    return res.status(statusCode).json({ message: err.message });
   }
 };
 
@@ -58,12 +58,14 @@ const refresh = async (req, res) => {
 // @route POST/auth/refresh
 // @acces Public - just to clear cookie if exists
 const logout = (req, res) => {
+  console.log("req", req);
   const cookies = req.cookies;
+  console.log("cookies", cookies);
   try {
     authService.logout(cookies, res);
   } catch (err) {
     const statusCode = err.statusCode || 500;
-    return res.status(statusCode).json({ error: err.message });
+    return res.status(statusCode).json({ message: err.message });
   }
 };
 

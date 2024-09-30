@@ -14,6 +14,8 @@ const PasswordField = ({
   validateField = () => {},
   fieldName,
   validate = true,
+  errMsg = false,
+  mb,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -51,23 +53,26 @@ const PasswordField = ({
       }
       sx={{
         width: "350px",
-        mb: 3,
+        mb: mb,
         "& .MuiOutlinedInput-root": {
           "& fieldset": {
-            borderColor: errors[fieldName] && validate ? "red" : "grey",
+            borderColor:
+              (errors[fieldName] && validate) || errMsg ? "red" : "grey",
           },
           "&:hover fieldset": {
-            borderColor: errors[fieldName] && validate ? "red" : "#6d76fa",
+            borderColor:
+              (errors[fieldName] && validate) || errMsg ? "red" : "#6d76fa",
           },
           "&.Mui-focused fieldset": {
-            borderColor: errors[fieldName] && validate ? "red" : "#3c47f9",
+            borderColor:
+              (errors[fieldName] && validate) || errMsg ? "red" : "#3c47f9",
           },
         },
         "& .MuiInputLabel-root": {
-          color: errors[fieldName] && validate ? "red" : "grey", // Default label color
+          color: (errors[fieldName] && validate) || errMsg ? "red" : "grey", // Default label color
         },
         "& .MuiInputLabel-root.Mui-focused": {
-          color: errors[fieldName] && validate ? "red" : "#868dfb", // Label color when focused
+          color: (errors[fieldName] && validate) || errMsg ? "red" : "#868dfb", // Label color when focused
         },
       }}
       InputProps={{

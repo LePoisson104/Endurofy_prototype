@@ -8,29 +8,51 @@ import { useLoginMutation } from "../../features/auth/authApiSlice";
 import { setCredentials } from "../../features/auth/authSlice";
 import PasswordField from "../../components/PasswordField";
 import ForgotPasswordModal from "../../components/modals/ForgotPassModal";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Login = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const userRef = useRef();
-  const errRef = useRef();
+  const emailRef = useRef();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [login, { isLoading }] = useLoginMutation();
-  const errClass = errMsg ? "errmsg" : "offscreen";
+
+  useEffect(() => {
+    emailRef.current.focus();
+  }, []);
+
+  useEffect(() => {
+    setErrMsg("");
+  }, [email, password]);
 
   const handleEmailInput = (e) => setEmail(e.target.value);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-    } catch (err) {}
+      const { accessToken } = await login({ email, password }).unwrap();
+      dispatch(setCredentials({ accessToken }));
+      setEmail("");
+      setPassword("");
+      navigate("/dashboard");
+    } catch (err) {
+      if (!err.status) {
+        setErrMsg("No Server Response");
+      } else if (err.status === 400) {
+        setErrMsg(err.data?.message);
+      } else if (err.status === 401) {
+        setErrMsg("Incorrect email or password. Try again.");
+      } else {
+        setErrMsg(err.data?.message);
+      }
+    }
   };
 
   return (
@@ -107,6 +129,7 @@ const Login = () => {
       </Box>
       <Box
         component="form"
+        onSubmit={handleSubmit}
         noValidate
         autoComplete="off"
         sx={{
@@ -125,18 +148,39 @@ const Login = () => {
       >
         <Typography
           variant="h4"
-          mb={4}
+          mb={3}
           mt={4}
           fontWeight="bold"
           color="#6d76fa"
         >
           Log In
         </Typography>
+        {errMsg && (
+          <Box
+            sx={{
+              display: "flex",
+              color: "red",
+              width: "350px",
+              height: "50px",
+              mb: 3,
+              paddingLeft: 1,
+              flexDirection: "row",
+              alignItems: "center",
+              bgcolor: "#ffcdd2",
+              gap: 1,
+              borderRadius: 1,
+            }}
+          >
+            <WarningAmberIcon />
+            <Typography>{errMsg}</Typography>
+          </Box>
+        )}
         <TextField
           id="email"
           label="Email"
           variant="outlined"
           type="email"
+          inputRef={emailRef}
           onChange={handleEmailInput}
           required
           sx={{
@@ -144,20 +188,20 @@ const Login = () => {
             width: "350px",
             "& .MuiOutlinedInput-root": {
               "& fieldset": {
-                borderColor: "grey", // Default border color
+                borderColor: errMsg ? "red" : "grey", // Default border color
               },
               "&:hover fieldset": {
-                borderColor: "#868dfb", // Border color on hover
+                borderColor: errMsg ? "red" : "#868dfb", // Border color on hover
               },
               "&.Mui-focused fieldset": {
-                borderColor: "#3c47f9", // Border color when focused
+                borderColor: errMsg ? "red" : "#3c47f9", // Border color when focused
               },
             },
             "& .MuiInputLabel-root": {
-              color: "grey", // Default label color
+              color: errMsg ? "red" : "grey", // Default label color
             },
             "& .MuiInputLabel-root.Mui-focused": {
-              color: "#868dfb", // Label color when focused
+              color: errMsg ? "red" : "#868dfb", // Label color when focused
             },
           }}
         />
@@ -168,6 +212,7 @@ const Login = () => {
           setValue={setPassword}
           fieldName="password"
           validate={false} // Disable validation
+          errMsg={errMsg ? true : false}
         />
 
         <Box
@@ -175,6 +220,7 @@ const Login = () => {
             display: "flex",
             width: "350px",
             mb: 4,
+            mt: 1,
           }}
         >
           <Typography>
@@ -194,6 +240,7 @@ const Login = () => {
           variant="containe"
           type="submit"
           sx={{
+            textTransform: "none",
             width: "350px",
             background: "#6d76fa",
             color: "white",
@@ -203,7 +250,8 @@ const Login = () => {
             },
           }}
         >
-          Log In
+          {!isLoading && <Typography>Log In</Typography>}
+          {isLoading && <CircularProgress size={20} sx={{ color: "white" }} />}
         </Button>
         <ForgotPasswordModal />
         <Typography sx={{ mb: 3 }}>

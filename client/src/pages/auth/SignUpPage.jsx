@@ -242,6 +242,7 @@ const SignUp = () => {
           validateField={validateField}
           fieldName="password"
           validate={true}
+          mb={3}
         />
 
         <PasswordField
@@ -255,6 +256,7 @@ const SignUp = () => {
           validateField={validateField}
           fieldName="confirmPassword"
           validate={true}
+          mb={3}
         />
 
         <Box

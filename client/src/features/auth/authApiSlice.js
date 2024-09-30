@@ -29,7 +29,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
         url: "/auth/logout",
         method: "POST",
       }),
-      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
           dispatch(logOut());
@@ -51,7 +51,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
 export const {
   useLoginMutation,
   useSignupMutation,
+  useForgotPasswordMutation,
   useLogoutMutation,
   useRefreshMutation,
-  useForgotPasswordMutation,
 } = authApiSlice;

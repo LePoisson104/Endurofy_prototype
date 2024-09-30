@@ -1,12 +1,6 @@
 import { useState, useEffect } from "react";
-import {
-  Box,
-  IconButton,
-  InputBase,
-  useTheme,
-  Typography,
-} from "@mui/material";
-import { Link } from "react-router-dom";
+import { Box, IconButton, InputBase, useTheme } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { ColorModeContext, tokens } from "../../theme";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
@@ -16,6 +10,7 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { useLogoutMutation } from "../../features/auth/authApiSlice";
 
 const TopBar = () => {
   const theme = useTheme();
@@ -23,6 +18,18 @@ const TopBar = () => {
   const colorMode = useContext(ColorModeContext);
 
   const [isScrolled, setIsScrolled] = useState(false);
+  const navigate = useNavigate();
+
+  const [logout, { isLoading, isSuccess, isError, error }] =
+    useLogoutMutation();
+
+  console.log(isLoading, isSuccess, isError, error);
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate("/login");
+    }
+  }, [isSuccess, navigate]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -87,7 +94,7 @@ const TopBar = () => {
               <PersonOutlinedIcon />
             </IconButton>
           </Link>
-          <IconButton>
+          <IconButton onClick={logout}>
             <LogoutIcon />
           </IconButton>
         </Box>
