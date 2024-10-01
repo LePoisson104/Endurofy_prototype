@@ -1,7 +1,7 @@
 const Users = require("../models/userModels");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { v4: uuidv4 } = require("uuid");
+const { v4: uuidv4, validate } = require("uuid");
 const errorResponse = require("../utils/errorResponse");
 const userService = require("./userService");
 
@@ -30,6 +30,20 @@ const signUp = async (userData) => {
     !weight
   ) {
     throw new errorResponse("All Fields Are Required!", 400);
+  }
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const validDate = new Date(birthdate);
+  if (
+    !(
+      !isNaN(validDate.getTime()) &&
+      validDate.toISOString().slice(0, 10) === birthdate
+    )
+  ) {
+    throw new errorResponse("Invalid date", 400);
+  }
+
+  if (emailPattern.test(email) === false) {
+    throw new errorResponse("Invalid email", 400);
   }
 
   const hashedPassword = await bcrypt.hash(password, 10); // 10 salts

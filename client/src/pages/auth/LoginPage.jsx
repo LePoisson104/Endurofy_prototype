@@ -47,7 +47,7 @@ const Login = () => {
         setErrMsg("No Server Response");
       } else if (err.status === 400) {
         setErrMsg(err.data?.message);
-      } else if (err.status === 401) {
+      } else if (err.status === 401 || err.status === 404) {
         setErrMsg("Incorrect email or password. Try again.");
       } else {
         setErrMsg(err.data?.message);

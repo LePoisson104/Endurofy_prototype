@@ -2,14 +2,11 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import { useState } from "react";
 import { Box } from "@mui/material";
 
-const MonthSelect = () => {
-  const [month, setMonth] = useState("");
-
-  const handleChange = (event) => {
-    setMonth(event.target.value);
+const MonthSelect = ({ month, setMonth }) => {
+  const handleChange = (e) => {
+    setMonth(e.target.value);
   };
 
   return (

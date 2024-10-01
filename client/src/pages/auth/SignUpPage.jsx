@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button, Box, TextField, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Footer from "../../components/global/Footer";
 import NavBar from "../../components/global/NavBar";
 import RowRadioButtonsGroup from "../../components/RowRadioButtonGroup";
@@ -10,6 +10,9 @@ import FeetSelect from "../../components/selects/FeetSelect";
 import PasswordField from "../../components/PasswordField";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
+import { useSignupMutation } from "../../features/auth/authApiSlice";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const SignUp = () => {
   const theme = useTheme();
@@ -20,12 +23,20 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [gender, setGender] = useState("");
   const [month, setMonth] = useState("");
   const [day, setDay] = useState("");
   const [year, setYear] = useState("");
   const [feet, setFeet] = useState("");
   const [inches, setInches] = useState("");
   const [weight, setWeight] = useState("");
+  const [response, setResponse] = useState("");
+
+  const topRef = useRef();
+  const [errMsg, setErrMsg] = useState("");
+  const navigate = useNavigate();
+
+  const [signup, { isLoading }] = useSignupMutation();
 
   const [errors, setErrors] = useState({
     firstName: false,
@@ -53,7 +64,7 @@ const SignUp = () => {
   });
 
   const validateField = (fieldName, value) => {
-    if (value.trim() === "") {
+    if (typeof value === "string" && value.trim() === "") {
       setErrors((prevErrors) => ({
         ...prevErrors,
         [fieldName]: true,
@@ -66,8 +77,101 @@ const SignUp = () => {
     }
   };
 
+  useEffect(() => {
+    setErrMsg("");
+  }, [
+    firstName,
+    lastName,
+    email,
+    password,
+    confirmPassword,
+    gender,
+    month,
+    day,
+    year,
+    feet,
+    inches,
+    weight,
+  ]);
+
+  useEffect(() => {
+    if (topRef.current) {
+      topRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (errMsg && topRef.current) {
+      topRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [errMsg]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (confirmPassword !== password) {
+      return setErrMsg("Confirm password does not match!");
+    }
+
+    const currentYear = new Date().getFullYear();
+    const age = currentYear - parseInt(year);
+
+    if (parseInt(day) <= 0) {
+      return setErrMsg("Day can not be 0 or negative!");
+    }
+
+    if (age < 15 || age > 80) {
+      return setErrMsg("User must be between 15 and 80 years old!");
+    }
+
+    const formattedMonth = String(month).padStart(2, "0");
+    const formattedDay = day.padStart(2, "0");
+    const birthdate = `${year}-${formattedMonth}-${formattedDay}`;
+    const height = feet * 12 + inches;
+
+    const payload = {
+      firstName,
+      lastName,
+      email,
+      password,
+      gender,
+      birthdate,
+      height,
+      weight,
+    };
+
+    try {
+      const response = await signup(payload).unwrap();
+      setResponse(response.message);
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+      setGender("");
+      setMonth("");
+      setDay("");
+      setYear("");
+      setFeet("");
+      setInches("");
+      setWeight("");
+      navigate("/login");
+    } catch (err) {
+      if (!err.status) {
+        setErrMsg("No Server Response");
+      } else if (err.status === 400) {
+        setErrMsg(err.data?.message);
+      } else if (err.status === 409) {
+        setErrMsg(err.data?.message);
+      } else {
+        setErrMsg(err.data?.message);
+      }
+    }
+  };
+
   return (
     <Box
+      ref={topRef}
       sx={{
         position: "relative",
         minHeight: { xl: "135vh", lg: "160vh" },
@@ -81,6 +185,7 @@ const SignUp = () => {
       <NavBar />
       <Box
         component="form"
+        onSubmit={handleSubmit}
         noValidate
         autoComplete="off"
         sx={{
@@ -108,6 +213,26 @@ const SignUp = () => {
         >
           Sign Up
         </Typography>
+        {errMsg && (
+          <Box
+            sx={{
+              display: "flex",
+              color: "red",
+              width: "350px",
+              height: "50px",
+              mb: 3,
+              paddingLeft: 1,
+              flexDirection: "row",
+              alignItems: "center",
+              bgcolor: "#ffcdd2",
+              gap: 1,
+              borderRadius: 1,
+            }}
+          >
+            <WarningAmberIcon />
+            <Typography>{errMsg}</Typography>
+          </Box>
+        )}
         <TextField
           id="first-name"
           label="First Name"
@@ -269,7 +394,7 @@ const SignUp = () => {
           }}
         >
           <Typography>Gender</Typography>
-          <RowRadioButtonsGroup />
+          <RowRadioButtonsGroup setGender={setGender} />
         </Box>
         <Box
           sx={{
@@ -280,9 +405,10 @@ const SignUp = () => {
             gap: 1,
           }}
         >
-          <MonthSelect />
+          <MonthSelect month={month} setMonth={setMonth} />
           <TextField
             label="Day"
+            type="number"
             value={day}
             onChange={(e) => setDay(e.target.value)}
             onBlur={() => {
@@ -316,6 +442,7 @@ const SignUp = () => {
           />
           <TextField
             label="Year"
+            type="number"
             value={year}
             onChange={(e) => setYear(e.target.value)}
             onBlur={() => {
@@ -364,8 +491,8 @@ const SignUp = () => {
               gap: 1,
             }}
           >
-            <FeetSelect />
-            <InchesSelect />
+            <FeetSelect feet={feet} setFeet={setFeet} />
+            <InchesSelect inches={inches} setInches={setInches} />
           </Box>
         </Box>
         <Box
@@ -380,8 +507,9 @@ const SignUp = () => {
           <Typography>Weight</Typography>
           <TextField
             label="lbs"
+            type="number"
             value={weight}
-            onChange={(e) => setWeight(e.target.value)}
+            onChange={(e) => setWeight(parseFloat(e.target.value) || "")}
             onBlur={() => {
               setTouched((prevTouched) => ({
                 ...prevTouched,
@@ -429,7 +557,8 @@ const SignUp = () => {
             },
           }}
         >
-          Sign Up
+          {!isLoading && <Typography>Sign Up</Typography>}
+          {isLoading && <CircularProgress size={20} sx={{ color: "white" }} />}
         </Button>
 
         <Typography sx={{ mb: 3 }}>

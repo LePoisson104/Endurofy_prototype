@@ -3,16 +3,21 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 
-const RowRadioButtonsGroup = () => {
+const RowRadioButtonsGroup = ({ setGender }) => {
+  const handleChange = (e) => {
+    setGender(e.target.value);
+  };
+
   return (
     <FormControl>
       <RadioGroup
         row
         aria-labelledby="demo-row-radio-buttons-group-label"
         name="row-radio-buttons-group"
+        onChange={handleChange}
       >
         <FormControlLabel
-          value="male"
+          value="Male"
           control={
             <Radio
               sx={{
@@ -26,7 +31,7 @@ const RowRadioButtonsGroup = () => {
           label="Male"
         />
         <FormControlLabel
-          value="female"
+          value="Female"
           control={
             <Radio
               sx={{

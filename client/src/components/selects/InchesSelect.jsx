@@ -2,14 +2,11 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import { useState } from "react";
 import { Box } from "@mui/material";
 
-const InchesSelect = () => {
-  const [inch, setInch] = useState("");
-
-  const handleChange = (event) => {
-    setInch(event.target.value);
+const InchesSelect = ({ inches, setInches }) => {
+  const handleChange = (e) => {
+    setInches(e.target.value);
   };
 
   return (
@@ -28,7 +25,7 @@ const InchesSelect = () => {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={inch}
+          value={inches}
           label="in"
           onChange={handleChange}
           sx={{

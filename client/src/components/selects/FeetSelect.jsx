@@ -2,14 +2,11 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import { useState } from "react";
 import { Box } from "@mui/material";
 
-const FeetSelect = () => {
-  const [feet, setFeet] = useState("");
-
-  const handleChange = (event) => {
-    setFeet(event.target.value);
+const FeetSelect = ({ feet, setFeet }) => {
+  const handleChange = (e) => {
+    setFeet(e.target.value);
   };
 
   return (
