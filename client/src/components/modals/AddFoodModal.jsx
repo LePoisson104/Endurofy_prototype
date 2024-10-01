@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Modal,
   Box,
@@ -106,6 +106,66 @@ const AddFoodModal = ({ open, onClose }) => {
             value={searchTerm}
             onChange={handleSearchChange}
           />
+          {/* buttons */}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              mb: 1,
+            }}
+          >
+            <Button
+              sx={{
+                textTransform: "none",
+                color: theme.palette.mode === "dark" ? "white" : "black",
+                width: "150px",
+                borderRadius: 0,
+                fontWeight: "bold",
+                "&:hover": {
+                  borderBottom: `1px solid ${
+                    theme.palette.mode === "dark" ? "white" : "black"
+                  } `,
+                },
+              }}
+            >
+              All
+            </Button>
+            <Button
+              sx={{
+                textTransform: "none",
+                color: theme.palette.mode === "dark" ? "white" : "black",
+                width: "150px",
+                borderRadius: 0,
+                fontWeight: "bold",
+                "&:hover": {
+                  borderBottom: `1px solid ${
+                    theme.palette.mode === "dark" ? "white" : "black"
+                  } `,
+                },
+              }}
+            >
+              Favorites
+            </Button>
+            <Button
+              sx={{
+                textTransform: "none",
+                color: theme.palette.mode === "dark" ? "white" : "black",
+                width: "150px",
+                borderRadius: 0,
+                fontWeight: "bold",
+                "&:hover": {
+                  borderBottom: `1px solid ${
+                    theme.palette.mode === "dark" ? "white" : "black"
+                  } `,
+                },
+              }}
+            >
+              Custom
+            </Button>
+          </Box>
+          <Box sx={{ width: "100%", borderTop: "1px solid #888", mb: 1 }}></Box>
           <List>
             {filteredFoodData.length > 0 ? (
               filteredFoodData.map((food) => (
