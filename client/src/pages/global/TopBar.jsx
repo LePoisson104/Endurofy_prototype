@@ -23,8 +23,6 @@ const TopBar = () => {
   const [logout, { isLoading, isSuccess, isError, error }] =
     useLogoutMutation();
 
-  console.log(isLoading, isSuccess, isError, error);
-
   useEffect(() => {
     if (isSuccess) {
       navigate("/login");

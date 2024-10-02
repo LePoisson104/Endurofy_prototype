@@ -58,9 +58,7 @@ const refresh = async (req, res) => {
 // @route POST/auth/refresh
 // @acces Public - just to clear cookie if exists
 const logout = (req, res) => {
-  console.log("req", req);
   const cookies = req.cookies;
-  console.log("cookies", cookies);
   try {
     authService.logout(cookies, res);
   } catch (err) {
