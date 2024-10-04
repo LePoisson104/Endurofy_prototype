@@ -20,10 +20,16 @@ import WaterDropIcon from "@mui/icons-material/WaterDrop";
 import BedtimeIcon from "@mui/icons-material/Bedtime";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
+import { dateFormat } from "../../helper/dateFormat";
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const currentDate = new Date();
+  const { date, time } = dateFormat(currentDate);
+  const formattedDateTime = `${date} | ${time}`;
+
   const data = {
     data1: {
       datasets: [
@@ -51,7 +57,7 @@ const Dashboard = () => {
     <Box m="20px">
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title="DASHBOARD" subtitle="August 29, 2024 | 12:22 AM" />
+        <Header title="DASHBOARD" subtitle={formattedDateTime} />
         <Box>
           <Button
             sx={{

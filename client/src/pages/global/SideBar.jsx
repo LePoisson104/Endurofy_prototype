@@ -18,6 +18,9 @@ import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import MonitorWeightOutlinedIcon from "@mui/icons-material/MonitorWeightOutlined";
+import useAuth from "../../hooks/useAuth";
+import { useGetAllUsersInfoQuery } from "../../features/users/usersApiSlice";
+
 // SidebarItem.js
 const Item = ({ title, to, icon, selected, setSelected, isCollapsed }) => {
   const theme = useTheme();
@@ -70,6 +73,8 @@ const SideBar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
   const sidebarWidth = isCollapsed ? "80px" : "250px"; // Adjust these values as needed
+  const { userId } = useAuth();
+  const { data, isLoading } = useGetAllUsersInfoQuery(userId);
 
   return (
     <Sidebar
@@ -120,19 +125,19 @@ const SideBar = () => {
           )}
         </MenuItem>
 
-        {!isCollapsed && (
+        {!isCollapsed && data && !isLoading && (
           <Box mb="25px">
             <Box textAlign="center">
               <Typography
-                variant="h3"
+                variant="h2"
                 color={colors.grey[100]}
                 fontWeight="bold"
                 sx={{ m: "10px 0 0 0" }}
               >
-                Viet Pham
+                {data?.first_name} {data?.last_name}
               </Typography>
               <Typography variant="h5" color={colors.greenAccent[400]}>
-                vietpham2017@gmail.com
+                {data?.email}
               </Typography>
             </Box>
           </Box>

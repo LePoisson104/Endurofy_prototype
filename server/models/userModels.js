@@ -105,7 +105,7 @@ const queryGetUsersCredentials = async (email) => {
   try {
     const response = await new Promise((resolve, reject) => {
       const query =
-        "SELECT email, hashed_password, first_name FROM users WHERE email = ?";
+        "SELECT email, hashed_password, first_name, last_name, user_id FROM users WHERE email = ?";
       pool.query(query, [email], (err, results) => {
         if (err) {
           reject(new Error(err));

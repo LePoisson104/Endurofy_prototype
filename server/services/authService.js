@@ -1,7 +1,7 @@
 const Users = require("../models/userModels");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { v4: uuidv4, validate } = require("uuid");
+const { v4: uuidv4 } = require("uuid");
 const errorResponse = require("../utils/errorResponse");
 const userService = require("./userService");
 
@@ -88,8 +88,10 @@ const logIn = async (userData, res) => {
   const accessToken = jwt.sign(
     {
       UserInfo: {
+        userId: getCredentials[0].user_id,
         email: getCredentials[0].email,
         firstName: getCredentials[0].first_name,
+        lastName: getCredentials[0].last_name,
       },
     },
     process.env.ACCESS_TOKEN_SECRET,
@@ -142,8 +144,10 @@ const refresh = async (cookies) => {
         const accessToken = jwt.sign(
           {
             UserInfo: {
+              userId: foundUser[0].user_id,
               email: foundUser[0].email,
-              name: foundUser[0].name,
+              firstName: foundUser[0].first_name,
+              lastName: foundUser[0].last_name,
             },
           },
           process.env.ACCESS_TOKEN_SECRET,
