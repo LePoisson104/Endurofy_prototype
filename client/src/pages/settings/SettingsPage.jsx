@@ -10,7 +10,6 @@ import { dateFormat } from "../../helper/dateFormat";
 const Settings = () => {
   const { userId } = useAuth();
   const { data, isLoading } = useGetAllUsersInfoQuery(userId);
-  console.log(data);
   const newDate = new Date(data?.user_updated_at);
   const { date, time } = dateFormat(newDate);
 
@@ -87,9 +86,9 @@ const Settings = () => {
                 name1="currentPassword"
                 label1="Current Password"
                 type1="password"
-                id2="password"
-                name2="password"
-                label2="Password"
+                id2="newPassword"
+                name2="newPassword"
+                label2="New Password"
                 type2="password"
                 id3="confirmPassword"
                 name3="confirmPassword"

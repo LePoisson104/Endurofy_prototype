@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import { useState, Fragment, useEffect } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -8,11 +8,22 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
+import useAuth from "../../hooks/useAuth";
+import { useDeleteUserAccountMutation } from "../../features/users/usersApiSlice";
+import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 
 const DeleteAccountModal = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [open, setOpen] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
+  const { userId, email } = useAuth();
+  const [deleteUserAccount] = useDeleteUserAccountMutation();
+  const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    setErrMsg("");
+  }, [password]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -20,6 +31,32 @@ const DeleteAccountModal = () => {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const payload = Object.fromEntries(formData.entries());
+    if (payload) {
+      payload.email = email;
+      console.log(payload, userId);
+    }
+    try {
+      await deleteUserAccount({ userId, payload }).unwrap();
+      handleClose();
+    } catch (err) {
+      if (!err.status) {
+        setErrMsg("No Server Response");
+      } else if (err.status === 400) {
+        setErrMsg(err.data?.message);
+      } else if (err.status === 401) {
+        setErrMsg(err.data?.message);
+      } else if (err.status === 404) {
+        setErrMsg(err.data?.message);
+      } else {
+        setErrMsg(err.data?.message);
+      }
+    }
   };
 
   return (
@@ -47,17 +84,22 @@ const DeleteAccountModal = () => {
             bgcolor:
               theme.palette.mode === "dark" ? colors.primary[700] : "white",
           },
-          onSubmit: (event) => {
-            event.preventDefault();
-            const formData = new FormData(event.currentTarget);
-            const formJson = Object.fromEntries(formData.entries());
-            const email = formJson.email;
-            console.log(email);
-            handleClose();
-          },
+          onSubmit: handleSubmit,
         }}
       >
         <DialogTitle>Delete Your Account</DialogTitle>
+        {errMsg && (
+          <DialogTitle
+            sx={{
+              color: "red",
+              display: "flex",
+              paddingTop: 0,
+            }}
+          >
+            <PriorityHighIcon />
+            {errMsg}
+          </DialogTitle>
+        )}
         <DialogContent>
           <DialogContentText>
             If you delete your account, all your data will be permanently
@@ -67,12 +109,14 @@ const DeleteAccountModal = () => {
             autoFocus
             required
             margin="dense"
-            id="confirmPassword"
-            name="confirmPassword"
+            id="password"
+            name="password"
             label="Confirm Password"
             type="password"
             fullWidth
             variant="outlined" // Use 'outlined' to apply border styles
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             sx={{
               "& .MuiOutlinedInput-root": {
                 "& fieldset": {

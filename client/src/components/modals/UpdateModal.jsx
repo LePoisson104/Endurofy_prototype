@@ -38,14 +38,22 @@ const UpdateModal = ({
   const [updateUserAccount] = useUpdateUserAccountMutation();
   const { userId, email } = useAuth();
 
+  useEffect(() => {
+    // Update state when initialValues change
+    setValue1(initialValue1 || "");
+    setValue2(initialValue2 || "");
+    setValue3(initialValue3 || "");
+  }, [initialValue1, initialValue2, initialValue3]);
+
   const handleClickOpen = () => {
     setOpen(true);
+    setValue1(initialValue1 || "");
+    setValue2(initialValue2 || "");
+    setValue3(initialValue3 || "");
   };
 
   const handleClose = () => {
-    setValue1("");
-    setValue2("");
-    setValue3("");
+    setErrMsg("");
     setOpen(false);
   };
 
@@ -57,14 +65,21 @@ const UpdateModal = ({
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const payload = Object.fromEntries(formData.entries());
+
     if ("confirmEmail" in payload) {
       if (payload.newEmail !== payload.confirmEmail) {
         return setErrMsg("Confirm Email Must Match!");
       }
       payload.email = email;
       delete payload.confirmEmail;
+    } else if ("confirmPassword" in payload) {
+      if (payload.newPassword !== payload.confirmPassword) {
+        return setErrMsg("Confirm Password Must Match!");
+      }
+      payload.email = email;
+      delete payload.confirmPassword;
     }
-    console.log(payload);
+
     try {
       await updateUserAccount({ userId, payload }).unwrap();
       handleClose();
@@ -82,7 +97,6 @@ const UpdateModal = ({
       } else {
         setErrMsg(err.data?.message);
       }
-      console.log(err);
     }
   };
 

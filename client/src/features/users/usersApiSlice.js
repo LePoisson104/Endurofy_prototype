@@ -24,8 +24,21 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         { type: "User", id: arg.userId }, // Ensure you pass userId correctly
       ],
     }),
+    deleteUserAccount: builder.mutation({
+      query: ({ userId, payload }) => ({
+        url: `/users/delete/${userId}`,
+        method: "DELETE",
+        body: payload,
+      }),
+      invalidatesTags: (result, error, arg) => [
+        { type: "User", id: arg.userId },
+      ],
+    }),
   }),
 });
 
-export const { useGetAllUsersInfoQuery, useUpdateUserAccountMutation } =
-  usersApiSlice;
+export const {
+  useGetAllUsersInfoQuery,
+  useUpdateUserAccountMutation,
+  useDeleteUserAccountMutation,
+} = usersApiSlice;
