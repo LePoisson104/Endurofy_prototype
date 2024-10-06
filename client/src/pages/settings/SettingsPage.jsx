@@ -6,16 +6,26 @@ import DeleteAccountModal from "../../components/modals/DeleteAccountModal";
 import { useGetAllUsersInfoQuery } from "../../features/users/usersApiSlice";
 import useAuth from "../../hooks/useAuth";
 import { dateFormat } from "../../helper/dateFormat";
+import SuccessAlert from "../../components/SuccessAlert";
+import { useState } from "react";
 
 const Settings = () => {
   const { userId } = useAuth();
   const { data, isLoading } = useGetAllUsersInfoQuery(userId);
   const newDate = new Date(data?.user_updated_at);
   const { date, time } = dateFormat(newDate);
+  const [successMsg, setSuccessMsg] = useState("");
 
   return (
     <Box m="20px">
       <Header title="Account Settings" />
+      {successMsg && (
+        <SuccessAlert
+          message={successMsg}
+          duration={4000}
+          setSuccessMsg={setSuccessMsg}
+        />
+      )}
       {data && !isLoading && (
         <>
           <Box>
@@ -48,6 +58,7 @@ const Settings = () => {
                 label2="Last Name"
                 type2="text"
                 initialValue2={data?.last_name}
+                setSuccessMsg={setSuccessMsg}
               />
             </Box>
             <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}>

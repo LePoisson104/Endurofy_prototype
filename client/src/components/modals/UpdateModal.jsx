@@ -27,6 +27,7 @@ const UpdateModal = ({
   label3,
   type3,
   initialValue3,
+  setSuccessMsg,
 }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -81,7 +82,8 @@ const UpdateModal = ({
     }
 
     try {
-      await updateUserAccount({ userId, payload }).unwrap();
+      const data = await updateUserAccount({ userId, payload }).unwrap();
+      setSuccessMsg(data?.message);
       handleClose();
     } catch (err) {
       if (!err.status) {
