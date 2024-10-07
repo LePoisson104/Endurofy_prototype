@@ -1,10 +1,10 @@
 import { Box, Typography } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { keyframes } from "@emotion/react";
-import { useEffect } from "react";
+import { useRef } from "react";
 
 // Define keyframes for sliding down, pausing, and then sliding up
-const slideDownUp = keyframes`
+const slideDownUpFade = keyframes`
   0% {
     top: -100px;
     opacity: 0;
@@ -24,18 +24,17 @@ const slideDownUp = keyframes`
 `;
 
 const SuccessAlert = ({ message, duration, setSuccessMsg }) => {
-  useEffect(() => {
-    // Set a timeout to call onClose after the specified duration
-    const timeoutId = setTimeout(() => {
-      setSuccessMsg("");
-    }, duration);
+  const alertRef = useRef(null); // Reference to the alert element
 
-    // Clean up the timeout if the component is unmounted before the timeout
-    return () => clearTimeout(timeoutId);
-  }, [duration, setSuccessMsg]);
+  // Animation end handler
+  const handleAnimationEnd = () => {
+    setSuccessMsg(""); // Hide the alert by resetting the error message
+  };
 
   return (
     <Box
+      ref={alertRef}
+      onAnimationEnd={handleAnimationEnd}
       sx={{
         display: "flex",
         position: "fixed",
@@ -48,7 +47,8 @@ const SuccessAlert = ({ message, duration, setSuccessMsg }) => {
         padding: "0.5rem 1rem",
         borderRadius: "5px",
         boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)", // Optional shadow
-        animation: `${slideDownUp} ${duration}ms ease-in-out`, // Play the entire animation within the duration
+        animation: `${slideDownUpFade} ${duration}ms ease-in-out`, // Play the entire animation within the duration
+        animationFillMode: "forwards", // Keeps the element in its final state
       }}
     >
       <Box

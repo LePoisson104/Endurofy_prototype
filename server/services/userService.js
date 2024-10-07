@@ -149,6 +149,7 @@ const updateUserAccount = async (userId, userData) => {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 const updateUserProfile = async (userId, userData) => {
   const { gender, birthdate, height, weight } = userData;
+  const validDate = new Date(birthdate);
 
   if (!userId) {
     throw new errorResponse("userId is Required!", 400);
@@ -157,6 +158,16 @@ const updateUserProfile = async (userId, userData) => {
   if (!gender || !birthdate || !height || !weight) {
     throw new errorResponse("All Fields Are Required!", 400);
   }
+
+  if (
+    !(
+      !isNaN(validDate.getTime()) &&
+      validDate.toISOString().slice(0, 10) === birthdate
+    )
+  ) {
+    throw new errorResponse("Invalid date", 400);
+  }
+
   const updateDate = new Date();
   userData.updated_at = updateDate;
 

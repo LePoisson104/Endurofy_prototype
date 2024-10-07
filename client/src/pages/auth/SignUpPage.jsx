@@ -13,6 +13,7 @@ import { tokens } from "../../theme";
 import { useSignupMutation } from "../../features/auth/authApiSlice";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import CircularProgress from "@mui/material/CircularProgress";
+import SuccessAlert from "../../components/alerts/SuccessAlert";
 
 const SignUp = () => {
   const theme = useTheme();
@@ -34,6 +35,7 @@ const SignUp = () => {
 
   const topRef = useRef();
   const [errMsg, setErrMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
   const navigate = useNavigate();
 
   const [signup, { isLoading }] = useSignupMutation();
@@ -101,10 +103,10 @@ const SignUp = () => {
   }, []);
 
   useEffect(() => {
-    if (errMsg && topRef.current) {
+    if ((successMsg || errMsg) && topRef.current) {
       topRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [errMsg]);
+  }, [successMsg, errMsg]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -155,7 +157,7 @@ const SignUp = () => {
       setFeet("");
       setInches("");
       setWeight("");
-      navigate("/login");
+      setSuccessMsg(response.message);
     } catch (err) {
       if (!err.status) {
         setErrMsg("No Server Response");
@@ -182,6 +184,13 @@ const SignUp = () => {
         background: colors.grey[1000],
       }}
     >
+      {successMsg && (
+        <SuccessAlert
+          message={successMsg}
+          duration={4000}
+          setSuccessMsg={setSuccessMsg}
+        />
+      )}
       <NavBar />
       <Box
         component="form"
@@ -394,7 +403,7 @@ const SignUp = () => {
           }}
         >
           <Typography>Gender</Typography>
-          <RowRadioButtonsGroup setGender={setGender} />
+          <RowRadioButtonsGroup gender={gender} setGender={setGender} />
         </Box>
         <Box
           sx={{

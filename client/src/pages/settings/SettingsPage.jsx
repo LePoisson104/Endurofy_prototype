@@ -1,13 +1,13 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
+import { useState } from "react";
+import { useGetAllUsersInfoQuery } from "../../features/users/usersApiSlice";
+import { dateFormat } from "../../helper/dateFormat";
 import Header from "../../components/global/Header";
 import IOSSwitch from "../../components/IOSSwitch";
 import UpdateModal from "../../components/modals/UpdateModal";
 import DeleteAccountModal from "../../components/modals/DeleteAccountModal";
-import { useGetAllUsersInfoQuery } from "../../features/users/usersApiSlice";
 import useAuth from "../../hooks/useAuth";
-import { dateFormat } from "../../helper/dateFormat";
-import SuccessAlert from "../../components/SuccessAlert";
-import { useState } from "react";
+import SuccessAlert from "../../components/alerts/SuccessAlert";
 
 const Settings = () => {
   const { userId } = useAuth();
@@ -82,6 +82,8 @@ const Settings = () => {
                 name3="confirmEmail"
                 label3="Confirm Email"
                 type3="email"
+                setSuccessMsg={setSuccessMsg}
+                email={data.email}
               />
             </Box>
             <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}>
@@ -105,6 +107,8 @@ const Settings = () => {
                 name3="confirmPassword"
                 label3="Confirm Password"
                 type3="password"
+                setSuccessMsg={setSuccessMsg}
+                email={data.email}
               />
             </Box>
           </Box>

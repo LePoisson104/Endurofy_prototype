@@ -58,7 +58,7 @@ const updateUserProfile = async (req, res) => {
     await userService.updateUserProfile(userId, userData);
     return res
       .status(200)
-      .json({ mesage: "User Profile Updated Successfully! " });
+      .json({ message: "User Profile Updated Successfully! " });
   } catch (err) {
     const statusCode = err.statusCode || 500;
     return res.status(statusCode).json({ message: err.message });

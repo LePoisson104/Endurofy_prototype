@@ -37,9 +37,9 @@ const InchesSelect = ({ inches, setInches }) => {
             },
           }}
         >
-          {[...Array(11).keys()].map((value) => (
-            <MenuItem key={value + 1} value={value + 1}>
-              {value + 1}
+          {[...Array(12).keys()].map((value) => (
+            <MenuItem key={value} value={value}>
+              {value}
             </MenuItem>
           ))}
         </Select>

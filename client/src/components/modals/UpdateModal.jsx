@@ -9,6 +9,7 @@ import { tokens } from "../../theme";
 import { useUpdateUserAccountMutation } from "../../features/users/usersApiSlice";
 import useAuth from "../../hooks/useAuth";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
+import { useGetAllUsersInfoQuery } from "../../features/users/usersApiSlice";
 
 const UpdateModal = ({
   title,
@@ -28,6 +29,7 @@ const UpdateModal = ({
   type3,
   initialValue3,
   setSuccessMsg,
+  email,
 }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -37,7 +39,7 @@ const UpdateModal = ({
   const [value3, setValue3] = useState(initialValue3 || "");
   const [errMsg, setErrMsg] = useState("");
   const [updateUserAccount] = useUpdateUserAccountMutation();
-  const { userId, email } = useAuth();
+  const { userId } = useAuth();
 
   useEffect(() => {
     // Update state when initialValues change
@@ -72,6 +74,7 @@ const UpdateModal = ({
         return setErrMsg("Confirm Email Must Match!");
       }
       payload.email = email;
+      console.log(payload);
       delete payload.confirmEmail;
     } else if ("confirmPassword" in payload) {
       if (payload.newPassword !== payload.confirmPassword) {

@@ -37,18 +37,18 @@ const MonthSelect = ({ month, setMonth }) => {
             },
           }}
         >
-          <MenuItem value={1}>January</MenuItem>
-          <MenuItem value={2}>February</MenuItem>
-          <MenuItem value={3}>March</MenuItem>
-          <MenuItem value={4}>April</MenuItem>
-          <MenuItem value={5}>May</MenuItem>
-          <MenuItem value={6}>June</MenuItem>
-          <MenuItem value={7}>July</MenuItem>
-          <MenuItem value={8}>August</MenuItem>
-          <MenuItem value={9}>September</MenuItem>
-          <MenuItem value={10}>October</MenuItem>
-          <MenuItem value={11}>November</MenuItem>
-          <MenuItem value={12}>December</MenuItem>
+          <MenuItem value={"01"}>January</MenuItem>
+          <MenuItem value={"02"}>February</MenuItem>
+          <MenuItem value={"03"}>March</MenuItem>
+          <MenuItem value={"04"}>April</MenuItem>
+          <MenuItem value={"05"}>May</MenuItem>
+          <MenuItem value={"06"}>June</MenuItem>
+          <MenuItem value={"07"}>July</MenuItem>
+          <MenuItem value={"08"}>August</MenuItem>
+          <MenuItem value={"09"}>September</MenuItem>
+          <MenuItem value={"10"}>October</MenuItem>
+          <MenuItem value={"11"}>November</MenuItem>
+          <MenuItem value={"12"}>December</MenuItem>
         </Select>
       </FormControl>
     </Box>

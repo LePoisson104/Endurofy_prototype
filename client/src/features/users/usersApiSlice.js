@@ -24,6 +24,16 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         { type: "User", id: arg.userId }, // Ensure you pass userId correctly
       ],
     }),
+    updateUserProfile: builder.mutation({
+      query: ({ userId, payload }) => ({
+        url: `/users/update-profile/${userId}`,
+        method: "PATCH",
+        body: payload,
+      }),
+      invalidatesTags: (result, error, arg) => [
+        { type: "User", id: arg.userId }, // Ensure you pass userId correctly
+      ],
+    }),
     deleteUserAccount: builder.mutation({
       query: ({ userId, payload }) => ({
         url: `/users/delete/${userId}`,
@@ -40,5 +50,6 @@ export const usersApiSlice = apiSlice.injectEndpoints({
 export const {
   useGetAllUsersInfoQuery,
   useUpdateUserAccountMutation,
+  useUpdateUserProfileMutation,
   useDeleteUserAccountMutation,
 } = usersApiSlice;
