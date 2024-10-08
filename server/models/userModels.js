@@ -12,7 +12,14 @@ const queryCreateNewUser = async (
   gender,
   birthdate,
   height,
-  weight
+  weight,
+  weight_goal,
+  calories_target,
+  protein,
+  carbs,
+  fat,
+  BMR,
+  activity_level
 ) => {
   try {
     const userResponse = await new Promise((resolve, reject) => {
@@ -43,10 +50,23 @@ const queryCreateNewUser = async (
 
     await new Promise((resolve, reject) => {
       const profileQuery =
-        "INSERT INTO userProfile (user_id, gender, birthdate, weight, height) VALUES (?,?,?,?,?)";
+        "INSERT INTO userProfile (user_id, gender, birthdate, weight, height, weight_goal, calories_target, protein, carbs, fat, BMR, activity_level) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
       pool.query(
         profileQuery,
-        [userId, gender, birthdate, weight, height],
+        [
+          userId,
+          gender,
+          birthdate,
+          weight,
+          height,
+          weight_goal,
+          calories_target,
+          protein,
+          carbs,
+          fat,
+          BMR,
+          activity_level,
+        ],
         (err, results) => {
           if (err) {
             reject(new Error(err.message));
@@ -82,7 +102,7 @@ const queryGetAllUsers = async (userId) => {
 
     const userProfileReponse = await new Promise((resolve, reject) => {
       const query =
-        "SELECT gender, birthdate, height, weight, updated_at FROM userProfile WHERE user_id = ?";
+        "SELECT gender, birthdate, height, weight, weight_goal, calories_target, protein, carbs, fat, BMR, activity_level, updated_at FROM userProfile WHERE user_id = ?";
       pool.query(query, [userId], (err, results) => {
         if (err) {
           reject(new Error(err));

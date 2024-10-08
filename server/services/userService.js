@@ -1,6 +1,7 @@
 const Users = require("../models/userModels");
 const bycrypt = require("bcrypt");
 const errorResponse = require("../utils/errorResponse");
+const { BMR } = require("../helper/BMR");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // @getUserCredentials
@@ -169,7 +170,9 @@ const updateUserProfile = async (userId, userData) => {
   }
 
   const updateDate = new Date();
+  const newBMR = BMR(gender, birthdate, height, weight);
   userData.updated_at = updateDate;
+  userData.BMR = newBMR;
 
   const updateUserProfile = await Users.queryUpdateUsers(
     userId,
@@ -188,32 +191,55 @@ const updateUserProfile = async (userId, userData) => {
 // @updateUserTarget
 ////////////////////////////////////////////////////////////////////////////////////////////////
 const updateUserTarget = async (userId, userData) => {
-  const { caloriesTarget, weightGoal, protein, carbs, fat } = userData;
+  const { calories, weightGoal, protein, carbs, fat, activity_level } =
+    userData;
   const updatePayload = {};
 
   if (!userId) {
     throw new errorResponse("userId is Required!", 400);
   }
 
-  if (caloriesTarget && weightGoal && !protein && !carbs && !fat) {
-    updatePayload.calories_target = caloriesTarget;
+  // Allow calories and weightGoal to be set without macronutrients
+  if (
+    calories &&
+    weightGoal &&
+    protein === undefined &&
+    carbs === undefined &&
+    fat === undefined
+  ) {
+    updatePayload.calories_target = calories;
     updatePayload.weight_goal = weightGoal;
   }
 
-  if (protein && carbs && fat && !caloriesTarget && !weightGoal) {
+  // Allow setting protein, carbs, and fat, even if protein is 0
+  if (
+    (protein !== undefined || carbs !== undefined || fat !== undefined) &&
+    !calories &&
+    !weightGoal
+  ) {
+    // Check if protein, carbs, and fat add up to 100%
     if (
-      parseInt(protein, 10) + parseInt(carbs, 10) + parseInt(fat, 10) !==
+      parseInt(protein || 0) + parseInt(carbs || 0) + parseInt(fat || 0) !==
       100
     ) {
-      throw new errorResponse(
-        "The sum of protein, carbs, and fat should not exceed or below 100%",
-        400
-      );
+      throw new errorResponse("Macronutrients must add up to 100%", 400);
     }
 
-    updatePayload.protein = protein;
-    updatePayload.carbs = carbs;
-    updatePayload.fat = fat;
+    // Update payload with protein, carbs, and fat
+    if (protein !== undefined) updatePayload.protein = protein;
+    if (carbs !== undefined) updatePayload.carbs = carbs;
+    if (fat !== undefined) updatePayload.fat = fat;
+  }
+
+  if (
+    activity_level &&
+    !calories &&
+    !weightGoal &&
+    protein === undefined &&
+    carbs === undefined &&
+    fat === undefined
+  ) {
+    updatePayload.activity_level = activity_level;
   }
 
   if (Object.keys(updatePayload).length === 0) {

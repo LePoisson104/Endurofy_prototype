@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require("uuid");
 const errorResponse = require("../utils/errorResponse");
 const userService = require("./userService");
+const { BMR } = require("../helper/BMR");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // @signup
@@ -19,6 +20,7 @@ const signUp = async (userData) => {
     height,
     weight,
   } = userData;
+
   if (
     !email ||
     !password ||
@@ -48,6 +50,15 @@ const signUp = async (userData) => {
 
   const hashedPassword = await bcrypt.hash(password, 10); // 10 salts
   const userId = uuidv4();
+  const basal_metabolic_rate = BMR(gender, birthdate, height, weight);
+  console.log(basal_metabolic_rate);
+  const activity_level = "0";
+  const calories_target = basal_metabolic_rate;
+  const weight_goal = weight;
+  const protein = 25;
+  const carbs = 45;
+  const fat = 30;
+
   const createUser = await Users.queryCreateNewUser(
     userId,
     email,
@@ -57,7 +68,14 @@ const signUp = async (userData) => {
     gender,
     birthdate,
     height,
-    weight
+    weight,
+    weight_goal,
+    calories_target,
+    protein,
+    carbs,
+    fat,
+    basal_metabolic_rate,
+    activity_level
   );
 
   if (!createUser) {
