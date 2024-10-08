@@ -8,6 +8,7 @@ import UpdateModal from "../../components/modals/UpdateModal";
 import DeleteAccountModal from "../../components/modals/DeleteAccountModal";
 import useAuth from "../../hooks/useAuth";
 import SuccessAlert from "../../components/alerts/SuccessAlert";
+import ErrorAlert from "../../components/alerts/ErrorAlert";
 
 const Settings = () => {
   const { userId } = useAuth();
@@ -15,6 +16,7 @@ const Settings = () => {
   const newDate = new Date(data?.user_updated_at);
   const { date, time } = dateFormat(newDate);
   const [successMsg, setSuccessMsg] = useState("");
+  const [errMsg, setErrMsg] = useState("");
 
   return (
     <Box m="20px">
@@ -25,6 +27,9 @@ const Settings = () => {
           duration={4000}
           setSuccessMsg={setSuccessMsg}
         />
+      )}
+      {errMsg && (
+        <ErrorAlert message={errMsg} duration={3000} setErrMsg={setErrMsg} />
       )}
       {data && !isLoading && (
         <>
@@ -59,6 +64,7 @@ const Settings = () => {
                 type2="text"
                 initialValue2={data?.last_name}
                 setSuccessMsg={setSuccessMsg}
+                setErrMsg={setErrMsg}
               />
             </Box>
             <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}>
@@ -84,6 +90,7 @@ const Settings = () => {
                 type3="email"
                 setSuccessMsg={setSuccessMsg}
                 email={data.email}
+                setErrMsg={setErrMsg}
               />
             </Box>
             <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}>
@@ -109,6 +116,7 @@ const Settings = () => {
                 type3="password"
                 setSuccessMsg={setSuccessMsg}
                 email={data.email}
+                setErrMsg={setErrMsg}
               />
             </Box>
           </Box>

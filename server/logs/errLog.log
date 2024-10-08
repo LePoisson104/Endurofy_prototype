@@ -34,3 +34,4 @@
 20240930	00:26:16	778a2a64-4856-4ef2-a278-9112808fb3e5	Too Many Requests: Too many login attempts from this IP, please try again after a 60 second pause	POST	/login	http://localhost:3000
 20241003	23:20:40	2c1a4d6b-321b-40a4-b3e6-e7fec079f99a	Too Many Requests: Too many requests from this IP, please try again after a 1 min pause.	POST	/login	http://localhost:3000
 20241003	23:21:10	bd8dcc5f-7cfd-4e03-bb13-0842606e08b1	Too Many Requests: Too many requests from this IP, please try again after a 1 min pause.	POST	/signup	http://localhost:3000
+20241008	01:45:11	bf095754-7131-4cfe-8689-660001ec1a9a	Too Many Requests: Too many requests from this IP, please try again after a 1 min pause.	POST	/login	http://localhost:3000

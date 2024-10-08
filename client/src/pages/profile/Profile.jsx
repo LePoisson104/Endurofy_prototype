@@ -1,4 +1,11 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  IconButton,
+  Icon,
+} from "@mui/material";
 import Header from "../../components/global/Header";
 import MonthSelect from "../../components/selects/MonthSelect";
 import RowRadioButtonsGroup from "../../components/RowRadioButtonGroup";
@@ -10,10 +17,14 @@ import { useState } from "react";
 import {
   useGetAllUsersInfoQuery,
   useUpdateUserProfileMutation,
+  useUpdateUserTargetMutation,
 } from "../../features/users/usersApiSlice";
 import { dateFormat } from "../../helper/dateFormat";
 import SuccessAlert from "../../components/alerts/SuccessAlert";
 import ErrorAlert from "../../components/alerts/ErrorAlert";
+import EnergyTargetHelper from "../../components/modals/EnergyTargetHelper";
+import BMIPopover from "../../components/modals/BMIPopover";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 
 const Profile = () => {
   const { userId } = useAuth();
@@ -29,6 +40,9 @@ const Profile = () => {
   const age = new Date().getFullYear() - year;
   const BMI = ((data?.weight * 703) / data?.height ** 2).toFixed(1);
 
+  const [updateUserProfile] = useUpdateUserProfileMutation();
+  const [updateUserTarget] = useUpdateUserTargetMutation();
+
   const [gender, setGender] = useState(data.gender);
   const [currentMonth, setCurrentMonth] = useState(month);
   const [currentDay, setCurrentDay] = useState(day);
@@ -36,11 +50,20 @@ const Profile = () => {
   const [currentFeet, setCurerntFeet] = useState(feet);
   const [currentInches, setCurrentInches] = useState(inches);
   const [weight, setWeight] = useState(data?.weight);
+  const [calories, setCalories] = useState("");
+  const [weightGoal, setWeightGoal] = useState("");
+  const [protein, setProtein] = useState("");
+  const [carbs, setCarbs] = useState("");
+  const [fat, setFat] = useState("");
+
   const [errMsg, setErrMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
-  const [updateUserProfile] = useUpdateUserProfileMutation();
+  const [open, setOpen] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const handleSubmitProfile = async (e) => {
     e.preventDefault();
 
     const formattedMonth = String(currentMonth).padStart(2, "0");
@@ -79,6 +102,47 @@ const Profile = () => {
     }
   };
 
+  const handleSubmitTarget = async (e, type) => {
+    e.preventDefault();
+
+    let payload = {};
+
+    if (type === "Energy") {
+      payload = {
+        calories: parseInt(calories),
+        weightGoal: parseInt(weightGoal),
+      };
+    } else if (type === "Macro") {
+      if (parseInt(protein) + parseInt(carbs) + parseInt(fat) !== 100) {
+        setErrMsg("Macronutrients must add up to 100%");
+      }
+      payload = {
+        protein: parseInt(protein),
+        carbs: parseInt(carbs),
+        fat: parseInt(fat),
+      };
+    }
+
+    try {
+      const data = await updateUserTarget({ userId, payload }).unwrap();
+      setSuccessMsg(data?.message);
+    } catch (err) {
+      if (!err.status) {
+        setErrMsg("No Server Response");
+      } else if (err.status === 400) {
+        setErrMsg(err.data?.message);
+      } else if (err.status === 401) {
+        setErrMsg(err.data?.message);
+      } else if (err.status === 404) {
+        setErrMsg(err.data?.message);
+      } else if (err.status === 409) {
+        setErrMsg(err.data?.message);
+      } else {
+        setErrMsg(err.data?.message);
+      }
+    }
+  };
+
   return (
     <Box m="20px">
       <Header title="Profile and Targets" />
@@ -99,7 +163,7 @@ const Profile = () => {
         <Typography fontWeight="light">
           Last updated on {date} | at {time}
         </Typography>
-        <Box component="form" onSubmit={handleSubmit}>
+        <Box component="form" onSubmit={handleSubmitProfile}>
           <Box
             sx={{
               display: "flex",
@@ -230,7 +294,9 @@ const Profile = () => {
             }}
           >
             <Box sx={{ width: "50%" }}>
-              <Typography variant="h5">BMI</Typography>
+              <Typography variant="h5" display={"flex"} alignItems={"center"}>
+                BMI <BMIPopover />
+              </Typography>
               <Typography fontWeight="light">
                 Your BMI can't be edited as it is a
               </Typography>
@@ -266,10 +332,31 @@ const Profile = () => {
           </Box>
         </Box>
         <Box sx={{ width: "100%", borderTop: "1px solid #888", mb: 3 }}></Box>
-        <Typography variant="h4" fontWeight="bold">
-          Energy Target
-        </Typography>
-        <Box component="form">
+        <Box
+          sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+        >
+          <Box sx={{ width: "50%" }}>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Typography variant="h4" fontWeight="bold">
+                Energy Target
+              </Typography>
+
+              <IconButton onClick={handleOpen}>
+                <HelpOutlineIcon />
+              </IconButton>
+            </Box>
+            <Typography fontWeight={"light"}>
+              The calorie estimate provided is a general guideline based on your
+              inputs. Individual results may vary,
+            </Typography>
+            <Typography fontWeight={"light"}>
+              so it's important to adjust your calorie intake and monitor your
+              progress to find what works best for you.
+            </Typography>
+            <EnergyTargetHelper open={open} handleClose={handleClose} />
+          </Box>
+        </Box>
+        <Box component="form" onSubmit={handleSubmitTarget}>
           <Box
             sx={{
               display: "flex",
@@ -289,7 +376,12 @@ const Profile = () => {
                 gap: 1,
               }}
             >
-              <TextField label="kcal" sx={textFieldStyles} />
+              <TextField
+                label="kcal"
+                sx={textFieldStyles}
+                value={calories}
+                onChange={(e) => setCalories(e.target.value)}
+              />
             </Box>
           </Box>
           <Box
@@ -311,7 +403,12 @@ const Profile = () => {
                 gap: 1,
               }}
             >
-              <TextField label="lbs" sx={textFieldStyles} />
+              <TextField
+                label="lbs"
+                sx={textFieldStyles}
+                value={weightGoal}
+                onChange={(e) => setWeightGoal(e.target.value)}
+              />
             </Box>
           </Box>
           <Box sx={{ display: "flex", justifyContent: "end", mb: 3, mr: 6 }}>
@@ -342,7 +439,7 @@ const Profile = () => {
       <Typography fontWeight="light">
         changes, so do your targets to keep your ratios steady.
       </Typography>
-      <Box component="form">
+      <Box component="form" onSubmit={handleSubmitTarget}>
         <Box
           sx={{
             display: "flex",
@@ -367,7 +464,7 @@ const Profile = () => {
                 }}
               />
               Protein
-              <Typography variant="h5" sx={{ ml: 3 }}>
+              <Typography variant="h5" sx={{ ml: 1 }} fontWeight={"light"}>
                 25%
               </Typography>
             </Typography>
@@ -381,7 +478,13 @@ const Profile = () => {
             }}
           >
             <Typography sx={{ mr: 2 }}>468 kcal</Typography>
-            <TextField label="%" sx={textFieldStyles} />
+            <TextField
+              label="%"
+              sx={textFieldStyles}
+              value={protein}
+              type="number"
+              onChange={(e) => setProtein(e.target.value)}
+            />
           </Box>
         </Box>
         <Box
@@ -408,7 +511,7 @@ const Profile = () => {
                 }}
               />
               Net Carbs
-              <Typography variant="h5" sx={{ ml: 3 }}>
+              <Typography variant="h5" sx={{ ml: 1 }} fontWeight={"light"}>
                 45%
               </Typography>
             </Typography>
@@ -422,7 +525,13 @@ const Profile = () => {
             }}
           >
             <Typography sx={{ mr: 2 }}>842 kcal</Typography>
-            <TextField label="%" sx={textFieldStyles} />
+            <TextField
+              label="%"
+              sx={textFieldStyles}
+              value={carbs}
+              type="number"
+              onChange={(e) => setCarbs(e.target.value)}
+            />
           </Box>
         </Box>
         <Box
@@ -449,7 +558,7 @@ const Profile = () => {
                 }}
               />
               Fat
-              <Typography variant="h5" sx={{ ml: 3 }}>
+              <Typography variant="h5" sx={{ ml: 1 }} fontWeight={"light"}>
                 30%
               </Typography>
             </Typography>
@@ -463,7 +572,13 @@ const Profile = () => {
             }}
           >
             <Typography sx={{ mr: 2 }}>562 kcal</Typography>
-            <TextField label="%" sx={textFieldStyles} />
+            <TextField
+              label="%"
+              sx={textFieldStyles}
+              value={fat}
+              type="number"
+              onChange={(e) => setFat(e.target.value)}
+            />
           </Box>
         </Box>
         <Box

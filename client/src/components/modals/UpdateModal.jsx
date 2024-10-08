@@ -9,7 +9,6 @@ import { tokens } from "../../theme";
 import { useUpdateUserAccountMutation } from "../../features/users/usersApiSlice";
 import useAuth from "../../hooks/useAuth";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
-import { useGetAllUsersInfoQuery } from "../../features/users/usersApiSlice";
 
 const UpdateModal = ({
   title,
@@ -30,6 +29,7 @@ const UpdateModal = ({
   initialValue3,
   setSuccessMsg,
   email,
+  setErrMsg,
 }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -37,7 +37,6 @@ const UpdateModal = ({
   const [value1, setValue1] = useState(initialValue1 || "");
   const [value2, setValue2] = useState(initialValue2 || "");
   const [value3, setValue3] = useState(initialValue3 || "");
-  const [errMsg, setErrMsg] = useState("");
   const [updateUserAccount] = useUpdateUserAccountMutation();
   const { userId } = useAuth();
 
@@ -140,18 +139,6 @@ const UpdateModal = ({
         }}
       >
         <DialogTitle>{title}</DialogTitle>
-        {errMsg && (
-          <DialogTitle
-            sx={{
-              color: "red",
-              display: "flex",
-              paddingTop: 0,
-            }}
-          >
-            <PriorityHighIcon />
-            {errMsg}
-          </DialogTitle>
-        )}
         <DialogContent>
           <TextField
             autoFocus
