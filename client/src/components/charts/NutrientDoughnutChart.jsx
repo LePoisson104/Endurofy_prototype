@@ -7,7 +7,7 @@ import { useTheme } from "@emotion/react";
 
 ChartJS.register(ArcElement, Tooltip);
 
-const NutritionChart = ({ title, data }) => {
+const NutritionChart = ({ title, data, setAnimation = true }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const totalCalories = 500; // Example value, adjust as needed
@@ -28,6 +28,10 @@ const NutritionChart = ({ title, data }) => {
       arc: {
         borderWidth: 0,
       },
+    },
+    animation: {
+      // Disable animations
+      animateRotate: setAnimation, // Disable the rotation animation
     },
     backgroundColor: "transparent",
   };

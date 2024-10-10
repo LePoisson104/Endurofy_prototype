@@ -9,6 +9,7 @@ import DeleteAccountModal from "../../components/modals/DeleteAccountModal";
 import useAuth from "../../hooks/useAuth";
 import SuccessAlert from "../../components/alerts/SuccessAlert";
 import ErrorAlert from "../../components/alerts/ErrorAlert";
+import LoadingSkeleton from "../../components/LoadingSkeleton";
 
 const Settings = () => {
   const { userId } = useAuth();
@@ -30,6 +31,14 @@ const Settings = () => {
       )}
       {errMsg && (
         <ErrorAlert message={errMsg} duration={3000} setErrMsg={setErrMsg} />
+      )}
+      {!data && !isLoading && (
+        <LoadingSkeleton
+          height1={270}
+          height2={135}
+          height3={130}
+          height4={130}
+        />
       )}
       {data && !isLoading && (
         <>

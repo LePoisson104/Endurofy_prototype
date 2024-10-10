@@ -24,6 +24,8 @@ const AddFoodModal = ({ open, onClose }) => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  console.log(foodData);
+
   useEffect(() => {
     const fetchFoodData = async () => {
       setIsLoading(true);
@@ -51,7 +53,7 @@ const AddFoodModal = ({ open, onClose }) => {
   }, [searchTerm, process.env.REACT_APP_FDC_API_KEY]); // The effect runs when the component mounts
 
   const handleFoodSelect = (index) => {
-    setSelectedFood(index);
+    setSelectedFood(foodData[index]);
     setMacrosModalOpen(true); // Open the macros modal
   };
 
@@ -72,6 +74,7 @@ const AddFoodModal = ({ open, onClose }) => {
             borderRadius: "8px",
             boxShadow: 24,
             position: "relative",
+            width: 600,
           }}
         >
           <Box
@@ -130,7 +133,10 @@ const AddFoodModal = ({ open, onClose }) => {
                   key={index}
                   onClick={() => handleFoodSelect(index)}
                 >
-                  <ListItemText primary={food.description} />
+                  <ListItemText
+                    secondary={food.brandName}
+                    primary={food.description}
+                  />
                 </ListItem>
               ))
             ) : (

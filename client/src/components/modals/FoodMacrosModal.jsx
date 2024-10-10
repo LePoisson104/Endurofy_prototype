@@ -15,36 +15,71 @@ import { useTheme } from "@emotion/react";
 import CloseIcon from "@mui/icons-material/Close";
 import NutrientDoughnutChart from "../../components/charts/NutrientDoughnutChart";
 import { tokens } from "../../theme";
-
-// Mock data for food macros
-const foodMacros = {
-  Apple: { calories: 95, protein: 0.5, carbs: 25, fat: 0.3 },
-  Banana: { calories: 105, protein: 1.3, carbs: 27, fat: 0.3 },
-  "Chicken Breast": { calories: 165, protein: 31, carbs: 0, fat: 3.6 },
-  Rice: { calories: 206, protein: 4.3, carbs: 45, fat: 0.4 },
-  Broccoli: { calories: 55, protein: 3.7, carbs: 11, fat: 0.6 },
-  Almonds: { calories: 579, protein: 21, carbs: 22, fat: 49 },
-  Salmon: { calories: 206, protein: 22, carbs: 0, fat: 13 },
-  Quinoa: { calories: 222, protein: 8.1, carbs: 39, fat: 3.6 },
-};
-
-const data = {
-  datasets: [
-    {
-      data: [20, 50, 30], // Example values, adjust as needed
-      backgroundColor: ["#FFCC8A", "#68afac", "#66b7cd"], // Fat, Protein, Carbs
-      hoverBackgroundColor: ["#FFCC8A", "#68afac", "#66b7cd"],
-    },
-  ],
-  totalCalories: 500,
-};
+import { findFoodMacros } from "../../helper/findFoodMacros";
+import { MACROS } from "../../helper/macrosConstants";
 
 const FoodMacrosModal = ({ open, onClose, food }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const macros = foodMacros[food] || {};
 
   const [unit, setUnit] = useState("");
+  let Kcal = 0;
+
+  if (findFoodMacros(food, "Energy")?.unitName === "kJ") {
+    const KILOCALORIES = 0.239006;
+    Kcal = Math.round(findFoodMacros(food, "Energy")?.value * KILOCALORIES);
+  } else {
+    Kcal = findFoodMacros(food, "Energy")?.value;
+  }
+
+  const foodData = {
+    calories: Kcal,
+    protein: findFoodMacros(food, "Protein")?.value || 0,
+    proteinUnit: findFoodMacros(food, "Protein")?.unitName.toLowerCase() || "g",
+    carbs:
+      findFoodMacros(food, "Carbohydrate, by difference", "Starch")?.value || 0,
+    carbsUnit:
+      findFoodMacros(
+        food,
+        "Carbohydrate, by difference",
+        "Starch"
+      )?.unitName.toLowerCase() || "g",
+    fat: findFoodMacros(food, "Total lipid (fat)")?.value || 0,
+    fatUnit:
+      findFoodMacros(food, "Total lipid (fat)")?.unitName.toLowerCase() || "g",
+  };
+
+  if (
+    foodData.calories === undefined &&
+    foodData.protein !== undefined &&
+    foodData.carbs !== undefined &&
+    foodData.fat !== undefined
+  ) {
+    foodData.calories = Math.round(
+      foodData.protein * MACROS.protein +
+        foodData.carbs * MACROS.carbs +
+        foodData.fat * MACROS.fat
+    );
+  }
+
+  const data = {
+    datasets: [
+      {
+        data: [foodData.fat || 100, foodData.protein || 0, foodData.carbs || 0],
+        backgroundColor:
+          foodData.fat === 0 && foodData.protein === 0 && foodData.carbs === 0
+            ? ["#D3D3D3", "#D3D3D3", "#D3D3D3"] // Colors for Fat, Protein, Carbs
+            : ["#FFCC8A", "#68afac", "#66b7cd"], // Gray color when no data
+        hoverBackgroundColor:
+          foodData.fat === 0 && foodData.protein === 0 && foodData.carbs === 0
+            ? ["#D3D3D3", "#D3D3D3", "#D3D3D3"] // Colors for Fat, Protein, Carbs
+            : ["#FFCC8A", "#68afac", "#66b7cd"], // Gray color when no data
+      },
+    ],
+    totalCalories: foodData.calories,
+  };
+
+  console.log(data);
 
   const handleChange = (event) => {
     setUnit(event.target.value);
@@ -73,7 +108,7 @@ const FoodMacrosModal = ({ open, onClose, food }) => {
           }}
         >
           <Typography variant="h5" fontWeight={600}>
-            {food}
+            {food?.brandName ? `(${food.brandName}) ` : ""} {food?.description}
           </Typography>
 
           <IconButton onClick={onClose}>
@@ -91,7 +126,7 @@ const FoodMacrosModal = ({ open, onClose, food }) => {
             alignItems: "center",
           }}
         >
-          <NutrientDoughnutChart data={data} />
+          <NutrientDoughnutChart data={data} setAnimation={false} />
           <Box
             sx={{
               display: "flex",
@@ -109,8 +144,17 @@ const FoodMacrosModal = ({ open, onClose, food }) => {
                   mr: 1,
                 }}
               />
-              Protein: {macros.protein} g
-              <span style={{ color: "#68afac" }}> (74%)</span>
+              Protein: {foodData.protein} {foodData.proteinUnit}
+              <span style={{ color: "#68afac" }}>
+                {" "}
+                (
+                {Math.round(
+                  (foodData.protein /
+                    (foodData.protein + foodData.carbs + foodData.fat)) *
+                    100
+                ) || 0}
+                %)
+              </span>
             </Typography>
             <Typography variant="h5">
               <Box
@@ -123,8 +167,17 @@ const FoodMacrosModal = ({ open, onClose, food }) => {
                   mr: 1,
                 }}
               />
-              Carbs: {macros.carbs} g
-              <span style={{ color: "#66b7cd" }}> (12%)</span>
+              Carbs: {foodData.carbs} {foodData.carbsUnit}
+              <span style={{ color: "#66b7cd" }}>
+                {" "}
+                (
+                {Math.round(
+                  (foodData.carbs /
+                    (foodData.protein + foodData.carbs + foodData.fat)) *
+                    100
+                ) || 0}
+                %)
+              </span>
             </Typography>
             <Typography variant="h5">
               <Box
@@ -137,8 +190,17 @@ const FoodMacrosModal = ({ open, onClose, food }) => {
                   mr: 1,
                 }}
               />
-              Fat: {macros.fat} g
-              <span style={{ color: "#FFCC8A" }}> (14%)</span>
+              Fat: {foodData.fat} {foodData.fatUnit}
+              <span style={{ color: "#FFCC8A" }}>
+                {" "}
+                (
+                {Math.round(
+                  (foodData.fat /
+                    (foodData.protein + foodData.carbs + foodData.fat)) *
+                    100
+                ) || 0}
+                %)
+              </span>
             </Typography>
           </Box>
         </Box>

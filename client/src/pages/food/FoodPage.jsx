@@ -248,7 +248,7 @@ const FoodPage = () => {
                   title={"Protein"}
                   amount={`${190}g`}
                   targetAmount={`${Math.floor(
-                    (data.calories_target * data?.protein) /
+                    (data?.calories_target * data?.protein) /
                       100 /
                       MACROS.protein
                   )}g`}
@@ -257,14 +257,14 @@ const FoodPage = () => {
                   title={"Carbs"}
                   amount={`${148}g`}
                   targetAmount={`${Math.floor(
-                    (data.calories_target * data?.carbs) / 100 / MACROS.carbs
+                    (data?.calories_target * data?.carbs) / 100 / MACROS.carbs
                   )}g`}
                 />
                 <MacroItems
                   title={"Fat"}
                   amount={`${63}g`}
                   targetAmount={`${Math.floor(
-                    (data.calories_target * data?.fat) / 100 / MACROS.fat
+                    (data?.calories_target * data?.fat) / 100 / MACROS.fat
                   )}g`}
                 />
               </Box>
