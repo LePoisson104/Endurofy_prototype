@@ -6,7 +6,7 @@ const FoodSearch = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  let item = "fairlife milk";
+  let item = "milk";
 
   useEffect(() => {
     const fetchFoodData = async () => {

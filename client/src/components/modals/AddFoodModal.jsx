@@ -8,25 +8,11 @@ import {
   ListItem,
   ListItemText,
   IconButton,
-  Button,
 } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import CloseIcon from "@mui/icons-material/Close";
 import FoodMacrosModal from "./FoodMacrosModal";
 import { tokens } from "../../theme";
-
-// Mock food data
-const mockFoodData = [
-  "Apple",
-  "Banana",
-  "Chicken Breast",
-  "Rice",
-  "Broccoli",
-  "Almonds",
-  "Salmon",
-  "Quinoa",
-  // Add more food items here
-];
 
 const AddFoodModal = ({ open, onClose }) => {
   const theme = useTheme();
@@ -34,19 +20,44 @@ const AddFoodModal = ({ open, onClose }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFood, setSelectedFood] = useState("");
   const [macrosModalOpen, setMacrosModalOpen] = useState(false);
+  const [foodData, setFoodData] = useState([]);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
+  useEffect(() => {
+    const fetchFoodData = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch(
+          `https://api.nal.usda.gov/fdc/v1/foods/search?query=${searchTerm}&api_key=${process.env.REACT_APP_FDC_API_KEY}`
+        );
 
-  const handleFoodSelect = (food) => {
-    setSelectedFood(food);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+        // console.log(data);
+        setFoodData(data.foods); // Store the food data in the state
+      } catch (error) {
+        setError(error.message);
+        console.error("There was an error!", error);
+      } finally {
+        setIsLoading(false); // Stop loading after the fetch is complete
+      }
+    };
+
+    fetchFoodData();
+  }, [searchTerm, process.env.REACT_APP_FDC_API_KEY]); // The effect runs when the component mounts
+
+  const handleFoodSelect = (index) => {
+    setSelectedFood(index);
     setMacrosModalOpen(true); // Open the macros modal
   };
 
-  const filteredFoodData = mockFoodData.filter((food) =>
-    food.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // const filteredFoodData = foodData.filter((food) =>
+  //   food.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
 
   return (
     <>
@@ -104,77 +115,22 @@ const AddFoodModal = ({ open, onClose }) => {
               },
             }}
             value={searchTerm}
-            onChange={handleSearchChange}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
-          {/* buttons */}
-          <Box
+          <List
             sx={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-              mb: 1,
+              maxHeight: "50vh", // Set a max height for the list
+              overflowY: "auto", // Enable vertical scrolling
             }}
           >
-            <Button
-              sx={{
-                textTransform: "none",
-                color: theme.palette.mode === "dark" ? "white" : "black",
-                width: "150px",
-                borderRadius: 0,
-                fontWeight: "bold",
-                "&:hover": {
-                  borderBottom: `1px solid ${
-                    theme.palette.mode === "dark" ? "white" : "black"
-                  } `,
-                },
-              }}
-            >
-              All
-            </Button>
-            <Button
-              sx={{
-                textTransform: "none",
-                color: theme.palette.mode === "dark" ? "white" : "black",
-                width: "150px",
-                borderRadius: 0,
-                fontWeight: "bold",
-                "&:hover": {
-                  borderBottom: `1px solid ${
-                    theme.palette.mode === "dark" ? "white" : "black"
-                  } `,
-                },
-              }}
-            >
-              Favorites
-            </Button>
-            <Button
-              sx={{
-                textTransform: "none",
-                color: theme.palette.mode === "dark" ? "white" : "black",
-                width: "150px",
-                borderRadius: 0,
-                fontWeight: "bold",
-                "&:hover": {
-                  borderBottom: `1px solid ${
-                    theme.palette.mode === "dark" ? "white" : "black"
-                  } `,
-                },
-              }}
-            >
-              Custom
-            </Button>
-          </Box>
-          <Box sx={{ width: "100%", borderTop: "1px solid #888", mb: 1 }}></Box>
-          <List>
-            {filteredFoodData.length > 0 ? (
-              filteredFoodData.map((food) => (
+            {foodData.length > 0 ? (
+              foodData.map((food, index) => (
                 <ListItem
                   button
-                  key={food}
-                  onClick={() => handleFoodSelect(food)}
+                  key={index}
+                  onClick={() => handleFoodSelect(index)}
                 >
-                  <ListItemText primary={food} />
+                  <ListItemText primary={food.description} />
                 </ListItem>
               ))
             ) : (
