@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   Box,
@@ -17,12 +17,18 @@ import NutrientDoughnutChart from "../../components/charts/NutrientDoughnutChart
 import { tokens } from "../../theme";
 import { findFoodMacros } from "../../helper/findFoodMacros";
 import { MACROS } from "../../helper/macrosConstants";
+import { foodServingsHelper } from "../../helper/foodServingsHelper";
 
 const FoodMacrosModal = ({ open, onClose, food }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const [unit, setUnit] = useState("");
+  const [unit, setUnit] = useState("100g");
+  const [serving, setServing] = useState(1);
+  const [newFoodData, setNewFoodData] = useState("");
+
+  console.log(newFoodData);
+
   let Kcal = 0;
 
   if (findFoodMacros(food, "Energy")?.unitName === "kJ") {
@@ -62,6 +68,14 @@ const FoodMacrosModal = ({ open, onClose, food }) => {
     );
   }
 
+  useEffect(() => {
+    if (unit === "100g") {
+      setNewFoodData(foodData);
+    } else if (unit === "g") {
+      setNewFoodData(foodServingsHelper({ serving, unit, foodData }));
+    }
+  }, [serving, unit]);
+
   const data = {
     datasets: [
       {
@@ -77,12 +91,6 @@ const FoodMacrosModal = ({ open, onClose, food }) => {
       },
     ],
     totalCalories: foodData.calories,
-  };
-
-  console.log(data);
-
-  const handleChange = (event) => {
-    setUnit(event.target.value);
   };
 
   return (
@@ -227,6 +235,7 @@ const FoodMacrosModal = ({ open, onClose, food }) => {
           </Typography>
           <TextField
             defaultValue={1}
+            onChange={(e) => setServing(e.target.value)}
             sx={{
               width: "70px",
               "& .MuiOutlinedInput-root": {
@@ -258,7 +267,7 @@ const FoodMacrosModal = ({ open, onClose, food }) => {
               id="demo-simple-select"
               value={unit}
               label="Unit"
-              onChange={handleChange}
+              onChange={(e) => setUnit(e.target.value)}
               sx={{
                 "&:hover .MuiOutlinedInput-notchedOutline": {
                   borderColor: "#6d76fa", // Border color on hover
@@ -268,8 +277,8 @@ const FoodMacrosModal = ({ open, onClose, food }) => {
                 },
               }}
             >
+              <MenuItem value={"100g"}>100 g</MenuItem>
               <MenuItem value={"g"}>g</MenuItem>
-              <MenuItem value={"oz"}>oz</MenuItem>
             </Select>
           </FormControl>
         </Box>

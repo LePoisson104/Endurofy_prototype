@@ -24,8 +24,6 @@ const AddFoodModal = ({ open, onClose }) => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  console.log(foodData);
-
   useEffect(() => {
     const fetchFoodData = async () => {
       setIsLoading(true);
