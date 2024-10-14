@@ -10,6 +10,7 @@ import {
   Select,
   MenuItem,
   InputLabel,
+  useForkRef,
 } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import CloseIcon from "@mui/icons-material/Close";
@@ -23,11 +24,13 @@ const FoodMacrosModal = ({ open, onClose, food }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const [unit, setUnit] = useState("100g");
+  const [unit, setUnit] = useState("");
   const [serving, setServing] = useState(1);
   const [newFoodData, setNewFoodData] = useState("");
 
-  console.log(newFoodData);
+  useEffect(() => {
+    setUnit(food?.servingSizeUnit ? `100${food?.servingSizeUnit}` : "100g");
+  }, [food]);
 
   let Kcal = 0;
 
@@ -277,7 +280,13 @@ const FoodMacrosModal = ({ open, onClose, food }) => {
                 },
               }}
             >
-              <MenuItem value={"100g"}>100 g</MenuItem>
+              <MenuItem
+                value={
+                  food?.servingSizeUnit ? `100${food?.servingSizeUnit}` : "100g"
+                }
+              >
+                {food?.servingSizeUnit ? `100${food?.servingSizeUnit}` : "100g"}
+              </MenuItem>
               <MenuItem value={"g"}>g</MenuItem>
             </Select>
           </FormControl>

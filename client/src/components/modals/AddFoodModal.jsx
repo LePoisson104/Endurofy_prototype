@@ -55,10 +55,6 @@ const AddFoodModal = ({ open, onClose }) => {
     setMacrosModalOpen(true); // Open the macros modal
   };
 
-  // const filteredFoodData = foodData.filter((food) =>
-  //   food.toLowerCase().includes(searchTerm.toLowerCase())
-  // );
-
   return (
     <>
       <Modal open={open} onClose={onClose}>
