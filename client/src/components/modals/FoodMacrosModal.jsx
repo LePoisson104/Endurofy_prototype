@@ -26,10 +26,11 @@ const FoodMacrosModal = ({ open, onClose, food }) => {
 
   const [unit, setUnit] = useState("");
   const [serving, setServing] = useState(1);
-  const [newFoodData, setNewFoodData] = useState("");
+  const [foodData, setFoodData] = useState({});
 
   useEffect(() => {
     setUnit(food?.servingSizeUnit ? `100${food?.servingSizeUnit}` : "100g");
+    setServing(1);
   }, [food]);
 
   let Kcal = 0;
@@ -41,7 +42,7 @@ const FoodMacrosModal = ({ open, onClose, food }) => {
     Kcal = findFoodMacros(food, "Energy")?.value;
   }
 
-  const foodData = {
+  const initialFoodData = {
     calories: Kcal,
     protein: findFoodMacros(food, "Protein")?.value || 0,
     proteinUnit: findFoodMacros(food, "Protein")?.unitName.toLowerCase() || "g",
@@ -59,41 +60,57 @@ const FoodMacrosModal = ({ open, onClose, food }) => {
   };
 
   if (
-    foodData.calories === undefined &&
-    foodData.protein !== undefined &&
-    foodData.carbs !== undefined &&
-    foodData.fat !== undefined
+    initialFoodData.calories === undefined &&
+    initialFoodData.protein !== undefined &&
+    initialFoodData.carbs !== undefined &&
+    initialFoodData.fat !== undefined
   ) {
-    foodData.calories = Math.round(
-      foodData.protein * MACROS.protein +
-        foodData.carbs * MACROS.carbs +
-        foodData.fat * MACROS.fat
+    initialFoodData.calories = Math.round(
+      initialFoodData.protein * MACROS.protein +
+        initialFoodData.carbs * MACROS.carbs +
+        initialFoodData.fat * MACROS.fat
     );
   }
 
+  // Set foodData based on unit and serving
   useEffect(() => {
-    if (unit === "100g") {
-      setNewFoodData(foodData);
-    } else if (unit === "g") {
-      setNewFoodData(foodServingsHelper({ serving, unit, foodData }));
+    if (food) {
+      // Ensure food is loaded before calculating foodData
+      if (unit === "g" || unit === "oz") {
+        setFoodData(
+          foodServingsHelper({ serving, unit, foodData: initialFoodData })
+        );
+      } else if (unit !== "g" && "oz") {
+        setFoodData(
+          foodServingsHelper({ serving, unit, foodData: initialFoodData })
+        );
+      }
     }
-  }, [serving, unit]);
+  }, [food, unit, serving]);
 
   const data = {
     datasets: [
       {
-        data: [foodData.fat || 100, foodData.protein || 0, foodData.carbs || 0],
+        data: [
+          foodData?.fat || 100,
+          foodData?.protein || 0,
+          foodData?.carbs || 0,
+        ],
         backgroundColor:
-          foodData.fat === 0 && foodData.protein === 0 && foodData.carbs === 0
+          foodData?.fat === 0 &&
+          foodData?.protein === 0 &&
+          foodData?.carbs === 0
             ? ["#D3D3D3", "#D3D3D3", "#D3D3D3"] // Colors for Fat, Protein, Carbs
             : ["#FFCC8A", "#68afac", "#66b7cd"], // Gray color when no data
         hoverBackgroundColor:
-          foodData.fat === 0 && foodData.protein === 0 && foodData.carbs === 0
+          foodData?.fat === 0 &&
+          foodData?.protein === 0 &&
+          foodData?.carbs === 0
             ? ["#D3D3D3", "#D3D3D3", "#D3D3D3"] // Colors for Fat, Protein, Carbs
             : ["#FFCC8A", "#68afac", "#66b7cd"], // Gray color when no data
       },
     ],
-    totalCalories: foodData.calories,
+    totalCalories: Math.round(foodData.calories),
   };
 
   return (
@@ -155,7 +172,7 @@ const FoodMacrosModal = ({ open, onClose, food }) => {
                   mr: 1,
                 }}
               />
-              Protein: {foodData.protein} {foodData.proteinUnit}
+              Protein: {foodData?.protein?.toFixed(2)} {foodData.proteinUnit}
               <span style={{ color: "#68afac" }}>
                 {" "}
                 (
@@ -178,7 +195,7 @@ const FoodMacrosModal = ({ open, onClose, food }) => {
                   mr: 1,
                 }}
               />
-              Carbs: {foodData.carbs} {foodData.carbsUnit}
+              Carbs: {foodData?.carbs?.toFixed(2)} {foodData.carbsUnit}
               <span style={{ color: "#66b7cd" }}>
                 {" "}
                 (
@@ -201,7 +218,7 @@ const FoodMacrosModal = ({ open, onClose, food }) => {
                   mr: 1,
                 }}
               />
-              Fat: {foodData.fat} {foodData.fatUnit}
+              Fat: {foodData?.fat?.toFixed(2)} {foodData.fatUnit}
               <span style={{ color: "#FFCC8A" }}>
                 {" "}
                 (
@@ -238,7 +255,21 @@ const FoodMacrosModal = ({ open, onClose, food }) => {
           </Typography>
           <TextField
             defaultValue={1}
-            onChange={(e) => setServing(e.target.value)}
+            inputProps={{ max: 1000, min: 0 }}
+            type="number"
+            onChange={(e) => {
+              let value = parseInt(e.target.value);
+
+              if (value < 0) {
+                value = 0;
+              } else if (value > 1000) {
+                value = 1000;
+              } else if (isNaN(value)) {
+                value = 0;
+              }
+
+              setServing(value);
+            }}
             sx={{
               width: "70px",
               "& .MuiOutlinedInput-root": {
@@ -252,6 +283,14 @@ const FoodMacrosModal = ({ open, onClose, food }) => {
                   borderColor: "#6d76fa",
                 },
               },
+              "& input[type=number]": {
+                MozAppearance: "textfield", // Firefox
+              },
+              "& input[type=number]::-webkit-outer-spin-button, & input[type=number]::-webkit-inner-spin-button":
+                {
+                  WebkitAppearance: "none", // Chrome, Safari, Edge, Opera
+                  margin: 0,
+                },
             }}
           />
           <FormControl sx={{ width: "150px" }}>
@@ -288,6 +327,7 @@ const FoodMacrosModal = ({ open, onClose, food }) => {
                 {food?.servingSizeUnit ? `100${food?.servingSizeUnit}` : "100g"}
               </MenuItem>
               <MenuItem value={"g"}>g</MenuItem>
+              <MenuItem value={"oz"}>oz</MenuItem>
             </Select>
           </FormControl>
         </Box>
