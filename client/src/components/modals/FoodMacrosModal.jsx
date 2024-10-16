@@ -341,6 +341,7 @@ const FoodMacrosModal = ({ open, onClose, food }) => {
           }}
         >
           <Button
+            type="submit"
             sx={{
               width: "100px",
               textTransform: "none",
