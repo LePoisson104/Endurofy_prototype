@@ -10,7 +10,6 @@ import {
   Select,
   MenuItem,
   InputLabel,
-  useForkRef,
 } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import CloseIcon from "@mui/icons-material/Close";
@@ -112,6 +111,8 @@ const FoodMacrosModal = ({ open, onClose, food }) => {
     ],
     totalCalories: Math.round(foodData.calories),
   };
+
+  // const handleSubmit = () => {};
 
   return (
     <Modal open={open} onClose={onClose}>
