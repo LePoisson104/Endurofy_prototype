@@ -51,7 +51,6 @@ const signUp = async (userData) => {
   const hashedPassword = await bcrypt.hash(password, 10); // 10 salts
   const userId = uuidv4();
   const basal_metabolic_rate = BMR(gender, birthdate, height, weight);
-  console.log(basal_metabolic_rate);
   const activity_level = "0";
   const calories_target = basal_metabolic_rate;
   const weight_goal = weight;

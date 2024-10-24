@@ -12,5 +12,6 @@ app.use(cookieParser());
 
 app.use("/users", require("./routes/userRoutes"));
 app.use("/auth", require("./routes/authRoutes"));
+app.use("/food-diary", require("./routes/foodDiaryRoutes"));
 
 module.exports = app;
