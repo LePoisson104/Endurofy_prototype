@@ -11,7 +11,7 @@ import PasswordField from "../../components/PasswordField";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
 import { useSignupMutation } from "../../features/auth/authApiSlice";
-import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 import CircularProgress from "@mui/material/CircularProgress";
 import SuccessAlert from "../../components/alerts/SuccessAlert";
 
@@ -234,11 +234,10 @@ const SignUp = () => {
               flexDirection: "row",
               alignItems: "center",
               bgcolor: "#ffcdd2",
-              gap: 1,
               borderRadius: 1,
             }}
           >
-            <WarningAmberIcon />
+            <PriorityHighIcon fontSize="small" />
             <Typography>{errMsg}</Typography>
           </Box>
         )}

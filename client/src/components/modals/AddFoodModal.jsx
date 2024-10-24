@@ -120,7 +120,7 @@ const AddFoodModal = ({ open, onClose }) => {
               overflowY: "auto", // Enable vertical scrolling
             }}
           >
-            {foodData.length > 0 ? (
+            {foodData.length > 0 && !isLoading ? (
               foodData.map((food, index) => (
                 <ListItem
                   button

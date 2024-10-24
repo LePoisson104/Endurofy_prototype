@@ -8,7 +8,7 @@ import { useLoginMutation } from "../../features/auth/authApiSlice";
 import { setCredentials } from "../../features/auth/authSlice";
 import PasswordField from "../../components/PasswordField";
 import ForgotPasswordModal from "../../components/modals/ForgotPassModal";
-import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 import CircularProgress from "@mui/material/CircularProgress";
 
 const Login = () => {
@@ -155,26 +155,6 @@ const Login = () => {
         >
           Log In
         </Typography>
-        {errMsg && (
-          <Box
-            sx={{
-              display: "flex",
-              color: "red",
-              width: "350px",
-              height: "50px",
-              mb: 3,
-              paddingLeft: 1,
-              flexDirection: "row",
-              alignItems: "center",
-              bgcolor: "#ffcdd2",
-              gap: 1,
-              borderRadius: 1,
-            }}
-          >
-            <WarningAmberIcon />
-            <Typography>{errMsg}</Typography>
-          </Box>
-        )}
         <TextField
           id="email"
           label="Email"
@@ -214,7 +194,20 @@ const Login = () => {
           validate={false} // Disable validation
           errMsg={errMsg ? true : false}
         />
-
+        {errMsg && (
+          <Box
+            sx={{
+              display: "flex",
+              color: "red",
+              width: "350px",
+              mt: 2,
+              flexDirection: "row",
+            }}
+          >
+            <PriorityHighIcon fontSize="small" />
+            <Typography>{errMsg}</Typography>
+          </Box>
+        )}
         <Box
           sx={{
             display: "flex",
