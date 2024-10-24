@@ -1,4 +1,4 @@
-const authService = require("../services/authService");
+const authServices = require("../services/authServices");
 
 // @desc Signup
 // @route POST/auth
@@ -16,7 +16,7 @@ const signup = async (req, res) => {
   } = req.body);
 
   try {
-    await authService.signUp(userData);
+    await authServices.signUp(userData);
     return res.status(200).json({ message: "User Created Successfully!" });
   } catch (err) {
     const statusCode = err.statusCode || 500;
@@ -31,7 +31,7 @@ const login = async (req, res) => {
   const userData = ({ email, password } = req.body);
 
   try {
-    const accessToken = await authService.logIn(userData, res);
+    const accessToken = await authServices.logIn(userData, res);
     // Send accessToken containing user information
     res.status(200).json({ message: "Success!", accessToken });
   } catch (err) {
@@ -46,7 +46,7 @@ const login = async (req, res) => {
 const refresh = async (req, res) => {
   const cookies = req.cookies;
   try {
-    const accessToken = await authService.refresh(cookies);
+    const accessToken = await authServices.refresh(cookies);
     return res.status(200).json({ accessToken });
   } catch (err) {
     const statusCode = err.statusCode || 500;
@@ -60,7 +60,7 @@ const refresh = async (req, res) => {
 const logout = (req, res) => {
   const cookies = req.cookies;
   try {
-    authService.logout(cookies, res);
+    authServices.logout(cookies, res);
   } catch (err) {
     const statusCode = err.statusCode || 500;
     return res.status(statusCode).json({ message: err.message });

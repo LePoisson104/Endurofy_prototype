@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const authController = require("../controllers/authController");
+const authControllers = require("../controllers/authControllers");
 const { loginLimiter, signupLimiter } = require("../middleware/requestLimiter");
 
-router.route("/login").post(loginLimiter, authController.login);
-router.route("/signup").post(signupLimiter, authController.signup);
-router.route("/refresh").get(authController.refresh);
-router.route("/logout").post(authController.logout);
+router.route("/login").post(loginLimiter, authControllers.login);
+router.route("/signup").post(signupLimiter, authControllers.signup);
+router.route("/refresh").get(authControllers.refresh);
+router.route("/logout").post(authControllers.logout);
 
 module.exports = router;

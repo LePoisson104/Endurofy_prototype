@@ -1,18 +1,18 @@
 const express = require("express");
 const router = express.Router();
-const userController = require("../controllers/userController");
+const userControllers = require("../controllers/userControllers");
 const verifyJWT = require("../middleware/verifyJWT");
 
 router.use(verifyJWT);
 
-router.route("/:userId").get(userController.getUserInfoById);
-router.patch("/update-account/:userId", userController.updateUserAccount);
+router.get("/:userId", userControllers.getUserInfoById);
+router.patch("/update-account/:userId", userControllers.updateUserAccount);
 // router.patch(
 //   "/update-account-settings/:userId",
-//   userController.updateUserAccountSettings
+//   userControllers.updateUserAccountSettings
 // );
-router.patch("/update-profile/:userId", userController.updateUserProfile);
-router.patch("/update-target/:userId", userController.updateUserTarget);
-router.delete("/delete/:userId", userController.deleteUserAccount);
+router.patch("/update-profile/:userId", userControllers.updateUserProfile);
+router.patch("/update-target/:userId", userControllers.updateUserTarget);
+router.delete("/delete/:userId", userControllers.deleteUserAccount);
 
 module.exports = router;

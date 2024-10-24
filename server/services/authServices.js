@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require("uuid");
 const errorResponse = require("../utils/errorResponse");
-const userService = require("./userService");
+const userServices = require("./userServices");
 const { BMR } = require("../helper/BMR");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -94,7 +94,7 @@ const logIn = async (userData, res) => {
     throw new errorResponse("All Fields Are Required!", 400);
   }
 
-  const { getCredentials, match } = await userService.getUserCredentials(
+  const { getCredentials, match } = await userServices.getUserCredentials(
     email,
     password
   );
