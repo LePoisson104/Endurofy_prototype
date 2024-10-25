@@ -6,7 +6,7 @@ const pool = require("../utils/db");
 const queryGetAllFood = async (userId) => {
   try {
     const response = await new Promise((resolve, reject) => {
-      const query = `SELECT * FROM foodDiary WHERE user_id = ?`;
+      const query = `SELECT * FROM foodLog WHERE user_id = ?`;
       pool.query(query, [userId], (err, results) => {
         if (err) {
           reject(new Error(er.message));
@@ -40,7 +40,7 @@ const queryAddFood = async (
   try {
     const response = await new Promise((resolve, reject) => {
       const query =
-        "INSERT INTO foodDiary (food_id, user_id, food_name, calories, protein, carbs, fat, serving_size, serving_unit, meal_type, logged_at) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+        "INSERT INTO foodLog (food_id, user_id, food_name, calories, protein, carbs, fat, serving_size, serving_unit, meal_type, logged_at) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
       pool.query(
         query,
         [
@@ -77,7 +77,7 @@ const queryAddFood = async (
 const queryUpdateFood = async (foodId, updatePayload) => {
   try {
     const response = await new Promise((resolve, reject) => {
-      const query = "UPDATE foodTable SET ? WHERE food_id = ?";
+      const query = "UPDATE foodLog SET ? WHERE food_id = ?";
       pool.query(query, [updatePayload, foodId], (err, results) => {
         if (err) {
           reject(new Error(err.message));
@@ -98,7 +98,7 @@ const queryUpdateFood = async (foodId, updatePayload) => {
 const queryDeleteFood = async (foodId) => {
   try {
     const response = await new Promise((resolve, reject) => {
-      const query = "DELETE FROM fooDiary WHERE food_id = ?";
+      const query = "DELETE FROM foodLog WHERE food_id = ?";
       pool.query(query, [foodId], (err, results) => {
         if (err) {
           reject(new Error(err.message));
