@@ -6,10 +6,10 @@ const pool = require("../utils/db");
 const queryGetAllFood = async (userId) => {
   try {
     const response = await new Promise((resolve, reject) => {
-      const query = `SELECT * FROM foodLog WHERE user_id = ?`;
+      const query = "SELECT * FROM foodLog WHERE user_id = ?";
       pool.query(query, [userId], (err, results) => {
         if (err) {
-          reject(new Error(er.message));
+          reject(new Error(err.message));
         } else {
           resolve(results);
         }

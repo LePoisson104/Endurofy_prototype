@@ -14,10 +14,10 @@ const getAllFood = async (req, res) => {
 
 const addFood = async (req, res) => {
   const { userId } = req.params;
-  const { foodData } = req.body;
+  const foodData = req.body;
 
   try {
-    await foodDiaryServices(userId, foodData);
+    await foodDiaryServices.addFood(userId, foodData);
     return res.status(200).json({ message: "Food Added Successfully!" });
   } catch (err) {
     const stautsCode = err.stautsCode || 500;
@@ -27,7 +27,7 @@ const addFood = async (req, res) => {
 
 const updateFood = async (req, res) => {
   const { foodId } = req.params;
-  const { updatePayload } = req.body;
+  const updatePayload = req.body;
 
   try {
     await foodDiaryServices.updateFood(foodId, updatePayload);

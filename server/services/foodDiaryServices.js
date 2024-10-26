@@ -9,7 +9,7 @@ const getAllFood = async (userId) => {
 
   const getAllFoods = await Foods.queryGetAllFood(userId);
 
-  if (getAllFood.userResponse.length === 0) {
+  if (getAllFoods.length === 0) {
     throw new errorResponse("User Not Found!", 404);
   }
 
