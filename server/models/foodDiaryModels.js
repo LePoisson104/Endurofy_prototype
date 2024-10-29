@@ -3,11 +3,12 @@ const pool = require("../utils/db");
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // @queryGetAllFood
 ////////////////////////////////////////////////////////////////////////////////////////////////
-const queryGetAllFood = async (userId) => {
+const queryGetAllFood = async (userId, date) => {
   try {
     const response = await new Promise((resolve, reject) => {
-      const query = "SELECT * FROM foodLog WHERE user_id = ?";
-      pool.query(query, [userId], (err, results) => {
+      const query =
+        "SELECT * FROM foodLog WHERE user_id = ? AND DATE(logged_at) = ?";
+      pool.query(query, [userId, date], (err, results) => {
         if (err) {
           reject(new Error(err.message));
         } else {

@@ -2,9 +2,10 @@ const foodDiaryServices = require("../services/foodDiaryServices");
 
 const getAllFood = async (req, res) => {
   const { userId } = req.params;
+  const { date } = req.query;
 
   try {
-    const getAllFoods = await foodDiaryServices.getAllFood(userId);
+    const getAllFoods = await foodDiaryServices.getAllFood(userId, date);
     return res.status(200).json(getAllFoods);
   } catch (err) {
     const statusCode = err.statusCode || 500;
@@ -20,8 +21,8 @@ const addFood = async (req, res) => {
     await foodDiaryServices.addFood(userId, foodData);
     return res.status(200).json({ message: "Food Added Successfully!" });
   } catch (err) {
-    const stautsCode = err.stautsCode || 500;
-    return res.status(stautsCode).json({ message: err.message });
+    const statusCode = err.statusCode || 500;
+    return res.status(statusCode).json({ message: err.message });
   }
 };
 

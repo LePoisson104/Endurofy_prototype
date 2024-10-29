@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, sliderClasses } from "@mui/material";
 import { tokens } from "../../theme";
 import { useTheme } from "@emotion/react";
 import FoodCalendar from "../../components/FoodCalendar";
@@ -9,20 +9,49 @@ import WaterAccordion from "../../components/accordion/WaterAccordion";
 import useAuth from "../../hooks/useAuth";
 import { useGetAllUsersInfoQuery } from "../../features/users/usersApiSlice";
 import { MACROS } from "../../helper/macrosConstants";
+import { useGetAllFoodByDateQuery } from "../../features/food/foodApiSlice";
+import { useState } from "react";
 
 const FoodPage = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
   const { userId } = useAuth();
-  const { data } = useGetAllUsersInfoQuery(userId);
+  const [currentDate, setCurrentDate] = useState(
+    new Date().toISOString().slice(0, 10)
+  );
+
+  const userData = useGetAllUsersInfoQuery(userId).data;
+  const allFoodData = useGetAllFoodByDateQuery({ userId, currentDate }).data;
+
   const totalCalBurned =
-    Math.round(data?.BMR * parseFloat(data?.activity_level)) + data?.BMR;
-  const BMRPercent = Math.round((data?.BMR / totalCalBurned) * 100);
+    Math.round(userData?.BMR * parseFloat(userData?.activity_level)) +
+    userData?.BMR;
+  const BMRPercent = Math.round((userData?.BMR / totalCalBurned) * 100);
   const baselinePercent = Math.round(
-    (Math.round(data?.BMR * parseFloat(data?.activity_level)) /
+    (Math.round(userData?.BMR * parseFloat(userData?.activity_level)) /
       totalCalBurned) *
       100
   );
+  const totalCaloriesConsumed = allFoodData?.reduce(
+    (total, food) => (total += food.calories),
+    0
+  );
+  const totalProteinConsumed = allFoodData?.reduce(
+    (total, food) => (total += food.protein),
+    0
+  );
+  const totalCarbsConsumed = allFoodData?.reduce(
+    (total, food) => (total += food.carbs),
+    0
+  );
+  const totalFatConsumed = allFoodData?.reduce(
+    (total, food) => (total += food.fat),
+    0
+  );
+  const totalCalOfProtein = Math.round(totalProteinConsumed * MACROS.protein);
+  const totalCalOfCarbs = Math.round(totalCarbsConsumed * MACROS.carbs);
+  const totalCalOfFat = Math.round(totalFatConsumed * MACROS.fat);
 
   const progressColors = {
     Energy: "#9a9ff1",
@@ -35,12 +64,12 @@ const FoodPage = () => {
     data1: {
       datasets: [
         {
-          data: [20, 50, 30], // Example values, adjust as needed
+          data: [totalFatConsumed, totalProteinConsumed, totalCarbsConsumed], // Example values, adjust as needed
           backgroundColor: ["#FFCC8A", "#68afac", "#66b7cd"], // Fat, Protein, Carbs
           hoverBackgroundColor: ["#FFCC8A", "#68afac", "#66b7cd"],
         },
       ],
-      totalCalories: 500,
+      totalCalories: totalCaloriesConsumed,
     },
     data2: {
       datasets: [
@@ -60,38 +89,8 @@ const FoodPage = () => {
           hoverBackgroundColor: ["#9a9ff1"],
         },
       ],
-      totalCalories: data?.calories_target,
+      totalCalories: userData?.calories_target,
     },
-  };
-
-  // mock data
-  const foodData = {
-    breakfast: [
-      { name: "Eggs", amount: 200, kcal: 150, protein: 12, carbs: 1, fat: 10 },
-      { name: "Toast", amount: 50, kcal: 80, protein: 2, carbs: 15, fat: 1 },
-    ],
-    lunch: [
-      {
-        name: "Chicken",
-        amount: 250,
-        kcal: 300,
-        protein: 30,
-        carbs: 0,
-        fat: 15,
-      },
-      { name: "Rice", amount: 100, kcal: 130, protein: 3, carbs: 28, fat: 1 },
-    ],
-    dinner: [
-      {
-        name: "Salmon",
-        amount: 200,
-        kcal: 250,
-        protein: 25,
-        carbs: 0,
-        fat: 20,
-      },
-      { name: "Quinoa", amount: 150, kcal: 120, protein: 5, carbs: 21, fat: 2 },
-    ],
   };
 
   const MacroItems = ({ title, amount, targetAmount }) => {
@@ -171,12 +170,28 @@ const FoodPage = () => {
             <WaterAccordion />
             <AccordionUsage
               title={"Uncategorized"}
-              data={foodData.uncatergorized}
+              data={allFoodData.filter(
+                (food) => food.meal_type === "uncategorized"
+              )}
             />
-            <AccordionUsage title={"Breakfast"} data={foodData.breakfast} />
-            <AccordionUsage title={"Lunch"} data={foodData.lunch} />
-            <AccordionUsage title={"Dinner"} data={foodData.dinner} />
-            <AccordionUsage title={"Snacks"} data={foodData.snacks} />
+            <AccordionUsage
+              title={"Breakfast"}
+              data={allFoodData.filter(
+                (food) => food.meal_type === "breakfast"
+              )}
+            />
+            <AccordionUsage
+              title={"Lunch"}
+              data={allFoodData.filter((food) => food.meal_type === "lunch")}
+            />
+            <AccordionUsage
+              title={"Dinner"}
+              data={allFoodData.filter((food) => food.meal_type === "dinner")}
+            />
+            <AccordionUsage
+              title={"Snacks"}
+              data={allFoodData.filter((food) => food.meal_type === "snack")}
+            />
           </Box>
           <Box
             sx={{ width: "100%", borderTop: "1px solid #888", mb: 3, mt: 3 }}
@@ -241,30 +256,34 @@ const FoodPage = () => {
               <Box>
                 <MacroItems
                   title={"Energy"}
-                  amount={`${2052}kcal`}
-                  targetAmount={`${data?.calories_target}kcal`}
+                  amount={`${totalCaloriesConsumed}kcal`}
+                  targetAmount={`${userData?.calories_target}kcal`}
                 />
                 <MacroItems
                   title={"Protein"}
-                  amount={`${190}g`}
+                  amount={`${totalProteinConsumed}g`}
                   targetAmount={`${Math.floor(
-                    (data?.calories_target * data?.protein) /
+                    (userData?.calories_target * userData?.protein) /
                       100 /
                       MACROS.protein
                   )}g`}
                 />
                 <MacroItems
                   title={"Carbs"}
-                  amount={`${148}g`}
+                  amount={`${totalCarbsConsumed}g`}
                   targetAmount={`${Math.floor(
-                    (data?.calories_target * data?.carbs) / 100 / MACROS.carbs
+                    (userData?.calories_target * userData?.carbs) /
+                      100 /
+                      MACROS.carbs
                   )}g`}
                 />
                 <MacroItems
                   title={"Fat"}
-                  amount={`${63}g`}
+                  amount={`${totalFatConsumed}g`}
                   targetAmount={`${Math.floor(
-                    (data?.calories_target * data?.fat) / 100 / MACROS.fat
+                    (userData?.calories_target * userData?.fat) /
+                      100 /
+                      MACROS.fat
                   )}g`}
                 />
               </Box>
@@ -312,8 +331,13 @@ const FoodPage = () => {
                     width: "30%",
                   }}
                 >
-                  <Typography variant="h6">662 kcal</Typography>
-                  <Typography variant="h6">50%</Typography>
+                  <Typography variant="h6">{totalCalOfProtein} kcal</Typography>
+                  <Typography variant="h6">
+                    {Math.round(
+                      (totalCalOfProtein / totalCaloriesConsumed) * 100
+                    )}
+                    %
+                  </Typography>
                 </Box>
               </Box>
               <Box
@@ -338,8 +362,13 @@ const FoodPage = () => {
                     width: "30%",
                   }}
                 >
-                  <Typography variant="h6">344 kcal</Typography>
-                  <Typography variant="h6">30%</Typography>
+                  <Typography variant="h6">{totalCalOfCarbs} kcal</Typography>
+                  <Typography variant="h6">
+                    {Math.round(
+                      (totalCalOfCarbs / totalCaloriesConsumed) * 100
+                    )}
+                    %
+                  </Typography>
                 </Box>
               </Box>
               <Box
@@ -364,8 +393,10 @@ const FoodPage = () => {
                     width: "30%",
                   }}
                 >
-                  <Typography variant="h6">231 kcal</Typography>
-                  <Typography variant="h6">20%</Typography>
+                  <Typography variant="h6">{totalCalOfFat} kcal</Typography>
+                  <Typography variant="h6">
+                    {Math.round((totalCalOfFat / totalCaloriesConsumed) * 100)}%
+                  </Typography>
                 </Box>
               </Box>
             </Box>
@@ -400,7 +431,7 @@ const FoodPage = () => {
                     width: "30%",
                   }}
                 >
-                  <Typography variant="h6">{data?.BMR} kcal</Typography>
+                  <Typography variant="h6">{userData?.BMR} kcal</Typography>
                   <Typography variant="h6">{BMRPercent}%</Typography>
                 </Box>
               </Box>
@@ -427,7 +458,9 @@ const FoodPage = () => {
                   }}
                 >
                   <Typography variant="h6">
-                    {Math.round(data?.BMR * parseFloat(data?.activity_level))}{" "}
+                    {Math.round(
+                      userData?.BMR * parseFloat(userData?.activity_level)
+                    )}{" "}
                     kcal
                   </Typography>
                   <Typography variant="h6">{baselinePercent}%</Typography>
@@ -459,7 +492,7 @@ const FoodPage = () => {
                   }}
                 >
                   <Typography variant="h6">
-                    {data?.calories_target} kcal
+                    {userData?.calories_target} kcal
                   </Typography>
                 </Box>
               </Box>
@@ -478,7 +511,9 @@ const FoodPage = () => {
                     justifyContent: "space-between",
                   }}
                 >
-                  <Typography variant="h6">-1420 kcal</Typography>
+                  <Typography variant="h6">
+                    -{totalCaloriesConsumed} kcal
+                  </Typography>
                 </Box>
               </Box>
               <Box
@@ -502,7 +537,9 @@ const FoodPage = () => {
                     justifyContent: "space-between",
                   }}
                 >
-                  <Typography variant="h6">452 kcal</Typography>
+                  <Typography variant="h6">
+                    {userData?.calories_target - totalCaloriesConsumed} kcal
+                  </Typography>
                 </Box>
               </Box>
             </Box>

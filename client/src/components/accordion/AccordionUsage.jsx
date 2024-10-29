@@ -44,7 +44,7 @@ const AccordionUsage = ({ title, data }) => {
   let fat = 0;
 
   if (data) {
-    kcal = data.reduce((acc, item) => acc + item.kcal, 0);
+    kcal = data.reduce((acc, item) => acc + item.calories, 0);
     protein = data.reduce((acc, item) => acc + item.protein, 0);
     carbs = data.reduce((acc, item) => acc + item.carbs, 0);
     fat = data.reduce((acc, item) => acc + item.fat, 0);
@@ -81,7 +81,7 @@ const AccordionUsage = ({ title, data }) => {
             >
               <EditNoteIcon />
             </IconButton>
-            <Typography>{item.name}</Typography>
+            <Typography>{item.food_name}</Typography>
           </Box>
           <Box
             sx={{
@@ -93,8 +93,10 @@ const AccordionUsage = ({ title, data }) => {
               paddingRight: 5,
             }}
           >
-            <Typography>{item.amount} g</Typography>
-            <Typography>{item.kcal} kcal</Typography>
+            <Typography>
+              {item.serving_size} {item.serving_unit}
+            </Typography>
+            <Typography>{item.calories} kcal</Typography>
           </Box>
         </AccordionDetails>
       ));

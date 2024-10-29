@@ -2,12 +2,12 @@ const errorResponse = require("../utils/errorResponse");
 const Foods = require("../models/foodDiaryModels");
 const { v4: uuidv4 } = require("uuid");
 
-const getAllFood = async (userId) => {
-  if (!userId) {
-    throw new errorResponse("UserId is required!", 400);
+const getAllFood = async (userId, date) => {
+  if (!userId && !date) {
+    throw new errorResponse("UserId and date are required!", 400);
   }
 
-  const getAllFoods = await Foods.queryGetAllFood(userId);
+  const getAllFoods = await Foods.queryGetAllFood(userId, date);
 
   if (getAllFoods.length === 0) {
     throw new errorResponse("User Not Found!", 404);
@@ -17,7 +17,7 @@ const getAllFood = async (userId) => {
 };
 
 const addFood = async (userId, foodData) => {
-  if (!userId && !foodData) {
+  if (!userId || Object.keys(foodData).length === 0) {
     throw new errorResponse("UserId and foodData are required!", 400);
   }
 
@@ -57,7 +57,7 @@ const addFood = async (userId, foodData) => {
 };
 
 const updateFood = async (foodId, updatePayload) => {
-  if (!foodId && updatePayload) {
+  if (!foodId && !updatePayload) {
     throw new errorResponse("FoodId and updatePayload are Required!", 400);
   }
 
