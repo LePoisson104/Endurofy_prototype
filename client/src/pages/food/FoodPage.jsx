@@ -11,6 +11,7 @@ import { useGetAllUsersInfoQuery } from "../../features/users/usersApiSlice";
 import { MACROS } from "../../helper/macrosConstants";
 import { useGetAllFoodByDateQuery } from "../../features/food/foodApiSlice";
 import { useState } from "react";
+import { foodServingsHelper } from "../../helper/foodServingsHelper";
 
 const FoodPage = () => {
   const theme = useTheme();
@@ -33,6 +34,7 @@ const FoodPage = () => {
       totalCalBurned) *
       100
   );
+
   const totalCaloriesConsumed = allFoodData?.reduce(
     (total, food) => (total += food.calories),
     0
@@ -49,6 +51,7 @@ const FoodPage = () => {
     (total, food) => (total += food.fat),
     0
   );
+
   const totalCalOfProtein = Math.round(totalProteinConsumed * MACROS.protein);
   const totalCalOfCarbs = Math.round(totalCarbsConsumed * MACROS.carbs);
   const totalCalOfFat = Math.round(totalFatConsumed * MACROS.fat);
@@ -170,27 +173,27 @@ const FoodPage = () => {
             <WaterAccordion />
             <AccordionUsage
               title={"Uncategorized"}
-              data={allFoodData.filter(
+              data={allFoodData?.filter(
                 (food) => food.meal_type === "uncategorized"
               )}
             />
             <AccordionUsage
               title={"Breakfast"}
-              data={allFoodData.filter(
+              data={allFoodData?.filter(
                 (food) => food.meal_type === "breakfast"
               )}
             />
             <AccordionUsage
               title={"Lunch"}
-              data={allFoodData.filter((food) => food.meal_type === "lunch")}
+              data={allFoodData?.filter((food) => food.meal_type === "lunch")}
             />
             <AccordionUsage
               title={"Dinner"}
-              data={allFoodData.filter((food) => food.meal_type === "dinner")}
+              data={allFoodData?.filter((food) => food.meal_type === "dinner")}
             />
             <AccordionUsage
               title={"Snacks"}
-              data={allFoodData.filter((food) => food.meal_type === "snack")}
+              data={allFoodData?.filter((food) => food.meal_type === "snack")}
             />
           </Box>
           <Box
