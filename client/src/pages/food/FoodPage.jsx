@@ -10,7 +10,7 @@ import useAuth from "../../hooks/useAuth";
 import { useGetAllUsersInfoQuery } from "../../features/users/usersApiSlice";
 import { MACROS } from "../../helper/macrosConstants";
 import { useGetAllFoodByDateQuery } from "../../features/food/foodApiSlice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { foodServingsHelper } from "../../helper/foodServingsHelper";
 
 const FoodPage = () => {
@@ -18,12 +18,18 @@ const FoodPage = () => {
   const colors = tokens(theme.palette.mode);
 
   const { userId } = useAuth();
-  const [currentDate, setCurrentDate] = useState(
-    new Date().toISOString().slice(0, 10)
-  );
+  // const [currentDate, setCurrentDate] = useState(
+  //   new Date().toLocaleDateString("en-CA") // Formats as "YYYY-MM-DD"
+  // );
+
+  const currentDate = "2024-10-29";
 
   const userData = useGetAllUsersInfoQuery(userId).data;
   const allFoodData = useGetAllFoodByDateQuery({ userId, currentDate }).data;
+
+  // console.log(allFoodData?.serving_unit);
+
+  // const helperResult = foodServingsHelper();
 
   const totalCalBurned =
     Math.round(userData?.BMR * parseFloat(userData?.activity_level)) +
@@ -35,26 +41,35 @@ const FoodPage = () => {
       100
   );
 
-  const totalCaloriesConsumed = allFoodData?.reduce(
-    (total, food) => (total += food.calories),
-    0
-  );
-  const totalProteinConsumed = allFoodData?.reduce(
-    (total, food) => (total += food.protein),
-    0
-  );
-  const totalCarbsConsumed = allFoodData?.reduce(
-    (total, food) => (total += food.carbs),
-    0
-  );
-  const totalFatConsumed = allFoodData?.reduce(
-    (total, food) => (total += food.fat),
-    0
-  );
+  // if there are food data then calculate the total calories of all food else 0 kcal is consumed
+  const totalCaloriesConsumed = allFoodData
+    ? allFoodData.reduce((total, food) => total + food.calories, 0)
+    : 0;
+  const totalProteinConsumed = allFoodData
+    ? allFoodData?.reduce((total, food) => (total += food.protein), 0)
+    : 0;
+  const totalCarbsConsumed = allFoodData
+    ? allFoodData?.reduce((total, food) => (total += food.carbs), 0)
+    : 0;
+  const totalFatConsumed = allFoodData
+    ? allFoodData?.reduce((total, food) => (total += food.fat), 0)
+    : 0;
 
   const totalCalOfProtein = Math.round(totalProteinConsumed * MACROS.protein);
   const totalCalOfCarbs = Math.round(totalCarbsConsumed * MACROS.carbs);
   const totalCalOfFat = Math.round(totalFatConsumed * MACROS.fat);
+
+  let remainingCalories = userData?.calories_target - totalCaloriesConsumed;
+
+  const [calRemainTitle, setCalRemainTitle] = useState("Remaining");
+
+  useEffect(() => {
+    if (remainingCalories < 0) {
+      setCalRemainTitle("Over");
+    } else {
+      setCalRemainTitle("Remaining");
+    }
+  }, [remainingCalories]);
 
   const progressColors = {
     Energy: "#9a9ff1",
@@ -67,9 +82,23 @@ const FoodPage = () => {
     data1: {
       datasets: [
         {
-          data: [totalFatConsumed, totalProteinConsumed, totalCarbsConsumed], // Example values, adjust as needed
-          backgroundColor: ["#FFCC8A", "#68afac", "#66b7cd"], // Fat, Protein, Carbs
-          hoverBackgroundColor: ["#FFCC8A", "#68afac", "#66b7cd"],
+          data: [
+            totalFatConsumed || 100,
+            totalProteinConsumed,
+            totalCarbsConsumed,
+          ], // Example values, adjust as needed
+          backgroundColor:
+            totalFatConsumed === 0 &&
+            totalProteinConsumed === 0 &&
+            totalCarbsConsumed === 0
+              ? ["#D3D3D3", "#D3D3D3", "#D3D3D3"] // Colors for Fat, Protein, Carbs
+              : ["#FFCC8A", "#68afac", "#66b7cd"], // Gray color when no data
+          hoverBackgroundColor:
+            totalFatConsumed === 0 &&
+            totalProteinConsumed === 0 &&
+            totalCarbsConsumed === 0
+              ? ["#D3D3D3", "#D3D3D3", "#D3D3D3"] // Colors for Fat, Protein, Carbs
+              : ["#FFCC8A", "#68afac", "#66b7cd"], // Gray color when no data
         },
       ],
       totalCalories: totalCaloriesConsumed,
@@ -92,7 +121,7 @@ const FoodPage = () => {
           hoverBackgroundColor: ["#9a9ff1"],
         },
       ],
-      totalCalories: userData?.calories_target,
+      totalCalories: Math.abs(remainingCalories),
     },
   };
 
@@ -230,13 +259,14 @@ const FoodPage = () => {
                 <NutrientDoughnutChart
                   title={"Consumed"}
                   data={chartsData.data1}
+                  setAnimation={false}
                 />
                 <NutrientDoughnutChart
                   title={"Burned"}
                   data={chartsData.data2}
                 />
                 <NutrientDoughnutChart
-                  title={"Remaining"}
+                  title={calRemainTitle}
                   data={chartsData.data3}
                 />
               </Box>
@@ -259,35 +289,35 @@ const FoodPage = () => {
               <Box>
                 <MacroItems
                   title={"Energy"}
-                  amount={`${totalCaloriesConsumed}kcal`}
-                  targetAmount={`${userData?.calories_target}kcal`}
+                  amount={`${totalCaloriesConsumed} kcal`}
+                  targetAmount={`${userData?.calories_target} kcal`}
                 />
                 <MacroItems
                   title={"Protein"}
-                  amount={`${totalProteinConsumed}g`}
+                  amount={`${totalProteinConsumed} g`}
                   targetAmount={`${Math.floor(
                     (userData?.calories_target * userData?.protein) /
                       100 /
                       MACROS.protein
-                  )}g`}
+                  )} g`}
                 />
                 <MacroItems
                   title={"Carbs"}
-                  amount={`${totalCarbsConsumed}g`}
+                  amount={`${totalCarbsConsumed} g`}
                   targetAmount={`${Math.floor(
                     (userData?.calories_target * userData?.carbs) /
                       100 /
                       MACROS.carbs
-                  )}g`}
+                  )} g`}
                 />
                 <MacroItems
                   title={"Fat"}
-                  amount={`${totalFatConsumed}g`}
+                  amount={`${totalFatConsumed} g`}
                   targetAmount={`${Math.floor(
                     (userData?.calories_target * userData?.fat) /
                       100 /
                       MACROS.fat
-                  )}g`}
+                  )} g`}
                 />
               </Box>
             </Box>
@@ -336,9 +366,11 @@ const FoodPage = () => {
                 >
                   <Typography variant="h6">{totalCalOfProtein} kcal</Typography>
                   <Typography variant="h6">
-                    {Math.round(
-                      (totalCalOfProtein / totalCaloriesConsumed) * 100
-                    )}
+                    {allFoodData
+                      ? Math.round(
+                          (totalCalOfProtein / totalCaloriesConsumed) * 100
+                        )
+                      : 0}
                     %
                   </Typography>
                 </Box>
@@ -367,9 +399,11 @@ const FoodPage = () => {
                 >
                   <Typography variant="h6">{totalCalOfCarbs} kcal</Typography>
                   <Typography variant="h6">
-                    {Math.round(
-                      (totalCalOfCarbs / totalCaloriesConsumed) * 100
-                    )}
+                    {allFoodData
+                      ? Math.round(
+                          (totalCalOfCarbs / totalCaloriesConsumed) * 100
+                        )
+                      : 0}
                     %
                   </Typography>
                 </Box>
@@ -398,7 +432,12 @@ const FoodPage = () => {
                 >
                   <Typography variant="h6">{totalCalOfFat} kcal</Typography>
                   <Typography variant="h6">
-                    {Math.round((totalCalOfFat / totalCaloriesConsumed) * 100)}%
+                    {allFoodData
+                      ? Math.round(
+                          (totalCalOfFat / totalCaloriesConsumed) * 100
+                        )
+                      : 0}
+                    %
                   </Typography>
                 </Box>
               </Box>
@@ -531,7 +570,7 @@ const FoodPage = () => {
                   fontWeight="bold"
                   sx={{ color: "#9a9ff1" }}
                 >
-                  Remaining
+                  {calRemainTitle}
                 </Typography>
                 <Box
                   sx={{
@@ -541,7 +580,7 @@ const FoodPage = () => {
                   }}
                 >
                   <Typography variant="h6">
-                    {userData?.calories_target - totalCaloriesConsumed} kcal
+                    {Math.abs(remainingCalories)} kcal
                   </Typography>
                 </Box>
               </Box>

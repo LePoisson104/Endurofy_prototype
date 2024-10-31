@@ -10,7 +10,6 @@ ChartJS.register(ArcElement, Tooltip);
 const NutritionChart = ({ title, data, setAnimation = true }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const totalCalories = 500; // Example value, adjust as needed
 
   const options = {
     responsive: true,
