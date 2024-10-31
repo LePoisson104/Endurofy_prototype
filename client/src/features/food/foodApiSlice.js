@@ -14,7 +14,13 @@ export const foodApiSlice = apiSlice.injectEndpoints({
       providesTags: (result, error, { userId, currentDate }) =>
         result ? [{ type: "FoodLog", id: `${userId}-${currentDate}` }] : [],
     }),
+    searchFood: builder.query({
+      query: ({ searchTerm }) => ({
+        url: `/food-diary/search-food?query=${searchTerm}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useGetAllFoodByDateQuery } = foodApiSlice;
+export const { useGetAllFoodByDateQuery, useSearchFoodQuery } = foodApiSlice;

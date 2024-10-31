@@ -13,6 +13,7 @@ import { useTheme } from "@emotion/react";
 import CloseIcon from "@mui/icons-material/Close";
 import FoodMacrosModal from "./FoodMacrosModal";
 import { tokens } from "../../theme";
+import { useSearchFoodQuery } from "../../features/food/foodApiSlice";
 
 const AddFoodModal = ({ open, onClose }) => {
   const theme = useTheme();
@@ -21,37 +22,17 @@ const AddFoodModal = ({ open, onClose }) => {
   const [selectedFood, setSelectedFood] = useState("");
   const [macrosModalOpen, setMacrosModalOpen] = useState(false);
   const [foodData, setFoodData] = useState([]);
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+
+  const { data, isLoading } = useSearchFoodQuery({ searchTerm });
 
   useEffect(() => {
-    const fetchFoodData = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch(
-          `https://api.nal.usda.gov/fdc/v1/foods/search?query=${searchTerm}&api_key=${process.env.REACT_APP_FDC_API_KEY}`
-        );
-
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-
-        const data = await response.json();
-        // console.log(data);
-        setFoodData(data.foods); // Store the food data in the state
-      } catch (error) {
-        setError(error.message);
-        console.error("There was an error!", error);
-      } finally {
-        setIsLoading(false); // Stop loading after the fetch is complete
-      }
-    };
-
-    fetchFoodData();
-  }, [searchTerm, process.env.REACT_APP_FDC_API_KEY]); // The effect runs when the component mounts
+    setFoodData(data?.foods);
+  }, [data]);
 
   const handleFoodSelect = (index) => {
-    setSelectedFood(foodData[index]);
+    if (foodData) {
+      setSelectedFood(foodData[index]);
+    }
     setMacrosModalOpen(true); // Open the macros modal
   };
 
@@ -120,8 +101,8 @@ const AddFoodModal = ({ open, onClose }) => {
               overflowY: "auto", // Enable vertical scrolling
             }}
           >
-            {foodData.length > 0 && !isLoading ? (
-              foodData.map((food, index) => (
+            {foodData?.length > 0 && !isLoading ? (
+              foodData?.map((food, index) => (
                 <ListItem
                   button
                   key={index}

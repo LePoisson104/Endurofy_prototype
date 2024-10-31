@@ -51,4 +51,19 @@ const deleteFood = async (req, res) => {
   }
 };
 
-module.exports = { getAllFood, addFood, updateFood, deleteFood };
+const searchFood = async (req, res) => {
+  const { query } = req.query;
+  try {
+    const response = await fetch(
+      `https://api.nal.usda.gov/fdc/v1/foods/search?query=${query}&api_key=${process.env.FDC_API_KEY}`
+    );
+    const data = await response.json();
+
+    res.status(200).json(data);
+  } catch (err) {
+    console.log("Error fetching food data: ", err);
+    return res.status(500).json({ message: "Error fetching food data" });
+  }
+};
+
+module.exports = { getAllFood, addFood, updateFood, deleteFood, searchFood };

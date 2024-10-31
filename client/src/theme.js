@@ -1,5 +1,7 @@
-import { createContext, useState, useMemo } from "react";
+import { createContext, useState, useMemo, useEffect } from "react";
 import { createTheme } from "@mui/material/styles";
+import { selectCurrentToken } from "./features/auth/authSlice";
+import { useSelector } from "react-redux";
 
 // color design tokens export
 export const tokens = (mode) => ({
@@ -209,13 +211,22 @@ export const themeSettings = (mode) => {
   };
 };
 
-// context for color mode
+// context for color mode toggle
 export const ColorModeContext = createContext({
   toggleColorMode: () => {},
 });
 
 export const useMode = () => {
   const [mode, setMode] = useState("light");
+  const token = useSelector(selectCurrentToken);
+
+  useEffect(() => {
+    if (!token) {
+      setMode("light");
+    } else {
+      setMode("dark"); // set this based on the users' theme settings if no settings then by default set it to light mode
+    }
+  }, [token]);
 
   const colorMode = useMemo(
     () => ({

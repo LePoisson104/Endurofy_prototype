@@ -153,16 +153,19 @@ const AccordionUsage = ({ title, data }) => {
           >
             {kcal > 0 && (
               <>
-                <Typography fontWeight="bold">{`${kcal} kcal |`}</Typography>
+                <Typography fontWeight="bold">{`${kcal} kcal `}</Typography>
+                {" | "}
                 <Typography fontWeight="bold">{`${protein.toFixed(
                   1
-                )}g protein | `}</Typography>
+                )} g protein  `}</Typography>
+                {" | "}
                 <Typography fontWeight="bold">{`${carbs.toFixed(
                   1
-                )}g carbs | `}</Typography>
+                )} g carbs  `}</Typography>
+                {" | "}
                 <Typography fontWeight="bold">{`${fat.toFixed(
                   1
-                )}g fat`}</Typography>
+                )} g fat`}</Typography>
               </>
             )}
           </Box>
