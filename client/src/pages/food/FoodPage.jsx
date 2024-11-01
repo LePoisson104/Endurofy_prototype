@@ -27,10 +27,6 @@ const FoodPage = () => {
   const userData = useGetAllUsersInfoQuery(userId).data;
   const allFoodData = useGetAllFoodByDateQuery({ userId, currentDate }).data;
 
-  // console.log(allFoodData?.serving_unit);
-
-  // const helperResult = foodServingsHelper();
-
   const totalCalBurned =
     Math.round(userData?.BMR * parseFloat(userData?.activity_level)) +
     userData?.BMR;

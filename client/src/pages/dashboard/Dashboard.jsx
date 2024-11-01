@@ -1,10 +1,4 @@
-import {
-  Box,
-  Button,
-  IconButton,
-  Typography,
-  LinearProgress,
-} from "@mui/material";
+import { Box, Button, Typography, LinearProgress } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
 import { mockTransactions } from "../../data/mockData";
@@ -21,14 +15,46 @@ import BedtimeIcon from "@mui/icons-material/Bedtime";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 import { dateFormat } from "../../helper/dateFormat";
+import { useGetAllUsersInfoQuery } from "../../features/users/usersApiSlice";
+import { useGetAllFoodByDateQuery } from "../../features/food/foodApiSlice";
+import useAuth from "../../hooks/useAuth";
+import { useState, useEffect } from "react";
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
-  const currentDate = new Date();
-  const { date, time } = dateFormat(currentDate);
+  const { userId } = useAuth();
+  const todaysDate = new Date();
+  const currentDate = new Date().toLocaleDateString("en-CA");
+  const { date, time } = dateFormat(todaysDate);
   const formattedDateTime = `${date} | ${time}`;
+
+  const userData = useGetAllUsersInfoQuery(userId).data;
+  const allFoodData = useGetAllFoodByDateQuery({ userId, currentDate }).data;
+
+  const totalCalBurned =
+    Math.round(userData?.BMR * parseFloat(userData?.activity_level)) +
+    userData?.BMR;
+
+  const totalCaloriesConsumed = allFoodData
+    ? allFoodData.reduce((total, food) => total + food.calories, 0)
+    : 0;
+
+  let remainingCalories = userData?.calories_target - totalCaloriesConsumed;
+  const progress = Math.round(
+    (totalCaloriesConsumed / remainingCalories) * 100
+  );
+  const clampedProgress = Math.min(progress, 100);
+
+  const [calRemainTitle, setCalRemainTitle] = useState("Remaining");
+
+  useEffect(() => {
+    if (remainingCalories < 0) {
+      setCalRemainTitle("Over");
+    } else {
+      setCalRemainTitle("Remaining");
+    }
+  }, [remainingCalories]);
 
   const data = {
     data1: {
@@ -39,7 +65,7 @@ const Dashboard = () => {
           hoverBackgroundColor: ["#7a7be0"],
         },
       ],
-      totalCalories: 2997,
+      totalCalories: Math.abs(remainingCalories),
     },
     data2: {
       datasets: [
@@ -49,7 +75,7 @@ const Dashboard = () => {
           hoverBackgroundColor: ["#FFCC8A", "#68afac", "#66b7cd"],
         },
       ],
-      totalCalories: 500,
+      totalCalories: totalCaloriesConsumed,
     },
   };
 
@@ -96,7 +122,7 @@ const Dashboard = () => {
             borderRadius: 1,
           }}
         >
-          <CircularProgressBar value={32} />
+          <CircularProgressBar value={clampedProgress} />
         </Box>
         {/* Steps */}
         <Box
@@ -256,15 +282,21 @@ const Dashboard = () => {
             }}
           >
             <Typography variant="h2" fontWeight={"bold"}>
-              3872
+              {totalCalBurned}
             </Typography>
             <Typography variant="h4" fontWeight={500} sx={{ color: "#FFE1E3" }}>
               Kcal
             </Typography>
           </Box>
           <Box sx={{ width: "100%" }}>
-            <Typography>Basal Metabolic Rate (BMR): 1872 kcal</Typography>
-            <Typography>Baseline Activity: 2000 kcal</Typography>
+            <Typography>
+              Basal Metabolic Rate (BMR): {userData?.BMR} kcal
+            </Typography>
+            <Typography>
+              Baseline Activity:{" "}
+              {Math.round(userData?.BMR * parseFloat(userData?.activity_level))}{" "}
+              kcal
+            </Typography>
           </Box>
         </Box>
         {/* sleep */}
@@ -353,7 +385,7 @@ const Dashboard = () => {
             alignItems="center"
             mt="25px"
           >
-            <NutrientDoughnutChart data={data.data1} title={"Remained"} />
+            <NutrientDoughnutChart data={data.data1} title={calRemainTitle} />
           </Box>
         </Box>
         <Box
