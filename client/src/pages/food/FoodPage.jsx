@@ -1,4 +1,4 @@
-import { Box, Typography, sliderClasses } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { tokens } from "../../theme";
 import { useTheme } from "@emotion/react";
 import FoodCalendar from "../../components/FoodCalendar";
@@ -37,18 +37,36 @@ const FoodPage = () => {
       100
   );
 
+  const adjustedFoodData = allFoodData.map((food) =>
+    foodServingsHelper({
+      serving: food.serving_size,
+      unit: food.serving_unit,
+      foodData: { ...food },
+    })
+  );
+
   // if there are food data then calculate the total calories of all food else 0 kcal is consumed
-  const totalCaloriesConsumed = allFoodData
-    ? allFoodData.reduce((total, food) => total + food.calories, 0)
+  const totalCaloriesConsumed = adjustedFoodData
+    ? Math.round(
+        adjustedFoodData.reduce((total, food) => total + food.calories, 0)
+      )
     : 0;
-  const totalProteinConsumed = allFoodData
-    ? allFoodData?.reduce((total, food) => (total += food.protein), 0)
+  const totalProteinConsumed = adjustedFoodData
+    ? Math.round(
+        adjustedFoodData.reduce((total, food) => total + food.protein, 0) * 100
+      ) / 100
     : 0;
-  const totalCarbsConsumed = allFoodData
-    ? allFoodData?.reduce((total, food) => (total += food.carbs), 0)
+
+  const totalCarbsConsumed = adjustedFoodData
+    ? Math.round(
+        adjustedFoodData.reduce((total, food) => total + food.carbs, 0) * 100
+      ) / 100
     : 0;
-  const totalFatConsumed = allFoodData
-    ? allFoodData?.reduce((total, food) => (total += food.fat), 0)
+
+  const totalFatConsumed = adjustedFoodData
+    ? Math.round(
+        adjustedFoodData.reduce((total, food) => total + food.fat, 0) * 100
+      ) / 100
     : 0;
 
   const totalCalOfProtein = Math.round(totalProteinConsumed * MACROS.protein);
@@ -198,27 +216,48 @@ const FoodPage = () => {
             <WaterAccordion />
             <AccordionUsage
               title={"Uncategorized"}
-              data={allFoodData?.filter(
+              data={adjustedFoodData?.filter(
+                (food) => food.meal_type === "uncategorized"
+              )}
+              originalData={allFoodData?.filter(
                 (food) => food.meal_type === "uncategorized"
               )}
             />
             <AccordionUsage
               title={"Breakfast"}
-              data={allFoodData?.filter(
+              data={adjustedFoodData?.filter(
+                (food) => food.meal_type === "breakfast"
+              )}
+              originalData={allFoodData?.filter(
                 (food) => food.meal_type === "breakfast"
               )}
             />
             <AccordionUsage
               title={"Lunch"}
-              data={allFoodData?.filter((food) => food.meal_type === "lunch")}
+              data={adjustedFoodData?.filter(
+                (food) => food.meal_type === "lunch"
+              )}
+              originalData={allFoodData?.filter(
+                (food) => food.meal_type === "lunch"
+              )}
             />
             <AccordionUsage
               title={"Dinner"}
-              data={allFoodData?.filter((food) => food.meal_type === "dinner")}
+              data={adjustedFoodData?.filter(
+                (food) => food.meal_type === "dinner"
+              )}
+              originalData={allFoodData?.filter(
+                (food) => food.meal_type === "dinner"
+              )}
             />
             <AccordionUsage
               title={"Snacks"}
-              data={allFoodData?.filter((food) => food.meal_type === "snack")}
+              data={adjustedFoodData?.filter(
+                (food) => food.meal_type === "snack"
+              )}
+              originalData={allFoodData?.filter(
+                (food) => food.meal_type === "snack"
+              )}
             />
           </Box>
           <Box
@@ -590,13 +629,8 @@ const FoodPage = () => {
             width: { xl: "20%", lg: "25%" },
             padding: "20px",
             position: { md: "sticky" },
-            top: 0,
-            height: {
-              xs: "2px", // For small screens
-              sm: "250px", // For medium screens
-              md: "300px", // For large screens
-              lg: "380px", // For extra-large screens
-            },
+            top: 70,
+            height: "100%",
           }}
           id="right"
         >

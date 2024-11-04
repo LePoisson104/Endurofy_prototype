@@ -12,7 +12,7 @@ import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const AccordionUsage = ({ title, data }) => {
+const AccordionUsage = ({ title, data, originalData }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [modalOpen, setModalOpen] = useState(false);
@@ -44,7 +44,7 @@ const AccordionUsage = ({ title, data }) => {
   let fat = 0;
 
   if (data) {
-    kcal = data.reduce((acc, item) => acc + item.calories, 0);
+    kcal = Math.round(data.reduce((acc, item) => acc + item.calories, 0));
     protein = data.reduce((acc, item) => acc + item.protein, 0);
     carbs = data.reduce((acc, item) => acc + item.carbs, 0);
     fat = data.reduce((acc, item) => acc + item.fat, 0);
@@ -96,7 +96,7 @@ const AccordionUsage = ({ title, data }) => {
             <Typography>
               {item.serving_size} {item.serving_unit}
             </Typography>
-            <Typography>{item.calories} kcal</Typography>
+            <Typography>{Math.round(item.calories)} kcal</Typography>
           </Box>
         </AccordionDetails>
       ));

@@ -98,7 +98,6 @@ const WorkoutLogs = ({ selectedTab }) => {
   };
 
   const filteredLogs = filterWorkoutLogs(workoutLogs, selectedTab);
-  console.log(filteredLogs.length);
 
   return (
     <Box>
