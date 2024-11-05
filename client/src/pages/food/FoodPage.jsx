@@ -37,7 +37,7 @@ const FoodPage = () => {
       100
   );
 
-  const adjustedFoodData = allFoodData.map((food) =>
+  const adjustedFoodData = allFoodData?.map((food) =>
     foodServingsHelper({
       serving: food.serving_size,
       unit: food.serving_unit,
