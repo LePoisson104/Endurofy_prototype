@@ -18,14 +18,23 @@ import { tokens } from "../../theme";
 import { findFoodMacros } from "../../helper/findFoodMacros";
 import { MACROS } from "../../helper/macrosConstants";
 import { foodServingsHelper } from "../../helper/foodServingsHelper";
+import { useAddFoodMutation } from "../../features/food/foodApiSlice";
+import useAuth from "../../hooks/useAuth";
 
 const FoodMacrosModal = ({ open, onClose, food }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const { userId } = useAuth();
 
   const [unit, setUnit] = useState("");
   const [serving, setServing] = useState(1);
   const [foodData, setFoodData] = useState({});
+  const [addFood] = useAddFoodMutation();
+  const [errMsg, setErrMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
+  const [currentDate, setCurrentDate] = useState(
+    new Date().toLocaleDateString("en-CA") // Formats as "YYYY-MM-DD"
+  );
 
   useEffect(() => {
     setUnit(food?.servingSizeUnit ? `100${food?.servingSizeUnit}` : "100g");
@@ -112,7 +121,39 @@ const FoodMacrosModal = ({ open, onClose, food }) => {
     totalCalories: Math.round(foodData.calories),
   };
 
-  // const handleSubmit = () => {};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const foodPayload = {
+      foodName: food.description,
+      servingSize: serving,
+      servingUnit: unit,
+      calories: initialFoodData.calories,
+      protein: initialFoodData.protein,
+      carbs: initialFoodData.carbs,
+      fat: initialFoodData.fat,
+      mealType: "breakfast",
+    };
+
+    try {
+      const data = await addFood({ userId, currentDate, foodPayload }).unwrap();
+      console.log(data);
+    } catch (err) {
+      if (!err.status) {
+        setErrMsg("No Server Response");
+      } else if (err.status === 400) {
+        setErrMsg(err.data?.message);
+      } else if (err.status === 401) {
+        setErrMsg(err.data?.message);
+      } else if (err.status === 404) {
+        setErrMsg(err.data?.message);
+      } else if (err.status === 409) {
+        setErrMsg(err.data?.message);
+      } else {
+        setErrMsg(err.data?.message);
+      }
+    }
+  };
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -334,6 +375,8 @@ const FoodMacrosModal = ({ open, onClose, food }) => {
         </Box>
 
         <Box
+          component="form"
+          onSubmit={handleSubmit}
           sx={{
             display: "flex",
             justifyContent: "center",

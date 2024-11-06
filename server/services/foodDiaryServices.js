@@ -16,9 +16,9 @@ const getAllFood = async (userId, date) => {
   return getAllFoods;
 };
 
-const addFood = async (userId, foodData) => {
-  if (!userId || Object.keys(foodData).length === 0) {
-    throw new errorResponse("UserId and foodData are required!", 400);
+const addFood = async (userId, foodPayload) => {
+  if (!userId || Object.keys(foodPayload).length === 0) {
+    throw new errorResponse("UserId and foodPayload are required!", 400);
   }
 
   const {
@@ -30,7 +30,7 @@ const addFood = async (userId, foodData) => {
     servingSize,
     servingUnit,
     mealType,
-  } = foodData;
+  } = foodPayload;
 
   const loggedAt = new Date();
   const foodId = uuidv4();

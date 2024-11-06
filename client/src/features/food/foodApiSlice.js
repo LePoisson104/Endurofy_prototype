@@ -12,7 +12,9 @@ export const foodApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
       providesTags: (result, error, { userId, currentDate }) =>
-        result ? [{ type: "FoodLog", id: `${userId}-${currentDate}` }] : [],
+        result
+          ? [{ type: "FoodLog", id: `${userId}-${currentDate}` }]
+          : [{ type: "FoodLog", id: "LIST" }],
     }),
     searchFood: builder.query({
       query: ({ searchTerm }) => ({
@@ -20,7 +22,22 @@ export const foodApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    addFood: builder.mutation({
+      query: ({ userId, foodPayload }) => ({
+        url: `/food-diary/add-food/${userId}`,
+        method: "POST",
+        body: foodPayload,
+      }),
+      invalidatesTags: (result, error, { userId, currentDate }) => [
+        { type: "FoodLog", id: `${userId}-${currentDate}` },
+        { type: "FoodLog", id: "LIST" },
+      ],
+    }),
   }),
 });
 
-export const { useGetAllFoodByDateQuery, useSearchFoodQuery } = foodApiSlice;
+export const {
+  useGetAllFoodByDateQuery,
+  useSearchFoodQuery,
+  useAddFoodMutation,
+} = foodApiSlice;

@@ -18,11 +18,11 @@ const FoodPage = () => {
   const colors = tokens(theme.palette.mode);
 
   const { userId } = useAuth();
-  // const [currentDate, setCurrentDate] = useState(
-  //   new Date().toLocaleDateString("en-CA") // Formats as "YYYY-MM-DD"
-  // );
+  const [currentDate, setCurrentDate] = useState(
+    new Date().toLocaleDateString("en-CA") // Formats as "YYYY-MM-DD"
+  );
 
-  const currentDate = "2024-10-29";
+  // const currentDate = "2024-10-29";
 
   const userData = useGetAllUsersInfoQuery(userId).data;
   const allFoodData = useGetAllFoodByDateQuery({ userId, currentDate }).data;

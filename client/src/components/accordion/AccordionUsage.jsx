@@ -23,6 +23,7 @@ const AccordionUsage = ({ title, data, originalData }) => {
     event.stopPropagation(); // Stop the event from propagating to the AccordionSummary
     setModalOpen(true);
     setExpanded(true); // Always expand the accordion when opening the modal
+    console.log(title.toLowerCase());
   };
 
   const handleCloseModal = () => setModalOpen(false);
@@ -94,7 +95,10 @@ const AccordionUsage = ({ title, data, originalData }) => {
             }}
           >
             <Typography>
-              {item.serving_size} {item.serving_unit}
+              {item.serving_unit === "100g"
+                ? parseInt(item.serving_size) * 100
+                : item.serving_size}{" "}
+              {item.serving_unit === "100g" ? "g" : item.serving_unit}
             </Typography>
             <Typography>{Math.round(item.calories)} kcal</Typography>
           </Box>
