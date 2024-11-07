@@ -12,7 +12,7 @@ import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const AccordionUsage = ({ title, data, originalData }) => {
+const AccordionUsage = ({ title, data, originalData, currentDate }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [modalOpen, setModalOpen] = useState(false);
@@ -23,7 +23,6 @@ const AccordionUsage = ({ title, data, originalData }) => {
     event.stopPropagation(); // Stop the event from propagating to the AccordionSummary
     setModalOpen(true);
     setExpanded(true); // Always expand the accordion when opening the modal
-    console.log(title.toLowerCase());
   };
 
   const handleCloseModal = () => setModalOpen(false);
@@ -176,7 +175,11 @@ const AccordionUsage = ({ title, data, originalData }) => {
         </Box>
       </AccordionSummary>
       <AccordionItem />
-      <AddFoodModal open={modalOpen} onClose={handleCloseModal} />
+      <AddFoodModal
+        open={modalOpen}
+        onClose={handleCloseModal}
+        currentDate={currentDate}
+      />
       <FoodMacrosModal open={foodModal} onClose={handleCloseEditModal} />
     </Accordion>
   );

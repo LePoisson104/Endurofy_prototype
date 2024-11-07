@@ -22,10 +22,20 @@ const FoodPage = () => {
     new Date().toLocaleDateString("en-CA") // Formats as "YYYY-MM-DD"
   );
 
-  // const currentDate = "2024-10-29";
-
   const userData = useGetAllUsersInfoQuery(userId).data;
-  const allFoodData = useGetAllFoodByDateQuery({ userId, currentDate }).data;
+  const { data, error, refetch, isFetching } = useGetAllFoodByDateQuery({
+    userId,
+    currentDate,
+  });
+
+  // Set allFoodData to empty if error is 404 or while fetching, else use the fetched data
+  const allFoodData = error?.status === 404 || isFetching ? [] : data || [];
+
+  // Optional: useEffect to log or perform actions on date changes
+  useEffect(() => {
+    // Trigger refetch whenever `currentDate` changes, if needed
+    refetch();
+  }, [currentDate, refetch]);
 
   const totalCalBurned =
     Math.round(userData?.BMR * parseFloat(userData?.activity_level)) +
@@ -222,6 +232,7 @@ const FoodPage = () => {
               originalData={allFoodData?.filter(
                 (food) => food.meal_type === "uncategorized"
               )}
+              currentDate={currentDate}
             />
             <AccordionUsage
               title={"Breakfast"}
@@ -231,6 +242,7 @@ const FoodPage = () => {
               originalData={allFoodData?.filter(
                 (food) => food.meal_type === "breakfast"
               )}
+              currentDate={currentDate}
             />
             <AccordionUsage
               title={"Lunch"}
@@ -240,6 +252,7 @@ const FoodPage = () => {
               originalData={allFoodData?.filter(
                 (food) => food.meal_type === "lunch"
               )}
+              currentDate={currentDate}
             />
             <AccordionUsage
               title={"Dinner"}
@@ -249,6 +262,7 @@ const FoodPage = () => {
               originalData={allFoodData?.filter(
                 (food) => food.meal_type === "dinner"
               )}
+              currentDate={currentDate}
             />
             <AccordionUsage
               title={"Snacks"}
@@ -258,6 +272,7 @@ const FoodPage = () => {
               originalData={allFoodData?.filter(
                 (food) => food.meal_type === "snack"
               )}
+              currentDate={currentDate}
             />
           </Box>
           <Box
@@ -634,7 +649,7 @@ const FoodPage = () => {
           }}
           id="right"
         >
-          <FoodCalendar />
+          <FoodCalendar setCurrentDate={setCurrentDate} />
         </Box>
       </Box>
     </Box>

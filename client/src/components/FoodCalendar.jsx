@@ -6,13 +6,15 @@ import "../styles/Calendar.css";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../theme";
 
-const FoodCalendar = () => {
+const FoodCalendar = ({ setCurrentDate }) => {
   const theme = useTheme();
   const colors = tokens[theme.palette.mode];
   const [date, setDate] = useState(new Date());
 
   const onChange = (date) => {
+    const formattedDate = date.toISOString().split("T")[0];
     setDate(date);
+    setCurrentDate(formattedDate); // Update the parent component's state
   };
 
   return (
