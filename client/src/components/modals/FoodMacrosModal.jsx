@@ -21,16 +21,20 @@ import { foodServingsHelper } from "../../helper/foodServingsHelper";
 import { useAddFoodMutation } from "../../features/food/foodApiSlice";
 import useAuth from "../../hooks/useAuth";
 
-const FoodMacrosModal = ({ open, onClose, food, currentDate }) => {
+const FoodMacrosModal = ({ open, onClose, food, currentDate, title }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { userId } = useAuth();
-  console.log(currentDate);
+
   const [unit, setUnit] = useState("");
   const [serving, setServing] = useState(1);
   const [foodData, setFoodData] = useState({});
   const [addFood] = useAddFoodMutation();
   const [errMsg, setErrMsg] = useState("");
+
+  if (title === "Snacks") {
+    title = "snack";
+  }
 
   useEffect(() => {
     setUnit(food?.servingSizeUnit ? `100${food?.servingSizeUnit}` : "100g");
@@ -128,11 +132,11 @@ const FoodMacrosModal = ({ open, onClose, food, currentDate }) => {
       protein: initialFoodData.protein,
       carbs: initialFoodData.carbs,
       fat: initialFoodData.fat,
-      mealType: "breakfast",
+      mealType: title.toLowerCase(),
     };
 
     try {
-      const data = await addFood({ userId, currentDate, foodPayload }).unwrap();
+      await addFood({ userId, currentDate, foodPayload }).unwrap();
     } catch (err) {
       if (!err.status) {
         setErrMsg("No Server Response");

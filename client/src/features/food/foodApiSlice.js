@@ -33,6 +33,16 @@ export const foodApiSlice = apiSlice.injectEndpoints({
         { type: "FoodLog", id: "LIST" },
       ],
     }),
+    deleteFood: builder.mutation({
+      query: ({ foodId }) => ({
+        url: `/food-diary/delete-food-by-id/${foodId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (result, error, { userId, currentDate }) => [
+        { type: "FoodLog", id: `${userId}-${currentDate}` },
+        { type: "FoodLog", id: "LIST" },
+      ],
+    }),
   }),
 });
 
@@ -40,4 +50,5 @@ export const {
   useGetAllFoodByDateQuery,
   useSearchFoodQuery,
   useAddFoodMutation,
+  useDeleteFoodMutation,
 } = foodApiSlice;

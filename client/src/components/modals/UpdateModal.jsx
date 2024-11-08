@@ -73,7 +73,6 @@ const UpdateModal = ({
         return setErrMsg("Confirm Email Must Match!");
       }
       payload.email = email;
-      console.log(payload);
       delete payload.confirmEmail;
     } else if ("confirmPassword" in payload) {
       if (payload.newPassword !== payload.confirmPassword) {

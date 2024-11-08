@@ -11,6 +11,7 @@ import { tokens } from "../../theme";
 import useAuth from "../../hooks/useAuth";
 import { useDeleteUserAccountMutation } from "../../features/users/usersApiSlice";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
+import ErrorAlert from "../alerts/ErrorAlert";
 
 const DeleteAccountModal = () => {
   const theme = useTheme();
@@ -39,7 +40,6 @@ const DeleteAccountModal = () => {
     const payload = Object.fromEntries(formData.entries());
     if (payload) {
       payload.email = email;
-      console.log(payload, userId);
     }
     try {
       await deleteUserAccount({ userId, payload }).unwrap();
@@ -89,16 +89,7 @@ const DeleteAccountModal = () => {
       >
         <DialogTitle>Delete Your Account</DialogTitle>
         {errMsg && (
-          <DialogTitle
-            sx={{
-              color: "red",
-              display: "flex",
-              paddingTop: 0,
-            }}
-          >
-            <PriorityHighIcon />
-            {errMsg}
-          </DialogTitle>
+          <ErrorAlert message={errMsg} duration={4000} setErrMsg={setErrMsg} />
         )}
         <DialogContent>
           <DialogContentText>

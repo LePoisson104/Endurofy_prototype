@@ -11,7 +11,6 @@ import PasswordField from "../../components/PasswordField";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
 import { useSignupMutation } from "../../features/auth/authApiSlice";
-import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 import CircularProgress from "@mui/material/CircularProgress";
 import SuccessAlert from "../../components/alerts/SuccessAlert";
 import ErrorAlert from "../../components/alerts/ErrorAlert";
@@ -32,7 +31,6 @@ const SignUp = () => {
   const [feet, setFeet] = useState("");
   const [inches, setInches] = useState("");
   const [weight, setWeight] = useState("");
-  const [response, setResponse] = useState("");
 
   const topRef = useRef();
   const [errMsg, setErrMsg] = useState("");
@@ -144,7 +142,6 @@ const SignUp = () => {
 
     try {
       const response = await signup(payload).unwrap();
-      setResponse(response.message);
       setFirstName("");
       setLastName("");
       setEmail("");
@@ -393,7 +390,7 @@ const SignUp = () => {
               sx={{
                 display: "flex",
                 alignItems: "center",
-                width: "350px",
+                width: "400px",
                 mb: 3,
                 justifyContent: "space-between",
               }}
@@ -401,15 +398,17 @@ const SignUp = () => {
               <Typography>Gender</Typography>
               <RowRadioButtonsGroup gender={gender} setGender={setGender} />
             </Box>
+
             <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
-                width: "350px",
+                width: "400px",
                 mb: 3,
                 gap: 1,
               }}
             >
+              <Typography mr={4}>Birthday</Typography>
               <MonthSelect month={month} setMonth={setMonth} />
               <TextField
                 label="Day"
@@ -426,6 +425,7 @@ const SignUp = () => {
                 error={touched.day && errors.day}
                 helperText={touched.day && errors.day ? "Day is required" : ""}
                 sx={{
+                  width: "400px",
                   "& .MuiOutlinedInput-root": {
                     "& fieldset": {
                       borderColor: errors.day ? "red" : "grey",
@@ -443,6 +443,15 @@ const SignUp = () => {
                   "& .MuiInputLabel-root.Mui-focused": {
                     color: errors.day ? "red" : "#868dfb", // Label color when focused
                   },
+                  // Hide the spinner arrows on input[type=number]
+                  "& input[type=number]": {
+                    MozAppearance: "textfield",
+                  },
+                  "& input[type=number]::-webkit-outer-spin-button, & input[type=number]::-webkit-inner-spin-button":
+                    {
+                      WebkitAppearance: "none",
+                      margin: 0,
+                    },
                 }}
               />
               <TextField
@@ -462,6 +471,7 @@ const SignUp = () => {
                   touched.year && errors.year ? "Year is required" : ""
                 }
                 sx={{
+                  width: "400px",
                   "& .MuiOutlinedInput-root": {
                     "& fieldset": {
                       borderColor: errors.year ? "red" : "grey",
@@ -479,6 +489,15 @@ const SignUp = () => {
                   "& .MuiInputLabel-root.Mui-focused": {
                     color: errors.year ? "red" : "#868dfb", // Label color when focused
                   },
+                  // Hide the spinner arrows on input[type=number]
+                  "& input[type=number]": {
+                    MozAppearance: "textfield",
+                  },
+                  "& input[type=number]::-webkit-outer-spin-button, & input[type=number]::-webkit-inner-spin-button":
+                    {
+                      WebkitAppearance: "none",
+                      margin: 0,
+                    },
                 }}
               />
             </Box>
@@ -486,7 +505,7 @@ const SignUp = () => {
               sx={{
                 display: "flex",
                 alignItems: "center",
-                width: "350px",
+                width: "400px",
                 mb: 3,
                 justifyContent: "space-between",
               }}
@@ -506,7 +525,7 @@ const SignUp = () => {
               sx={{
                 display: "flex",
                 alignItems: "center",
-                width: "350px",
+                width: "400px",
                 mb: 3,
                 justifyContent: "space-between",
               }}
@@ -546,6 +565,15 @@ const SignUp = () => {
                   "& .MuiInputLabel-root.Mui-focused": {
                     color: errors.weight ? "red" : "#868dfb", // Label color when focused
                   },
+                  // Hide the spinner arrows on input[type=number]
+                  "& input[type=number]": {
+                    MozAppearance: "textfield",
+                  },
+                  "& input[type=number]::-webkit-outer-spin-button, & input[type=number]::-webkit-inner-spin-button":
+                    {
+                      WebkitAppearance: "none",
+                      margin: 0,
+                    },
                 }}
               />
             </Box>
