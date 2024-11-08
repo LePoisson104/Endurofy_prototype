@@ -14,7 +14,6 @@ import FoodPage from "./pages/food/FoodPage";
 import WeightPage from "./pages/weight/WeightPage";
 import WorkoutPage from "./pages/workout";
 import HomePage from "./pages/home/HomePage";
-import FoodSearch from "./pages/searchfood/FoodSearch";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -40,7 +39,6 @@ function App() {
           </Route>
 
           {/* Auth and error pages */}
-          <Route path="food-search" element={<FoodSearch />} />
 
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
