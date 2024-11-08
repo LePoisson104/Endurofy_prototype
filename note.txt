@@ -1,8 +1,0 @@
-- after the user update their info (let say their password) what should we do?
-- why after logout how does the access token still valid
-- Refactor code (do not repeat code)
-- Make AddFood page reponsive
-- When update user's email we need to also send a confirmation email 
-    to the old email and we also need a confirmation code that were
-    sent to the new email to confirm
-- need to also when create new account required the user to put confirmation code
