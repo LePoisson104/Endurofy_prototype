@@ -5,7 +5,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { useState, useEffect } from "react";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
-import NavBar from "./NavBar";
 
 const HomeNavBar = ({ bgcolor }) => {
   const theme = useTheme();
