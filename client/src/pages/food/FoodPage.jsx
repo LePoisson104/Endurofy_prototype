@@ -416,7 +416,7 @@ const FoodPage = () => {
                 >
                   <Typography variant="h6">{totalCalOfProtein} kcal</Typography>
                   <Typography variant="h6">
-                    {allFoodData
+                    {allFoodData.length !== 0
                       ? Math.round(
                           (totalCalOfProtein / totalCaloriesConsumed) * 100
                         )
@@ -449,7 +449,7 @@ const FoodPage = () => {
                 >
                   <Typography variant="h6">{totalCalOfCarbs} kcal</Typography>
                   <Typography variant="h6">
-                    {allFoodData
+                    {allFoodData.length !== 0
                       ? Math.round(
                           (totalCalOfCarbs / totalCaloriesConsumed) * 100
                         )
@@ -482,7 +482,7 @@ const FoodPage = () => {
                 >
                   <Typography variant="h6">{totalCalOfFat} kcal</Typography>
                   <Typography variant="h6">
-                    {allFoodData
+                    {allFoodData.length !== 0
                       ? Math.round(
                           (totalCalOfFat / totalCaloriesConsumed) * 100
                         )

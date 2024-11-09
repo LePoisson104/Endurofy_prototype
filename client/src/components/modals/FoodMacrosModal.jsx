@@ -18,10 +18,13 @@ import { tokens } from "../../theme";
 import { findFoodMacros } from "../../helper/findFoodMacros";
 import { MACROS } from "../../helper/macrosConstants";
 import { foodServingsHelper } from "../../helper/foodServingsHelper";
-import { useAddFoodMutation } from "../../features/food/foodApiSlice";
+import {
+  foodApiSlice,
+  useAddFoodMutation,
+} from "../../features/food/foodApiSlice";
 import useAuth from "../../hooks/useAuth";
 
-const FoodMacrosModal = ({ open, onClose, food, currentDate, title }) => {
+const FoodMacrosModal = ({ open, onClose, food, currentDate, title, type }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { userId } = useAuth();
@@ -32,67 +35,93 @@ const FoodMacrosModal = ({ open, onClose, food, currentDate, title }) => {
   const [addFood] = useAddFoodMutation();
   const [errMsg, setErrMsg] = useState("");
 
+  let Kcal = 0;
+  let updatedFoodObject;
+
+  if (type === "edit") {
+    // if edit make a copy of the read only object
+    updatedFoodObject = { ...food };
+  }
+
+  const isEmptyObject = (obj) => Object.keys(obj).length === 0;
+
   if (title === "Snacks") {
     title = "snack";
   }
 
+  // Set unit and serving size based on food data if editing
   useEffect(() => {
-    setUnit(food?.servingSizeUnit ? `100${food?.servingSizeUnit}` : "100g");
-    setServing(1);
-  }, [food]);
+    if (type === "edit" && food) {
+      setUnit(food?.serving_unit);
+      setServing(food?.serving_size);
+      const calculatedData = foodServingsHelper({
+        serving: updatedFoodObject?.serving_size,
+        unit: updatedFoodObject?.serving_unit,
+        foodData: updatedFoodObject,
+      });
+      setFoodData(calculatedData);
+      // setFoodData(food);
+    } else {
+      setUnit(food?.servingSizeUnit ? `100${food?.servingSizeUnit}` : "100g");
+      setServing(1);
+    }
+  }, [food, type]);
 
-  let Kcal = 0;
-
-  if (findFoodMacros(food, "Energy")?.unitName === "kJ") {
-    const KILOCALORIES = 0.239006;
-    Kcal = Math.round(findFoodMacros(food, "Energy")?.value * KILOCALORIES);
-  } else {
-    Kcal = findFoodMacros(food, "Energy")?.value;
+  if (type !== "edit") {
+    if (findFoodMacros(food, "Energy")?.unitName === "kJ") {
+      const KILOCALORIES = 0.239006;
+      Kcal = Math.round(findFoodMacros(food, "Energy")?.value * KILOCALORIES);
+    } else {
+      Kcal = findFoodMacros(food, "Energy")?.value;
+    }
   }
 
-  const initialFoodData = {
-    calories: Kcal,
-    protein: findFoodMacros(food, "Protein")?.value || 0,
-    proteinUnit: findFoodMacros(food, "Protein")?.unitName.toLowerCase() || "g",
-    carbs:
-      findFoodMacros(food, "Carbohydrate, by difference", "Starch")?.value || 0,
-    carbsUnit:
-      findFoodMacros(
-        food,
-        "Carbohydrate, by difference",
-        "Starch"
-      )?.unitName.toLowerCase() || "g",
-    fat: findFoodMacros(food, "Total lipid (fat)")?.value || 0,
-    fatUnit:
-      findFoodMacros(food, "Total lipid (fat)")?.unitName.toLowerCase() || "g",
-  };
+  let initialFoodData = {};
 
-  if (
-    initialFoodData.calories === undefined &&
-    initialFoodData.protein !== undefined &&
-    initialFoodData.carbs !== undefined &&
-    initialFoodData.fat !== undefined
-  ) {
-    initialFoodData.calories = Math.round(
-      initialFoodData.protein * MACROS.protein +
-        initialFoodData.carbs * MACROS.carbs +
-        initialFoodData.fat * MACROS.fat
-    );
+  if (type !== "edit") {
+    initialFoodData = {
+      calories: Kcal,
+      protein: findFoodMacros(food, "Protein")?.value || 0,
+      proteinUnit:
+        findFoodMacros(food, "Protein")?.unitName.toLowerCase() || "g",
+      carbs:
+        findFoodMacros(food, "Carbohydrate, by difference", "Starch")?.value ||
+        0,
+      carbsUnit:
+        findFoodMacros(
+          food,
+          "Carbohydrate, by difference",
+          "Starch"
+        )?.unitName.toLowerCase() || "g",
+      fat: findFoodMacros(food, "Total lipid (fat)")?.value || 0,
+      fatUnit:
+        findFoodMacros(food, "Total lipid (fat)")?.unitName.toLowerCase() ||
+        "g",
+    };
+
+    if (
+      initialFoodData.calories === undefined &&
+      initialFoodData.protein !== undefined &&
+      initialFoodData.carbs !== undefined &&
+      initialFoodData.fat !== undefined
+    ) {
+      initialFoodData.calories = Math.round(
+        initialFoodData.protein * MACROS.protein +
+          initialFoodData.carbs * MACROS.carbs +
+          initialFoodData.fat * MACROS.fat
+      );
+    }
   }
 
   // Set foodData based on unit and serving
   useEffect(() => {
     if (food) {
+      const foodData = isEmptyObject(initialFoodData)
+        ? updatedFoodObject
+        : initialFoodData;
+
       // Ensure food is loaded before calculating foodData
-      if (unit === "g" || unit === "oz") {
-        setFoodData(
-          foodServingsHelper({ serving, unit, foodData: initialFoodData })
-        );
-      } else if (unit !== "g" && "oz") {
-        setFoodData(
-          foodServingsHelper({ serving, unit, foodData: initialFoodData })
-        );
-      }
+      setFoodData(foodServingsHelper({ serving, unit, foodData }));
     }
   }, [food, unit, serving]);
 
@@ -118,7 +147,7 @@ const FoodMacrosModal = ({ open, onClose, food, currentDate, title }) => {
             : ["#FFCC8A", "#68afac", "#66b7cd"], // Gray color when no data
       },
     ],
-    totalCalories: Math.round(foodData.calories),
+    totalCalories: Math.round(foodData?.calories),
   };
 
   const handleSubmit = async (e) => {
@@ -213,13 +242,13 @@ const FoodMacrosModal = ({ open, onClose, food, currentDate, title }) => {
                   mr: 1,
                 }}
               />
-              Protein: {foodData?.protein?.toFixed(2)} {foodData.proteinUnit}
+              Protein: {foodData?.protein?.toFixed(2)} {foodData?.proteinUnit}
               <span style={{ color: "#68afac" }}>
                 {" "}
                 (
                 {Math.round(
-                  (foodData.protein /
-                    (foodData.protein + foodData.carbs + foodData.fat)) *
+                  (foodData?.protein /
+                    (foodData?.protein + foodData?.carbs + foodData?.fat)) *
                     100
                 ) || 0}
                 %)
@@ -236,13 +265,13 @@ const FoodMacrosModal = ({ open, onClose, food, currentDate, title }) => {
                   mr: 1,
                 }}
               />
-              Carbs: {foodData?.carbs?.toFixed(2)} {foodData.carbsUnit}
+              Carbs: {foodData?.carbs?.toFixed(2)} {foodData?.carbsUnit}
               <span style={{ color: "#66b7cd" }}>
                 {" "}
                 (
                 {Math.round(
-                  (foodData.carbs /
-                    (foodData.protein + foodData.carbs + foodData.fat)) *
+                  (foodData?.carbs /
+                    (foodData?.protein + foodData?.carbs + foodData?.fat)) *
                     100
                 ) || 0}
                 %)
@@ -259,13 +288,13 @@ const FoodMacrosModal = ({ open, onClose, food, currentDate, title }) => {
                   mr: 1,
                 }}
               />
-              Fat: {foodData?.fat?.toFixed(2)} {foodData.fatUnit}
+              Fat: {foodData?.fat?.toFixed(2)} {foodData?.fatUnit}
               <span style={{ color: "#FFCC8A" }}>
                 {" "}
                 (
                 {Math.round(
-                  (foodData.fat /
-                    (foodData.protein + foodData.carbs + foodData.fat)) *
+                  (foodData?.fat /
+                    (foodData?.protein + foodData?.carbs + foodData?.fat)) *
                     100
                 ) || 0}
                 %)
@@ -295,7 +324,7 @@ const FoodMacrosModal = ({ open, onClose, food, currentDate, title }) => {
             Serving size:
           </Typography>
           <TextField
-            defaultValue={1}
+            defaultValue={serving}
             inputProps={{ max: 1000, min: 0 }}
             type="number"
             onChange={(e) => {
@@ -395,7 +424,7 @@ const FoodMacrosModal = ({ open, onClose, food, currentDate, title }) => {
               },
             }}
           >
-            Add Food
+            {type === "edit" ? "Update" : "Add"}
           </Button>
         </Box>
       </Box>

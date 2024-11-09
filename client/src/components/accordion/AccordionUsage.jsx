@@ -21,9 +21,10 @@ const AccordionUsage = ({ title, data, originalData, currentDate }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [foodModal, setFoodModal] = useState(false);
+  const [editPayload, setEditPayload] = useState({});
+  const [actionType, setActionType] = useState("");
   const [deleteFood] = useDeleteFoodMutation();
   const { userId } = useAuth();
-
   const [errMsg, setErrMsg] = useState("");
 
   const handleOpenModal = (event) => {
@@ -37,9 +38,11 @@ const AccordionUsage = ({ title, data, originalData, currentDate }) => {
     setExpanded(isExpanded);
   };
 
-  const handleEditModal = (event) => {
+  const handleEditModal = (event, item) => {
     event.stopPropagation();
     setFoodModal(true);
+    setEditPayload(originalData.find((food) => food.food_id === item.food_id));
+    setActionType("edit");
   };
 
   const handleDeleteFood = async (item) => {
@@ -111,7 +114,7 @@ const AccordionUsage = ({ title, data, originalData, currentDate }) => {
             <IconButton
               size="small"
               sx={{ color: "#fbc02d" }}
-              onClick={handleEditModal}
+              onClick={(event) => handleEditModal(event, item)}
             >
               <EditNoteIcon />
             </IconButton>
@@ -219,7 +222,12 @@ const AccordionUsage = ({ title, data, originalData, currentDate }) => {
           currentDate={currentDate}
           title={title}
         />
-        <FoodMacrosModal open={foodModal} onClose={handleCloseEditModal} />
+        <FoodMacrosModal
+          open={foodModal}
+          onClose={handleCloseEditModal}
+          food={editPayload}
+          type={actionType}
+        />
       </Accordion>
     </>
   );

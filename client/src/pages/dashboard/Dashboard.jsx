@@ -19,6 +19,7 @@ import { useGetAllUsersInfoQuery } from "../../features/users/usersApiSlice";
 import { useGetAllFoodByDateQuery } from "../../features/food/foodApiSlice";
 import useAuth from "../../hooks/useAuth";
 import { useState, useEffect } from "react";
+import { foodServingsHelper } from "../../helper/foodServingsHelper";
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -32,12 +33,22 @@ const Dashboard = () => {
   const userData = useGetAllUsersInfoQuery(userId).data;
   const allFoodData = useGetAllFoodByDateQuery({ userId, currentDate }).data;
 
+  const adjustedFoodData = allFoodData?.map((food) =>
+    foodServingsHelper({
+      serving: food.serving_size,
+      unit: food.serving_unit,
+      foodData: { ...food },
+    })
+  );
+
   const totalCalBurned =
     Math.round(userData?.BMR * parseFloat(userData?.activity_level)) +
     userData?.BMR;
 
-  const totalCaloriesConsumed = allFoodData
-    ? allFoodData.reduce((total, food) => total + food.calories, 0)
+  const totalCaloriesConsumed = adjustedFoodData
+    ? Math.round(
+        adjustedFoodData.reduce((total, food) => total + food.calories, 0)
+      )
     : 0;
 
   let remainingCalories = userData?.calories_target - totalCaloriesConsumed;

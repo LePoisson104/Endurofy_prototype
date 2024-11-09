@@ -1,9 +1,6 @@
 import { CircularProgress, Box, Typography } from "@mui/material";
-import { useTheme } from "@emotion/react";
 
 const CircularProgressBar = ({ value }) => {
-  const theme = useTheme();
-
   return (
     <Box
       sx={{
