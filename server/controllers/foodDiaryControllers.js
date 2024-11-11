@@ -51,6 +51,7 @@ const deleteFood = async (req, res) => {
   }
 };
 
+// search food
 const searchFood = async (req, res) => {
   const { query } = req.query;
   try {
@@ -66,4 +67,10 @@ const searchFood = async (req, res) => {
   }
 };
 
-module.exports = { getAllFood, addFood, updateFood, deleteFood, searchFood };
+module.exports = {
+  getAllFood,
+  addFood,
+  updateFood,
+  deleteFood,
+  searchFood,
+};

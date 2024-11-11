@@ -5,6 +5,7 @@ const verifyJWT = require("../middleware/verifyJWT");
 
 router.use(verifyJWT);
 
+// food
 router.get("/search-food", foodDiaryControllers.searchFood);
 router.get("/get-food-by-date/:userId", foodDiaryControllers.getAllFood);
 router.post("/add-food/:userId", foodDiaryControllers.addFood);
