@@ -19,7 +19,7 @@ const CircularProgressBar = ({ value }) => {
       />
       <CircularProgress
         variant="determinate"
-        value={value}
+        value={value ? value : 0}
         size={100}
         thickness={5}
         sx={{
@@ -48,7 +48,7 @@ const CircularProgressBar = ({ value }) => {
           component="div"
           color="textSecondary"
           fontWeight="bold"
-        >{`${Math.round(value)}%`}</Typography>
+        >{`${Math.round(value ? value : 0)}%`}</Typography>
       </Box>
     </Box>
   );

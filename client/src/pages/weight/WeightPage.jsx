@@ -36,6 +36,7 @@ import { textFieldStyles } from "../profile/TextFieldStyles";
 import LineChart from "../../components/charts/LineChart";
 import SystemUpdateAltIcon from "@mui/icons-material/SystemUpdateAlt";
 import SortIcon from "@mui/icons-material/Sort";
+import { dateFormat } from "../../helper/dateFormat";
 
 const WeightLogPage = () => {
   const theme = useTheme();
@@ -45,6 +46,10 @@ const WeightLogPage = () => {
   const [date, setDate] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [expanded, setExpanded] = useState(false); // State for accordion
+
+  const formattedDateTime = `${dateFormat()?.date} | ${
+    dateFormat()?.time
+  } | Streaks: 2`;
 
   const handleAddWeightLog = (event) => {
     event.preventDefault();
@@ -109,35 +114,19 @@ const WeightLogPage = () => {
 
   return (
     <Box sx={{ padding: "20px" }}>
-      <Header title={"Weight Log"} subtitle={"Sep 9, 2024 | Streaks: 2 days"} />
+      <Header title={"Weight Log"} subtitle={formattedDateTime} />
       {/* Filter Date */}
       <Box sx={{ display: "flex", flexDirection: "row", mb: 1 }}>
         <SortIcon />
         <Typography>Filter</Typography>
       </Box>
-      <Box sx={{ display: "flex", mb: 3, justifyContent: "space-between" }}>
+      <Box sx={{ display: "flex", mb: 3, gap: 2 }}>
         <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
           <DatePickerSelector label={"Start Date"} />
           <DatePickerSelector label={"End Date"} />
           <FilterSelect />
         </Box>
         <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-          <IconButton
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "80px",
-              height: "30px",
-              fontSize: "12px",
-              borderRadius: 1,
-              gap: 1,
-              color: "#6d76fa",
-            }}
-          >
-            <SystemUpdateAltIcon fontSize="small" />
-            Export
-          </IconButton>
           <Button
             sx={{
               color: "#6d76fa",

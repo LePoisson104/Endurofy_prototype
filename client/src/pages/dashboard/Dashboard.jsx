@@ -25,13 +25,31 @@ const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { userId } = useAuth();
-  const todaysDate = new Date();
+
+  const formattedDateTime = `${dateFormat()?.date} | ${dateFormat()?.time} `;
+
   const currentDate = new Date().toLocaleDateString("en-CA");
-  const { date, time } = dateFormat(todaysDate);
-  const formattedDateTime = `${date} | ${time}`;
 
   const userData = useGetAllUsersInfoQuery(userId).data;
-  const allFoodData = useGetAllFoodByDateQuery({ userId, currentDate }).data;
+
+  const {
+    data: foodData,
+    error,
+    refetch,
+    isFetching,
+  } = useGetAllFoodByDateQuery({
+    userId,
+    currentDate,
+  });
+
+  // Set allFoodData to empty if error is 404 or while fetching, else use the fetched data
+  const allFoodData = error?.status === 404 || isFetching ? [] : foodData || [];
+
+  // Optional: useEffect to log or perform actions on date changes
+  useEffect(() => {
+    // Trigger refetch whenever `currentDate` changes, if needed
+    refetch();
+  }, [currentDate, refetch]);
 
   const adjustedFoodData = allFoodData?.map((food) =>
     foodServingsHelper({
@@ -94,24 +112,7 @@ const Dashboard = () => {
     <Box m="20px">
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title="DASHBOARD" subtitle={formattedDateTime} />
-        <Box>
-          <Button
-            sx={{
-              backgroundColor: colors.purpleAccent[400],
-              color: "white",
-              fontSize: "14px",
-              fontWeight: "bold",
-              padding: "10px 20px",
-              "&:hover": {
-                backgroundColor: "#9a9ff1",
-              },
-            }}
-          >
-            <DownloadOutlinedIcon sx={{ mr: "10px" }} />
-            Download Reports
-          </Button>
-        </Box>
+        <Header title="Dashboard" subtitle={formattedDateTime} />
       </Box>
       {/* GRID & CHARTS */}
       {/* row 1 */}

@@ -56,28 +56,22 @@ const FoodPage = () => {
   );
 
   // if there are food data then calculate the total calories of all food else 0 kcal is consumed
-  const totalCaloriesConsumed = adjustedFoodData
-    ? Math.round(
-        adjustedFoodData.reduce((total, food) => total + food.calories, 0)
-      )
-    : 0;
-  const totalProteinConsumed = adjustedFoodData
-    ? Math.round(
-        adjustedFoodData.reduce((total, food) => total + food.protein, 0) * 100
-      ) / 100
-    : 0;
+  const calculateTotal = (data, key, roundToDecimal = false) =>
+    data
+      ? Math.round(
+          data.reduce((total, item) => total + item[key], 0) *
+            (roundToDecimal ? 100 : 1)
+        ) / (roundToDecimal ? 100 : 1)
+      : 0;
 
-  const totalCarbsConsumed = adjustedFoodData
-    ? Math.round(
-        adjustedFoodData.reduce((total, food) => total + food.carbs, 0) * 100
-      ) / 100
-    : 0;
-
-  const totalFatConsumed = adjustedFoodData
-    ? Math.round(
-        adjustedFoodData.reduce((total, food) => total + food.fat, 0) * 100
-      ) / 100
-    : 0;
+  const totalCaloriesConsumed = calculateTotal(adjustedFoodData, "calories");
+  const totalProteinConsumed = calculateTotal(
+    adjustedFoodData,
+    "protein",
+    true
+  );
+  const totalCarbsConsumed = calculateTotal(adjustedFoodData, "carbs", true);
+  const totalFatConsumed = calculateTotal(adjustedFoodData, "fat", true);
 
   const totalCalOfProtein = Math.round(totalProteinConsumed * MACROS.protein);
   const totalCalOfCarbs = Math.round(totalCarbsConsumed * MACROS.carbs);
@@ -295,7 +289,7 @@ const FoodPage = () => {
                 justifyContent: "center",
               }}
             >
-              <Typography variant="h3" fontWeight={600} sx={{ mb: 5 }}>
+              <Typography variant="h3" fontWeight={500} sx={{ mb: 5 }}>
                 Summary Charts
               </Typography>
               <Box
@@ -333,7 +327,7 @@ const FoodPage = () => {
               }}
             >
               {/* Hard code change it later */}
-              <Typography variant="h3" fontWeight={600} sx={{ mb: 5 }}>
+              <Typography variant="h3" fontWeight={500} sx={{ mb: 5 }}>
                 Macronutrient Targets
               </Typography>
               <Box>
@@ -376,7 +370,7 @@ const FoodPage = () => {
             sx={{ width: "100%", borderTop: "1px solid #888", mb: 3, mt: 3 }}
           ></Box>
           {/* Energy Summary */}
-          <Typography variant="h3" fontWeight={600} sx={{ mb: 2 }}>
+          <Typography variant="h3" fontWeight={500} sx={{ mb: 2 }}>
             Energy Summary
           </Typography>
           <Box
@@ -389,7 +383,7 @@ const FoodPage = () => {
             <Box
               sx={{ display: "flex", flexDirection: "column", width: "33.33%" }}
             >
-              <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
+              <Typography variant="h5" fontWeight={500} sx={{ mb: 2 }}>
                 Calories Consumed (kcal)
               </Typography>
               <Box
@@ -498,7 +492,7 @@ const FoodPage = () => {
             <Box
               sx={{ display: "flex", flexDirection: "column", width: "33.33%" }}
             >
-              <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
+              <Typography variant="h5" fontWeight={500} sx={{ mb: 2 }}>
                 Calories Burned (kcal)
               </Typography>
               <Box
@@ -565,7 +559,7 @@ const FoodPage = () => {
             <Box
               sx={{ display: "flex", flexDirection: "column", width: "33.33%" }}
             >
-              <Typography variant="h5" fontWeight={600} sx={{ mb: 2 }}>
+              <Typography variant="h5" fontWeight={500} sx={{ mb: 2 }}>
                 Energy Target
               </Typography>
               <Box

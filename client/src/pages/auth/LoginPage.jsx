@@ -1,4 +1,4 @@
-import { Button, Box, TextField, Typography, Checkbox } from "@mui/material";
+import { Button, Box, TextField, Typography, IconButton } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { useTheme } from "@emotion/react";
@@ -10,6 +10,7 @@ import PasswordField from "../../components/PasswordField";
 import ForgotPasswordModal from "../../components/modals/ForgotPassModal";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 import CircularProgress from "@mui/material/CircularProgress";
+import GoogleIcon from "@mui/icons-material/Google";
 
 const Login = () => {
   const theme = useTheme();
@@ -70,23 +71,8 @@ const Login = () => {
       <Box
         sx={{
           position: "absolute",
-          top: 0,
-          left: 0,
-          backgroundColor: "white",
-          width: "100%",
-          height: "70px",
-          display: "flex",
-          justifyContent: {
-            xs: "space-between", // Mobile: space-between
-            md: "space-evenly", // Desktop: space-evenly
-          },
-          alignItems: "center",
-          padding: {
-            xs: "0 20px", // Mobile: 20px padding on sides
-            md: "0 50px", // Desktop: 50px padding on sides
-          },
-          zIndex: 1000, // Ensure the navbar stays above other content
-          gap: { xl: 60, lg: 60, sm: 30, xs: 20 },
+          top: 40,
+          left: 60,
         }}
       >
         {/* Logo */}
@@ -108,24 +94,6 @@ const Login = () => {
             <span className="grey-style">Tracker</span>
           </Link>
         </Typography>
-
-        <Link to="/signup">
-          <Button
-            sx={{
-              textTransform: "none",
-              backgroundColor: "#6d76fa",
-              color: "white",
-              paddingLeft: "15px",
-              paddingRight: "15px",
-              height: "35px",
-              "&:hover": {
-                backgroundColor: "#868dfb",
-              },
-            }}
-          >
-            Sign Up
-          </Button>
-        </Link>
       </Box>
       <Box
         component="form"
@@ -137,17 +105,12 @@ const Login = () => {
           flexDirection: "column",
           alignItems: "center",
           border: "none",
-          borderRadius: 2,
-          padding: 3,
-          backgroundColor: "white",
-          boxShadow:
-            "rgba(0, 0, 0, 0.05) 0 6px 24px, rgba(0, 0, 0, 0.08) 0 0 0 1px",
           width: "100%",
-          maxWidth: 420,
+          maxWidth: "400px",
         }}
       >
         <Typography
-          variant="h4"
+          variant="h3"
           mb={3}
           mt={4}
           fontWeight="bold"
@@ -155,9 +118,40 @@ const Login = () => {
         >
           Log In
         </Typography>
+        <Button
+          variant="outlined"
+          startIcon={<GoogleIcon />}
+          sx={{
+            textTransform: "none",
+            width: "100%",
+            fontSize: 16,
+            borderRadius: 1,
+            mb: 3,
+            mt: 3,
+            bgcolor: "white",
+            border: "1px solid #DEDEDE",
+            "&:hover": {
+              border: "1px solid #DEDEDE",
+            },
+          }}
+        >
+          Continue with Google
+        </Button>
+        <Box
+          sx={{ width: "100%", borderTop: "1px solid #D4D4D4", mb: 3 }}
+        ></Box>
+        <Box
+          sx={{
+            display: "flex",
+            width: "100%",
+            mb: 1,
+          }}
+        >
+          <Typography fontWeight={500}>Email</Typography>
+        </Box>
         <TextField
           id="email"
-          label="Email"
+          label="Please enter your email address"
           variant="outlined"
           type="email"
           inputRef={emailRef}
@@ -165,7 +159,7 @@ const Login = () => {
           required
           sx={{
             mb: 3,
-            width: "350px",
+            width: "100%",
             "& .MuiOutlinedInput-root": {
               "& fieldset": {
                 borderColor: errMsg ? "red" : "grey", // Default border color
@@ -185,9 +179,20 @@ const Login = () => {
             },
           }}
         />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            width: "100%",
+            mb: 1,
+          }}
+        >
+          <Typography fontWeight={500}>Password</Typography>
+          <ForgotPasswordModal />
+        </Box>
         <PasswordField
           id="password"
-          label="Password"
+          label="Please enter your password"
           value={password}
           setValue={setPassword}
           fieldName="password"
@@ -199,7 +204,7 @@ const Login = () => {
             sx={{
               display: "flex",
               color: "red",
-              width: "350px",
+              width: "100%",
               mt: 2,
               flexDirection: "row",
             }}
@@ -208,36 +213,15 @@ const Login = () => {
             <Typography>{errMsg}</Typography>
           </Box>
         )}
-        <Box
-          sx={{
-            display: "flex",
-            width: "350px",
-            mb: 4,
-            mt: 1,
-          }}
-        >
-          <Typography>
-            <Checkbox
-              size="small"
-              sx={{
-                color: "#6d76fa",
-                "&.Mui-checked": {
-                  color: "#6d76fa",
-                },
-              }}
-            />
-            Remember me
-          </Typography>
-        </Box>
         <Button
-          variant="containe"
           type="submit"
           sx={{
             textTransform: "none",
-            width: "350px",
+            width: "100%",
             background: "#6d76fa",
             color: "white",
             mb: 3,
+            mt: 2,
             "&:hover": {
               backgroundColor: "#868dfb",
             },
@@ -246,20 +230,19 @@ const Login = () => {
           {!isLoading && <Typography>Log In</Typography>}
           {isLoading && <CircularProgress size={20} sx={{ color: "white" }} />}
         </Button>
-        <ForgotPasswordModal />
-        <Typography sx={{ mb: 3 }}>
-          Don't have an account?{" "}
-          <Link
-            to="/signup"
-            style={{
-              textDecoration: "none",
-              color: "#6d76fa",
-              display: "inline-block",
-            }}
-          >
-            Sign up
-          </Link>
-        </Typography>
+        <Button
+          component={Link}
+          to="/signup"
+          sx={{
+            textTransform: "none",
+            width: "100%",
+            color: "#6d76fa",
+            fontWeight: 600,
+            fontSize: 13,
+          }}
+        >
+          Or Sign Up
+        </Button>
       </Box>
     </Box>
   );

@@ -4,13 +4,13 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AddIcon from "@mui/icons-material/Add";
-import EditNoteIcon from "@mui/icons-material/EditNote";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import AddFoodModal from "../modals/AddFoodModal";
 import FoodMacrosModal from "../modals/FoodMacrosModal";
 import { Box, Typography, IconButton } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
-import DeleteIcon from "@mui/icons-material/Delete";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import { useDeleteFoodMutation } from "../../features/food/foodApiSlice";
 import useAuth from "../../hooks/useAuth";
 import ErrorAlert from "../../components/alerts/ErrorAlert";
@@ -109,14 +109,14 @@ const AccordionUsage = ({ title, data, originalData, currentDate }) => {
               sx={{ color: "#F56565" }}
               onClick={() => handleDeleteFood(item)}
             >
-              <DeleteIcon />
+              <DeleteOutlinedIcon />
             </IconButton>
             <IconButton
               size="small"
               sx={{ color: "#fbc02d" }}
               onClick={(event) => handleEditModal(event, item)}
             >
-              <EditNoteIcon />
+              <EditOutlinedIcon />
             </IconButton>
             <Typography>{item.food_name}</Typography>
           </Box>
@@ -182,7 +182,7 @@ const AccordionUsage = ({ title, data, originalData, currentDate }) => {
               >
                 <AddIcon />
               </IconButton>
-              <Typography fontWeight="bold">{title}</Typography>
+              <Typography>{title}</Typography>
             </Box>
             <Box
               sx={{
@@ -197,19 +197,13 @@ const AccordionUsage = ({ title, data, originalData, currentDate }) => {
             >
               {kcal > 0 && (
                 <>
-                  <Typography fontWeight="bold">{`${kcal} kcal `}</Typography>
+                  <Typography>{`${kcal} kcal `}</Typography>
                   {" | "}
-                  <Typography fontWeight="bold">{`${protein.toFixed(
-                    1
-                  )} g protein  `}</Typography>
+                  <Typography>{`${protein.toFixed(1)} g protein  `}</Typography>
                   {" | "}
-                  <Typography fontWeight="bold">{`${carbs.toFixed(
-                    1
-                  )} g carbs  `}</Typography>
+                  <Typography>{`${carbs.toFixed(1)} g carbs  `}</Typography>
                   {" | "}
-                  <Typography fontWeight="bold">{`${fat.toFixed(
-                    1
-                  )} g fat`}</Typography>
+                  <Typography>{`${fat.toFixed(1)} g fat`}</Typography>
                 </>
               )}
             </Box>

@@ -485,6 +485,7 @@ const Profile = () => {
                 </Button>
               </Box>
             </Box>
+            {/* horizontal line */}
             <Box
               sx={{ width: "100%", borderTop: "1px solid #888", mb: 3 }}
             ></Box>

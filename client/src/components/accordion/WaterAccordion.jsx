@@ -64,8 +64,8 @@ const WaterAccordion = () => {
               <AddIcon />
             </IconButton>
             <Box sx={{ display: "flex", gap: 2 }}>
-              <Typography fontWeight="bold"> Water</Typography>
-              <Typography fontWeight="bold">0 / 128 fl oz</Typography>
+              <Typography> Water</Typography>
+              <Typography>0 / 128 fl oz</Typography>
             </Box>
           </Box>
         </Box>

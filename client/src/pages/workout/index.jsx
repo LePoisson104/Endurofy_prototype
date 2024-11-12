@@ -8,18 +8,23 @@ import { tokens } from "../../theme";
 import { useState } from "react";
 import TodayLog from "./TodayLog";
 import WorkoutLogs from "./WorkoutLogs";
+import { dateFormat } from "../../helper/dateFormat";
 
 const WorkoutLog = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const formattedDateTime = `${dateFormat()?.date} | ${dateFormat()?.time} `;
+
   const [selectedTab, setSelectedTab] = useState("today");
+
   const handleTabClick = (tab) => {
     setSelectedTab(tab);
   };
 
   return (
     <Box sx={{ p: "20px" }}>
-      <Header title={"Workouts"} subtitle={"August 29, 2024 | 4:32 AM"} />
+      <Header title={"Workouts"} subtitle={formattedDateTime} />
 
       {/* Filter tabs */}
       <Box sx={{ display: "flex", flexDirection: "row", gap: 1 }}>

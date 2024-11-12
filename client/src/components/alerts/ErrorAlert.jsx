@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Alert } from "@mui/material";
 import ErrorIcon from "@mui/icons-material/Error";
 import { keyframes } from "@emotion/react";
 import { useRef } from "react";
@@ -41,27 +41,11 @@ const ErrorAlert = ({ message, duration, setErrMsg }) => {
         left: "50%",
         transform: "translateX(-50%)", // Center horizontally
         zIndex: 9999,
-        backgroundColor: "#e57373",
-        color: "white",
-        padding: "0.5rem 1rem",
-        borderRadius: "5px",
-        boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
         animation: `${slideDownUpFade} ${duration}ms ease-in-out`,
         animationFillMode: "forwards", // Keeps the element in its final state
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: 1,
-        }}
-      >
-        <ErrorIcon />
-        <Typography>{message}</Typography>
-      </Box>
+      <Alert severity="error">{message}</Alert>
     </Box>
   );
 };

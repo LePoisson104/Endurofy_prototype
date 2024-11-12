@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Alert } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { keyframes } from "@emotion/react";
 import { useRef } from "react";
@@ -42,27 +42,11 @@ const SuccessAlert = ({ message, duration, setSuccessMsg }) => {
         left: "50%",
         transform: "translateX(-50%)", // Center horizontally
         zIndex: 9999,
-        backgroundColor: "#4caf50",
-        color: "white",
-        padding: "0.5rem 1rem",
-        borderRadius: "5px",
-        boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)", // Optional shadow
         animation: `${slideDownUpFade} ${duration}ms ease-in-out`, // Play the entire animation within the duration
         animationFillMode: "forwards", // Keeps the element in its final state
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: 1,
-        }}
-      >
-        <CheckCircleIcon />
-        <Typography>{message}</Typography>
-      </Box>
+      <Alert severity="success">{message}</Alert>
     </Box>
   );
 };
