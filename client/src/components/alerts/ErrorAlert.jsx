@@ -1,27 +1,6 @@
-import React from "react";
-import { Box, Typography, Alert } from "@mui/material";
-import ErrorIcon from "@mui/icons-material/Error";
-import { keyframes } from "@emotion/react";
+import { Box, Alert } from "@mui/material";
 import { useRef } from "react";
-// Define keyframes for sliding down, staying visible, and then sliding up with fade out
-const slideDownUpFade = keyframes`
-  0% {
-    top: -100px;
-    opacity: 0;
-  }
-  10% {
-    top: 40px;
-    opacity: 1;
-  }
-  90% {
-    top: 40px;
-    opacity: 1;
-  }
-  100% {
-    top: -100px;
-    opacity: 0;
-  }
-`;
+import { slideDownUpFade } from "./slideDownUpFade";
 
 const ErrorAlert = ({ message, duration, setErrMsg }) => {
   const alertRef = useRef(null); // Reference to the alert element

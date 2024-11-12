@@ -1,8 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Button, Box, TextField, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import Footer from "../../components/global/Footer";
-import NavBar from "../../components/global/NavBar";
 import RowRadioButtonsGroup from "../../components/RowRadioButtonGroup";
 import MonthSelect from "../../components/selects/MonthSelect";
 import InchesSelect from "../../components/selects/InchesSelect";
@@ -14,6 +12,7 @@ import { useSignupMutation } from "../../features/auth/authApiSlice";
 import CircularProgress from "@mui/material/CircularProgress";
 import SuccessAlert from "../../components/alerts/SuccessAlert";
 import ErrorAlert from "../../components/alerts/ErrorAlert";
+import GoogleBtn from "../../components/buttons/GoogleBtn";
 
 const SignUp = () => {
   const theme = useTheme();
@@ -173,7 +172,7 @@ const SignUp = () => {
       ref={topRef}
       sx={{
         position: "relative",
-        minHeight: { xl: "135vh", lg: "160vh" },
+        height: "150vh",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -181,6 +180,38 @@ const SignUp = () => {
         background: colors.grey[1000],
       }}
     >
+      <Box
+        sx={{
+          position: "absolute",
+          top: 40,
+          left: 60,
+        }}
+      >
+        <Typography
+          variant="h4" // Smaller variant for mobile
+          fontWeight="400"
+          sx={{
+            cursor: "pointer",
+            fontSize: {
+              xs: "20px", // Mobile: Smaller font
+              md: "28px", // Desktop: Larger font
+            },
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <Link
+            to="/"
+            style={{
+              textDecoration: "none",
+              color: "inherit",
+            }}
+          >
+            <span className="purple-style">Fit</span>
+            <span className="grey-style">Tracker</span>
+          </Link>
+        </Typography>
+      </Box>
       {successMsg && (
         <SuccessAlert
           message={successMsg}
@@ -188,7 +219,9 @@ const SignUp = () => {
           setSuccessMsg={setSuccessMsg}
         />
       )}
-      <NavBar />
+      {errMsg && (
+        <ErrorAlert message={errMsg} duration={4000} setErrMsg={setErrMsg} />
+      )}
       <Box
         component="form"
         onSubmit={handleSubmit}
@@ -198,124 +231,177 @@ const SignUp = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          border: "none",
-          borderRadius: 2,
-          padding: 3,
-          backgroundColor: "white",
-          boxShadow:
-            "rgba(0, 0, 0, 0.05) 0 6px 24px, rgba(0, 0, 0, 0.08) 0 0 0 1px",
-          // width: "100%",
-          // maxWidth: 800,
-          mt: 10,
-          mb: { xs: 10, lg: 10 },
         }}
       >
-        <Typography
-          variant="h4"
-          mb={4}
-          mt={4}
-          fontWeight="bold"
-          color="#6d76fa"
-        >
+        <Typography variant="h3" mb={6} fontWeight="bold" color="#6d76fa">
           Sign Up
         </Typography>
-        {errMsg && (
-          <ErrorAlert message={errMsg} duration={4000} setErrMsg={setErrMsg} />
-        )}
-        <Box sx={{ display: "flex", mb: 3, ml: 2, mr: 2, gap: 1 }}>
+
+        <GoogleBtn mb={3} />
+        {/* horizontal line */}
+        <Box
+          sx={{
+            display: "flex",
+            width: "400px",
+            alignItems: "center",
+            mb: 3,
+            gap: 2,
+          }}
+        >
+          <Box sx={{ width: "100%", borderTop: "1px solid #D4D4D4" }}></Box>
+          <Typography>or</Typography>
+          <Box sx={{ width: "100%", borderTop: "1px solid #D4D4D4" }}></Box>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            mb: 3,
+            ml: 2,
+            mr: 2,
+            gap: 1,
+          }}
+        >
           {/* left box */}
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <TextField
-              id="first-name"
-              label="First Name"
-              variant="outlined"
-              type="text"
-              required
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              onBlur={() => {
-                setTouched((prevTouched) => ({
-                  ...prevTouched,
-                  firstName: true,
-                }));
-                validateField("firstName", firstName);
-              }}
-              error={touched.firstName && errors.firstName}
-              helperText={
-                touched.firstName && errors.firstName
-                  ? "first name is required"
-                  : ""
-              }
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              maxWidth: "400px",
+            }}
+          >
+            <Box
               sx={{
-                mb: 3,
-                width: "350px",
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: errors.firstName ? "red" : "grey",
-                  },
-                  "&:hover fieldset": {
-                    borderColor: errors.firstName ? "red" : "#868dfb",
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: errors.firstName ? "red" : "#3c47f9",
-                  },
-                },
-                "& .MuiInputLabel-root": {
-                  color: errors.firstName ? "red" : "grey", // Default label color
-                },
-                "& .MuiInputLabel-root.Mui-focused": {
-                  color: errors.firstName ? "red" : "#868dfb", // Label color when focused
-                },
+                display: "flex",
+                justifyContent: "space-between",
+                width: "100%",
+                gap: 2,
               }}
-            />
-            <TextField
-              id="last-name"
-              label="Last Name"
-              variant="outlined"
-              type="text"
-              required
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              onBlur={() => {
-                setTouched((prevTouched) => ({
-                  ...prevTouched,
-                  lastName: true,
-                }));
-                validateField("lastName", lastName);
-              }}
-              error={touched.lastName && errors.lastName}
-              helperText={
-                touched.lastName && errors.lastName
-                  ? "last name is required"
-                  : ""
-              }
-              sx={{
-                mb: 3,
-                width: "350px",
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: errors.lastName ? "red" : "grey",
-                  },
-                  "&:hover fieldset": {
-                    borderColor: errors.lastName ? "red" : "#868dfb",
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: errors.lastName ? "red" : "#3c47f9",
-                  },
-                },
-                "& .MuiInputLabel-root": {
-                  color: errors.lastName ? "red" : "grey", // Default label color
-                },
-                "& .MuiInputLabel-root.Mui-focused": {
-                  color: errors.lastName ? "red" : "#868dfb", // Label color when focused
-                },
-              }}
-            />
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 1,
+                  width: "50%",
+                }}
+              >
+                <Typography fontWeight={500}>First</Typography>
+                <TextField
+                  id="first-name"
+                  label="Jone"
+                  variant="outlined"
+                  type="text"
+                  size="small"
+                  required
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  onBlur={() => {
+                    setTouched((prevTouched) => ({
+                      ...prevTouched,
+                      firstName: true,
+                    }));
+                    validateField("firstName", firstName);
+                  }}
+                  error={touched.firstName && errors.firstName}
+                  helperText={
+                    touched.firstName && errors.firstName
+                      ? "first name is required"
+                      : ""
+                  }
+                  sx={{
+                    mb: 3,
+                    "& .MuiOutlinedInput-root": {
+                      bgcolor: "white",
+                      "& fieldset": {
+                        borderColor: errors.firstName ? "red" : "grey",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: errors.firstName ? "red" : "#868dfb",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: errors.firstName ? "red" : "#3c47f9",
+                      },
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: errors.firstName ? "red" : "grey", // Default label color
+                    },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: errors.firstName ? "red" : "#868dfb", // Label color when focused
+                    },
+                    "& .MuiFormHelperText-root": {
+                      backgroundColor: "transparent", // Makes the helper text background transparent
+                    },
+                  }}
+                />
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 1,
+                  width: "50%",
+                }}
+              >
+                <Typography fontWeight={500}>Last</Typography>
+                <TextField
+                  id="last-name"
+                  label="Doe"
+                  variant="outlined"
+                  type="text"
+                  size="small"
+                  required
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  onBlur={() => {
+                    setTouched((prevTouched) => ({
+                      ...prevTouched,
+                      lastName: true,
+                    }));
+                    validateField("lastName", lastName);
+                  }}
+                  error={touched.lastName && errors.lastName}
+                  helperText={
+                    touched.lastName && errors.lastName
+                      ? "last name is required"
+                      : ""
+                  }
+                  sx={{
+                    mb: 3,
+                    "& .MuiOutlinedInput-root": {
+                      bgcolor: "white",
+                      "& fieldset": {
+                        borderColor: errors.lastName ? "red" : "grey",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: errors.lastName ? "red" : "#868dfb",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: errors.lastName ? "red" : "#3c47f9",
+                      },
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: errors.lastName ? "red" : "grey", // Default label color
+                    },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: errors.lastName ? "red" : "#868dfb", // Label color when focused
+                    },
+                    "& .MuiFormHelperText-root": {
+                      backgroundColor: "transparent", // Makes the helper text background transparent
+                    },
+                  }}
+                />
+              </Box>
+            </Box>
+            <Typography fontWeight={500} sx={{ mb: 1 }}>
+              Email
+            </Typography>
             <TextField
               id="email"
-              label="Email"
+              label="example@gmail.com"
               variant="outlined"
               type="email"
+              size="small"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -332,8 +418,9 @@ const SignUp = () => {
               }
               sx={{
                 mb: 3,
-                width: "350px",
+                width: "100%",
                 "& .MuiOutlinedInput-root": {
+                  bgcolor: "white",
                   "& fieldset": {
                     borderColor: errors.email ? "red" : "grey",
                   },
@@ -350,8 +437,14 @@ const SignUp = () => {
                 "& .MuiInputLabel-root.Mui-focused": {
                   color: errors.email ? "red" : "#868dfb", // Label color when focused
                 },
+                "& .MuiFormHelperText-root": {
+                  backgroundColor: "transparent", // Makes the helper text background transparent
+                },
               }}
             />
+            <Typography fontWeight={500} sx={{ mb: 1 }}>
+              Password
+            </Typography>
             <PasswordField
               id="password"
               label="Password"
@@ -364,8 +457,11 @@ const SignUp = () => {
               fieldName="password"
               validate={true}
               mb={3}
+              size="small"
             />
-
+            <Typography fontWeight={500} sx={{ mb: 1 }}>
+              Confirm Password
+            </Typography>
             <PasswordField
               id="confirm-password"
               label="Confirm Password"
@@ -378,147 +474,150 @@ const SignUp = () => {
               fieldName="confirmPassword"
               validate={true}
               mb={3}
+              size="small"
             />
           </Box>
 
-          {/* vertical line */}
-          <Box sx={{ borderLeft: "1px solid #d3d3d3", ml: 2, mr: 2 }}></Box>
-
           {/* right box */}
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              width: "400px",
+            }}
+          >
             <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
-                width: "400px",
+                width: "100%",
                 mb: 3,
                 justifyContent: "space-between",
               }}
             >
-              <Typography>Gender</Typography>
+              <Typography fontWeight={500}>Gender</Typography>
               <RowRadioButtonsGroup gender={gender} setGender={setGender} />
             </Box>
 
             <Box
               sx={{
                 display: "flex",
-                alignItems: "center",
+                flexDirection: "column",
                 width: "400px",
                 mb: 3,
                 gap: 1,
               }}
             >
-              <Typography mr={4}>Birthday</Typography>
-              <MonthSelect month={month} setMonth={setMonth} />
-              <TextField
-                label="Day"
-                type="number"
-                value={day}
-                onChange={(e) => setDay(e.target.value)}
-                onBlur={() => {
-                  setTouched((prevTouched) => ({
-                    ...prevTouched,
-                    day: true,
-                  }));
-                  validateField("day", day);
-                }}
-                error={touched.day && errors.day}
-                helperText={touched.day && errors.day ? "Day is required" : ""}
-                sx={{
-                  width: "400px",
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": {
-                      borderColor: errors.day ? "red" : "grey",
+              <Typography fontWeight={500}>Birthday</Typography>
+              <Box sx={{ display: "flex", gap: 1 }}>
+                <MonthSelect
+                  month={month}
+                  setMonth={setMonth}
+                  size="small"
+                  bgcolor={"white"}
+                />
+                <TextField
+                  label="Day"
+                  type="number"
+                  size="small"
+                  value={day}
+                  onChange={(e) => setDay(e.target.value)}
+                  onBlur={() => {
+                    setTouched((prevTouched) => ({
+                      ...prevTouched,
+                      day: true,
+                    }));
+                    validateField("day", day);
+                  }}
+                  error={touched.day && errors.day}
+                  helperText={
+                    touched.day && errors.day ? "Day is required" : ""
+                  }
+                  sx={{
+                    width: "100%",
+                    "& .MuiOutlinedInput-root": {
+                      bgcolor: "white",
+                      "& fieldset": {
+                        borderColor: errors.day ? "red" : "grey",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: errors.day ? "red" : "#868dfb",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: errors.day ? "red" : "#3c47f9",
+                      },
                     },
-                    "&:hover fieldset": {
-                      borderColor: errors.day ? "red" : "#868dfb",
+                    "& .MuiInputLabel-root": {
+                      color: errors.day ? "red" : "grey", // Default label color
                     },
-                    "&.Mui-focused fieldset": {
-                      borderColor: errors.day ? "red" : "#3c47f9",
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: errors.day ? "red" : "#868dfb", // Label color when focused
                     },
-                  },
-                  "& .MuiInputLabel-root": {
-                    color: errors.day ? "red" : "grey", // Default label color
-                  },
-                  "& .MuiInputLabel-root.Mui-focused": {
-                    color: errors.day ? "red" : "#868dfb", // Label color when focused
-                  },
-                  // Hide the spinner arrows on input[type=number]
-                  "& input[type=number]": {
-                    MozAppearance: "textfield",
-                  },
-                  "& input[type=number]::-webkit-outer-spin-button, & input[type=number]::-webkit-inner-spin-button":
-                    {
-                      WebkitAppearance: "none",
-                      margin: 0,
+                    // Hide the spinner arrows on input[type=number]
+                    "& input[type=number]": {
+                      MozAppearance: "textfield",
                     },
-                }}
-              />
-              <TextField
-                label="Year"
-                type="number"
-                value={year}
-                onChange={(e) => setYear(e.target.value)}
-                onBlur={() => {
-                  setTouched((prevTouched) => ({
-                    ...prevTouched,
-                    year: true,
-                  }));
-                  validateField("year", year);
-                }}
-                error={touched.year && errors.year}
-                helperText={
-                  touched.year && errors.year ? "Year is required" : ""
-                }
-                sx={{
-                  width: "400px",
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": {
-                      borderColor: errors.year ? "red" : "grey",
+                    "& input[type=number]::-webkit-outer-spin-button, & input[type=number]::-webkit-inner-spin-button":
+                      {
+                        WebkitAppearance: "none",
+                        margin: 0,
+                      },
+                    "& .MuiFormHelperText-root": {
+                      backgroundColor: "transparent", // Makes the helper text background transparent
                     },
-                    "&:hover fieldset": {
-                      borderColor: errors.year ? "red" : "#868dfb",
+                  }}
+                />
+                <TextField
+                  label="Year"
+                  type="number"
+                  size="small"
+                  value={year}
+                  onChange={(e) => setYear(e.target.value)}
+                  onBlur={() => {
+                    setTouched((prevTouched) => ({
+                      ...prevTouched,
+                      year: true,
+                    }));
+                    validateField("year", year);
+                  }}
+                  error={touched.year && errors.year}
+                  helperText={
+                    touched.year && errors.year ? "Year is required" : ""
+                  }
+                  sx={{
+                    width: "100%",
+                    "& .MuiOutlinedInput-root": {
+                      bgcolor: "white",
+                      "& fieldset": {
+                        borderColor: errors.year ? "red" : "grey",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: errors.year ? "red" : "#868dfb",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: errors.year ? "red" : "#3c47f9",
+                      },
                     },
-                    "&.Mui-focused fieldset": {
-                      borderColor: errors.year ? "red" : "#3c47f9",
+                    "& .MuiInputLabel-root": {
+                      color: errors.year ? "red" : "grey", // Default label color
                     },
-                  },
-                  "& .MuiInputLabel-root": {
-                    color: errors.year ? "red" : "grey", // Default label color
-                  },
-                  "& .MuiInputLabel-root.Mui-focused": {
-                    color: errors.year ? "red" : "#868dfb", // Label color when focused
-                  },
-                  // Hide the spinner arrows on input[type=number]
-                  "& input[type=number]": {
-                    MozAppearance: "textfield",
-                  },
-                  "& input[type=number]::-webkit-outer-spin-button, & input[type=number]::-webkit-inner-spin-button":
-                    {
-                      WebkitAppearance: "none",
-                      margin: 0,
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: errors.year ? "red" : "#868dfb", // Label color when focused
                     },
-                }}
-              />
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                width: "400px",
-                mb: 3,
-                justifyContent: "space-between",
-              }}
-            >
-              <Typography>Height</Typography>
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: 1,
-                }}
-              >
-                <FeetSelect feet={feet} setFeet={setFeet} />
-                <InchesSelect inches={inches} setInches={setInches} />
+                    // Hide the spinner arrows on input[type=number]
+                    "& input[type=number]": {
+                      MozAppearance: "textfield",
+                    },
+                    "& input[type=number]::-webkit-outer-spin-button, & input[type=number]::-webkit-inner-spin-button":
+                      {
+                        WebkitAppearance: "none",
+                        margin: 0,
+                      },
+                    "& .MuiFormHelperText-root": {
+                      backgroundColor: "transparent", // Makes the helper text background transparent
+                    },
+                  }}
+                />
               </Box>
             </Box>
             <Box
@@ -530,10 +629,41 @@ const SignUp = () => {
                 justifyContent: "space-between",
               }}
             >
-              <Typography>Weight</Typography>
+              <Typography fontWeight={500}>Height</Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 1,
+                }}
+              >
+                <FeetSelect
+                  feet={feet}
+                  setFeet={setFeet}
+                  size="small"
+                  bgcolor={"white"}
+                />
+                <InchesSelect
+                  inches={inches}
+                  setInches={setInches}
+                  size="small"
+                  bgcolor={"white"}
+                />
+              </Box>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                width: "400px",
+                mb: 3,
+                justifyContent: "space-between",
+              }}
+            >
+              <Typography fontWeight={500}>Weight</Typography>
               <TextField
                 label="lbs"
                 type="number"
+                size="small"
                 value={weight}
                 onChange={(e) => setWeight(parseFloat(e.target.value) || "")}
                 onBlur={() => {
@@ -549,6 +679,7 @@ const SignUp = () => {
                 }
                 sx={{
                   "& .MuiOutlinedInput-root": {
+                    bgcolor: "white",
                     "& fieldset": {
                       borderColor: errors.weight ? "red" : "grey",
                     },
@@ -574,24 +705,27 @@ const SignUp = () => {
                       WebkitAppearance: "none",
                       margin: 0,
                     },
+                  "& .MuiFormHelperText-root": {
+                    backgroundColor: "transparent", // Makes the helper text background transparent
+                  },
                 }}
               />
             </Box>
           </Box>
         </Box>
-
         <Box
-          sx={{ width: "100%", borderTop: "1px solid #d3d3d3", mb: 3 }}
+          sx={{ width: "100%", borderTop: "1px solid #D4D4D4", mb: 3 }}
         ></Box>
 
         <Button
           variant="contained"
           type="submit"
           sx={{
-            width: "350px",
+            width: "400px",
             background: "#6d76fa",
             color: "white",
-            mb: 3,
+            textTransform: "none",
+            mb: 2,
             "&:hover": {
               backgroundColor: "#868dfb",
             },
@@ -600,22 +734,41 @@ const SignUp = () => {
           {!isLoading && <Typography>Sign Up</Typography>}
           {isLoading && <CircularProgress size={20} sx={{ color: "white" }} />}
         </Button>
-
-        <Typography sx={{ mb: 3 }}>
-          Already have an account?{" "}
-          <Link
-            to="/login"
-            style={{
-              textDecoration: "none",
-              color: "#6d76fa",
-              display: "inline-block",
-            }}
-          >
-            Log In
+        <Button
+          component={Link}
+          to="/login"
+          sx={{
+            textTransform: "none",
+            width: "400px",
+            color: "#6d76fa",
+            fontWeight: 600,
+            fontSize: 13,
+          }}
+        >
+          Or Log In Instead
+        </Button>
+      </Box>
+      <Box
+        sx={{
+          position: "absolute",
+          bottom: 0,
+          left: "50%",
+          transform: "translateX(-50%)",
+          textAlign: "center", // Center text within the box
+          width: "100%", // Optionally, you can set width to 100% for full-page alignment
+          p: 2, // Padding for spacing
+        }}
+      >
+        <Typography fontWeight={300}>
+          By proceeding you acknowledge that you have read,
+        </Typography>
+        <Typography fontWeight={"light"}>
+          understood and agree to our{" "}
+          <Link style={{ color: "black", fontWeight: 400 }} to={"/not-found"}>
+            Terms of Service.
           </Link>
         </Typography>
       </Box>
-      <Footer />
     </Box>
   );
 };

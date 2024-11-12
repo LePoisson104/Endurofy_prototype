@@ -4,14 +4,14 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { Box } from "@mui/material";
 
-const MonthSelect = ({ month, setMonth }) => {
+const MonthSelect = ({ month, setMonth, size = "large", bgcolor }) => {
   const handleChange = (e) => {
     setMonth(e.target.value);
   };
 
   return (
     <Box sx={{ minWidth: 120 }}>
-      <FormControl fullWidth>
+      <FormControl fullWidth size={size}>
         <InputLabel
           id="demo-simple-select-label"
           sx={{
@@ -29,6 +29,7 @@ const MonthSelect = ({ month, setMonth }) => {
           label="Month"
           onChange={handleChange}
           sx={{
+            bgcolor: bgcolor,
             "&:hover .MuiOutlinedInput-notchedOutline": {
               borderColor: "#868dfb", // Border color on hover
             },

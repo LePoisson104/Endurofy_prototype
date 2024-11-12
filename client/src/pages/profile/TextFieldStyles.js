@@ -17,4 +17,13 @@ export const textFieldStyles = {
   "& .MuiInputLabel-root.Mui-focused": {
     color: "#868dfb", // Label color when focused
   },
+  // Hide the spinner arrows on input[type=number]
+  "& input[type=number]": {
+    MozAppearance: "textfield",
+  },
+  "& input[type=number]::-webkit-outer-spin-button, & input[type=number]::-webkit-inner-spin-button":
+    {
+      WebkitAppearance: "none",
+      margin: 0,
+    },
 };

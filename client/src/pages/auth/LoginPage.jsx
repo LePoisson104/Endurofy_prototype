@@ -1,4 +1,4 @@
-import { Button, Box, TextField, Typography, IconButton } from "@mui/material";
+import { Button, Box, TextField, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { useTheme } from "@emotion/react";
@@ -10,7 +10,7 @@ import PasswordField from "../../components/PasswordField";
 import ForgotPasswordModal from "../../components/modals/ForgotPassModal";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 import CircularProgress from "@mui/material/CircularProgress";
-import GoogleIcon from "@mui/icons-material/Google";
+import GoogleBtn from "../../components/buttons/GoogleBtn";
 
 const Login = () => {
   const theme = useTheme();
@@ -75,7 +75,6 @@ const Login = () => {
           left: 60,
         }}
       >
-        {/* Logo */}
         <Typography
           variant="h4" // Smaller variant for mobile
           fontWeight="400"
@@ -89,12 +88,19 @@ const Login = () => {
             alignItems: "center",
           }}
         >
-          <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+          <Link
+            to="/"
+            style={{
+              textDecoration: "none",
+              color: "inherit",
+            }}
+          >
             <span className="purple-style">Fit</span>
             <span className="grey-style">Tracker</span>
           </Link>
         </Typography>
       </Box>
+
       <Box
         component="form"
         onSubmit={handleSubmit}
@@ -118,28 +124,23 @@ const Login = () => {
         >
           Log In
         </Typography>
-        <Button
-          variant="outlined"
-          startIcon={<GoogleIcon />}
+
+        <GoogleBtn mt={3} />
+        {/* horizontal line */}
+        <Box
           sx={{
-            textTransform: "none",
+            display: "flex",
             width: "100%",
-            fontSize: 16,
-            borderRadius: 1,
+            alignItems: "center",
+            gap: 2,
             mb: 3,
             mt: 3,
-            bgcolor: "white",
-            border: "1px solid #DEDEDE",
-            "&:hover": {
-              border: "1px solid #DEDEDE",
-            },
           }}
         >
-          Continue with Google
-        </Button>
-        <Box
-          sx={{ width: "100%", borderTop: "1px solid #D4D4D4", mb: 3 }}
-        ></Box>
+          <Box sx={{ width: "100%", borderTop: "1px solid #D4D4D4" }}></Box>
+          <Typography>or</Typography>
+          <Box sx={{ width: "100%", borderTop: "1px solid #D4D4D4" }}></Box>
+        </Box>
         <Box
           sx={{
             display: "flex",
@@ -158,6 +159,7 @@ const Login = () => {
           onChange={handleEmailInput}
           required
           sx={{
+            bgcolor: "white",
             mb: 3,
             width: "100%",
             "& .MuiOutlinedInput-root": {
@@ -215,12 +217,13 @@ const Login = () => {
         )}
         <Button
           type="submit"
+          variant="contained"
           sx={{
             textTransform: "none",
             width: "100%",
             background: "#6d76fa",
             color: "white",
-            mb: 3,
+            mb: 2,
             mt: 2,
             "&:hover": {
               backgroundColor: "#868dfb",
@@ -241,8 +244,29 @@ const Login = () => {
             fontSize: 13,
           }}
         >
-          Or Sign Up
+          Or Sign Up Instead
         </Button>
+      </Box>
+      <Box
+        sx={{
+          position: "fixed",
+          bottom: 0,
+          left: "50%",
+          transform: "translateX(-50%)",
+          textAlign: "center", // Center text within the box
+          width: "100%", // Optionally, you can set width to 100% for full-page alignment
+          p: 2, // Padding for spacing
+        }}
+      >
+        <Typography fontWeight={300}>
+          By proceeding you acknowledge that you have read,
+        </Typography>
+        <Typography fontWeight={"light"}>
+          understood and agree to our{" "}
+          <Link style={{ color: "black", fontWeight: 400 }} to={"/not-found"}>
+            Terms of Service.
+          </Link>
+        </Typography>
       </Box>
     </Box>
   );

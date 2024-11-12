@@ -1,27 +1,6 @@
-import { Box, Typography, Alert } from "@mui/material";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import { keyframes } from "@emotion/react";
+import { Box, Alert } from "@mui/material";
 import { useRef } from "react";
-
-// Define keyframes for sliding down, pausing, and then sliding up
-const slideDownUpFade = keyframes`
-  0% {
-    top: -100px;
-    opacity: 0;
-  }
-  10% {
-    top: 40px;
-    opacity: 1;
-  }
-  90% {
-    top: 40px;
-    opacity: 1;
-  }
-  100% {
-    top: -100px;
-    opacity: 0;
-  }
-`;
+import { slideDownUpFade } from "./slideDownUpFade";
 
 const SuccessAlert = ({ message, duration, setSuccessMsg }) => {
   const alertRef = useRef(null); // Reference to the alert element

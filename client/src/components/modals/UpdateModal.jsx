@@ -1,14 +1,18 @@
 import { Fragment, useState, useEffect } from "react";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import { Button, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  TextField,
+  Typography,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  CircularProgress,
+} from "@mui/material";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
 import { useUpdateUserAccountMutation } from "../../features/users/usersApiSlice";
 import useAuth from "../../hooks/useAuth";
-import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 
 const UpdateModal = ({
   title,
@@ -37,7 +41,7 @@ const UpdateModal = ({
   const [value1, setValue1] = useState(initialValue1 || "");
   const [value2, setValue2] = useState(initialValue2 || "");
   const [value3, setValue3] = useState(initialValue3 || "");
-  const [updateUserAccount] = useUpdateUserAccountMutation();
+  const [updateUserAccount, { isLoading }] = useUpdateUserAccountMutation();
   const { userId } = useAuth();
 
   useEffect(() => {
@@ -257,7 +261,10 @@ const UpdateModal = ({
               },
             }}
           >
-            Update
+            {!isLoading && <>Update</>}
+            {isLoading && (
+              <CircularProgress size={20} sx={{ color: "white" }} />
+            )}
           </Button>
         </DialogActions>
       </Dialog>

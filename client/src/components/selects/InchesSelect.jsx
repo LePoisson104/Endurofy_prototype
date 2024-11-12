@@ -4,14 +4,14 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { Box } from "@mui/material";
 
-const InchesSelect = ({ inches, setInches }) => {
+const InchesSelect = ({ inches, setInches, size = "large", bgcolor }) => {
   const handleChange = (e) => {
     setInches(e.target.value);
   };
 
   return (
     <Box sx={{ minWidth: 100 }}>
-      <FormControl fullWidth>
+      <FormControl fullWidth size={size}>
         <InputLabel
           id="demo-simple-select-label"
           sx={{
@@ -29,6 +29,7 @@ const InchesSelect = ({ inches, setInches }) => {
           label="in"
           onChange={handleChange}
           sx={{
+            bgcolor: bgcolor,
             "&:hover .MuiOutlinedInput-notchedOutline": {
               borderColor: "#868dfb", // Border color on hover
             },

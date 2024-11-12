@@ -34,12 +34,12 @@ body,
 
 .grey-style {
   color: #9a9ff1;
-  font-weight: bold;
+  font-weight: 400;
 }
 
 .purple-style {
   color: #6d76fa;
-  font-weight: bold;
+  font-weight: 500;
 }
 
 .nav-link {

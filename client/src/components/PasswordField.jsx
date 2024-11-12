@@ -16,6 +16,7 @@ const PasswordField = ({
   validate = true,
   errMsg = false,
   mb,
+  size = "large",
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -33,6 +34,7 @@ const PasswordField = ({
       label={label}
       variant="outlined"
       type={showPassword ? "text" : "password"}
+      size={size}
       required
       value={value}
       onChange={(e) => setValue(e.target.value)}
@@ -55,6 +57,7 @@ const PasswordField = ({
         width: "400px",
         mb: mb,
         "& .MuiOutlinedInput-root": {
+          bgcolor: "white",
           "& fieldset": {
             borderColor:
               (errors[fieldName] && validate) || errMsg ? "red" : "grey",
@@ -73,6 +76,9 @@ const PasswordField = ({
         },
         "& .MuiInputLabel-root.Mui-focused": {
           color: (errors[fieldName] && validate) || errMsg ? "red" : "#868dfb", // Label color when focused
+        },
+        "& .MuiFormHelperText-root": {
+          backgroundColor: "transparent", // Makes the helper text background transparent
         },
       }}
       InputProps={{

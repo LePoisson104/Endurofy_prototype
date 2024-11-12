@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   TextField,
   Typography,
   IconButton,
@@ -30,6 +29,8 @@ import BMIPopover from "../../components/modals/BMIPopover";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { MACROS } from "../../helper/macrosConstants";
 import LoadingSkeleton from "../../components/LoadingSkeleton";
+import LoadingSpinner from "../../components/alerts/LoadingSpinner";
+import UpdateBtn from "../../components/buttons/UpdateBtn";
 
 const Profile = () => {
   const { userId } = useAuth();
@@ -45,8 +46,10 @@ const Profile = () => {
   const age = new Date().getFullYear() - year;
   const BMI = ((data?.weight * 703) / data?.height ** 2).toFixed(1);
 
-  const [updateUserProfile] = useUpdateUserProfileMutation();
-  const [updateUserTarget] = useUpdateUserTargetMutation();
+  const [updateUserProfile, { isLoading: isUpdatingProfile }] =
+    useUpdateUserProfileMutation();
+  const [updateUserTarget, { isLoading: isUpdatingTarget }] =
+    useUpdateUserTargetMutation();
 
   const [gender, setGender] = useState(data?.gender);
   const [currentMonth, setCurrentMonth] = useState(month);
@@ -170,6 +173,7 @@ const Profile = () => {
           height4={300}
         />
       )}
+      {(isUpdatingProfile || isUpdatingTarget) && <LoadingSpinner />}
       {data && !isLoading && (
         <>
           {" "}
@@ -342,19 +346,7 @@ const Profile = () => {
               <Box
                 sx={{ display: "flex", justifyContent: "end", mb: 3, mr: 6 }}
               >
-                <Button
-                  sx={{
-                    textTransform: "none",
-                    backgroundColor: "#6d76fa",
-                    color: "white",
-                    "&:hover ": {
-                      backgroundColor: "#9a9ff1",
-                    },
-                  }}
-                  type="submit"
-                >
-                  Update
-                </Button>
+                <UpdateBtn isLoading={isUpdatingProfile || isUpdatingProfile} />
               </Box>
             </Box>
             <Box
@@ -470,19 +462,7 @@ const Profile = () => {
               <Box
                 sx={{ display: "flex", justifyContent: "end", mb: 3, mr: 6 }}
               >
-                <Button
-                  sx={{
-                    textTransform: "none",
-                    backgroundColor: "#6d76fa",
-                    color: "white",
-                    "&:hover ": {
-                      backgroundColor: "#9a9ff1",
-                    },
-                  }}
-                  type="submit"
-                >
-                  Update
-                </Button>
+                <UpdateBtn isLoading={isUpdatingProfile || isUpdatingProfile} />
               </Box>
             </Box>
             {/* horizontal line */}
@@ -543,6 +523,7 @@ const Profile = () => {
                 >
                   <TextField
                     label="kcal"
+                    type="number"
                     sx={textFieldStyles}
                     value={calories}
                     onChange={(e) => setCalories(e.target.value)}
@@ -570,6 +551,7 @@ const Profile = () => {
                 >
                   <TextField
                     label="lbs"
+                    type="number"
                     sx={textFieldStyles}
                     value={weightGoal}
                     onChange={(e) => setWeightGoal(e.target.value)}
@@ -579,19 +561,7 @@ const Profile = () => {
               <Box
                 sx={{ display: "flex", justifyContent: "end", mb: 3, mr: 6 }}
               >
-                <Button
-                  sx={{
-                    textTransform: "none",
-                    backgroundColor: "#6d76fa",
-                    color: "white",
-                    "&:hover ": {
-                      backgroundColor: "#9a9ff1",
-                    },
-                  }}
-                  type="submit"
-                >
-                  Update
-                </Button>
+                <UpdateBtn isLoading={isUpdatingProfile || isUpdatingProfile} />
               </Box>
             </Box>
           </Box>
@@ -818,20 +788,10 @@ const Profile = () => {
               </Box>
             </Box>
             <Box sx={{ display: "flex", justifyContent: "end", mb: 3, mr: 6 }}>
-              <Button
-                sx={{
-                  textTransform: "none",
-                  backgroundColor: "#6d76fa",
-                  color: "white",
-                  mb: 5,
-                  "&:hover ": {
-                    backgroundColor: "#9a9ff1",
-                  },
-                }}
-                type="submit"
-              >
-                Update
-              </Button>
+              <UpdateBtn
+                mb={5}
+                isLoading={isUpdatingProfile || isUpdatingProfile}
+              />
             </Box>
           </Box>
         </>

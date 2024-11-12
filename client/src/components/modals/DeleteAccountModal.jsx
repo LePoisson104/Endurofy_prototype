@@ -1,16 +1,19 @@
 import { useState, Fragment, useEffect } from "react";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+import {
+  Button,
+  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  CircularProgress,
+  Typography,
+} from "@mui/material";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
 import useAuth from "../../hooks/useAuth";
 import { useDeleteUserAccountMutation } from "../../features/users/usersApiSlice";
-import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 import ErrorAlert from "../alerts/ErrorAlert";
 
 const DeleteAccountModal = () => {
@@ -19,7 +22,7 @@ const DeleteAccountModal = () => {
   const [open, setOpen] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   const { userId, email } = useAuth();
-  const [deleteUserAccount] = useDeleteUserAccountMutation();
+  const [deleteUserAccount, { isLoading }] = useDeleteUserAccountMutation();
   const [password, setPassword] = useState("");
 
   useEffect(() => {
@@ -32,6 +35,7 @@ const DeleteAccountModal = () => {
 
   const handleClose = () => {
     setOpen(false);
+    setPassword("");
   };
 
   const handleSubmit = async (e) => {
@@ -61,6 +65,9 @@ const DeleteAccountModal = () => {
 
   return (
     <Fragment>
+      {errMsg && (
+        <ErrorAlert message={errMsg} duration={4000} setErrMsg={setErrMsg} />
+      )}
       <Button
         onClick={handleClickOpen}
         sx={{
@@ -88,9 +95,6 @@ const DeleteAccountModal = () => {
         }}
       >
         <DialogTitle>Delete Your Account</DialogTitle>
-        {errMsg && (
-          <ErrorAlert message={errMsg} duration={4000} setErrMsg={setErrMsg} />
-        )}
         <DialogContent>
           <DialogContentText>
             If you delete your account, all your data will be permanently
@@ -147,7 +151,10 @@ const DeleteAccountModal = () => {
               },
             }}
           >
-            Delete
+            {!isLoading && <>Delete</>}
+            {isLoading && (
+              <CircularProgress size={20} sx={{ color: "white" }} />
+            )}
           </Button>
         </DialogActions>
       </Dialog>

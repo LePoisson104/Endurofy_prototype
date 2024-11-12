@@ -22,26 +22,6 @@ const NotFoundPage = () => {
         p: "2",
       }}
     >
-      <Box
-        sx={{
-          position: "absolute",
-          top: 40,
-          left: 40,
-        }}
-      >
-        <Typography
-          variant="h2"
-          fontWeight="400"
-          sx={{
-            cursor: "pointer",
-          }}
-        >
-          <Link to="/ " style={{ textDecoration: "none" }}>
-            <span className="purple-style">Fit</span>
-            <span className="grey-style">Tracker</span>
-          </Link>
-        </Typography>
-      </Box>
       <SentimentVeryDissatisfiedIcon
         sx={{ fontSize: "200px", color: "#AEAEAE" }}
       />
