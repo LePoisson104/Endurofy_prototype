@@ -59,13 +59,15 @@ const Login = () => {
   return (
     <Box
       sx={{
-        position: "relative", // Allows absolute positioning of the logo
-        height: "100vh",
+        minHeight: "100vh",
+        width: "100%",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
         background: colors.grey[1000],
+        position: "fixed",
+        overflow: "hidden",
       }}
     >
       <Box
@@ -73,6 +75,7 @@ const Login = () => {
           position: "absolute",
           top: 40,
           left: 60,
+          opacity: { sm: 1, xs: 0 },
         }}
       >
         <Typography
@@ -81,8 +84,8 @@ const Login = () => {
           sx={{
             cursor: "pointer",
             fontSize: {
-              xs: "20px", // Mobile: Smaller font
-              md: "28px", // Desktop: Larger font
+              xs: "1rem",
+              sm: "1.75rem", // Mobile: Smaller font
             },
             display: "flex",
             alignItems: "center",
@@ -112,15 +115,16 @@ const Login = () => {
           alignItems: "center",
           border: "none",
           width: "100%",
-          maxWidth: "400px",
+          width: { sm: "400px", xs: "300px" },
+          mt: "auto",
         }}
       >
         <Typography
-          variant="h3"
           mb={3}
           mt={4}
           fontWeight="bold"
           color="#6d76fa"
+          sx={{ fontSize: "1.5rem" }}
         >
           Log In
         </Typography>
@@ -249,13 +253,10 @@ const Login = () => {
       </Box>
       <Box
         sx={{
-          position: "fixed",
-          bottom: 0,
-          left: "50%",
-          transform: "translateX(-50%)",
           textAlign: "center", // Center text within the box
-          width: "100%", // Optionally, you can set width to 100% for full-page alignment
+          width: { sm: "400px", xs: "350px" },
           p: 2, // Padding for spacing
+          mt: "auto",
         }}
       >
         <Typography fontWeight={300}>

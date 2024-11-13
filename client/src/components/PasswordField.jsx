@@ -54,7 +54,7 @@ const PasswordField = ({
           : ""
       }
       sx={{
-        width: "400px",
+        width: { sm: "400px", xs: "300px" },
         mb: mb,
         "& .MuiOutlinedInput-root": {
           bgcolor: "white",

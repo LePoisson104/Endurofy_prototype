@@ -31,7 +31,7 @@ const GoogleBtn = ({ mb, mt }) => {
       }
       sx={{
         textTransform: "none",
-        width: "400px",
+        width: "100%",
         fontSize: 16,
         borderRadius: 1,
         mt: mt,

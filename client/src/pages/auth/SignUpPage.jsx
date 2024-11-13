@@ -171,13 +171,14 @@ const SignUp = () => {
     <Box
       ref={topRef}
       sx={{
-        position: "relative",
-        height: "150vh",
+        minHeight: "160vh",
+        width: "100%",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
         background: colors.grey[1000],
+        overflow: "hidden",
       }}
     >
       <Box
@@ -185,6 +186,7 @@ const SignUp = () => {
           position: "absolute",
           top: 40,
           left: 60,
+          opacity: { sm: 1, xs: 0 },
         }}
       >
         <Typography
@@ -193,8 +195,8 @@ const SignUp = () => {
           sx={{
             cursor: "pointer",
             fontSize: {
-              xs: "20px", // Mobile: Smaller font
-              md: "28px", // Desktop: Larger font
+              xs: "1rem",
+              sm: "1.75rem", // Mobile: Smaller font
             },
             display: "flex",
             alignItems: "center",
@@ -231,6 +233,10 @@ const SignUp = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          border: "none",
+          width: "100%",
+          width: { sm: "400px", xs: "300px" },
+          mt: "auto",
         }}
       >
         <Typography variant="h3" mb={6} fontWeight="bold" color="#6d76fa">
@@ -242,7 +248,7 @@ const SignUp = () => {
         <Box
           sx={{
             display: "flex",
-            width: "400px",
+            width: "100%",
             alignItems: "center",
             mb: 3,
             gap: 2,
@@ -260,6 +266,7 @@ const SignUp = () => {
             ml: 2,
             mr: 2,
             gap: 1,
+            width: "100%",
           }}
         >
           {/* left box */}
@@ -267,7 +274,7 @@ const SignUp = () => {
             sx={{
               display: "flex",
               flexDirection: "column",
-              maxWidth: "400px",
+              width: "100%",
             }}
           >
             <Box
@@ -483,7 +490,7 @@ const SignUp = () => {
             sx={{
               display: "flex",
               flexDirection: "column",
-              width: "400px",
+              width: "100%",
             }}
           >
             <Box
@@ -503,7 +510,7 @@ const SignUp = () => {
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                width: "400px",
+                width: "100%",
                 mb: 3,
                 gap: 1,
               }}
@@ -624,7 +631,7 @@ const SignUp = () => {
               sx={{
                 display: "flex",
                 alignItems: "center",
-                width: "400px",
+                width: "100%",
                 mb: 3,
                 justifyContent: "space-between",
               }}
@@ -654,7 +661,7 @@ const SignUp = () => {
               sx={{
                 display: "flex",
                 alignItems: "center",
-                width: "400px",
+                width: "100%",
                 mb: 3,
                 justifyContent: "space-between",
               }}
@@ -721,7 +728,7 @@ const SignUp = () => {
           variant="contained"
           type="submit"
           sx={{
-            width: "400px",
+            width: "100%",
             background: "#6d76fa",
             color: "white",
             textTransform: "none",
@@ -739,7 +746,7 @@ const SignUp = () => {
           to="/login"
           sx={{
             textTransform: "none",
-            width: "400px",
+            width: "100%",
             color: "#6d76fa",
             fontWeight: 600,
             fontSize: 13,
@@ -750,13 +757,10 @@ const SignUp = () => {
       </Box>
       <Box
         sx={{
-          position: "absolute",
-          bottom: 0,
-          left: "50%",
-          transform: "translateX(-50%)",
           textAlign: "center", // Center text within the box
-          width: "100%", // Optionally, you can set width to 100% for full-page alignment
+          width: { sm: "400px", xs: "350px" },
           p: 2, // Padding for spacing
+          mt: "auto",
         }}
       >
         <Typography fontWeight={300}>
