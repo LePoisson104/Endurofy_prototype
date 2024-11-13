@@ -1,9 +1,9 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { useGetAllUsersInfoQuery } from "../../features/users/usersApiSlice";
 import { dateFormat } from "../../helper/dateFormat";
 import Header from "../../components/global/Header";
-import IOSSwitch from "../../components/IOSSwitch";
+import IOSSwitch from "../../components/switches/IOSSwitch";
 import UpdateModal from "../../components/modals/UpdateModal";
 import DeleteAccountModal from "../../components/modals/DeleteAccountModal";
 import useAuth from "../../hooks/useAuth";

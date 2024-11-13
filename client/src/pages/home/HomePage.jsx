@@ -1,17 +1,9 @@
-import {
-  Box,
-  Typography,
-  Button,
-  Grid,
-  Card,
-  CardContent,
-  useTheme,
-} from "@mui/material";
+import { Box, Typography, Button, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import { tokens } from "../../theme";
-import HomeNavBar from "../../components/global/HomeNavBar";
 import Footer from "../../components/global/Footer";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import NavBar from "../../components/global/NavBar";
+import MuiSwitch from "../../components/switches/MuiSwitch";
 
 const HomePage = () => {
   const theme = useTheme();
@@ -19,8 +11,7 @@ const HomePage = () => {
 
   return (
     <Box>
-      {/* Navigation */}
-      <HomeNavBar bgcolor={`${colors.purpleAccent[500]}`} />
+      <NavBar />
 
       {/* Hero Section */}
       <Box
@@ -29,208 +20,61 @@ const HomePage = () => {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          minHeight: "95vh",
-          // background: `linear-gradient(180deg, ${colors.purpleAccent[500]} 0%, ${colors.grey[1000]} 100%)`,
-          backgroundColor: colors.purpleAccent[500],
           textAlign: "center",
-          padding: "40px 20px",
+          padding: "80px 20px",
+          gap: 1,
+          // background: `linear-gradient(180deg, ${colors.purpleAccent[500]} 0%, ${colors.grey[1000]} 100%)`,
         }}
       >
         <Typography
-          variant="h1"
-          color="white"
-          sx={{ mb: 2, fontWeight: "bold" }}
+          sx={{
+            fontWeight: 500,
+            fontSize: { sm: "4rem", xs: "3rem" },
+            whiteSpace: "pre-line",
+            p: 0,
+            fontFamily: "Merriweather, sans-serif",
+          }}
         >
-          Welcome to FitTracker
+          Track Your Fitness, {"\n"} Achieve Your Goals
         </Typography>
-        <Typography
-          variant="h5"
-          color="white"
-          sx={{ mb: 4, maxWidth: "600px" }}
-        >
+
+        <Typography sx={{ mb: 4, maxWidth: "600px", fontSize: "1rem" }}>
           Your all-in-one fitness app to log your food, workouts, and weight,
           designed to help you stay on track with your health and fitness goals.
         </Typography>
-        <Link to="/signup" style={{ textDecoration: "none" }}>
-          <Button
-            size="large"
-            sx={{
-              backgroundColor: "white",
-              color: colors.purpleAccent[400],
-              "&:hover": { backgroundColor: colors.grey[1000] },
-              padding: "10px 20px",
-              fontSize: "18px",
-              textTransform: "none",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 1,
-            }}
-          >
-            Get Started
-            <ArrowForwardIcon sx={{ fontSize: "20px" }} />
-          </Button>
-        </Link>
-      </Box>
 
-      {/* What You Can Do Section */}
-      <Box sx={{ mt: 6, mb: 6 }}>
-        <Typography
-          variant="h4"
-          sx={{ mb: 4, textAlign: "center", fontWeight: "bold" }}
+        <Button
+          component={Link}
+          to="/signup"
+          size="large"
+          sx={{
+            color: "white",
+            bgcolor: colors.purpleAccent[400],
+            "&:hover": { backgroundColor: colors.purpleAccent[300] },
+            padding: "10px 20px",
+            fontSize: 18,
+            textTransform: "none",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 1,
+            borderRadius: 2,
+            mb: 3,
+          }}
         >
-          What You Can Do
-        </Typography>
-        <Grid container spacing={4} justifyContent="center">
-          {/* Feature 1 */}
-          <Grid item xs={12} sm={4}>
-            <Card
-              sx={{
-                backgroundColor: "#ffffff",
-                borderRadius: "12px",
-                boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                "&:hover": {
-                  transform: "translateY(-5px)",
-                  transition: "0.3s ease-in-out",
-                },
-              }}
-            >
-              <CardContent sx={{ textAlign: "center" }}>
-                <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
-                  Log Your Food
-                </Typography>
-                <Typography color="textSecondary">
-                  Keep track of your daily food intake and nutrition easily.
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-
-          {/* Add more features below... */}
-        </Grid>
-      </Box>
-
-      {/* Feature Section */}
-      <Box
-        sx={{
-          mt: 6,
-          mb: 6,
-          backgroundColor: "white",
-          padding: "40px 20px",
-        }}
-      >
-        <Typography
-          variant="h4"
-          sx={{ mb: 4, textAlign: "center", fontWeight: "bold" }}
-        >
-          Why FitTracker Stands Out
-        </Typography>
-        <Grid container spacing={4} justifyContent="center">
-          <Grid item xs={12} sm={4}>
-            <Card
-              sx={{
-                backgroundColor: "#ffffff",
-                borderRadius: "12px",
-                boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                "&:hover": {
-                  transform: "translateY(-5px)",
-                  transition: "0.3s ease-in-out",
-                },
-              }}
-            >
-              <CardContent sx={{ textAlign: "center" }}>
-                <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
-                  Custom Plans
-                </Typography>
-                <Typography color="textSecondary">
-                  Create tailored workout and nutrition plans to fit your
-                  lifestyle.
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-
-          <Grid item xs={12} sm={4}>
-            <Card
-              sx={{
-                backgroundColor: "#ffffff",
-                borderRadius: "12px",
-                boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                "&:hover": {
-                  transform: "translateY(-5px)",
-                  transition: "0.3s ease-in-out",
-                },
-              }}
-            >
-              <CardContent sx={{ textAlign: "center" }}>
-                <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
-                  Nutrition Tracking
-                </Typography>
-                <Typography color="textSecondary">
-                  Monitor your calorie and macronutrient intake with ease.
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-      </Box>
-
-      {/* Exercise Section */}
-      <Box sx={{ mt: 6, mb: 6 }}>
-        <Typography
-          variant="h4"
-          sx={{ mb: 4, textAlign: "center", fontWeight: "bold" }}
-        >
-          Exercise Plans for Every Goal
-        </Typography>
-        <Grid container spacing={4} justifyContent="center">
-          <Grid item xs={12} sm={4}>
-            <Card
-              sx={{
-                backgroundColor: "#ffffff",
-                borderRadius: "12px",
-                boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                "&:hover": {
-                  transform: "translateY(-5px)",
-                  transition: "0.3s ease-in-out",
-                },
-              }}
-            >
-              <CardContent sx={{ textAlign: "center" }}>
-                <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
-                  Strength Training
-                </Typography>
-                <Typography color="textSecondary">
-                  Build muscle and increase strength with personalized workouts.
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-
-          <Grid item xs={12} sm={4}>
-            <Card
-              sx={{
-                backgroundColor: "#ffffff",
-                borderRadius: "12px",
-                boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                "&:hover": {
-                  transform: "translateY(-5px)",
-                  transition: "0.3s ease-in-out",
-                },
-              }}
-            >
-              <CardContent sx={{ textAlign: "center" }}>
-                <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
-                  Cardio Workouts
-                </Typography>
-                <Typography color="textSecondary">
-                  Stay fit and improve your endurance with cardio-based
-                  exercises.
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
+          Get Started <a style={{ fontWeight: 300 }}>- it's free</a>
+        </Button>
+        <MuiSwitch />
+        {/* What You Can Do Section */}
+        <Box
+          sx={{
+            mt: 3,
+            width: "1000px",
+            height: "550px",
+            bgcolor: "white",
+            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+          }}
+        ></Box>
       </Box>
 
       {/* Footer */}

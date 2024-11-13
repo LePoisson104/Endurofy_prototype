@@ -1,203 +1,242 @@
-import React from "react";
-import { Button, Typography, Box, IconButton, Drawer } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Button,
+  IconButton,
+  Drawer,
+  List,
+  ListItem,
+} from "@mui/material";
 import { Link } from "react-router-dom";
-import MenuIcon from "@mui/icons-material/Menu";
-import { useState } from "react";
+import { useTheme } from "@emotion/react";
+import { tokens } from "../../theme";
+import { useState, useEffect } from "react";
+import { Menu as MenuIcon, Close as CloseIcon } from "@mui/icons-material";
 
 const NavBar = () => {
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-  // Function to toggle the drawer open/close
-  const toggleDrawer = (open) => (event) => {
-    if (
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
-    setDrawerOpen(open);
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
   };
+
+  const navLinks = ["About", "Features", "Community", "Help Center", "Blog"];
+
+  const DrawerContent = () => (
+    <Box sx={{ width: 250, pt: 2 }}>
+      <Box sx={{ display: "flex", justifyContent: "flex-end", px: 2, mb: 2 }}>
+        <IconButton onClick={handleDrawerToggle}>
+          <CloseIcon />
+        </IconButton>
+      </Box>
+      <List>
+        {navLinks.map((text) => (
+          <ListItem key={text} sx={{ display: "block", py: 1 }}>
+            <Link
+              to={`/${text.toLowerCase().replace(" ", "-")}`}
+              className="animated-link"
+              style={{
+                textDecoration: "none",
+                color: "inherit",
+                display: "block",
+                padding: "8px 16px",
+              }}
+              onClick={handleDrawerToggle}
+            >
+              {text}
+            </Link>
+          </ListItem>
+        ))}
+        <ListItem sx={{ display: "block", py: 1 }}>
+          <Button
+            component={Link}
+            to="/login"
+            fullWidth
+            variant="contained"
+            sx={{
+              textTransform: "none",
+              bgcolor: "white",
+              color: "#3f3f3f",
+              fontSize: "1rem",
+              borderRadius: 2,
+              mb: 1,
+              "&:hover": {
+                bgcolor: "white",
+              },
+            }}
+            onClick={handleDrawerToggle}
+          >
+            Log in
+          </Button>
+          <Button
+            component={Link}
+            to="/signup"
+            fullWidth
+            variant="contained"
+            sx={{
+              textTransform: "none",
+              bgcolor: colors.purpleAccent[400],
+              color: "white",
+              borderRadius: 2,
+              fontSize: 15,
+              "&:hover": {
+                bgcolor: colors.purpleAccent[400],
+              },
+            }}
+            onClick={handleDrawerToggle}
+          >
+            Try for free
+          </Button>
+        </ListItem>
+      </List>
+    </Box>
+  );
 
   return (
     <Box
       sx={{
-        position: "sticky",
         top: 0,
         left: 0,
-        backgroundColor: "white",
-        width: "100%",
-        height: "80px",
+        zIndex: 999,
+        gap: 7,
+        position: "sticky",
         display: "flex",
-        justifyContent: {
-          xs: "space-between", // Mobile: space-between
-          md: "space-evenly", // Desktop: space-evenly
-        },
         alignItems: "center",
-        padding: {
-          xs: "0 20px", // Mobile: 20px padding on sides
-          md: "0 50px", // Desktop: 50px padding on sides
-        },
-        zIndex: 1000, // Ensure the navbar stays above other content
-        gap: 30,
+        justifyContent: { md: "space-evenly", xs: "space-between" },
+        minHeight: "9vh",
+        px: { xs: 2, md: 4 },
+        backdropFilter: isScrolled ? "blur(20px)" : "none",
+        transition: "background-color 0.3s ease, backdrop-filter 0.3s ease",
       }}
     >
       {/* Logo */}
       <Typography
-        variant="h4" // Smaller variant for mobile
+        variant="h4"
         fontWeight="400"
         sx={{
           cursor: "pointer",
-          fontSize: {
-            xs: "20px", // Mobile: Smaller font
-            md: "28px", // Desktop: Larger font
-          },
+          fontSize: "1.75rem",
           display: "flex",
           alignItems: "center",
+          fontWeight: { md: "bold", xs: 400 },
+          ml: { xs: 3, md: 0 },
         }}
       >
-        <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-          <span className="purple-style">Fit</span>
-          <span className="grey-style">Tracker</span>
+        <Link
+          to="/"
+          style={{
+            textDecoration: "none",
+            color: "inherit",
+          }}
+        >
+          <span style={{ color: "#6d76fa" }}>Fit</span>
+          <span style={{ color: "#9a9ff1" }}>Tracker</span>
         </Link>
       </Typography>
 
-      {/* Hamburger Icon for Mobile */}
-      <IconButton
-        sx={{
-          display: {
-            xs: "flex", // Mobile: Show icon
-            md: "none", // Desktop: Hide icon
-          },
-          color: "black",
-          "&:hover": {
-            color: "#6d76fa",
-          },
-        }}
-        onClick={toggleDrawer(true)}
-      >
-        <MenuIcon fontSize="large" />
-      </IconButton>
-
-      {/* Navigation Links */}
+      {/* Desktop Navigation */}
       <Box
         sx={{
-          display: {
-            xs: "none", // Mobile: Hide links
-            md: "flex", // Desktop: Show links
-          },
-          gap: 3,
-          alignItems: "center",
+          display: { xs: "none", md: "flex" },
+          width: "auto",
+          gap: 4,
+          ml: 4,
         }}
       >
-        <Link className="nav-link">About</Link>
-        <Link className="nav-link">Features</Link>
-        <Link className="nav-link">Exercise</Link>
-        <Link to="/login">
-          <Button
-            sx={{
-              textTransform: "none",
-              backgroundColor: "transparent",
-              color: "#4f4f4f",
-              paddingLeft: "22px",
-              paddingRight: "22px",
-              height: "35px",
-              fontSize: "14px",
-              fontWeight: 600,
-              "&:hover": {
-                backgroundColor: "#f0f0f0",
-              },
+        {navLinks.map((text) => (
+          <Link
+            key={text}
+            to={`/${text.toLowerCase().replace(" ", "-")}`}
+            className="animated-link"
+            style={{
+              textDecoration: "none",
+              color: "inherit",
             }}
           >
-            Log In
-          </Button>
-        </Link>
-        <Link to="/signup">
-          <Button
-            sx={{
-              textTransform: "none",
-              backgroundColor: "#6d76fa",
-              color: "white",
-              paddingLeft: "15px",
-              paddingRight: "15px",
-              height: "35px",
-              fontWeight: 600,
-              "&:hover": {
-                backgroundColor: "#868dfb",
-              },
-            }}
-          >
-            Sign Up
-          </Button>
-        </Link>
+            {text}
+          </Link>
+        ))}
       </Box>
 
-      {/* Drawer for Mobile Navigation */}
+      {/* Desktop Buttons */}
+      <Box sx={{ display: { xs: "none", md: "flex" }, gap: 1 }}>
+        <Button
+          component={Link}
+          to="/login"
+          variant="contained"
+          sx={{
+            textTransform: "none",
+            bgcolor: "white",
+            color: "#3f3f3f",
+            fontSize: "1rem",
+            borderRadius: 2,
+            "&:hover": {
+              bgcolor: "white",
+            },
+          }}
+        >
+          Log in
+        </Button>
+        <Button
+          component={Link}
+          to="/signup"
+          variant="contained"
+          sx={{
+            textTransform: "none",
+            bgcolor: colors.purpleAccent[400],
+            color: "white",
+            borderRadius: 2,
+            fontSize: 15,
+            pl: 2,
+            pr: 2,
+            "&:hover": {
+              bgcolor: colors.purpleAccent[400],
+            },
+          }}
+        >
+          Try for free
+        </Button>
+      </Box>
+
+      {/* Mobile Menu Icon */}
+      <IconButton
+        color="inherit"
+        aria-label="open drawer"
+        edge="start"
+        onClick={handleDrawerToggle}
+        sx={{ display: { md: "none" } }}
+      >
+        <MenuIcon />
+      </IconButton>
+
+      {/* Mobile Drawer */}
       <Drawer
-        anchor="top" // Drawer slides from the top
-        open={drawerOpen}
-        onClose={toggleDrawer(false)}
+        anchor="right"
+        open={mobileOpen}
+        onClose={handleDrawerToggle}
         sx={{
+          display: { xs: "block", md: "none" },
           "& .MuiDrawer-paper": {
-            padding: "20px",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            backgroundColor: "#f9f9f9",
-            boxShadow: "0px 4px 8px rgba(0,0,0,0.2)",
+            boxSizing: "border-box",
+            width: 250,
           },
         }}
       >
-        <Link className="drawer-nav-link" onClick={toggleDrawer(false)}>
-          About
-        </Link>
-        <Link className="drawer-nav-link" onClick={toggleDrawer(false)}>
-          Features
-        </Link>
-        <Link className="drawer-nav-link" onClick={toggleDrawer(false)}>
-          Exercise
-        </Link>
-        <Link className="drawer-nav-link" onClick={toggleDrawer(false)}>
-          Contact
-        </Link>
-        <Link to="/login">
-          <Button
-            sx={{
-              textTransform: "none",
-              backgroundColor: "transparent",
-              color: "black",
-              paddingLeft: "22px",
-              paddingRight: "22px",
-              height: "35px",
-              border: "1px solid gray",
-              "&:hover": {
-                backgroundColor: "#f0f0f0",
-              },
-              margin: "10px 0",
-            }}
-            onClick={toggleDrawer(false)}
-          >
-            Login
-          </Button>
-        </Link>
-        <Link to="/signup">
-          <Button
-            sx={{
-              textTransform: "none",
-              backgroundColor: "#6d76fa",
-              color: "white",
-              paddingLeft: "15px",
-              paddingRight: "15px",
-              height: "35px",
-              "&:hover": {
-                backgroundColor: "#868dfb",
-              },
-              margin: "10px 0",
-            }}
-            onClick={toggleDrawer(false)}
-          >
-            Sign Up
-          </Button>
-        </Link>
+        <DrawerContent />
       </Drawer>
     </Box>
   );

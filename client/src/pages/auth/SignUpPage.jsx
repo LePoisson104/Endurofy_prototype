@@ -194,10 +194,7 @@ const SignUp = () => {
           fontWeight="400"
           sx={{
             cursor: "pointer",
-            fontSize: {
-              xs: "1rem",
-              sm: "1.75rem", // Mobile: Smaller font
-            },
+            fontSize: "1.75rem",
             display: "flex",
             alignItems: "center",
           }}
