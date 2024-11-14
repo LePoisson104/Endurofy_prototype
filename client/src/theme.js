@@ -83,6 +83,7 @@ export const tokens = (mode) => ({
           800: "#c2c2c2",
           900: "#e0e0e0",
           1000: "#F8FAFC",
+          1100: "#696969",
         },
         primary: {
           100: "#040509",

@@ -30,17 +30,26 @@ const HomePage = () => {
       >
         <Typography
           sx={{
-            fontWeight: 500,
+            fontWeight: 600,
             fontSize: { sm: "4rem", xs: "3rem" },
             whiteSpace: "pre-line",
             p: 0,
-            fontFamily: "Merriweather, sans-serif",
+            fontFamily: "Host Grotesk, sans-serif",
+            color: "#4a4a4a",
           }}
         >
           Track Your Fitness, {"\n"} Achieve Your Goals
         </Typography>
 
-        <Typography sx={{ mb: 4, maxWidth: "600px", fontSize: "1rem" }}>
+        <Typography
+          variant="h6"
+          sx={{
+            mb: 4,
+            maxWidth: "600px",
+            fontFamily: "Host Grotesk, sans-serif",
+            color: colors.grey[1100],
+          }}
+        >
           Your all-in-one fitness app to log your food, workouts, and weight,
           designed to help you stay on track with your health and fitness goals.
         </Typography>
@@ -68,7 +77,57 @@ const HomePage = () => {
         </Button>
         <MuiSwitch />
       </Box>
-      <LogosCarousel />
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", sm: "row" },
+            justifyContent: "center",
+            alignItems: "center",
+            width: { sm: "100%", xs: "300px" },
+            textAlign: "center",
+          }}
+        >
+          <Typography
+            color="#696969"
+            fontWeight={500}
+            variant="h5"
+            sx={{
+              m: 0,
+              p: 0,
+              flexShrink: 0,
+              display: "inline",
+            }}
+          >
+            FitTracker is compatible with leading{" "}
+          </Typography>
+          <Typography
+            color="#696969"
+            fontWeight={500}
+            variant="h5"
+            sx={{
+              m: 0,
+              p: 0,
+              flexShrink: 0,
+              mt: { xs: 1, sm: 0 },
+              ml: { sm: 0.5 },
+              display: "inline",
+            }}
+          >
+            fitness platforms.
+          </Typography>
+        </Box>
+
+        <LogosCarousel />
+      </Box>
 
       {/* Footer */}
       <Footer />

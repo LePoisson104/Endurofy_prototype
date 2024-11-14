@@ -1,5 +1,5 @@
 export const foodServingsHelper = ({ serving, unit, foodData }) => {
-  if (unit === "g") {
+  if (unit === "g" || unit === "GRM") {
     foodData.calories = (foodData.calories / 100) * serving;
     foodData.protein = (foodData.protein / 100) * serving;
     foodData.carbs = (foodData.carbs / 100) * serving;
