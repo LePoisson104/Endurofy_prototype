@@ -95,8 +95,7 @@ const Login = () => {
               color: "inherit",
             }}
           >
-            <span className="purple-style">Fit</span>
-            <span className="grey-style">Tracker</span>
+            <span className="purple-style">Endurofy</span>
           </Link>
         </Typography>
       </Box>

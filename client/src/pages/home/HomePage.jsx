@@ -38,7 +38,7 @@ const HomePage = () => {
             color: "#4a4a4a",
           }}
         >
-          Track Your Fitness, {"\n"} Achieve Your Goals
+          Strengthen Your Endurance, {"\n"}Enhance Your Life
         </Typography>
 
         <Typography
@@ -107,7 +107,7 @@ const HomePage = () => {
               display: "inline",
             }}
           >
-            FitTracker is compatible with leading{" "}
+            Endurofy is compatible with leading{" "}
           </Typography>
           <Typography
             color="#696969"

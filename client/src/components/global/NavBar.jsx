@@ -143,8 +143,7 @@ const NavBar = () => {
             color: "inherit",
           }}
         >
-          <span style={{ color: "#6d76fa" }}>Fit</span>
-          <span style={{ color: "#9a9ff1" }}>Tracker</span>
+          <span style={{ color: "#6d76fa" }}>Endurofy</span>
         </Link>
       </Typography>
 

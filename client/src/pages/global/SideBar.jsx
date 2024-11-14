@@ -103,7 +103,7 @@ const SideBar = () => {
           onClick={() => setIsCollapsed(!isCollapsed)}
           icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
           rootStyles={{
-            margin: "10px 0 20px 0",
+            margin: "20px 0 20px 0",
             color: colors.grey[100],
           }}
         >
@@ -115,8 +115,7 @@ const SideBar = () => {
               ml="15px"
             >
               <Typography variant="h2" fontWeight="400">
-                <span className="purple-style">Fit</span>
-                <span style={{ color: `${colors.primary[100]}` }}>Tracker</span>
+                <span className="purple-style">Endurofy</span>
               </Typography>
               <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                 <MenuOutlinedIcon />

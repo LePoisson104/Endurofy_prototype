@@ -55,7 +55,7 @@ const Footer = () => {
                 fontSize: { xs: "1.5rem", md: "2rem" },
               }}
             >
-              FitTracker
+              Endurofy
             </Typography>
           </Box>
 
