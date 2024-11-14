@@ -4,6 +4,7 @@ import { tokens } from "../../theme";
 import Footer from "../../components/global/Footer";
 import NavBar from "../../components/global/NavBar";
 import MuiSwitch from "../../components/switches/MuiSwitch";
+import LogosCarousel from "../../components/LogosCarousel";
 
 const HomePage = () => {
   const theme = useTheme();
@@ -23,6 +24,7 @@ const HomePage = () => {
           textAlign: "center",
           padding: "80px 20px",
           gap: 1,
+          overflow: "hidden",
           // background: `linear-gradient(180deg, ${colors.purpleAccent[500]} 0%, ${colors.grey[1000]} 100%)`,
         }}
       >
@@ -65,17 +67,8 @@ const HomePage = () => {
           Get Started <a style={{ fontWeight: 300 }}>- it's free</a>
         </Button>
         <MuiSwitch />
-        {/* What You Can Do Section */}
-        <Box
-          sx={{
-            mt: 3,
-            width: "1000px",
-            height: "550px",
-            bgcolor: "white",
-            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-          }}
-        ></Box>
       </Box>
+      <LogosCarousel />
 
       {/* Footer */}
       <Footer />

@@ -220,7 +220,7 @@ const NavBar = () => {
         onClick={handleDrawerToggle}
         sx={{ display: { md: "none" } }}
       >
-        <MenuIcon />
+        <MenuIcon fontSize="large" />
       </IconButton>
 
       {/* Mobile Drawer */}
