@@ -9,7 +9,7 @@ import {
 import { Box, IconButton, Typography, useTheme, Tooltip } from "@mui/material";
 import { Link } from "react-router-dom";
 import { tokens } from "../../theme";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import { useGetAllUsersInfoQuery } from "../../features/users/usersApiSlice";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
@@ -19,7 +19,7 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import MonitorWeightOutlinedIcon from "@mui/icons-material/MonitorWeightOutlined";
 import useAuth from "../../hooks/useAuth";
-import { useGetAllUsersInfoQuery } from "../../features/users/usersApiSlice";
+import GridViewIcon from "@mui/icons-material/GridView";
 
 // SidebarItem.js
 const Item = ({ title, to, icon, selected, setSelected, isCollapsed }) => {
@@ -146,7 +146,7 @@ const SideBar = () => {
           <Item
             title="Dashboard"
             to="/dashboard"
-            icon={<HomeOutlinedIcon />}
+            icon={<GridViewIcon />}
             selected={selected}
             setSelected={setSelected}
             isCollapsed={isCollapsed}
