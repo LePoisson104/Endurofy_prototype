@@ -20,8 +20,7 @@ const TopBar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
 
-  const [logout, { isLoading, isSuccess, isError, error }] =
-    useLogoutMutation();
+  const [logout, { isSuccess }] = useLogoutMutation();
 
   useEffect(() => {
     if (isSuccess) {

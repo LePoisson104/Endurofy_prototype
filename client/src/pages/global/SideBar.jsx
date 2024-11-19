@@ -9,7 +9,6 @@ import {
 import { Box, IconButton, Typography, useTheme, Tooltip } from "@mui/material";
 import { Link } from "react-router-dom";
 import { tokens } from "../../theme";
-import { useGetAllUsersInfoQuery } from "../../features/users/usersApiSlice";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
@@ -18,8 +17,8 @@ import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import MonitorWeightOutlinedIcon from "@mui/icons-material/MonitorWeightOutlined";
-import useAuth from "../../hooks/useAuth";
 import GridViewIcon from "@mui/icons-material/GridView";
+import UserAvatar from "../../components/UserAvatar";
 
 // SidebarItem.js
 const Item = ({ title, to, icon, selected, setSelected, isCollapsed }) => {
@@ -73,17 +72,17 @@ const SideBar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
   const sidebarWidth = isCollapsed ? "80px" : "250px"; // Adjust these values as needed
-  const { userId } = useAuth();
-  const { data, isLoading } = useGetAllUsersInfoQuery(userId);
 
   return (
     <Sidebar
       collapsed={isCollapsed}
-      backgroundColor={`${colors.primary[400]}`}
+      backgroundColor={colors.primary[400]}
       rootStyles={{
         [`.${sidebarClasses.container}`]: {
           position: "fixed",
           width: sidebarWidth,
+          display: "flex",
+          flexDirection: "column",
         },
       }}
     >
@@ -96,6 +95,10 @@ const SideBar = () => {
               color: "#868dfb",
             },
           },
+          // Center the menu items when collapsed
+          [`.${menuClasses.icon}`]: {
+            margin: isCollapsed ? "0 auto" : "0",
+          },
         }}
       >
         {/* LOGO AND MENU ICON */}
@@ -103,7 +106,7 @@ const SideBar = () => {
           onClick={() => setIsCollapsed(!isCollapsed)}
           icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
           rootStyles={{
-            margin: "20px 0 20px 0",
+            margin: "10px 0 10px 0", // top right bottom left
             color: colors.grey[100],
           }}
         >
@@ -112,10 +115,18 @@ const SideBar = () => {
               display="flex"
               justifyContent="space-between"
               alignItems="center"
-              ml="15px"
             >
-              <Typography variant="h2" fontWeight="400">
-                <span className="purple-style">Endurofy</span>
+              <Typography
+                sx={{
+                  fontSize: "1.75rem",
+                  fontWeight: 500,
+                  color:
+                    theme.palette.mode === "dark"
+                      ? "white"
+                      : colors.purpleAccent[400],
+                }}
+              >
+                Endurofy
               </Typography>
               <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                 <MenuOutlinedIcon />
@@ -123,26 +134,31 @@ const SideBar = () => {
             </Box>
           )}
         </MenuItem>
-
-        {!isCollapsed && data && !isLoading && (
-          <Box mb="25px">
-            <Box textAlign="center">
-              <Typography
-                variant="h2"
-                color={colors.grey[100]}
-                fontWeight="bold"
-                sx={{ m: "10px 0 0 0" }}
-              >
-                {data?.first_name} {data?.last_name}
-              </Typography>
-              <Typography variant="h5" color={colors.greenAccent[400]}>
-                {data?.email}
-              </Typography>
-            </Box>
-          </Box>
-        )}
+        <Box
+          sx={{
+            width: "100%",
+            borderTop: `1px solid ${
+              theme.palette.mode === "dark" ? "#4e5a65" : "#e0e0e0"
+            }`,
+          }}
+        ></Box>
 
         <Box mb={"30px"}>
+          <Typography
+            variant="h6"
+            color={
+              theme.palette.mode === "dark" ? "darkgray" : colors.grey[500]
+            }
+            sx={{
+              m: "15px 0 5px 0",
+              display: "block",
+              textAlign: isCollapsed ? "center" : "left",
+              padding: isCollapsed ? "0" : "0 0 0 20px",
+              fontSize: isCollapsed ? "12px" : "none",
+            }}
+          >
+            Overview
+          </Typography>
           <Item
             title="Dashboard"
             to="/dashboard"
@@ -153,8 +169,16 @@ const SideBar = () => {
           />
           <Typography
             variant="h6"
-            color={colors.grey[300]}
-            sx={{ m: "15px 0 5px 20px" }}
+            color={
+              theme.palette.mode === "dark" ? "darkgray" : colors.grey[500]
+            }
+            sx={{
+              m: "15px 0 5px 0",
+              display: "block",
+              textAlign: isCollapsed ? "center" : "left",
+              padding: isCollapsed ? "0" : "0 0 0 20px",
+              fontSize: isCollapsed ? "12px" : "none",
+            }}
           >
             Diary
           </Typography>
@@ -165,6 +189,7 @@ const SideBar = () => {
             selected={selected}
             setSelected={setSelected}
             isCollapsed={isCollapsed}
+            rootStyles={{ backgroundColor: "blue" }}
           />
           <Item
             title="Weight Tracker"
@@ -185,10 +210,18 @@ const SideBar = () => {
 
           <Typography
             variant="h6"
-            color={colors.grey[300]}
-            sx={{ m: "15px 0 5px 20px" }}
+            color={
+              theme.palette.mode === "dark" ? "darkgray" : colors.grey[500]
+            }
+            sx={{
+              m: "15px 0 5px 0",
+              display: "block",
+              textAlign: isCollapsed ? "center" : "left",
+              padding: isCollapsed ? "0" : "0 0 0 20px",
+              fontSize: isCollapsed ? "12px" : "none",
+            }}
           >
-            Pages
+            Account
           </Typography>
           <Item
             title="Profile"
@@ -216,8 +249,16 @@ const SideBar = () => {
           />
           <Typography
             variant="h6"
-            color={colors.grey[300]}
-            sx={{ m: "15px 0 5px 20px" }}
+            color={
+              theme.palette.mode === "dark" ? "darkgray" : colors.grey[500]
+            }
+            sx={{
+              m: "15px 0 5px 0",
+              display: "block",
+              textAlign: isCollapsed ? "center" : "left",
+              padding: isCollapsed ? "0" : "0 0 0 20px",
+              fontSize: isCollapsed ? "12px" : "none",
+            }}
           >
             Reports
           </Typography>
@@ -231,6 +272,7 @@ const SideBar = () => {
           />
         </Box>
       </Menu>
+      <UserAvatar isCollapsed={isCollapsed} />
     </Sidebar>
   );
 };

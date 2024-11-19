@@ -250,6 +250,7 @@ const UpdateModal = ({
             Cancel
           </Button>
           <Button
+            disabled={isLoading}
             type="submit"
             sx={{
               textTransform: "none",
