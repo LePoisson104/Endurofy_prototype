@@ -75,6 +75,8 @@ const DeleteAccountModal = () => {
           backgroundColor: "#FF5B61",
           color: "white",
           height: "2.5rem",
+          maxWidth: "100px",
+          width: "100%",
           "&:hover": {
             backgroundColor: "#FF8488",
           },

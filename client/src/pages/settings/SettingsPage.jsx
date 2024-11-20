@@ -1,4 +1,4 @@
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, TextField, Typography, Avatar, Button } from "@mui/material";
 import { useState } from "react";
 import { useGetAllUsersInfoQuery } from "../../features/users/usersApiSlice";
 import { dateFormat } from "../../helper/dateFormat";
@@ -10,8 +10,16 @@ import useAuth from "../../hooks/useAuth";
 import SuccessAlert from "../../components/alerts/SuccessAlert";
 import ErrorAlert from "../../components/alerts/ErrorAlert";
 import LoadingSkeleton from "../../components/LoadingSkeleton";
+import { useTheme } from "@emotion/react";
+import { tokens } from "../../theme";
+import { getInitial } from "../../helper/getInitial";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import ColorSelector from "../../components/modals/ColorSelector";
 
 const Settings = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   const { userId } = useAuth();
   const { data, isLoading } = useGetAllUsersInfoQuery(userId);
   const newDate = new Date(data?.user_updated_at);
@@ -48,18 +56,20 @@ const Settings = () => {
               Last updated on {date} | at {time}
             </Typography>
             <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}>
-              <TextField
-                disabled
-                label="First Name"
-                value={data?.first_name}
-                sx={{ width: "40%" }}
-              />
-              <TextField
-                disabled
-                label="Last Name"
-                value={data?.last_name}
-                sx={{ width: "40%" }}
-              />
+              <Box sx={{ width: "80%", display: "flex", gap: 2 }}>
+                <TextField
+                  disabled
+                  label="First Name"
+                  value={data?.first_name}
+                  sx={{ width: "100%" }}
+                />
+                <TextField
+                  disabled
+                  label="Last Name"
+                  value={data?.last_name}
+                  sx={{ width: "100%" }}
+                />
+              </Box>
               <UpdateModal
                 title="Update Your Name"
                 id1="firstName"
@@ -81,7 +91,7 @@ const Settings = () => {
                 disabled
                 label="Email"
                 value={data?.email}
-                sx={{ width: "81%" }}
+                sx={{ width: "80%" }}
               />
               <UpdateModal
                 title="Update Your Email"
@@ -107,7 +117,7 @@ const Settings = () => {
                 disabled
                 label="Password"
                 value="**************"
-                sx={{ width: "81%" }}
+                sx={{ width: "80%" }}
               />
               <UpdateModal
                 title="Update Your Password"
@@ -129,42 +139,151 @@ const Settings = () => {
               />
             </Box>
           </Box>
+
           <Box sx={{ width: "100%", borderTop: "1px solid #888", mb: 3 }}></Box>
+
+          {/* Profile picture */}
+          <Box
+            sx={{
+              display: "flex",
+              mb: 3,
+              flexDirection: "column",
+            }}
+          >
+            <Typography mb={3} variant="h4">
+              Profile picture
+            </Typography>
+            <Box
+              sx={{
+                position: "relative",
+                width: 150,
+                height: 150,
+              }}
+            >
+              <Avatar
+                sx={{
+                  width: 150,
+                  height: 150,
+                  bgcolor: colors.purpleAccent[400],
+                  color: "white",
+                  fontWeight: "bold",
+                  fontSize: "3rem",
+                }}
+              >
+                {getInitial(data?.first_name)}
+              </Avatar>
+              <Button
+                startIcon={<EditOutlinedIcon fontSize="small" />}
+                sx={{
+                  position: "absolute",
+                  bottom: 0,
+                  right: -10,
+                  width: 70,
+                  height: 30,
+                  // border: "1px solid #616161",
+                  textTransform: "none",
+                  bgcolor:
+                    theme.palette.mode === "dark" ? "black" : colors.grey[1200],
+                  color: theme.palette.mode === "dark" ? "white" : "black",
+                  "&:hover": {
+                    bgcolor:
+                      theme.palette.mode === "dark"
+                        ? "black"
+                        : colors.grey[1200],
+                  },
+                }}
+              >
+                Edit
+              </Button>
+            </Box>
+          </Box>
+
+          <Box sx={{ width: "100%", borderTop: "1px solid #888", mb: 3 }}></Box>
+
+          {/* Notification */}
           <Typography variant="h4" sx={{ mb: 3 }}>
             Notification
           </Typography>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 20, mb: 3 }}>
-            <Typography variant="h5">
-              Send me a reminder to enter my daily logs
+          <Box
+            sx={{ display: "flex", alignItems: "center", width: "100%", mb: 3 }}
+          >
+            <Box
+              sx={{
+                // display: "flex",
+                // alignItems: "center",
+                width: "100%",
+                maxWidth: "500px",
+              }}
+            >
+              <Typography variant="h5">
+                Send me a reminder to enter my daily logs
+              </Typography>
+            </Box>
+            <IOSSwitch />
+          </Box>
+
+          <Box sx={{ width: "100%", borderTop: "1px solid #888", mb: 3 }}></Box>
+
+          {/* Apperances */}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              width: "100%",
+              overflow: "hidden",
+            }}
+          >
+            <Typography variant="h4" sx={{ mb: 3 }}>
+              Appearance
             </Typography>
-            <IOSSwitch />
-          </Box>
-          <Box sx={{ width: "100%", borderTop: "1px solid #888", mb: 3 }}></Box>
-          <Typography variant="h4" sx={{ mb: 3 }}>
-            Appearance
-          </Typography>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 20, mb: 3 }}>
-            <Box>
-              <Typography variant="h5">Light</Typography>
-              <Typography fontWeight={"light"}>
-                Turn the switch to turn on dark mode
-              </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                mb: 3,
+              }}
+            >
+              <Box sx={{ width: "100%", maxWidth: "500px" }}>
+                <Typography variant="h5">Light</Typography>
+                <Typography fontWeight={"light"}>
+                  Turn the switch to turn on dark mode
+                </Typography>
+              </Box>
+              <IOSSwitch />
             </Box>
-            <IOSSwitch />
           </Box>
+
           <Box sx={{ width: "100%", borderTop: "1px solid #888", mb: 3 }}></Box>
-          <Typography variant="h4" sx={{ mb: 3 }}>
-            Account Data
-          </Typography>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 30, mb: 3 }}>
-            <Box>
-              <Typography variant="h5">Delete Account</Typography>
-              <Typography fontWeight="light">
-                If you delete your account, all your data will be permanently
-                deleted.
-              </Typography>
+
+          {/* Account data */}
+          <Box
+            sx={{
+              display: "flex",
+              width: "100%",
+              flexDirection: "column",
+              overflow: "hidden",
+            }}
+          >
+            <Typography variant="h4" sx={{ mb: 3 }}>
+              Account Data
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                mb: 3,
+                width: "100%",
+              }}
+            >
+              <Box sx={{ width: "100%", maxWidth: "600px" }}>
+                <Typography variant="h5">Delete Account</Typography>
+                <Typography fontWeight="light">
+                  If you delete your account, all your data will be permanently
+                  deleted.
+                </Typography>
+              </Box>
+              <DeleteAccountModal />
             </Box>
-            <DeleteAccountModal />
           </Box>
         </>
       )}

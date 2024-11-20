@@ -1,19 +1,18 @@
-import { Box, Typography, IconButton, Avatar } from "@mui/material";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Box, Typography, Avatar } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../theme";
 import useAuth from "../hooks/useAuth";
 import { useGetAllUsersInfoQuery } from "../features/users/usersApiSlice";
 import UserAvatarBtn from "./buttons/UserAvatarBtn";
+import { getInitial } from "../helper/getInitial";
+import { useState } from "react";
 
 const UserAvatar = ({ isCollapsed }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { userId } = useAuth();
   const { data } = useGetAllUsersInfoQuery(userId);
-
-  // Helper function to get the user's initial
-  const getInitial = (name) => (name ? name.charAt(0).toUpperCase() : "?");
+  const [avatarBgColor, setAvataBgColor] = useState(colors.purpleAccent[400]);
 
   return (
     <Box
@@ -35,7 +34,7 @@ const UserAvatar = ({ isCollapsed }) => {
         src="" // Add valid `src` URL if available
         alt="User Photo"
         sx={{
-          bgcolor: colors.purpleAccent[400],
+          bgcolor: avatarBgColor,
           color: "white",
           fontWeight: "bold",
           mr: isCollapsed ? 0 : 1, // Remove margin when collapsed
@@ -90,7 +89,10 @@ const UserAvatar = ({ isCollapsed }) => {
           </Box>
 
           {/* IconButton */}
-          <UserAvatarBtn />
+          <UserAvatarBtn
+            setAvatarBgColor={setAvataBgColor}
+            avatarBgColor={avatarBgColor}
+          />
         </Box>
       )}
     </Box>
