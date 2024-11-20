@@ -15,7 +15,7 @@ import FeetSelect from "../../components/selects/FeetSelect";
 import InchesSelect from "../../components/selects/InchesSelect";
 import { textFieldStyles } from "./TextFieldStyles";
 import useAuth from "../../hooks/useAuth";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   useGetAllUsersInfoQuery,
   useUpdateUserProfileMutation,
@@ -35,41 +35,66 @@ import UpdateBtn from "../../components/buttons/UpdateBtn";
 const Profile = () => {
   const { userId } = useAuth();
   const { data, isLoading } = useGetAllUsersInfoQuery(userId);
-  const newDate = new Date(data?.profile_updated_at);
-  const { date, time } = dateFormat(newDate);
-  const dataBirthdate = data?.birthdate.split("T"); // Ensure data?.birthdate is defined and is a string before splitting
-  const [year, month, day] = dataBirthdate ? dataBirthdate[0].split("-") : []; // Provide a fallback
-  const weightInKg = Math.round(data?.weight / 2.20462);
-  const feet = Math.floor(data?.height / 12);
-  const inches = data?.height - feet * 12;
-  const heightInCM = Math.round(data?.height * 2.54);
-  const age = new Date().getFullYear() - year;
-  const BMI = ((data?.weight * 703) / data?.height ** 2).toFixed(1);
 
   const [updateUserProfile, { isLoading: isUpdatingProfile }] =
     useUpdateUserProfileMutation();
   const [updateUserTarget, { isLoading: isUpdatingTarget }] =
     useUpdateUserTargetMutation();
 
-  const [gender, setGender] = useState(data?.gender);
-  const [currentMonth, setCurrentMonth] = useState(month);
-  const [currentDay, setCurrentDay] = useState(day);
-  const [currentYear, setCurrentYear] = useState(year);
-  const [currentFeet, setCurerntFeet] = useState(feet);
-  const [currentInches, setCurrentInches] = useState(inches);
-  const [weight, setWeight] = useState(data?.weight);
-  const [calories, setCalories] = useState(data?.calories_target);
-  const [weightGoal, setWeightGoal] = useState(data?.weight_goal);
-  const [protein, setProtein] = useState(data?.protein);
-  const [carbs, setCarbs] = useState(data?.carbs);
-  const [fat, setFat] = useState(data?.fat);
-  const [activity, setActivity] = useState(data?.activity_level);
+  const newDate = new Date(data?.profile_updated_at);
+  const { date, time } = dateFormat(newDate);
+
+  const weightInKg = Math.round(data?.weight / 2.20462);
+  const heightInCM = Math.round(data?.height * 2.54);
+  const BMI = ((data?.weight * 703) / data?.height ** 2).toFixed(1);
+  let age;
+
+  const [gender, setGender] = useState("");
+  const [currentMonth, setCurrentMonth] = useState("");
+  const [currentDay, setCurrentDay] = useState("");
+  const [currentYear, setCurrentYear] = useState("");
+  const [currentFeet, setCurerntFeet] = useState("");
+  const [currentInches, setCurrentInches] = useState("");
+  const [weight, setWeight] = useState("");
+  const [calories, setCalories] = useState("");
+  const [weightGoal, setWeightGoal] = useState("");
+  const [protein, setProtein] = useState("");
+  const [carbs, setCarbs] = useState("");
+  const [fat, setFat] = useState("");
+  const [activity, setActivity] = useState("");
+
   const [errMsg, setErrMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
+
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  // Sync state with fetched data
+  useEffect(() => {
+    if (data) {
+      const dataBirthdate = data?.birthdate?.split("T") || [];
+      const [year, month, day] = dataBirthdate[0]?.split("-") || [];
+      const feet = Math.floor(data?.height / 12);
+      const inches = data?.height - feet * 12;
+      age = new Date().getFullYear() - year;
+
+      setGender(data.gender || "");
+      setCurrentMonth(month || "");
+      setCurrentDay(day || "");
+      setCurrentYear(year || "");
+      setCurerntFeet(feet || "");
+      setCurrentInches(inches || "");
+      setWeight(data.weight || "");
+      setCalories(data.calories_target || "");
+      setWeightGoal(data.weight_goal || "");
+      setProtein(data.protein || "");
+      setCarbs(data.carbs || "");
+      setFat(data.fat || "");
+      setActivity(data.activity_level || "");
+    }
+  }, [data]);
 
   const handleSubmitProfile = async (e) => {
     e.preventDefault();

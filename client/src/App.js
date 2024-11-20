@@ -14,6 +14,7 @@ import FoodPage from "./pages/food/FoodPage";
 import WeightPage from "./pages/weight/WeightPage";
 import WorkoutPage from "./pages/workout";
 import HomePage from "./pages/home/HomePage";
+import PersistLogin from "./pages/auth/PersistLogin";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -27,15 +28,17 @@ function App() {
           <Route path="/" element={<HomePage />} />
 
           {/* Routes under MainLayout */}
-          <Route path="/" element={<MainLayout />}>
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="food" element={<FoodPage />} />
-            <Route path="weight" element={<WeightPage />} />
-            <Route path="workout" element={<WorkoutPage />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="calendar" element={<Calendar />} />
-            <Route path="bar" element={<Reports />} />
-            <Route path="settings" element={<Settings />} />
+          <Route element={<PersistLogin />}>
+            <Route path="/" element={<MainLayout />}>
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="food" element={<FoodPage />} />
+              <Route path="weight" element={<WeightPage />} />
+              <Route path="workout" element={<WorkoutPage />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="calendar" element={<Calendar />} />
+              <Route path="bar" element={<Reports />} />
+              <Route path="settings" element={<Settings />} />
+            </Route>
           </Route>
 
           {/* Auth and error pages */}

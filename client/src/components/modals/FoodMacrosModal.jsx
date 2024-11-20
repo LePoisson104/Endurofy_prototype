@@ -10,6 +10,7 @@ import {
   Select,
   MenuItem,
   InputLabel,
+  CircularProgress,
 } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import CloseIcon from "@mui/icons-material/Close";
@@ -18,10 +19,7 @@ import { tokens } from "../../theme";
 import { findFoodMacros } from "../../helper/findFoodMacros";
 import { MACROS } from "../../helper/macrosConstants";
 import { foodServingsHelper } from "../../helper/foodServingsHelper";
-import {
-  foodApiSlice,
-  useAddFoodMutation,
-} from "../../features/food/foodApiSlice";
+import { useAddFoodMutation } from "../../features/food/foodApiSlice";
 import useAuth from "../../hooks/useAuth";
 
 const FoodMacrosModal = ({ open, onClose, food, currentDate, title, type }) => {
@@ -32,7 +30,8 @@ const FoodMacrosModal = ({ open, onClose, food, currentDate, title, type }) => {
   const [unit, setUnit] = useState("");
   const [serving, setServing] = useState(1);
   const [foodData, setFoodData] = useState({});
-  const [addFood] = useAddFoodMutation();
+  const [addFood, { isLoading }] = useAddFoodMutation();
+
   const [errMsg, setErrMsg] = useState("");
 
   let Kcal = 0;
@@ -166,6 +165,7 @@ const FoodMacrosModal = ({ open, onClose, food, currentDate, title, type }) => {
 
     try {
       await addFood({ userId, currentDate, foodPayload }).unwrap();
+      onClose(true);
     } catch (err) {
       if (!err.status) {
         setErrMsg("No Server Response");
@@ -413,6 +413,7 @@ const FoodMacrosModal = ({ open, onClose, food, currentDate, title, type }) => {
           }}
         >
           <Button
+            disabled={isLoading}
             type="submit"
             sx={{
               width: "100px",
@@ -424,7 +425,10 @@ const FoodMacrosModal = ({ open, onClose, food, currentDate, title, type }) => {
               },
             }}
           >
-            {type === "edit" ? "Update" : "Add"}
+            {!isLoading && (type === "edit" ? "Update" : "Add")}
+            {isLoading && (
+              <CircularProgress sx={{ color: "white" }} size={"20px"} />
+            )}
           </Button>
         </Box>
       </Box>
