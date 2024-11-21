@@ -37,6 +37,13 @@ const Bar = () => {
             value={range}
             label="Days"
             onChange={handleChange}
+            MenuProps={{
+              PaperProps: {
+                sx: {
+                  bgcolor: colors.primary[400], // Background color for the dropdown
+                },
+              },
+            }}
           >
             <MenuItem value={7}>Last 7 days</MenuItem>
             <MenuItem value={14}>Last 2 weeks</MenuItem>

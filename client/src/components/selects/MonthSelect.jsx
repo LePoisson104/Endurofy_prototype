@@ -3,8 +3,13 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { Box } from "@mui/material";
+import { useTheme } from "@emotion/react";
+import { tokens } from "../../theme";
 
 const MonthSelect = ({ month, setMonth, size = "large", bgcolor }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   const handleChange = (e) => {
     setMonth(e.target.value);
   };
@@ -35,6 +40,13 @@ const MonthSelect = ({ month, setMonth, size = "large", bgcolor }) => {
             },
             "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
               borderColor: "#868dfb",
+            },
+          }}
+          MenuProps={{
+            PaperProps: {
+              sx: {
+                bgcolor: colors.primary[400], // Background color for the dropdown
+              },
             },
           }}
         >

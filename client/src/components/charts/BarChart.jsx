@@ -1,4 +1,3 @@
-import React from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -42,17 +41,17 @@ const BarChart = ({ isDashboard = false }) => {
       {
         label: "Protein",
         data: [120, 150, 0, 180, 90, 100], // Values for Protein
-        backgroundColor: "#68afac",
+        backgroundColor: colors.greenAccent[1000],
       },
       {
         label: "Carbs",
         data: [200, 210, 0, 220, 160, 190], // Values for Carbs
-        backgroundColor: "#66b7cd",
+        backgroundColor: colors.blueAccent[1000],
       },
       {
         label: "Fat",
         data: [70, 80, 0, 90, 60, 65], // Values for Fat
-        backgroundColor: "#FFCC8A",
+        backgroundColor: colors.yellowAccent[100],
       },
     ],
   };

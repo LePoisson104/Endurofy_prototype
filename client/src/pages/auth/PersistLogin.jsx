@@ -5,7 +5,8 @@ import { useRefreshMutation } from "../../features/auth/authApiSlice";
 import { selectCurrentToken } from "../../features/auth/authSlice";
 import { useSelector } from "react-redux";
 import usePersist from "../../hooks/usePersist";
-import { Box, CircularProgress } from "@mui/material";
+import { Box } from "@mui/material";
+import DotPulse from "../../components/DotPulse";
 
 const PersistLogin = () => {
   const [persist] = usePersist(); // Determines if the user wants to stay logged in
@@ -61,7 +62,7 @@ const PersistLogin = () => {
           bgcolor: "white",
         }}
       >
-        <CircularProgress size={"4rem"} sx={{ color: "black" }} />
+        <DotPulse />
       </Box>
     );
   } else if (isError) {

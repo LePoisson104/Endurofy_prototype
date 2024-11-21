@@ -30,9 +30,9 @@ const addFood = async (userId, foodPayload) => {
     servingSize,
     servingUnit,
     mealType,
+    loggedAt,
   } = foodPayload;
 
-  const loggedAt = new Date();
   const foodId = uuidv4();
 
   const addedFood = await Foods.queryAddFood(

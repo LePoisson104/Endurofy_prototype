@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Sidebar,
   Menu,
@@ -7,7 +7,7 @@ import {
   sidebarClasses,
 } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme, Tooltip } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { tokens } from "../../theme";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
@@ -37,11 +37,11 @@ const Item = ({ title, to, icon, selected, setSelected, isCollapsed }) => {
     >
       <Link to={to} style={{ textDecoration: "none", color: "inherit" }}>
         <MenuItem
-          active={selected === title}
+          active={selected === to}
           style={{
             color: colors.grey[100],
           }}
-          onClick={() => setSelected(title)}
+          onClick={() => setSelected(to)}
           icon={icon}
           rootStyles={{
             [`.${menuClasses.active}`]: {
@@ -70,8 +70,17 @@ const SideBar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [selected, setSelected] = useState("Dashboard");
+  // const [selected, setSelected] = useState("Dashboard");
   const sidebarWidth = isCollapsed ? "80px" : "250px"; // Adjust these values as needed
+
+  // Use React Router's location to detect the current URL path
+  const location = useLocation();
+  const [selected, setSelected] = useState(location.pathname);
+
+  // Update `selected` state if location changes
+  useEffect(() => {
+    setSelected(location.pathname);
+  }, [location]);
 
   return (
     <Sidebar

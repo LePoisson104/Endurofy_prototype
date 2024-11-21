@@ -28,11 +28,16 @@ import EnergyTargetHelper from "../../components/modals/EnergyTargetHelper";
 import BMIPopover from "../../components/modals/BMIPopover";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { MACROS } from "../../helper/macrosConstants";
-import LoadingSkeleton from "../../components/LoadingSkeleton";
 import LoadingSpinner from "../../components/alerts/LoadingSpinner";
 import UpdateBtn from "../../components/buttons/UpdateBtn";
+import DotPulse from "../../components/DotPulse";
+import { useTheme } from "@emotion/react";
+import { tokens } from "../../theme";
 
 const Profile = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   const { userId } = useAuth();
   const { data, isLoading } = useGetAllUsersInfoQuery(userId);
 
@@ -191,12 +196,16 @@ const Profile = () => {
         <ErrorAlert message={errMsg} duration={3000} setErrMsg={setErrMsg} />
       )}
       {!data && isLoading && (
-        <LoadingSkeleton
-          height1={550}
-          height2={250}
-          height3={250}
-          height4={300}
-        />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "70vh",
+          }}
+        >
+          <DotPulse />
+        </Box>
       )}
       {(isUpdatingProfile || isUpdatingTarget) && <LoadingSpinner />}
       {data && !isLoading && (
@@ -463,6 +472,13 @@ const Profile = () => {
                       label="Activity Level"
                       value={activity}
                       onChange={(e) => setActivity(e.target.value)}
+                      MenuProps={{
+                        PaperProps: {
+                          sx: {
+                            bgcolor: colors.primary[400], // Background color for the dropdown
+                          },
+                        },
+                      }}
                     >
                       <MenuItem value="0">No Activity</MenuItem>
                       <MenuItem value=".2">

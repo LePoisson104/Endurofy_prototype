@@ -34,7 +34,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import { textFieldStyles } from "../profile/TextFieldStyles";
 import LineChart from "../../components/charts/LineChart";
-import SystemUpdateAltIcon from "@mui/icons-material/SystemUpdateAlt";
 import SortIcon from "@mui/icons-material/Sort";
 import { dateFormat } from "../../helper/dateFormat";
 
@@ -99,6 +98,13 @@ const WeightLogPage = () => {
               },
               "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
                 borderColor: "#868dfb",
+              },
+            }}
+            MenuProps={{
+              PaperProps: {
+                sx: {
+                  bgcolor: colors.primary[400], // Background color for the dropdown
+                },
               },
             }}
           >

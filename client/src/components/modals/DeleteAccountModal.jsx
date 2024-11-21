@@ -8,13 +8,13 @@ import {
   DialogContentText,
   DialogTitle,
   CircularProgress,
-  Typography,
 } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
 import useAuth from "../../hooks/useAuth";
 import { useDeleteUserAccountMutation } from "../../features/users/usersApiSlice";
 import ErrorAlert from "../alerts/ErrorAlert";
+import { useLogoutMutation } from "../../features/auth/authApiSlice";
 
 const DeleteAccountModal = () => {
   const theme = useTheme();
@@ -22,7 +22,10 @@ const DeleteAccountModal = () => {
   const [open, setOpen] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   const { userId, email } = useAuth();
+
   const [deleteUserAccount, { isLoading }] = useDeleteUserAccountMutation();
+  const [logout] = useLogoutMutation();
+
   const [password, setPassword] = useState("");
 
   useEffect(() => {
@@ -48,6 +51,7 @@ const DeleteAccountModal = () => {
     try {
       await deleteUserAccount({ userId, payload }).unwrap();
       handleClose();
+      await logout();
     } catch (err) {
       if (!err.status) {
         setErrMsg("No Server Response");
@@ -91,7 +95,7 @@ const DeleteAccountModal = () => {
           component: "form",
           sx: {
             bgcolor:
-              theme.palette.mode === "dark" ? colors.primary[700] : "white",
+              theme.palette.mode === "dark" ? colors.primary[500] : "#f5f5f5", // Adjust background based on theme
           },
           onSubmit: handleSubmit,
         }}

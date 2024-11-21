@@ -161,9 +161,11 @@ const FoodMacrosModal = ({ open, onClose, food, currentDate, title, type }) => {
       carbs: initialFoodData.carbs,
       fat: initialFoodData.fat,
       mealType: title.toLowerCase(),
+      loggedAt: currentDate,
     };
 
     try {
+      console.log(currentDate);
       await addFood({ userId, currentDate, foodPayload }).unwrap();
       onClose(true);
     } catch (err) {

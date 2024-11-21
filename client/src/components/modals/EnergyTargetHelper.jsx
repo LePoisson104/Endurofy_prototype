@@ -76,7 +76,7 @@ const EnergyTargetHelper = ({ open, handleClose }) => {
             transform: "translate(-50%, -50%)",
             width: 400,
             bgcolor:
-              theme.palette.mode === "dark" ? colors.primary[500] : "white",
+              theme.palette.mode === "dark" ? colors.primary[500] : "#f5f5f5", // Adjust background based on theme
             borderRadius: 1,
             boxShadow: 24,
             p: 4,
@@ -106,6 +106,13 @@ const EnergyTargetHelper = ({ open, handleClose }) => {
               label="Gender"
               value={gender}
               onChange={(e) => setGender(e.target.value)}
+              MenuProps={{
+                PaperProps: {
+                  sx: {
+                    bgcolor: colors.primary[400], // Background color for the dropdown
+                  },
+                },
+              }}
             >
               <MenuItem value="Male">Male</MenuItem>
               <MenuItem value="Female">Female</MenuItem>
@@ -143,6 +150,13 @@ const EnergyTargetHelper = ({ open, handleClose }) => {
               label="Activity Level"
               value={activity}
               onChange={(e) => setActivity(e.target.value)}
+              MenuProps={{
+                PaperProps: {
+                  sx: {
+                    bgcolor: colors.primary[400], // Background color for the dropdown
+                  },
+                },
+              }}
             >
               <MenuItem value="1.2">Sedentary (little or no exercise)</MenuItem>
               <MenuItem value="1.375">Lightly active (1-3 days/week)</MenuItem>
@@ -176,10 +190,11 @@ const EnergyTargetHelper = ({ open, handleClose }) => {
       <Dialog
         open={popupOpen}
         onClose={handlePopupClose}
-        sx={{
-          "& .MuiPaper-root": {
+        PaperProps={{
+          component: "form",
+          sx: {
             bgcolor:
-              theme.palette.mode === "dark" ? colors.primary[600] : "white",
+              theme.palette.mode === "dark" ? colors.primary[500] : "#f5f5f5", // Adjust background based on theme
           },
         }}
       >

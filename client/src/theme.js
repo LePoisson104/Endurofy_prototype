@@ -2,6 +2,7 @@ import { createContext, useState, useMemo, useEffect } from "react";
 import { createTheme } from "@mui/material/styles";
 import { selectCurrentToken } from "./features/auth/authSlice";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 // color design tokens export
 export const tokens = (mode) => ({
@@ -42,6 +43,9 @@ export const tokens = (mode) => ({
           700: "#2e7c67",
           800: "#1e5245",
           900: "#0f2922",
+          1000: "#68afac",
+          1100: "#70d8bd",
+          1200: "#7FBFB1",
         },
         redAccent: {
           100: "#2c100f",
@@ -53,6 +57,7 @@ export const tokens = (mode) => ({
           700: "#e99592",
           800: "#f1b9b7",
           900: "#f8dcdb",
+          1000: "#FE9496",
         },
         blueAccent: {
           100: "#e1e2fe",
@@ -64,6 +69,8 @@ export const tokens = (mode) => ({
           700: "#3e4396",
           800: "#2a2d64",
           900: "#151632",
+          1000: "#66b7cd",
+          1100: "#4BCBEB",
         },
         purpleAccent: {
           100: "#b5b8f4",
@@ -71,6 +78,10 @@ export const tokens = (mode) => ({
           300: "#8a93fc",
           400: "#6d76fa",
           500: "#a3a8fc",
+          600: "#A05AFF",
+        },
+        yellowAccent: {
+          100: "#FFCC8A",
         },
       }
     : {
@@ -109,6 +120,9 @@ export const tokens = (mode) => ({
           700: "#94e2cd",
           800: "#b7ebde",
           900: "#dbf5ee",
+          1000: "#68afac",
+          1100: "#70d8bd",
+          1200: "#7FBFB1",
         },
         redAccent: {
           100: "#2c100f",
@@ -120,6 +134,7 @@ export const tokens = (mode) => ({
           700: "#e99592",
           800: "#f1b9b7",
           900: "#f8dcdb",
+          1000: "#FE9496",
         },
         blueAccent: {
           100: "#151632",
@@ -131,6 +146,8 @@ export const tokens = (mode) => ({
           700: "#a4a9fc",
           800: "#c3c6fd",
           900: "#e1e2fe",
+          1000: "#66b7cd",
+          1100: "#4BCBEB",
         },
         purpleAccent: {
           100: "#b5b8f4",
@@ -138,6 +155,10 @@ export const tokens = (mode) => ({
           300: "#8a93fc",
           400: "#6d76fa",
           500: "#a3a8fc",
+          600: "#A05AFF",
+        },
+        yellowAccent: {
+          100: "#FFCC8A",
         },
       }),
 });

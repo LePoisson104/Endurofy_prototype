@@ -9,12 +9,11 @@ import DeleteAccountModal from "../../components/modals/DeleteAccountModal";
 import useAuth from "../../hooks/useAuth";
 import SuccessAlert from "../../components/alerts/SuccessAlert";
 import ErrorAlert from "../../components/alerts/ErrorAlert";
-import LoadingSkeleton from "../../components/LoadingSkeleton";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
 import { getInitial } from "../../helper/getInitial";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import ColorSelector from "../../components/modals/ColorSelector";
+import DotPulse from "../../components/DotPulse";
 
 const Settings = () => {
   const theme = useTheme();
@@ -40,13 +39,17 @@ const Settings = () => {
       {errMsg && (
         <ErrorAlert message={errMsg} duration={3000} setErrMsg={setErrMsg} />
       )}
-      {!data && !isLoading && (
-        <LoadingSkeleton
-          height1={270}
-          height2={135}
-          height3={130}
-          height4={130}
-        />
+      {!data && isLoading && (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "70vh",
+          }}
+        >
+          <DotPulse />
+        </Box>
       )}
       {data && !isLoading && (
         <>

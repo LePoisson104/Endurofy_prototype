@@ -135,7 +135,7 @@ const UpdateModal = ({
           component: "form",
           sx: {
             bgcolor:
-              theme.palette.mode === "dark" ? colors.primary[700] : "white", // Background color of the modal
+              theme.palette.mode === "dark" ? colors.primary[500] : "#f5f5f5", // Adjust background based on theme
             width: "500px", // Modal width
           },
           onSubmit: handleSubmit,

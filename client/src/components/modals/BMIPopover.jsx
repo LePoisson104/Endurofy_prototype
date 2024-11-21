@@ -1,8 +1,13 @@
 import { useState } from "react";
 import { Typography, Popover, Box, IconButton } from "@mui/material";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import { useTheme } from "@emotion/react";
+import { tokens } from "../../theme";
 
 const BMIPopover = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (e) => {
@@ -33,6 +38,13 @@ const BMIPopover = () => {
         anchorOrigin={{
           vertical: "bottom",
           horizontal: "left",
+        }}
+        PaperProps={{
+          sx: {
+            bgcolor:
+              theme.palette.mode === "dark" ? colors.primary[500] : "#f5f5f5", // Adjust background based on theme
+            borderRadius: 2, // Optional: rounded corners
+          },
         }}
       >
         <Typography
