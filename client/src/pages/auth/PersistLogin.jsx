@@ -5,6 +5,7 @@ import { useRefreshMutation } from "../../features/auth/authApiSlice";
 import { selectCurrentToken } from "../../features/auth/authSlice";
 import { useSelector } from "react-redux";
 import usePersist from "../../hooks/usePersist";
+import { Box, CircularProgress } from "@mui/material";
 
 const PersistLogin = () => {
   const [persist] = usePersist(); // Determines if the user wants to stay logged in
@@ -44,23 +45,36 @@ const PersistLogin = () => {
   let content;
   if (!persist) {
     // If persistence is disabled
-    console.log("Persist disabled, rendering children...");
+    // console.log("Persist disabled, rendering children...");
     content = <Outlet />;
   } else if (isLoading) {
     // If refresh is in progress
-    console.log("Loading, refreshing token...");
-    content = <p>Loading...</p>;
+    // console.log("Loading, refreshing token...");
+    content = (
+      <Box
+        sx={{
+          width: "100%",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          bgcolor: "white",
+        }}
+      >
+        <CircularProgress size={"4rem"} sx={{ color: "black" }} />
+      </Box>
+    );
   } else if (isError) {
     // If refresh fails
-    console.log("Refresh token error, redirecting to login...");
+    // console.log("Refresh token error, redirecting to login...");
     navigate("/login"); // Redirect to login page
   } else if (isSuccess && trueSuccess) {
     // If refresh is successful
-    console.log("Refresh success, rendering children...");
+    // console.log("Refresh success, rendering children...");
     content = <Outlet />;
   } else if (token && isUninitialized) {
     // If token is already present without needing refresh
-    console.log("Token exists and uninitialized, rendering children...");
+    // console.log("Token exists and uninitialized, rendering children...");
     content = <Outlet />;
   }
 
