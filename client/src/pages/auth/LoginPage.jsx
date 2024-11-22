@@ -217,6 +217,7 @@ const Login = () => {
           </Box>
         )}
         <Button
+          disabled={isLoading}
           type="submit"
           variant="contained"
           sx={{

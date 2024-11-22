@@ -147,6 +147,7 @@ const DeleteAccountModal = () => {
             Cancel
           </Button>
           <Button
+            disabled={isLoading}
             type="submit"
             sx={{
               textTransform: "none",

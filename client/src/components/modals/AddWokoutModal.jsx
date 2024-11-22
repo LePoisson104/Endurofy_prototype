@@ -22,7 +22,6 @@ const AddWorkoutModal = ({
 
   // UseEffect to populate the form when editing
   const [exerciseName, setExerciseName] = useState("");
-  const [sets, setSets] = useState("");
   const [reps, setReps] = useState("");
   const [weight, setWeight] = useState("");
 
@@ -30,13 +29,11 @@ const AddWorkoutModal = ({
     if (currentExercise) {
       // Populate fields if editing
       setExerciseName(currentExercise.name);
-      setSets(currentExercise.sets);
       setReps(currentExercise.reps);
       setWeight(currentExercise.weight);
     } else {
       // Reset fields if adding a new exercise
       setExerciseName("");
-      setSets("");
       setReps("");
       setWeight("");
     }
@@ -50,7 +47,6 @@ const AddWorkoutModal = ({
     // Add the new exercise to the exercise data in WorkoutLog
     const newExercise = {
       name: exerciseName,
-      sets,
       reps,
       weight,
     };
@@ -63,7 +59,6 @@ const AddWorkoutModal = ({
 
     // Reset the form and close the modal
     setExerciseName("");
-    setSets("");
     setReps("");
     setWeight("");
 
@@ -94,16 +89,9 @@ const AddWorkoutModal = ({
           onChange={(e) => setExerciseName(e.target.value)}
           sx={{ ...textFieldStyles }}
         />
+
         <TextField
-          margin="dense"
-          label="Sets"
-          fullWidth
-          variant="outlined"
-          value={sets}
-          onChange={(e) => setSets(e.target.value)}
-          sx={{ ...textFieldStyles }}
-        />
-        <TextField
+          type="number"
           margin="dense"
           label="Reps"
           fullWidth

@@ -3,13 +3,13 @@ import { tokens } from "../../theme";
 import { useState } from "react";
 import { Box, IconButton, Typography, Button, TextField } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
 import EditNoteIcon from "@mui/icons-material/EditNote";
-import ScaleIcon from "@mui/icons-material/Scale";
+import FitnessCenterOutlinedIcon from "@mui/icons-material/FitnessCenterOutlined";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import TextFormatIcon from "@mui/icons-material/TextFormat";
 import AddWorkoutModal from "../../components/modals/AddWokoutModal";
+import PendingOutlinedIcon from "@mui/icons-material/PendingOutlined";
 
 const TodayLog = () => {
   const theme = useTheme();
@@ -123,47 +123,100 @@ const TodayLog = () => {
       >
         {/* show delete button when in edit mode */}
         {isEdit && (
-          <Box sx={{ width: "14%" }}>
+          <Box
+            sx={{
+              width: "150px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <Typography sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-              <DeleteOutlineIcon />
+              <DeleteOutlineOutlinedIcon />
               Delete
             </Typography>
           </Box>
         )}
-        <Box sx={{ width: "14%" }}>
-          <Typography sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+        <Box
+          sx={{
+            width: "150px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Typography
+            sx={{
+              display: "flex",
+              gap: 1,
+              alignItems: "center",
+              fontWeight: "bold",
+            }}
+          >
             <TextFormatIcon />
             Exercise Name
           </Typography>
         </Box>
-        <Box sx={{ width: "14%" }}>
-          <Typography sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-            <FormatListNumberedIcon fontSize="small" />
-            Set Number
-          </Typography>
-        </Box>
-        <Box sx={{ width: "14%" }}>
-          <Typography sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-            <FormatListNumberedIcon fontSize="small" />
-            Last Session
-          </Typography>
-        </Box>
-        <Box sx={{ width: "14%" }}>
-          <Typography sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+        <Box
+          sx={{
+            width: "150px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Typography
+            sx={{
+              display: "flex",
+              gap: 1,
+              alignItems: "center",
+              fontWeight: "bold",
+            }}
+          >
             <FormatListNumberedIcon fontSize="small" />
             Reps
           </Typography>
         </Box>
-        <Box sx={{ width: "14%" }}>
+        <Box
+          sx={{
+            width: "180px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Typography
+            sx={{
+              display: "flex",
+              gap: 1,
+              alignItems: "center",
+              fontWeight: "bold",
+            }}
+          >
+            <FitnessCenterOutlinedIcon fontSize="small" />
+            Weight <span style={{ fontWeight: 400 }}>(lbs or plates)</span>
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            width: "150px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <Typography sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-            <ScaleIcon fontSize="small" />
-            Weight <span style={{ fontWeight: 300 }}>(lbs or plates)</span>
+            <PendingOutlinedIcon fontSize="small" />
+            Status
           </Typography>
         </Box>
       </Box>
+
+      {/* Horizontal line */}
       <Box
         sx={{ width: "100%", borderTop: "2px solid #888", mb: 1, mt: 1 }}
       ></Box>
+
       {exerciseData.length == 0 && (
         <Box
           sx={{
@@ -186,30 +239,70 @@ const TodayLog = () => {
             }}
           >
             {isEdit && (
-              <Box sx={{ width: "14%" }}>
+              <Box
+                sx={{
+                  width: "150px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
                 <IconButton>
-                  <RemoveIcon color="error" />
+                  <DeleteOutlineOutlinedIcon color="error" />
                 </IconButton>
               </Box>
             )}
-            <Box sx={{ width: "14%" }}>
+            <Box
+              sx={{
+                width: "150px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               <Typography sx={{ display: "flex", gap: 1 }}>
                 {exercise.name}
               </Typography>
             </Box>
-            <Box sx={{ width: "14%" }}>
-              <Typography>{exercise.sets}</Typography>
-            </Box>
-            <Box sx={{ width: "14%" }}>
-              <Typography>{exercise.lastSession}</Typography>
-            </Box>
-            <Box sx={{ width: "14%" }}>
+            <Box
+              sx={{
+                width: "150px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               <Typography>{exercise.reps}</Typography>
             </Box>
-            <Box sx={{ width: "14%" }}>
+            <Box
+              sx={{
+                width: "180px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Typography>{exercise.weight}</Typography>
+            </Box>
+            <Box
+              sx={{
+                width: "150px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               <Typography>{exercise.weight}</Typography>
             </Box>
           </Box>
+          <Box
+            sx={{
+              width: "100%",
+              borderTop: `1px solid ${colors.grey[1100]}`,
+              mb: 1,
+              mt: 1,
+            }}
+          ></Box>
         </Box>
       ))}
 

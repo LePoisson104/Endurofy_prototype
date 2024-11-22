@@ -721,6 +721,7 @@ const SignUp = () => {
         ></Box>
 
         <Button
+          disabled={isLoading}
           variant="contained"
           type="submit"
           sx={{
