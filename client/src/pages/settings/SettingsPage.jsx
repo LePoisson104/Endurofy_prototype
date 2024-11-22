@@ -185,14 +185,10 @@ const Settings = () => {
                   height: 30,
                   // border: "1px solid #616161",
                   textTransform: "none",
-                  bgcolor:
-                    theme.palette.mode === "dark" ? "black" : colors.grey[1200],
-                  color: theme.palette.mode === "dark" ? "white" : "black",
+                  bgcolor: colors.grey[1200],
+                  color: colors.primary[100],
                   "&:hover": {
-                    bgcolor:
-                      theme.palette.mode === "dark"
-                        ? "black"
-                        : colors.grey[1200],
+                    bgcolor: colors.grey[1200],
                   },
                 }}
               >

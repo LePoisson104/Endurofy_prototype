@@ -1,7 +1,7 @@
 import { Box, IconButton } from "@mui/material";
 import TodayIcon from "@mui/icons-material/Today";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import GridOnIcon from "@mui/icons-material/GridOn";
+import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 import Header from "../../components/global/Header";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
@@ -87,14 +87,14 @@ const WorkoutLog = () => {
             borderRadius: 0,
             height: "35px",
             borderBottom:
-              selectedTab === "all"
+              selectedTab === "filter"
                 ? `2px solid ${colors.primary[100]}`
                 : "none",
           }}
-          onClick={() => handleTabClick("all")}
+          onClick={() => handleTabClick("filter")}
         >
-          <GridOnIcon fontSize="small" />
-          All
+          <SortOutlinedIcon fontSize="small" />
+          Filter
         </IconButton>
       </Box>
       <Box

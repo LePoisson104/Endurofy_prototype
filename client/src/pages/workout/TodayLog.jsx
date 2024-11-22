@@ -10,6 +10,7 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import TextFormatIcon from "@mui/icons-material/TextFormat";
 import AddWorkoutModal from "../../components/modals/AddWokoutModal";
 import PendingOutlinedIcon from "@mui/icons-material/PendingOutlined";
+import Checkbox from "@mui/material/Checkbox";
 
 const TodayLog = () => {
   const theme = useTheme();
@@ -292,7 +293,7 @@ const TodayLog = () => {
                 alignItems: "center",
               }}
             >
-              <Typography>{exercise.weight}</Typography>
+              <Checkbox />
             </Box>
           </Box>
           <Box
