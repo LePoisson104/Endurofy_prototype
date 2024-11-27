@@ -198,6 +198,7 @@ const TodayLog = () => {
             Weight <span style={{ fontWeight: 400 }}>(lbs or plates)</span>
           </Typography>
         </Box>
+
         <Box
           sx={{
             width: "150px",
