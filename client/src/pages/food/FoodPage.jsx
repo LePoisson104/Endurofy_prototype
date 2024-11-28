@@ -1,4 +1,4 @@
-import { Box, collapseClasses, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { tokens } from "../../theme";
 import { useTheme } from "@emotion/react";
 import FoodCalendar from "../../components/FoodCalendar";
@@ -184,7 +184,9 @@ const FoodPage = () => {
             <Typography>
               {amount} / {targetAmount}
             </Typography>
-            <Typography>{percent}%</Typography>
+            <Typography color={percent > 100 ? "#FF3333" : ""}>
+              {percent}%
+            </Typography>
           </Box>
           <Box
             sx={{

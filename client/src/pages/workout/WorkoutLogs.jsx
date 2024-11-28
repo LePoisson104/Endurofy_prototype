@@ -107,17 +107,22 @@ const WorkoutLogs = ({ selectedTab }) => {
         </Typography>
       ) : (
         <>
-          {" "}
-          <Typography variant="h6">
+          <Box
+            sx={{
+              display: "flex",
+              gap: 0.5,
+              alignItems: "center",
+            }}
+          >
             From{" "}
-            <span style={{ color: colors.greenAccent[400] }}>
+            <Typography variant="body1" fontWeight={400} color={"secondary"}>
               {filteredLogs[filteredLogs.length - 1].date}
-            </span>{" "}
-            to{" "}
-            <span style={{ color: colors.greenAccent[400] }}>
+            </Typography>
+            to
+            <Typography variant="body1" fontWeight={400} color={"secondary"}>
               {filteredLogs[0].date}
-            </span>
-          </Typography>
+            </Typography>
+          </Box>
           <Box sx={{ mt: 2, display: "flex", flexDirection: "column" }}>
             {filteredLogs.map((log, index) => (
               <WorkoutLogCard

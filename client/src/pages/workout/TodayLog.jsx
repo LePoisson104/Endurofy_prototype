@@ -4,13 +4,13 @@ import { useState } from "react";
 import { Box, IconButton, Typography, Button, TextField } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import EditNoteIcon from "@mui/icons-material/EditNote";
-import FitnessCenterOutlinedIcon from "@mui/icons-material/FitnessCenterOutlined";
-import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
+import SyncIcon from "@mui/icons-material/Sync";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import TextFormatIcon from "@mui/icons-material/TextFormat";
 import AddWorkoutModal from "../../components/modals/AddWokoutModal";
-import PendingOutlinedIcon from "@mui/icons-material/PendingOutlined";
-import Checkbox from "@mui/material/Checkbox";
+import LayersOutlinedIcon from "@mui/icons-material/LayersOutlined";
+import LineWeightIcon from "@mui/icons-material/LineWeight";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 
 const TodayLog = () => {
   const theme = useTheme();
@@ -18,9 +18,11 @@ const TodayLog = () => {
 
   const [sessionName, setSessionName] = useState("Today's Session");
   const [isEdit, setIsEdit] = useState(false);
-  const [sessionNameInput, setSessionNameInput] = useState(sessionName);
+
   const [openModal, setOpenModal] = useState(false); // Modal state
   const [exerciseData, setExerciseData] = useState([]); // Store exercise data
+
+  const [sessionNameInput, setSessionNameInput] = useState(sessionName);
 
   const handleEdit = () => {
     setIsEdit(true);
@@ -124,26 +126,50 @@ const TodayLog = () => {
       >
         {/* show delete button when in edit mode */}
         {isEdit && (
-          <Box
-            sx={{
-              width: "150px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Typography sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-              <DeleteOutlineOutlinedIcon />
-              Delete
-            </Typography>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            {" "}
+            <Box
+              sx={{
+                width: "100px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                // bgcolor: "blue",
+              }}
+            >
+              <Typography
+                sx={{ display: "flex", gap: 1, alignItems: "center" }}
+              >
+                <DeleteOutlineOutlinedIcon />
+                Delete
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                width: "100px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                // bgcolor: "blue",
+              }}
+            >
+              <Typography
+                sx={{ display: "flex", gap: 1, alignItems: "center" }}
+              >
+                <EditNoteIcon />
+                Edit
+              </Typography>
+            </Box>
           </Box>
         )}
+
         <Box
           sx={{
-            width: "150px",
+            width: "180px",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            // bgcolor: "blue",
           }}
         >
           <Typography
@@ -151,7 +177,7 @@ const TodayLog = () => {
               display: "flex",
               gap: 1,
               alignItems: "center",
-              fontWeight: "bold",
+              fontWeight: 600,
             }}
           >
             <TextFormatIcon />
@@ -164,6 +190,7 @@ const TodayLog = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            // bgcolor: "blue",
           }}
         >
           <Typography
@@ -171,10 +198,10 @@ const TodayLog = () => {
               display: "flex",
               gap: 1,
               alignItems: "center",
-              fontWeight: "bold",
+              fontWeight: 600,
             }}
           >
-            <FormatListNumberedIcon fontSize="small" />
+            <SyncIcon fontSize="small" />
             Reps
           </Typography>
         </Box>
@@ -184,6 +211,7 @@ const TodayLog = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            // bgcolor: "blue",
           }}
         >
           <Typography
@@ -191,10 +219,10 @@ const TodayLog = () => {
               display: "flex",
               gap: 1,
               alignItems: "center",
-              fontWeight: "bold",
+              fontWeight: 600,
             }}
           >
-            <FitnessCenterOutlinedIcon fontSize="small" />
+            <LineWeightIcon fontSize="small" />
             Weight <span style={{ fontWeight: 400 }}>(lbs or plates)</span>
           </Typography>
         </Box>
@@ -205,11 +233,19 @@ const TodayLog = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            // bgcolor: "blue",
           }}
         >
-          <Typography sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-            <PendingOutlinedIcon fontSize="small" />
-            Status
+          <Typography
+            sx={{
+              display: "flex",
+              gap: 1,
+              alignItems: "center",
+              fontWeight: 600,
+            }}
+          >
+            <LayersOutlinedIcon fontSize="small" />
+            Category
           </Typography>
         </Box>
       </Box>
@@ -241,25 +277,44 @@ const TodayLog = () => {
             }}
           >
             {isEdit && (
-              <Box
-                sx={{
-                  width: "150px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <IconButton>
-                  <DeleteOutlineOutlinedIcon color="error" />
-                </IconButton>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                {" "}
+                <Box
+                  sx={{
+                    width: "100px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    // bgcolor: "blue",
+                  }}
+                >
+                  <IconButton>
+                    <DeleteOutlineOutlinedIcon color="error" />
+                  </IconButton>
+                </Box>
+                <Box
+                  sx={{
+                    width: "100px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    // bgcolor: "blue",
+                  }}
+                >
+                  <IconButton>
+                    <EditOutlinedIcon sx={{ color: "#fbc02d" }} />
+                  </IconButton>
+                </Box>
               </Box>
             )}
+
             <Box
               sx={{
-                width: "150px",
+                width: "180px",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                // bgcolor: "blue",
               }}
             >
               <Typography sx={{ display: "flex", gap: 1 }}>
@@ -272,6 +327,7 @@ const TodayLog = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                // bgcolor: "blue",
               }}
             >
               <Typography>{exercise.reps}</Typography>
@@ -282,6 +338,7 @@ const TodayLog = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                // bgcolor: "blue",
               }}
             >
               <Typography>{exercise.weight}</Typography>
@@ -292,9 +349,10 @@ const TodayLog = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                // bgcolor: "blue",
               }}
             >
-              <Checkbox />
+              <Typography>{exercise.exerciseCategory}</Typography>
             </Box>
           </Box>
           <Box

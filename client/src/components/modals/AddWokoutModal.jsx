@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
 import { textFieldStyles } from "../../pages/profile/TextFieldStyles";
+import ExerciseSelect from "../selects/ExerciseSelect";
 
 const AddWorkoutModal = ({
   openModal,
@@ -24,6 +25,7 @@ const AddWorkoutModal = ({
   const [exerciseName, setExerciseName] = useState("");
   const [reps, setReps] = useState("");
   const [weight, setWeight] = useState("");
+  const [exerciseCategory, setExerciseCategory] = useState("");
 
   useEffect(() => {
     if (currentExercise) {
@@ -36,6 +38,7 @@ const AddWorkoutModal = ({
       setExerciseName("");
       setReps("");
       setWeight("");
+      setExerciseCategory("");
     }
   }, [currentExercise]);
 
@@ -49,6 +52,7 @@ const AddWorkoutModal = ({
       name: exerciseName,
       reps,
       weight,
+      exerciseCategory,
     };
 
     if (!currentExercise) {
@@ -108,6 +112,10 @@ const AddWorkoutModal = ({
           value={weight}
           onChange={(e) => setWeight(e.target.value)}
           sx={{ ...textFieldStyles }}
+        />
+        <ExerciseSelect
+          exerciseCategory={exerciseCategory}
+          setExerciseCategory={setExerciseCategory}
         />
       </DialogContent>
       <DialogActions>

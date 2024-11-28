@@ -19,6 +19,7 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import MonitorWeightOutlinedIcon from "@mui/icons-material/MonitorWeightOutlined";
 import GridViewIcon from "@mui/icons-material/GridView";
 import UserAvatar from "../../components/UserAvatar";
+import SportsGymnasticsIcon from "@mui/icons-material/SportsGymnastics";
 
 // SidebarItem.js
 const Item = ({ title, to, icon, selected, setSelected, isCollapsed }) => {
@@ -211,7 +212,7 @@ const SideBar = () => {
           <Item
             title="Workout Log"
             to="/workout"
-            icon={<FitnessCenterIcon />}
+            icon={<SportsGymnasticsIcon />}
             selected={selected}
             setSelected={setSelected}
             isCollapsed={isCollapsed}

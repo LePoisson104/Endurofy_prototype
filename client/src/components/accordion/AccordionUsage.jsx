@@ -221,6 +221,7 @@ const AccordionUsage = ({ title, data, originalData, currentDate }) => {
           onClose={handleCloseEditModal}
           food={editPayload}
           type={actionType}
+          currentDate={currentDate}
         />
       </Accordion>
     </>

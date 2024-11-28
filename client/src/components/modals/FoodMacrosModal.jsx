@@ -19,7 +19,10 @@ import { tokens } from "../../theme";
 import { findFoodMacros } from "../../helper/findFoodMacros";
 import { MACROS } from "../../helper/macrosConstants";
 import { foodServingsHelper } from "../../helper/foodServingsHelper";
-import { useAddFoodMutation } from "../../features/food/foodApiSlice";
+import {
+  useAddFoodMutation,
+  useEditFoodMutation,
+} from "../../features/food/foodApiSlice";
 import useAuth from "../../hooks/useAuth";
 
 const FoodMacrosModal = ({ open, onClose, food, currentDate, title, type }) => {
@@ -30,7 +33,9 @@ const FoodMacrosModal = ({ open, onClose, food, currentDate, title, type }) => {
   const [unit, setUnit] = useState("");
   const [serving, setServing] = useState(1);
   const [foodData, setFoodData] = useState({});
-  const [addFood, { isLoading }] = useAddFoodMutation();
+
+  const [addFood, { isLoading: isAddFoodLoading }] = useAddFoodMutation();
+  const [editFood, { isLoading: isEditFoodLoading }] = useEditFoodMutation();
 
   const [errMsg, setErrMsg] = useState("");
 
@@ -59,12 +64,17 @@ const FoodMacrosModal = ({ open, onClose, food, currentDate, title, type }) => {
         foodData: updatedFoodObject,
       });
       setFoodData(calculatedData);
-      // setFoodData(food);
+      // Mark as initialized
     } else {
       setUnit(food?.servingSizeUnit ? `100${food?.servingSizeUnit}` : "100g");
       setServing(1);
     }
   }, [food, type]);
+
+  // console.log("updated foodObject: ", updatedFoodObject);
+  // console.log("foodData", foodData);
+  // console.log("serving size: ", serving);
+  // console.log("serving unit: ", unit);
 
   if (type !== "edit") {
     if (findFoodMacros(food, "Energy")?.unitName === "kJ") {
@@ -152,21 +162,38 @@ const FoodMacrosModal = ({ open, onClose, food, currentDate, title, type }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const foodPayload = {
-      foodName: food.description,
-      servingSize: serving,
-      servingUnit: unit,
-      calories: initialFoodData.calories,
-      protein: initialFoodData.protein,
-      carbs: initialFoodData.carbs,
-      fat: initialFoodData.fat,
-      mealType: title.toLowerCase(),
-      loggedAt: currentDate,
-    };
+    let foodPayload;
+
+    if (type !== "edit") {
+      foodPayload = {
+        foodName: food.description,
+        servingSize: serving,
+        servingUnit: unit,
+        calories: initialFoodData.calories,
+        protein: initialFoodData.protein,
+        carbs: initialFoodData.carbs,
+        fat: initialFoodData.fat,
+        mealType: title.toLowerCase(),
+        loggedAt: currentDate,
+      };
+    } else {
+      foodPayload = {
+        serving_size: serving,
+        serving_unit: unit,
+      };
+    }
 
     try {
-      console.log(currentDate);
-      await addFood({ userId, currentDate, foodPayload }).unwrap();
+      if (type !== "edit") {
+        await addFood({ userId, currentDate, foodPayload }).unwrap();
+      } else {
+        await editFood({
+          userId,
+          currentDate,
+          foodId: updatedFoodObject?.food_id,
+          updatePayload: foodPayload,
+        });
+      }
       onClose(true);
     } catch (err) {
       if (!err.status) {
@@ -415,7 +442,7 @@ const FoodMacrosModal = ({ open, onClose, food, currentDate, title, type }) => {
           }}
         >
           <Button
-            disabled={isLoading}
+            disabled={isAddFoodLoading || isEditFoodLoading}
             type="submit"
             sx={{
               width: "100px",
@@ -427,8 +454,9 @@ const FoodMacrosModal = ({ open, onClose, food, currentDate, title, type }) => {
               },
             }}
           >
-            {!isLoading && (type === "edit" ? "Update" : "Add")}
-            {isLoading && (
+            {!(isAddFoodLoading || isEditFoodLoading) &&
+              (type === "edit" ? "Update" : "Add")}
+            {(isAddFoodLoading || isEditFoodLoading) && (
               <CircularProgress sx={{ color: "white" }} size={"20px"} />
             )}
           </Button>

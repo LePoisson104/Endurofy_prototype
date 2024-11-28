@@ -83,10 +83,18 @@ const Dashboard = () => {
   const totalFatConsumed = calculateTotal(adjustedFoodData, "fat", true);
 
   let remainingCalories = userData?.calories_target - totalCaloriesConsumed;
+
   const progress = Math.round(
     (totalCaloriesConsumed / remainingCalories) * 100
   );
-  const clampedProgress = Math.min(progress, 100);
+
+  let clampedProgress;
+
+  if (progress < 0) {
+    clampedProgress = 100;
+  } else {
+    clampedProgress = progress;
+  }
 
   const [calRemainTitle, setCalRemainTitle] = useState("Remaining");
 
