@@ -365,7 +365,7 @@ const Footer = () => {
         }}
       >
         <Typography variant="body2" sx={{ color: "white", opacity: 0.7 }}>
-          © 2024 FitTracker. All rights reserved.
+          © 2024 Endurofy. All rights reserved.
         </Typography>
       </Box>
     </Box>
