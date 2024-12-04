@@ -24,7 +24,7 @@ To get started with FitTracker, follow these steps:
 
 ```sh
 # Clone this repo
-git clone https://github.com/LePoisson104/fit_tracker.git
+git clone https://github.com/LePoisson104/Endurofy.git
 ```
 
 ```bash
