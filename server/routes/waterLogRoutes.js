@@ -14,6 +14,5 @@ router.patch(
   "/update-water-intake/:waterId",
   waterLogControllers.updateWaterIntake
 );
-router.delete("/delete-water/:waterId", waterLogControllers.deleteWater);
 
 module.exports = router;

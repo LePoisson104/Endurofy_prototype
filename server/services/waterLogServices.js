@@ -54,14 +54,4 @@ const updateWater = async (waterId, updatePayload) => {
   return updatedWater;
 };
 
-const deleteWater = async (waterId) => {
-  if (!waterId) {
-    throw new errorResponse("WaterId is required!", 400);
-  }
-
-  const deletedWater = await Water.queryDeleteWaterIntake(waterId);
-
-  return deletedWater;
-};
-
-module.export = { getWaterIntake, addWater, updateWater, deleteWater };
+module.export = { getWaterIntake, addWater, updateWater };

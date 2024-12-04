@@ -25,16 +25,7 @@ const addWater = async (req, res) => {
 
 const updateWaterIntake = async (req, res) => {
   const { waterId } = req.params;
-
-  try {
-  } catch (err) {
-    const statusCode = err.statusCode || 500;
-    return res.status(statusCode).json({ message: err.message });
-  }
-};
-
-const deleteWater = async (req, res) => {
-  const { foodId } = req.params;
+  const updatePayload = req.body;
 
   try {
   } catch (err) {
@@ -47,5 +38,4 @@ module.exports = {
   getWaterIntake,
   addWater,
   updateWaterIntake,
-  deleteWater,
 };
