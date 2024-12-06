@@ -17,6 +17,8 @@ const addWater = async (req, res) => {
   const waterPayload = req.body;
 
   try {
+    await waterLogServices.addWaterLog(userId, waterPayload);
+    return res.status(200).json({ message: "Water added successfully!" });
   } catch (err) {
     const statusCode = err.statusCode || 500;
     return res.status(statusCode).json({ message: err.mesage });

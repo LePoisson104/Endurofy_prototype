@@ -4,7 +4,7 @@ const queryGetWaterIntake = async (userId, date) => {
   try {
     const response = await new Promise((resolve, reject) => {
       const query =
-        "SELECT * FROM waterLog user_id = ? AND DATE(logges_at) = ?";
+        "SELECT * FROM waterLog user_id = ? AND DATE(logged_at) = ?";
       pool.query(query, [userId, date], (err, results) => {
         if (err) {
           reject(new Error(err.message));
@@ -19,20 +19,14 @@ const queryGetWaterIntake = async (userId, date) => {
   }
 };
 
-const queryAddWater = async (
-  waterId,
-  userId,
-  waterAmount,
-  waterUnit,
-  loggedAt
-) => {
+const queryAddWater = async (waterId, userId, waterAmount, loggedAt) => {
   try {
     const response = await new Promise((resolve, reject) => {
       const query =
-        "INSERT INTO waterLog (water_id, user_id, water_amount, water_unit, logged_at) VALUES (?,?,?,?,?)";
+        "INSERT INTO waterLog (water_id, user_id, water_amount, logged_at) VALUES (?,?,?,?)";
       pool.query(
         query,
-        [waterId, userId, waterAmount, waterUnit, loggedAt],
+        [waterId, userId, waterAmount, loggedAt],
         (err, results) => {
           if (err) {
             reject(new Error(err.message));
@@ -66,21 +60,22 @@ const queryUpdateWaterIntake = async (waterId, updatePayload) => {
   }
 };
 
-const queryDeleteWaterIntake = async (waterId) => {
+const queryCheckForExistingWaterLog = async (waterId) => {
   try {
     const response = await new Promise((resolve, reject) => {
-      const query = "DELETE FROM waterLog WHERE water_id = ?";
+      const query = "SELECT * FROM waterLog WHERE water_id = ?"; // Query to check existence
       pool.query(query, [waterId], (err, results) => {
         if (err) {
           reject(new Error(err.message));
         } else {
-          resolve(results);
+          resolve(results.length > 0); // Returns true if a record exists, false otherwise
         }
       });
     });
-    return response;
+    return response; // true if exists, false otherwise
   } catch (err) {
     console.log(err.message);
+    return false; // Default return value in case of an error
   }
 };
 
@@ -88,5 +83,5 @@ module.exports = {
   queryGetWaterIntake,
   queryAddWater,
   queryUpdateWaterIntake,
-  queryDeleteWaterIntake,
+  queryCheckForExistingWaterLog,
 };

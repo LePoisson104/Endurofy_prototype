@@ -16,29 +16,35 @@ const getWaterIntake = async (userId, date) => {
   return waterIntake;
 };
 
-const addWater = async (userId, waterPayload) => {
-  if (!userId || Object.keys(waterPayload).length === 0) {
-    throw new errorResponse("UserId and waterPayload are required!", 400);
-  }
+const addWaterLog = async (userId, waterPayload) => {
+  console.log("hello");
 
-  const { waterAmount, waterUnit } = waterPayload;
+  // if (!userId || Object.keys(waterPayload).length === 0) {
+  //   throw new errorResponse("UserId and waterPayload are required!", 400);
+  // }
 
-  const loggedAt = new Date();
+  const { waterAmount, loggedAt } = waterPayload;
   const waterId = uuidv4();
 
-  const addWaterIntake = await Water.queryAddWater(
-    waterId,
+  const isExistingWaterLog = await Water.queryCheckForExistingWaterLog(
     userId,
-    waterAmount,
-    waterUnit,
     loggedAt
   );
 
-  if (!addWaterIntake) {
-    throw new errorResponse("Something Went Wrong!", 400);
-  }
+  console.log(isExistingWaterLog);
 
-  return addWaterIntake;
+  // const addWaterIntake = await Water.queryAddWater(
+  //   waterId,
+  //   userId,
+  //   waterAmount,
+  //   loggedAt
+  // );
+
+  // if (!addWaterIntake) {
+  //   throw new errorResponse("Something Went Wrong!", 400);
+  // }
+
+  // return addWaterIntake;
 };
 
 const updateWater = async (waterId, updatePayload) => {
@@ -54,4 +60,4 @@ const updateWater = async (waterId, updatePayload) => {
   return updatedWater;
 };
 
-module.export = { getWaterIntake, addWater, updateWater };
+module.export = { getWaterIntake, addWaterLog, updateWater };
