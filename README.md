@@ -1,8 +1,8 @@
-# FitTracker
+# Endurofy
 
 ## Overview
 
-**FitTracker** is a versatile web application designed to help you achieve your fitness goals. This all-in-one tool allows you to seamlessly log your daily food intake, workout routines, and track your weight progress. Whether you’re aiming to lose weight, build muscle, or simply maintain a healthy lifestyle, FitTracker has got you covered.
+**Endurofy** is a versatile web application designed to help you achieve your fitness goals. This all-in-one tool allows you to seamlessly log your daily food intake, workout routines, and track your weight progress. Whether you’re aiming to lose weight, build muscle, or simply maintain a healthy lifestyle, FitTracker has got you covered.
 
 ### Key Features:
 
@@ -12,13 +12,13 @@
 
 ### Tech Stack:
 
-- **Frontend:** React.js, MUI
-- **Backend:** Node.js, Express.js, MySQL
-- **Hosting:** AWS RDS/EC2, Render
+- **Frontend:** React.js, MUI, RTK query, Redux
+- **Backend:** Node.js, Express.js, MySQL, external API's
+- **Hosting:** AWS RDS/EC2, Vercel
 
 ## Installation
 
-To get started with FitTracker, follow these steps:
+To get started with Endurofy, follow these steps:
 
 ### Clone the Repository
 
