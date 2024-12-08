@@ -9,7 +9,6 @@ import {
 import { Box, IconButton, Typography, useTheme, Tooltip } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 import { tokens } from "../../theme";
-import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import RamenDiningOutlinedIcon from "@mui/icons-material/RamenDiningOutlined";
@@ -70,13 +69,30 @@ const Item = ({ title, to, icon, selected, setSelected, isCollapsed }) => {
 const SideBar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(
+    JSON.parse(localStorage.getItem("sidebarState")) ?? false
+  );
   // const [selected, setSelected] = useState("Dashboard");
   const sidebarWidth = isCollapsed ? "80px" : "250px"; // Adjust these values as needed
 
   // Use React Router's location to detect the current URL path
   const location = useLocation();
   const [selected, setSelected] = useState(location.pathname);
+
+  const toggleSidebar = () => {
+    setIsCollapsed((prev) => {
+      const newState = !prev;
+      localStorage.setItem("sidebarState", JSON.stringify(newState));
+      return newState;
+    });
+  };
+
+  useEffect(() => {
+    const savedSidebarState = JSON.parse(localStorage.getItem("sidebarState"));
+    if (savedSidebarState !== null) {
+      setIsCollapsed(savedSidebarState);
+    }
+  }, []);
 
   // Update `selected` state if location changes
   useEffect(() => {
@@ -113,7 +129,7 @@ const SideBar = () => {
       >
         {/* LOGO AND MENU ICON */}
         <MenuItem
-          onClick={() => setIsCollapsed(!isCollapsed)}
+          onClick={toggleSidebar}
           icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
           rootStyles={{
             margin: "10px 0 10px 0", // top right bottom left
@@ -138,7 +154,12 @@ const SideBar = () => {
               >
                 Endurofy
               </Typography>
-              <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
+              <IconButton
+                onClick={(event) => {
+                  event.stopPropagation();
+                  toggleSidebar();
+                }}
+              >
                 <MenuOutlinedIcon />
               </IconButton>
             </Box>

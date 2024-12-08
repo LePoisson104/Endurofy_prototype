@@ -12,6 +12,7 @@ import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AddWaterModal from "../modals/AddWaterModal";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 
 const WaterAccordion = () => {
   const theme = useTheme();
@@ -82,7 +83,6 @@ const WaterAccordion = () => {
         <Box
           sx={{
             display: "flex",
-            flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
             width: "50%",
@@ -91,35 +91,48 @@ const WaterAccordion = () => {
             p: 2,
             borderRadius: 2,
             mt: 1,
+            gap: 1,
           }}
         >
+          <IconButton sx={{ color: "#fbc02d", fontSize: "small" }}>
+            <EditOutlinedIcon />
+          </IconButton>
           <Box
             sx={{
               display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
+              flexDirection: "column",
               width: "100%",
-            }}
-          >
-            <Typography>Total Water - 0 / 128 fl oz</Typography>
-            <Typography>0%</Typography>
-          </Box>
-          <Box
-            sx={{
-              width: "100%",
-              height: "10px",
-              bgcolor: "#708090",
-              borderRadius: 2,
+              alignItems: "center",
             }}
           >
             <Box
               sx={{
-                height: "10px",
-                bgcolor: "white",
-                borderRadius: 2,
-                width: "20%",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                width: "100%",
               }}
-            ></Box>
+            >
+              <Typography>Total Water - 0 / 128 fl oz</Typography>
+              <Typography>0%</Typography>
+            </Box>
+            <Box
+              sx={{
+                width: "100%",
+                height: "10px",
+                bgcolor: "#708090",
+                borderRadius: 2,
+              }}
+            >
+              <Box
+                sx={{
+                  height: "10px",
+                  bgcolor: "white",
+                  borderRadius: 2,
+                  width: "20%",
+                }}
+              ></Box>
+            </Box>
           </Box>
         </Box>
       </AccordionDetails>

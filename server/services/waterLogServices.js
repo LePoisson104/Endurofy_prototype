@@ -17,11 +17,9 @@ const getWaterIntake = async (userId, date) => {
 };
 
 const addWaterLog = async (userId, waterPayload) => {
-  console.log("hello");
-
-  // if (!userId || Object.keys(waterPayload).length === 0) {
-  //   throw new errorResponse("UserId and waterPayload are required!", 400);
-  // }
+  if (!userId || Object.keys(waterPayload).length === 0) {
+    throw new errorResponse("UserId and waterPayload are required!", 400);
+  }
 
   const { waterAmount, loggedAt } = waterPayload;
   const waterId = uuidv4();
@@ -31,20 +29,35 @@ const addWaterLog = async (userId, waterPayload) => {
     loggedAt
   );
 
-  console.log(isExistingWaterLog);
+  if (isExistingWaterLog) {
+    // Update the existing water log by adding the new amount
+    const updatedWaterLog = await Water.queryUpdateWaterLog(
+      isExistingWaterLog.water_id, // ID of the existing log
+      isExistingWaterLog.water_amount + waterAmount, // Increment the water amount
+      waterUnit
+    );
 
-  // const addWaterIntake = await Water.queryAddWater(
-  //   waterId,
-  //   userId,
-  //   waterAmount,
-  //   loggedAt
-  // );
+    if (!updatedWaterLog) {
+      throw new errorResponse("Failed to update the existing water log!", 400);
+    }
 
-  // if (!addWaterIntake) {
-  //   throw new errorResponse("Something Went Wrong!", 400);
-  // }
+    return updatedWaterLog; // Return the updated water log
+  }
 
-  // return addWaterIntake;
+  // If no existing log, create a new water log
+  const newWaterLog = await Water.queryAddWater(
+    waterId,
+    userId,
+    waterAmount,
+    waterUnit,
+    loggedAt
+  );
+
+  if (!newWaterLog) {
+    throw new errorResponse("Failed to add a new water log!", 400);
+  }
+
+  return newWaterLog; // Return the new water log
 };
 
 const updateWater = async (waterId, updatePayload) => {
@@ -60,4 +73,4 @@ const updateWater = async (waterId, updatePayload) => {
   return updatedWater;
 };
 
-module.export = { getWaterIntake, addWaterLog, updateWater };
+module.exports = { getWaterIntake, addWaterLog, updateWater };
