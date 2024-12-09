@@ -1,4 +1,4 @@
-import { Box, Typography, Avatar } from "@mui/material";
+import { Box, Typography, Avatar, CircularProgress } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../theme";
 import useAuth from "../hooks/useAuth";
@@ -31,7 +31,18 @@ const UserAvatar = ({ isCollapsed }) => {
         height: "8vh",
       }}
     >
-      {!data && <DotPulse />}
+      {!data && !isCollapsed ? (
+        <DotPulse />
+      ) : (
+        <CircularProgress
+          sx={{
+            color: colors.purpleAccent[400],
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        />
+      )}
       {data && (
         <>
           {/* User Avatar */}
