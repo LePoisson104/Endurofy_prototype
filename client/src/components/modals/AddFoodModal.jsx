@@ -14,6 +14,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import FoodMacrosModal from "./FoodMacrosModal";
 import { tokens } from "../../theme";
 import { useSearchFoodQuery } from "../../features/food/foodApiSlice";
+import ToggleButtons from "../buttons/ToggleButtons";
 
 const AddFoodModal = ({ open, onClose, currentDate, title }) => {
   const theme = useTheme();
@@ -73,7 +74,7 @@ const AddFoodModal = ({ open, onClose, currentDate, title }) => {
             variant="outlined"
             fullWidth
             sx={{
-              mb: 2,
+              mb: 1,
               "& .MuiOutlinedInput-root": {
                 "& fieldset": {
                   borderColor: "grey",
@@ -95,6 +96,7 @@ const AddFoodModal = ({ open, onClose, currentDate, title }) => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
+          <ToggleButtons />
           <List
             sx={{
               maxHeight: "50vh", // Set a max height for the list

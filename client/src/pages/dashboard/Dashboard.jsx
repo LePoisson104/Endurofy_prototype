@@ -326,7 +326,7 @@ const Dashboard = () => {
                   variant="determinate"
                   value={Math.min(
                     100,
-                    Math.round((waterData?.[0]?.water_amount / 128) * 100)
+                    Math.round((waterData?.[0]?.water_amount / 128) * 100 || 0)
                   )}
                   sx={{
                     height: 7,
@@ -339,8 +339,8 @@ const Dashboard = () => {
                 />
                 <Typography variant="body1" color={colors.primary[100]}>
                   Progress:{" "}
-                  {Math.round((waterData?.[0]?.water_amount / 128) * 100)}% of
-                  your goal
+                  {Math.round((waterData?.[0]?.water_amount / 128) * 100) || 0}%
+                  of your goal
                 </Typography>
               </Box>
             </Box>

@@ -24,6 +24,7 @@ import {
   useEditFoodMutation,
 } from "../../features/food/foodApiSlice";
 import useAuth from "../../hooks/useAuth";
+import FavoriteButton from "../buttons/FavoriteButton";
 
 const FoodMacrosModal = ({ open, onClose, food, currentDate, title, type }) => {
   const theme = useTheme();
@@ -342,6 +343,7 @@ const FoodMacrosModal = ({ open, onClose, food, currentDate, title, type }) => {
             flexDirection: "row",
             gap: 1,
             justifyContent: "center ",
+            alignItems: "center",
             mt: 3,
           }}
         >
@@ -429,6 +431,7 @@ const FoodMacrosModal = ({ open, onClose, food, currentDate, title, type }) => {
               <MenuItem value={"oz"}>oz</MenuItem>
             </Select>
           </FormControl>
+          <FavoriteButton />
         </Box>
 
         <Box
