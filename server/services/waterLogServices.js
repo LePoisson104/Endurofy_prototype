@@ -9,8 +9,8 @@ const getWaterIntake = async (userId, date) => {
 
   const waterIntake = await Water.queryGetWaterIntake(userId, date);
 
-  if (waterIntake.lenth === 0) {
-    throw new errorResponse("User Not Found!", 404);
+  if (waterIntake.length === 0) {
+    throw new errorResponse("No waterlog found!", 404);
   }
 
   return waterIntake;
@@ -22,6 +22,7 @@ const addWaterLog = async (userId, waterPayload) => {
   }
 
   const { waterAmount, loggedAt } = waterPayload;
+
   const waterId = uuidv4();
 
   const isExistingWaterLog = await Water.queryCheckForExistingWaterLog(
@@ -29,12 +30,11 @@ const addWaterLog = async (userId, waterPayload) => {
     loggedAt
   );
 
-  if (isExistingWaterLog) {
+  if (isExistingWaterLog.exists) {
     // Update the existing water log by adding the new amount
-    const updatedWaterLog = await Water.queryUpdateWaterLog(
-      isExistingWaterLog.water_id, // ID of the existing log
-      isExistingWaterLog.water_amount + waterAmount, // Increment the water amount
-      waterUnit
+    const updatedWaterLog = await Water.queryUpdateWaterIntake(
+      isExistingWaterLog.data?.[0].water_id, // ID of the existing log
+      { water_amount: isExistingWaterLog.data?.[0].water_amount + waterAmount } // Increment the water amount
     );
 
     if (!updatedWaterLog) {
@@ -49,7 +49,6 @@ const addWaterLog = async (userId, waterPayload) => {
     waterId,
     userId,
     waterAmount,
-    waterUnit,
     loggedAt
   );
 
@@ -63,6 +62,22 @@ const addWaterLog = async (userId, waterPayload) => {
 const updateWater = async (waterId, updatePayload) => {
   if (!waterId && !updatePayload) {
     throw new errorResponse("WaterId and updatePayload are Required!", 400);
+  }
+
+  const { water_amount } = updatePayload;
+
+  if (water_amount < 0) {
+    throw new errorResponse("Water amount can't be a negative number", 400);
+  }
+
+  if (water_amount === 0) {
+    const deleteWaterLog = await Water.queryDeleteWaterIntake(waterId);
+
+    if (deleteWaterLog.affectedRows === 0) {
+      throw new errorResponse("Water ID not found", 404);
+    }
+
+    return deleteWaterLog;
   }
 
   const updatedWater = await Water.queryUpdateWaterIntake(

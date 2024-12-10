@@ -8,25 +8,51 @@ import {
 } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AddWaterModal from "../modals/AddWaterModal";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import { useGetWaterIntakeQuery } from "../../features/water/waterApiSlice";
+import useAuth from "../../hooks/useAuth";
 
-const WaterAccordion = () => {
+const WaterAccordion = ({ currentDate }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const { userId } = useAuth();
   const [openModal, setOpenModal] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  const [type, setType] = useState("");
+  const [editData, setEditData] = useState([]);
 
-  const handleOpen = (event) => {
+  const { data, error, refetch, isFetching } = useGetWaterIntakeQuery({
+    userId,
+    currentDate,
+  });
+
+  const waterData = error?.status === 404 || isFetching ? [] : data || [];
+  const percent = Math.round((waterData?.[0]?.water_amount / 128) * 100);
+
+  // Optional: useEffect to log or perform actions on date changes
+  useEffect(() => {
+    // Trigger refetch whenever `currentDate` changes, if needed
+    refetch();
+  }, [currentDate, refetch]);
+
+  const handleOpen = (event, type) => {
     event.stopPropagation();
     setOpenModal(true);
     setExpanded(true);
+    setType(type);
+    if (type === "edit") {
+      setEditData(waterData);
+    } else {
+      setEditData([]);
+    }
   };
 
   const handleAccordionChange = (event, isExpanded) => {
+    event.stopPropagation();
     setExpanded(isExpanded);
   };
 
@@ -59,14 +85,16 @@ const WaterAccordion = () => {
           >
             <IconButton
               size="small"
-              onClick={handleOpen}
+              onClick={(e) => handleOpen(e, "add")}
               sx={{ color: theme.palette.mode == "dark" ? "white" : "black" }}
             >
               <AddIcon />
             </IconButton>
             <Box sx={{ display: "flex", gap: 2 }}>
               <Typography> Water</Typography>
-              <Typography>0 / 128 fl oz</Typography>
+              <Typography>
+                {waterData?.[0]?.water_amount || 0} / 128 fl oz
+              </Typography>
             </Box>
           </Box>
         </Box>
@@ -94,7 +122,10 @@ const WaterAccordion = () => {
             gap: 1,
           }}
         >
-          <IconButton sx={{ color: "#fbc02d", fontSize: "small" }}>
+          <IconButton
+            sx={{ color: "#fbc02d", fontSize: "small" }}
+            onClick={(e) => handleOpen(e, "edit")}
+          >
             <EditOutlinedIcon />
           </IconButton>
           <Box
@@ -113,8 +144,12 @@ const WaterAccordion = () => {
                 width: "100%",
               }}
             >
-              <Typography>Total Water - 0 / 128 fl oz</Typography>
-              <Typography>0%</Typography>
+              <Typography>
+                Total Water - {waterData?.[0]?.water_amount || 0} / 128 fl oz
+              </Typography>
+              <Typography sx={{ color: percent > 100 ? "#ef5350" : "" }}>
+                {percent ? percent : 0}%
+              </Typography>
             </Box>
             <Box
               sx={{
@@ -129,14 +164,20 @@ const WaterAccordion = () => {
                   height: "10px",
                   bgcolor: "white",
                   borderRadius: 2,
-                  width: "20%",
+                  maxWidth: `${percent ? percent : 0}%`,
                 }}
               ></Box>
             </Box>
           </Box>
         </Box>
       </AccordionDetails>
-      <AddWaterModal openModal={openModal} setOpenModal={setOpenModal} />
+      <AddWaterModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        Type={type}
+        editData={editData}
+        currentDate={currentDate}
+      />
     </Accordion>
   );
 };

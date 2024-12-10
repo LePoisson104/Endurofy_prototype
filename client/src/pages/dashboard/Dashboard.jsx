@@ -2,7 +2,6 @@ import { Box, Button, Typography, LinearProgress } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
 import { mockTransactions } from "../../data/mockData";
-import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import Header from "../../components/global/Header";
 import LineChart from "../../components/charts/LineChart";
 import BarChart from "../../components/charts/BarChart";
@@ -21,6 +20,7 @@ import useAuth from "../../hooks/useAuth";
 import { useState, useEffect } from "react";
 import { foodServingsHelper } from "../../helper/foodServingsHelper";
 import DotPulse from "../../components/DotPulse";
+import { useGetWaterIntakeQuery } from "../../features/water/waterApiSlice";
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -28,8 +28,12 @@ const Dashboard = () => {
   const { userId } = useAuth();
 
   const formattedDateTime = `${dateFormat()?.date} | ${dateFormat()?.time} `;
-
   const currentDate = new Date().toLocaleDateString("en-CA");
+
+  const waterData = useGetWaterIntakeQuery({
+    userId,
+    currentDate,
+  }).data;
 
   const userData = useGetAllUsersInfoQuery(userId).data;
 
@@ -307,7 +311,7 @@ const Dashboard = () => {
                   fontWeight={500}
                   color={colors.primary[100]}
                 >
-                  64
+                  {waterData?.[0]?.water_amount || 0}
                 </Typography>
                 <Typography
                   variant="h4"
@@ -320,7 +324,10 @@ const Dashboard = () => {
               <Box sx={{ width: "100%", mt: 1 }}>
                 <LinearProgress
                   variant="determinate"
-                  value={50}
+                  value={Math.min(
+                    100,
+                    Math.round((waterData?.[0]?.water_amount / 128) * 100)
+                  )}
                   sx={{
                     height: 7,
                     borderRadius: 2,
@@ -331,7 +338,9 @@ const Dashboard = () => {
                   }}
                 />
                 <Typography variant="body1" color={colors.primary[100]}>
-                  Progress: 50% of your goal
+                  Progress:{" "}
+                  {Math.round((waterData?.[0]?.water_amount / 128) * 100)}% of
+                  your goal
                 </Typography>
               </Box>
             </Box>

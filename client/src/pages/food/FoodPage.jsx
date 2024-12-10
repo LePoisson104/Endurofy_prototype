@@ -184,7 +184,7 @@ const FoodPage = () => {
             <Typography>
               {amount} / {targetAmount}
             </Typography>
-            <Typography color={percent > 100 ? "#FF3333" : ""}>
+            <Typography color={percent > 100 ? "#ef5350" : ""}>
               {percent}%
             </Typography>
           </Box>
@@ -246,7 +246,7 @@ const FoodPage = () => {
               id="left"
             >
               <Box>
-                <WaterAccordion />
+                <WaterAccordion currentDate={currentDate} />
                 <AccordionUsage
                   title={"Uncategorized"}
                   data={adjustedFoodData?.filter(

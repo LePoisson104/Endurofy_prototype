@@ -4,7 +4,7 @@ const queryGetWaterIntake = async (userId, date) => {
   try {
     const response = await new Promise((resolve, reject) => {
       const query =
-        "SELECT * FROM waterLog user_id = ? AND DATE(logged_at) = ?";
+        "SELECT * FROM waterLog WHERE user_id = ? AND DATE(logged_at) = ?";
       pool.query(query, [userId, date], (err, results) => {
         if (err) {
           reject(new Error(err.message));
@@ -60,15 +60,38 @@ const queryUpdateWaterIntake = async (waterId, updatePayload) => {
   }
 };
 
-const queryCheckForExistingWaterLog = async (waterId) => {
+const queryDeleteWaterIntake = async (waterId) => {
   try {
     const response = await new Promise((resolve, reject) => {
-      const query = "SELECT * FROM waterLog WHERE water_id = ?"; // Query to check existence
+      const query = "DELETE FROM waterLog WHERE water_id = ?";
       pool.query(query, [waterId], (err, results) => {
         if (err) {
           reject(new Error(err.message));
         } else {
-          resolve(results.length > 0); // Returns true if a record exists, false otherwise
+          resolve(results);
+        }
+      });
+    });
+    return response;
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+const queryCheckForExistingWaterLog = async (userId, loggedAt) => {
+  try {
+    const response = await new Promise((resolve, reject) => {
+      const query =
+        "SELECT * FROM waterLog WHERE user_id = ? AND DATE(logged_at) = ?"; // Query to check existence
+      pool.query(query, [userId, loggedAt], (err, results) => {
+        if (err) {
+          reject(new Error(err.message));
+        } else {
+          if (results.length > 0) {
+            resolve({ exists: true, data: results });
+          } else {
+            resolve({ exists: false, data: [] });
+          }
         }
       });
     });
@@ -83,5 +106,6 @@ module.exports = {
   queryGetWaterIntake,
   queryAddWater,
   queryUpdateWaterIntake,
+  queryDeleteWaterIntake,
   queryCheckForExistingWaterLog,
 };

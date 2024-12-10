@@ -3,7 +3,7 @@ const router = express.Router();
 const waterLogControllers = require("../controllers/waterLogControllers");
 const verifyJWT = require("../middleware/verifyJWT");
 
-// router.use(verifyJWT);
+router.use(verifyJWT);
 
 router.get(
   "/get-water-intake-by-date/:userId",
