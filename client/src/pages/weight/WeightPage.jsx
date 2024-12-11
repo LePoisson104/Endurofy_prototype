@@ -4,7 +4,6 @@ import {
   Typography,
   Button,
   IconButton,
-  TextField,
   Table,
   TableBody,
   TableCell,
@@ -12,14 +11,6 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Select,
   Accordion,
   AccordionSummary,
   AccordionDetails,
@@ -30,92 +21,30 @@ import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
 import DatePickerSelector from "../../components/DatePickerSelector";
 import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import AddIcon from "@mui/icons-material/Add";
-import { textFieldStyles } from "../profile/TextFieldStyles";
 import LineChart from "../../components/charts/LineChart";
 import SortIcon from "@mui/icons-material/Sort";
 import { dateFormat } from "../../helper/dateFormat";
+import AddWeightLog from "../../components/modals/AddWeightLog";
+import FilterSelect from "../../components/selects/FilterSelect";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 const WeightLogPage = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [weightLogs, setWeightLogs] = useState([]);
-  const [weight, setWeight] = useState("");
-  const [date, setDate] = useState(null);
+
   const [openModal, setOpenModal] = useState(false);
   const [expanded, setExpanded] = useState(false); // State for accordion
+  const [weightLogs, setWeightLogs] = useState([]);
 
   const formattedDateTime = `${dateFormat()?.date} | ${
     dateFormat()?.time
   } | Streaks: 2`;
 
-  const handleAddWeightLog = (event) => {
-    event.preventDefault();
-    if (date && weight) {
-      const newLog = { weight, date: date.toDateString() }; // Convert date to string for display
-      setWeightLogs([...weightLogs, newLog]);
-      setWeight("");
-      setDate(null); // Reset date to null after adding
-      setOpenModal(false); // Close modal after adding
-    }
-  };
-
   const handleDeleteLog = (index) => {
     const updatedLogs = weightLogs.filter((log, i) => i !== index);
     setWeightLogs(updatedLogs);
-  };
-
-  const FilterSelect = () => {
-    const [month, setMonth] = useState("");
-
-    const handleChange = (event) => {
-      setMonth(event.target.value);
-    };
-
-    return (
-      <Box sx={{ minWidth: 150 }}>
-        <FormControl fullWidth>
-          <InputLabel
-            id="demo-simple-select-label"
-            sx={{
-              "&.Mui-focused": {
-                color: "#868dfb",
-              },
-            }}
-          >
-            Month
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={month}
-            label="Month"
-            onChange={handleChange}
-            sx={{
-              "&:hover .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#868dfb", // Border color on hover
-              },
-              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#868dfb",
-              },
-            }}
-            MenuProps={{
-              PaperProps: {
-                sx: {
-                  bgcolor: colors.primary[400], // Background color for the dropdown
-                },
-              },
-            }}
-          >
-            <MenuItem value={"Current Week"}>Current Week</MenuItem>
-            <MenuItem value={"Last Week"}>Last Week</MenuItem>
-            <MenuItem value={"This Month"}>This Month</MenuItem>
-            <MenuItem value={"Show All"}>Show All</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
-    );
   };
 
   return (
@@ -199,7 +128,18 @@ const WeightLogPage = () => {
                   <TableRow>
                     <TableCell sx={{ fontSize: "14px" }}>Date</TableCell>
                     <TableCell align="center" sx={{ fontSize: "14px" }}>
-                      Weight (lbs)
+                      Recorded (lbs)
+                    </TableCell>
+                    <TableCell align="center" sx={{ fontSize: "14px" }}>
+                      Moving Average (lbs)
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      sx={{
+                        fontSize: "14px",
+                      }}
+                    >
+                      Weekly Rate
                     </TableCell>
                     <TableCell
                       align="right"
@@ -214,19 +154,47 @@ const WeightLogPage = () => {
                     <TableRow key={index}>
                       <TableCell>{log.date}</TableCell>
                       <TableCell align="center">{log.weight}</TableCell>
+                      <TableCell align="center">average</TableCell>
+                      <TableCell align="center">
+                        <Box
+                          sx={{
+                            display: "flex",
+                            width: "100%",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              color: "green",
+                              backgroundColor: "#f3fdf3",
+                              borderRadius: "4px", // Optional: To round corners
+                              padding: 1, // Optional: Add some padding
+                              width: "fit-content", // Makes the width adjust to the content
+                            }}
+                          >
+                            <KeyboardArrowDownIcon fontSize="small" />
+                            <span>0.9</span>
+                          </Box>
+                        </Box>
+                      </TableCell>
                       <TableCell align="right">
                         <IconButton
-                          onClick={() => handleDeleteLog(index)}
+                          // onClick={() => handleDeleteLog(index)}
                           size="small"
-                          sx={{ mr: 1 }}
+                          sx={{ color: "#fbc02d", mr: 1 }}
                         >
                           <EditIcon />
                         </IconButton>
                         <IconButton
                           onClick={() => handleDeleteLog(index)}
                           size="small"
+                          sx={{ color: "#F56565" }}
                         >
-                          <DeleteIcon />
+                          <DeleteOutlinedIcon />
                         </IconButton>
                       </TableCell>
                     </TableRow>
@@ -252,70 +220,12 @@ const WeightLogPage = () => {
           <LineChart />
         </Box>
       </Box>
-
-      {/* Modal for Adding Weight Log */}
-      <Dialog
-        open={openModal}
-        onClose={() => setOpenModal(false)}
-        PaperProps={{
-          sx: {
-            width: "400px", // Set the width of the modal
-            height: "280px",
-            bgcolor: theme.palette.mode == "dark" ? "#101624" : "white",
-          },
-        }}
-      >
-        <DialogTitle>Add Weight Log</DialogTitle>
-        <DialogContent>
-          <Box
-            component="form"
-            onSubmit={handleAddWeightLog}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 2,
-              mt: 1,
-              maxWidth: "400px",
-            }}
-          >
-            <TextField
-              required
-              label="Weight (lbs)"
-              type="number"
-              value={weight}
-              onChange={(e) => setWeight(e.target.value)}
-              fullWidth
-              sx={{ ...textFieldStyles }}
-            />
-            <DatePickerSelector
-              date={date}
-              setDate={setDate}
-              label={"Select Date"}
-            />
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={() => setOpenModal(false)}
-            sx={{ color: "#6d76fa", textTransform: "none" }}
-          >
-            Cancel
-          </Button>
-          <Button
-            type="submit"
-            onClick={handleAddWeightLog}
-            variant="contained"
-            sx={{
-              textTransform: "none",
-              backgroundColor: "#6d76fa",
-              color: "white",
-              "&:hover": { backgroundColor: "#868dfb" },
-            }}
-          >
-            Add
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <AddWeightLog
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        weightLogs={weightLogs}
+        setWeightLogs={setWeightLogs}
+      />
     </Box>
   );
 };
