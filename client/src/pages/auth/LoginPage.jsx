@@ -11,6 +11,7 @@ import ForgotPasswordModal from "../../components/modals/ForgotPassModal";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 import CircularProgress from "@mui/material/CircularProgress";
 import GoogleBtn from "../../components/buttons/GoogleBtn";
+import TermsOfService from "../../components/TermsOfService";
 
 const Login = () => {
   const theme = useTheme();
@@ -257,15 +258,7 @@ const Login = () => {
           mt: "auto",
         }}
       >
-        <Typography fontWeight={300}>
-          By proceeding you acknowledge that you have read,
-        </Typography>
-        <Typography fontWeight={"light"}>
-          understood and agree to our{" "}
-          <Link style={{ color: "black", fontWeight: 400 }} to={"/not-found"}>
-            Terms of Service.
-          </Link>
-        </Typography>
+        <TermsOfService />
       </Box>
     </Box>
   );

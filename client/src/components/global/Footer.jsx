@@ -113,7 +113,7 @@ const Footer = () => {
             >
               <Link
                 component={RouterLink}
-                to="#"
+                to="/terms"
                 style={{
                   textDecoration: "none",
                   color: "white",
@@ -121,11 +121,11 @@ const Footer = () => {
                   marginBottom: "5px",
                 }}
               >
-                Our Services
+                Terms of Service
               </Link>
               <Link
                 component={RouterLink}
-                to="#"
+                to="/privacy"
                 style={{
                   textDecoration: "none",
                   color: "white",
@@ -164,39 +164,7 @@ const Footer = () => {
                   fontSize: "16px",
                 }}
               >
-                News
-              </Link>
-            </Box>
-
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <Link
-                component={RouterLink}
-                to="#"
-                style={{
-                  textDecoration: "none",
-                  color: "white",
-                  fontSize: "16px",
-                  marginBottom: "5px",
-                }}
-              >
-                Our Teams
-              </Link>
-              <Link
-                component={RouterLink}
-                to="#"
-                style={{
-                  textDecoration: "none",
-                  color: "white",
-                  fontSize: "16px",
-                }}
-              >
-                Careers
+                Blog
               </Link>
             </Box>
           </Box>

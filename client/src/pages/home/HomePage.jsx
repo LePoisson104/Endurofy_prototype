@@ -1,19 +1,26 @@
-import { Box, Typography, Button, useTheme } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Box, Typography, Stack } from "@mui/material";
+import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
-import Footer from "../../components/global/Footer";
-import NavBar from "../../components/global/NavBar";
 import MuiSwitch from "../../components/switches/MuiSwitch";
 import LogosCarousel from "../../components/LogosCarousel";
+import GetStartedBtn from "../../components/buttons/GetStartedBtn";
+import FAQAccordion from "../../components/accordion/FAQAccordion";
+import DashboardDark from "../../images/DashboardDark.png";
+import DashboardLight from "../../images/DashboardLight.png";
+import { useState } from "react";
 
 const HomePage = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [checked, setChecked] = useState(false);
+  console.log(checked);
+
+  const handleSwitchChange = (event) => {
+    setChecked(event.target.checked);
+  };
 
   return (
     <Box>
-      <NavBar />
-
       {/* Hero Section */}
       <Box
         sx={{
@@ -25,13 +32,17 @@ const HomePage = () => {
           padding: "80px 20px",
           gap: 1,
           overflow: "hidden",
-          // background: `linear-gradient(180deg, ${colors.purpleAccent[500]} 0%, ${colors.grey[1000]} 100%)`,
+          animation: "fadeIn 1s ease-out", // Add animation here
+          "@keyframes fadeIn": {
+            from: { opacity: 0, transform: "translateY(20px)" },
+            to: { opacity: 1, transform: "translateY(0)" },
+          },
         }}
       >
         <Typography
           sx={{
             fontWeight: 600,
-            fontSize: { sm: "4rem", xs: "3rem" },
+            fontSize: { sm: "3.5rem", xs: "2.5rem" },
             whiteSpace: "pre-line",
             p: 0,
             fontFamily: "Host Grotesk, sans-serif",
@@ -40,43 +51,49 @@ const HomePage = () => {
         >
           Strengthen Your Endurance, {"\n"}Enhance Your Life
         </Typography>
-
         <Typography
           variant="h6"
+          color="textSecondary"
           sx={{
             mb: 4,
             maxWidth: "600px",
             fontFamily: "Host Grotesk, sans-serif",
-            color: colors.grey[1100],
           }}
+          paragraph
         >
           Your all-in-one fitness app to log your food, workouts, and weight,
           designed to help you stay on track with your health and fitness goals.
         </Typography>
+        <GetStartedBtn />
+        <MuiSwitch checked={checked} onChange={handleSwitchChange} />
 
-        <Button
-          component={Link}
-          to="/signup"
-          size="large"
-          sx={{
-            color: "white",
-            bgcolor: colors.purpleAccent[400],
-            "&:hover": { backgroundColor: colors.purpleAccent[300] },
-            padding: "10px 20px",
-            fontSize: 18,
-            textTransform: "none",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 1,
-            borderRadius: 2,
-            mb: 3,
-          }}
-        >
-          Get Started <a style={{ fontWeight: 300 }}>- it's free</a>
-        </Button>
-        <MuiSwitch />
+        {checked ? (
+          <Box
+            component="img"
+            src={DashboardDark}
+            sx={{
+              width: "100%", // Make the width responsive
+              maxWidth: "1000px", // Max width to prevent it from becoming too large
+              mt: 3,
+              borderRadius: 3,
+              border: `1px solid ${colors.grey[900]}`,
+            }}
+          />
+        ) : (
+          <Box
+            component="img"
+            src={DashboardLight}
+            sx={{
+              width: "100%", // Make the width responsive
+              maxWidth: "1000px", // Max width to prevent it from becoming too large
+              mt: 3,
+              borderRadius: 3,
+              border: `1px solid ${colors.grey[900]}`,
+            }}
+          />
+        )}
       </Box>
+
       <Box
         sx={{
           width: "100%",
@@ -99,7 +116,7 @@ const HomePage = () => {
           <Typography
             color="#696969"
             fontWeight={500}
-            variant="h5"
+            variant="h6"
             sx={{
               m: 0,
               p: 0,
@@ -112,12 +129,11 @@ const HomePage = () => {
           <Typography
             color="#696969"
             fontWeight={500}
-            variant="h5"
+            variant="h6"
             sx={{
               m: 0,
               p: 0,
               flexShrink: 0,
-              mt: { xs: 1, sm: 0 },
               ml: { sm: 0.5 },
               display: "inline",
             }}
@@ -125,12 +141,132 @@ const HomePage = () => {
             fitness platforms.
           </Typography>
         </Box>
-
         <LogosCarousel />
       </Box>
-
-      {/* Footer */}
-      <Footer />
+      {/*  */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+          bgcolor: "white",
+          p: { md: 10, xs: 4 },
+        }}
+      ></Box>
+      {/* FAQ */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+          p: { md: 10, xs: 4 },
+        }}
+      >
+        <Typography
+          variant="h4"
+          gutterBottom
+          sx={{ color: colors.purpleAccent[400] }}
+        >
+          FAQ
+        </Typography>
+        <Typography
+          sx={{
+            fontFamily: "Host Grotesk, sans-serif",
+            color: "#4a4a4a",
+            fontWeight: "bold",
+            fontSize: { md: "2rem", xs: "1.5rem" },
+            mb: 3,
+          }}
+        >
+          Your questions, answered
+        </Typography>
+        <Stack spacing={1}>
+          <FAQAccordion
+            question={"What is Endurofy?"}
+            answer={`Endurofy is a comprehensive fitness app designed to help you track your food intake, weight, and workouts.
+            Making it easier to stay on top of your health and fitness goals.`}
+          />
+          <FAQAccordion
+            question={"How do I get started with Endurofy?"}
+            answer={`Simply create an account using your valid email address. Endurofy will send you a verification code to verify your email. 
+              Once you log in to your account, you can set up your profile by entering details like your fitness goals, weight, and preferred workout
+              routines. Start logging your workouts and meals to track your progress!`}
+          />
+          <FAQAccordion
+            question={
+              "Can I connect my Endurofy account with other fitness apps?"
+            }
+            answer={`Yes! Endurofy is compatible with popular fitness platforms such as Fitbit and Apple Health, 
+            allowing you to sync your data and track your progress seamlessly.`}
+          />
+          <FAQAccordion
+            question={"Is Endurofy free?"}
+            answer={`Absolutely! Endurofy is 100% free to use, so you can start tracking your fitness journey without any costs. We believe everyone should 
+              have access to the tools they need to stay healthy and achieve their goals!`}
+          />
+          <FAQAccordion
+            question={
+              "How can I contact support if I have issues with the app?"
+            }
+            answer={`If you encounter any issues, you can contact our support team through the app's help section or email us directly at 
+              <a href="mailto:support@endurofy.com">support@endurofy.com</a>. We're happy to assist you!`}
+          />
+        </Stack>
+      </Box>
+      {/* Try for free */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+          bgcolor: "white",
+          p: { md: 10, xs: 4 },
+        }}
+      >
+        <Typography
+          sx={{
+            fontFamily: "Host Grotesk, sans-serif",
+            color: "#4a4a4a",
+            fontWeight: "bold",
+            fontSize: { md: "2rem", xs: "1.5rem" },
+          }}
+          gutterBottom
+        >
+          Try Endurofy for free today
+        </Typography>
+        <Typography
+          color="#696969"
+          fontWeight={500}
+          variant="h6"
+          sx={{
+            m: 0,
+            p: 0,
+            flexShrink: 0,
+            display: "inline",
+          }}
+        >
+          Start your fitness journey with Endurofy and take{" "}
+        </Typography>
+        <Typography
+          color="#696969"
+          fontWeight={500}
+          variant="h6"
+          sx={{
+            m: 0,
+            p: 0,
+            flexShrink: 0,
+            ml: { sm: 0.5 },
+            display: "inline",
+            mb: 3,
+          }}
+        >
+          the first step toward a stronger, healthier you!
+        </Typography>
+        <GetStartedBtn />
+      </Box>
     </Box>
   );
 };

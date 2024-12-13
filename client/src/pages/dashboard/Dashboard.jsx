@@ -619,11 +619,7 @@ const Dashboard = () => {
                   p="15px"
                 >
                   <Box sx={{ width: "33.33%" }}>
-                    <Typography
-                      color={colors.greenAccent[500]}
-                      variant="h5"
-                      fontWeight="600"
-                    >
+                    <Typography variant="h5" fontWeight="500">
                       {transaction.txId}
                     </Typography>
                   </Box>
@@ -646,8 +642,8 @@ const Dashboard = () => {
                   >
                     <Button
                       sx={{
-                        color: theme.palette.mode == "dark" ? "white" : "black",
-                        backgroundColor: "#32B593",
+                        color: "white",
+                        backgroundColor: colors.purpleAccent[300],
                         p: "5px 10px",
                         borderRadius: "4px",
                         textTransform: "none",

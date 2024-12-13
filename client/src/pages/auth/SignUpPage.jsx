@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Button, Box, TextField, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import RowRadioButtonsGroup from "../../components/RowRadioButtonGroup";
 import MonthSelect from "../../components/selects/MonthSelect";
 import InchesSelect from "../../components/selects/InchesSelect";
@@ -13,6 +13,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import SuccessAlert from "../../components/alerts/SuccessAlert";
 import ErrorAlert from "../../components/alerts/ErrorAlert";
 import GoogleBtn from "../../components/buttons/GoogleBtn";
+import TermsOfService from "../../components/TermsOfService";
 
 const SignUp = () => {
   const theme = useTheme();
@@ -32,6 +33,7 @@ const SignUp = () => {
   const [weight, setWeight] = useState("");
 
   const topRef = useRef();
+  const location = useLocation();
   const [errMsg, setErrMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
 
@@ -94,10 +96,9 @@ const SignUp = () => {
   ]);
 
   useEffect(() => {
-    if (topRef.current) {
-      topRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, []);
+    // Scroll to top whenever the location changes
+    window.scrollTo(0, 0);
+  }, [location]);
 
   useEffect(() => {
     if ((successMsg || errMsg) && topRef.current) {
@@ -233,6 +234,11 @@ const SignUp = () => {
           width: "100%",
           width: { sm: "400px", xs: "300px" },
           mt: "auto",
+          animation: "fadeIn 1s ease-out", // Add animation here
+          "@keyframes fadeIn": {
+            from: { opacity: 0, transform: "translateY(20px)" },
+            to: { opacity: 1, transform: "translateY(0)" },
+          },
         }}
       >
         <Typography variant="h3" mb={6} fontWeight="bold" color="#6d76fa">
@@ -760,15 +766,7 @@ const SignUp = () => {
           mt: "auto",
         }}
       >
-        <Typography fontWeight={300}>
-          By proceeding you acknowledge that you have read,
-        </Typography>
-        <Typography fontWeight={"light"}>
-          understood and agree to our{" "}
-          <Link style={{ color: "black", fontWeight: 400 }} to={"/not-found"}>
-            Terms of Service.
-          </Link>
-        </Typography>
+        <TermsOfService />
       </Box>
     </Box>
   );

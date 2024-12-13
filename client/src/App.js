@@ -15,6 +15,9 @@ import WeightPage from "./pages/weight/WeightPage";
 import WorkoutPage from "./pages/workout";
 import HomePage from "./pages/home/HomePage";
 import PersistLogin from "./pages/auth/PersistLogin";
+import Terms from "./pages/terms/Terms";
+import Privacy from "./pages/privacy/Privacy";
+import HomePageLayout from "./layout/HomePageLayout";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -25,8 +28,11 @@ function App() {
         <CssBaseline />
         <Routes>
           {/* Landing Page Route */}
-          <Route path="/" element={<HomePage />} />
-
+          <Route path="/" element={<HomePageLayout />}>
+            <Route index element={<HomePage />} />
+            <Route path="terms" element={<Terms />} />
+            <Route path="privacy" element={<Privacy />} />
+          </Route>
           {/* Routes under MainLayout */}
           <Route element={<PersistLogin />}>
             <Route path="/" element={<MainLayout />}>
@@ -42,7 +48,6 @@ function App() {
           </Route>
 
           {/* Auth and error pages */}
-
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="/*" element={<NotFoundPage />} />

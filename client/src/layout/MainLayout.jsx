@@ -1,12 +1,17 @@
-import { Outlet } from "react-router-dom";
-import { useState } from "react";
+import { Outlet, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
 import TopBar from "../pages/global/TopBar";
 import SideBar from "../pages/global/SideBar";
-import { Box, useTheme } from "@mui/material";
+import { Box } from "@mui/material";
 
 const MainLayout = () => {
   const [isSidebar, setIsSidebar] = useState(true);
-  const theme = useTheme(); // Using MUI theme if needed
+  const location = useLocation();
+
+  useEffect(() => {
+    // Scroll to top whenever the location changes
+    window.scrollTo(0, 0);
+  }, [location]);
 
   return (
     <Box
