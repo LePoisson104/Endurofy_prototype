@@ -29,6 +29,7 @@ import { dateFormat } from "../../helper/dateFormat";
 import AddWeightLog from "../../components/modals/AddWeightLog";
 import FilterSelect from "../../components/selects/FilterSelect";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpSharpIcon from "@mui/icons-material/KeyboardArrowUpSharp";
 
 const WeightLogPage = () => {
   const theme = useTheme();
@@ -45,6 +46,21 @@ const WeightLogPage = () => {
   const handleDeleteLog = (index) => {
     const updatedLogs = weightLogs.filter((log, i) => i !== index);
     setWeightLogs(updatedLogs);
+  };
+
+  const weeklyRateColors = {
+    green: {
+      primary: "green",
+      secondary: colors.greenAccent[1300],
+    },
+    red: {
+      primary: "red",
+      secondary: colors.redAccent[1100],
+    },
+    yellow: {
+      primary: colors.yellowAccent[200],
+      secondary: colors.yellowAccent[300],
+    },
   };
 
   return (
@@ -169,14 +185,14 @@ const WeightLogPage = () => {
                               display: "flex",
                               alignItems: "center",
                               justifyContent: "center",
-                              color: "green",
-                              backgroundColor: "#f3fdf3",
+                              color: weeklyRateColors.green.primary,
+                              backgroundColor: weeklyRateColors.green.secondary,
                               borderRadius: "4px", // Optional: To round corners
                               padding: 1, // Optional: Add some padding
                               width: "fit-content", // Makes the width adjust to the content
                             }}
                           >
-                            <KeyboardArrowDownIcon fontSize="small" />
+                            <KeyboardArrowUpSharpIcon fontSize="small" />
                             <span>0.9</span>
                           </Box>
                         </Box>
