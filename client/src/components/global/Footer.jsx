@@ -251,7 +251,7 @@ const Footer = () => {
             borderRadius: { xs: "8px", md: "0" }, // Rounded corners for mobile
           }}
         >
-          <Typography sx={{ mb: 2 }}>Become a member today!</Typography>
+          <Typography sx={{ mb: 2 }}>Sign up today!</Typography>
           <Box
             sx={{
               display: "flex",
@@ -315,8 +315,8 @@ const Footer = () => {
               variant="body2"
               sx={{ color: "white", fontSize: "12px" }}
             >
-              By checking this box, you agree that you are at least 18 years of
-              age.
+              By checking this box, you agree to the terms of service of
+              Endurofy
             </Typography>
           </Box>
         </Box>
@@ -333,7 +333,22 @@ const Footer = () => {
         }}
       >
         <Typography variant="body2" sx={{ color: "white", opacity: 0.7 }}>
-          © 2024 Endurofy. All rights reserved.
+          © 2024 Endurofy. All rights reserved. |{" "}
+          <Link
+            component={RouterLink}
+            to={"/terms"}
+            style={{ textDecoration: "none", color: "white" }}
+          >
+            Terms of Use
+          </Link>{" "}
+          |{" "}
+          <Link
+            component={RouterLink}
+            to={"/privacy"}
+            style={{ textDecoration: "none", color: "white" }}
+          >
+            Privacy Policy
+          </Link>
         </Typography>
       </Box>
     </Box>

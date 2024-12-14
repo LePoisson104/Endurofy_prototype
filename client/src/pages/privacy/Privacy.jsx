@@ -28,7 +28,7 @@ const Privacy = () => {
               fontSize: { md: "2rem", xs: "1.5rem" },
             }}
           >
-            Privacy and Policy
+            Privacy Policy
           </Typography>
         </Box>
 

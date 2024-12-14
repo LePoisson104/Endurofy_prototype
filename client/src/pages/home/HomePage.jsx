@@ -169,7 +169,7 @@ const HomePage = () => {
           gutterBottom
           sx={{ color: colors.purpleAccent[400] }}
         >
-          FAQ
+          FAQs
         </Typography>
         <Typography
           sx={{
