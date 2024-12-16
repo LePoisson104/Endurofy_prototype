@@ -132,7 +132,7 @@ const NavBar = () => {
           fontSize: "1.75rem",
           display: "flex",
           alignItems: "center",
-          fontWeight: { md: "bold", xs: 400 },
+          fontWeight: { md: "bold", xs: 600 },
           ml: { xs: 3, md: 0 },
         }}
       >

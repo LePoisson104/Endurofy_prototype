@@ -2,13 +2,34 @@ import React from "react";
 import InputBase from "@mui/material/InputBase";
 import { Box, Typography, Button, Checkbox, Link } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
-import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
-import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
-import PinterestIcon from "@mui/icons-material/Pinterest";
-import YouTubeIcon from "@mui/icons-material/YouTube";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import XIcon from "@mui/icons-material/X";
+import { useTheme } from "@emotion/react";
+import { tokens } from "../../theme";
+
+const FooterLink = ({ title, route }) => {
+  return (
+    <Link
+      component={RouterLink}
+      className="footer-link"
+      sx={{
+        textDecoration: "none",
+        color: "white",
+      }}
+      to={route}
+    >
+      {title}
+    </Link>
+  );
+};
 
 const Footer = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   return (
     <Box
       sx={{
@@ -16,15 +37,14 @@ const Footer = () => {
         justifyContent: "space-between",
         alignItems: "center",
         flexDirection: "column",
-        padding: "40px",
+        px: { md: "30px", xs: "20px" },
+        pt: { md: "50px", xs: "20px" },
+        pb: "20px",
         backgroundColor: "#6d76fa",
         color: "white",
         boxShadow: "0 -1px 5px rgba(0,0,0,0.1)",
         position: "relative",
         width: "100%",
-        mt: "auto",
-        // Define a default height and handle responsiveness
-        minHeight: { xs: "auto", md: "30vh" },
       }}
     >
       <Box
@@ -32,226 +52,162 @@ const Footer = () => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "flex-start", // Align items to the top
-          flexDirection: { xs: "column", md: "row" }, // Column on small screens
+          flexDirection: { lg: "row", md: "column" }, // Column on small screens
           width: "100%",
           flexWrap: { xs: "wrap", md: "nowrap" }, // Wrap on small screens
+          gap: 3,
+          // bgcolor: "yellow",
         }}
       >
-        {/* FitTracker Branding and Links Section */}
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
-            width: { xs: "100%", md: "70%" }, // Full width on mobile
-            mb: { xs: 4, md: 0 }, // Margin bottom on mobile
+            // width: { xs: "100%", md: "70%" }, // Full width on mobile
+            width: "100%",
+            // mb: { xs: 4, md: 0 }, // Margin bottom on mobile
+            maxWidth: "250px",
           }}
         >
           {/* Brand Logo */}
-          <Box sx={{ width: "100%", mb: 3 }}>
+          <Box sx={{ mb: 1 }}>
             <Typography
               variant="h4"
               sx={{
                 fontWeight: "bold",
-                fontSize: { xs: "1.5rem", md: "2rem" },
+                fontSize: { xs: "2rem", md: "2rem" },
               }}
             >
               Endurofy
             </Typography>
           </Box>
-
-          {/* Navigation Links */}
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: { xs: "column", sm: "row" }, // Stack on extra small screens
-              justifyContent: { xs: "center", md: "space-between" }, // Center align on extra small screens
-              alignItems: "center",
-              width: { xs: "100%", sm: "auto", lg: "60%", xl: "40%" }, // Full width on small screens
-              gap: { xs: 2, sm: 0 }, // Spacing on small screens
-              mb: 3,
-            }}
-          >
-            {/* Column Links */}
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <Link
-                component={RouterLink}
-                to="#"
-                style={{
-                  textDecoration: "none",
-                  color: "white",
-                  fontSize: "16px",
-                  marginBottom: "5px",
-                }}
-              >
-                Home
-              </Link>
-              <Link
-                component={RouterLink}
-                to="#"
-                style={{
-                  textDecoration: "none",
-                  color: "white",
-                  fontSize: "16px",
-                }}
-              >
-                About Us
-              </Link>
-            </Box>
-
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <Link
-                component={RouterLink}
-                to="/terms"
-                style={{
-                  textDecoration: "none",
-                  color: "white",
-                  fontSize: "16px",
-                  marginBottom: "5px",
-                }}
-              >
-                Terms of Service
-              </Link>
-              <Link
-                component={RouterLink}
-                to="/privacy"
-                style={{
-                  textDecoration: "none",
-                  color: "white",
-                  fontSize: "16px",
-                }}
-              >
-                Privacy Policy
-              </Link>
-            </Box>
-
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <Link
-                component={RouterLink}
-                to="#"
-                style={{
-                  textDecoration: "none",
-                  color: "white",
-                  fontSize: "16px",
-                  marginBottom: "5px",
-                }}
-              >
-                FAQ
-              </Link>
-              <Link
-                component={RouterLink}
-                to="#"
-                style={{
-                  textDecoration: "none",
-                  color: "white",
-                  fontSize: "16px",
-                }}
-              >
-                Blog
-              </Link>
-            </Box>
-          </Box>
-
+          <Typography sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+            Made with <FavoriteIcon fontSize="small" /> by @LePoisson104
+          </Typography>
           {/* Social Media Icons */}
           <Box
             sx={{
               mt: 2,
               display: "flex",
-              justifyContent: "center", // Center icons on small screens
-              gap: 3,
-              width: { xl: "19%", lg: "25%" },
+              gap: 2,
             }}
           >
-            <Link
-              style={{ color: "white" }}
-              href="https://www.facebook.com"
-              target="_blank"
-            >
-              <FacebookOutlinedIcon
-                fontSize="large"
-                sx={{ "&:hover": { color: "#3b5998" } }}
-              />
-            </Link>
             <Link
               style={{ color: "white" }}
               href="https://www.instagram.com"
               target="_blank"
             >
-              <InstagramIcon
-                fontSize="large"
-                sx={{ "&:hover": { color: "#E1306C" } }}
-              />
+              <InstagramIcon />
             </Link>
             <Link
               style={{ color: "white" }}
-              href="https://x.com"
+              href="https://www.x.com"
               target="_blank"
             >
-              {" "}
-              <TwitterIcon
-                fontSize="large"
-                sx={{ "&:hover": { color: "#1DA1F2" } }}
-              />
+              <XIcon />
             </Link>
             <Link
               style={{ color: "white" }}
-              href="https://pinterest.com"
+              href="https://www.linkedin.com/in/viet-pham-112087214/"
               target="_blank"
             >
-              {" "}
-              <PinterestIcon
-                fontSize="large"
-                sx={{ "&:hover": { color: "#E60023" } }}
-              />
+              <LinkedInIcon />
             </Link>
             <Link
               style={{ color: "white" }}
-              href="https://youtube.com"
+              href="https://github.com/LePoisson104?tab=overview&from=2024-12-01&to=2024-12-15"
               target="_blank"
             >
-              {" "}
-              <YouTubeIcon
-                fontSize="large"
-                sx={{ "&:hover": { color: "#FF0000" } }}
-              />
+              <GitHubIcon />
             </Link>
           </Box>
+          <Button
+            component={RouterLink}
+            to="/login"
+            size="large"
+            sx={{
+              color: "white",
+              bgcolor: colors.purpleAccent[300],
+              "&:hover": { backgroundColor: colors.purpleAccent[200] },
+              fontSize: 18,
+              textTransform: "none",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 2,
+              mb: 3,
+              mt: 2,
+              width: "200px",
+            }}
+          >
+            Launch Endurofy
+          </Button>
         </Box>
 
+        {/* Links */}
+        <Box
+          sx={{
+            // bgcolor: "lightBlue",
+            width: "100%",
+            maxWidth: "600px",
+            display: "flex",
+            flexDirection: { md: "row", xs: "column" },
+            justifyContent: {
+              xl: "space-between",
+              lg: "space-evenly",
+              md: "space-between",
+            },
+            gap: { md: 0, xs: 3 },
+            mr: 3,
+          }}
+        >
+          {/* Company */}
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
+            <Typography fontWeight={"bold"} sx={{ fontSize: "15px", mb: 1 }}>
+              COMPANY
+            </Typography>
+            <FooterLink title={"About"} route={"/about"} />
+            <FooterLink title={"Our Services"} route={"/features"} />
+            <FooterLink title={"Blog"} route={"/blog"} />
+            <FooterLink title={"Community"} route={"/community"} />
+            <FooterLink title={"Terms of Use"} route={"/terms"} />
+            <FooterLink title={"Privacy Policy"} route={"/privacy"} />
+          </Box>
+          {/* Customer service */}
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
+            <Typography fontWeight={"bold"} sx={{ fontSize: "15px", mb: 1 }}>
+              CUSTOMER SERVICE
+            </Typography>
+            <FooterLink title={"My Account"} route={"/account"} />
+            <FooterLink title={"Help Center"} route={"/help-center"} />
+            <FooterLink title={"FAQs"} route={"/faqs"} />
+          </Box>
+          {/* More to explore */}
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
+            <Typography fontWeight={"bold"} sx={{ fontSize: "15px", mb: 1 }}>
+              MORE TO EXPLORE
+            </Typography>
+            <FooterLink title={"Porfolio"} route={"/porfolio"} />
+            <FooterLink title={"Contact Me"} route={"/contact-me"} />
+          </Box>
+        </Box>
         {/* Subscription and Agreement Section */}
         <Box
           sx={{
             display: "flex",
-            justifyContent: "center",
             flexDirection: "column",
-            width: { xs: "100%", md: "30%" }, // Full width on mobile
-            padding: "30px",
+            width: "100%",
+            maxWidth: "500px",
             boxSizing: "border-box", // Include padding in width calculations
             backgroundColor: {
               xs: "rgba(255, 255, 255, 0.1)",
               md: "transparent",
             }, // Subtle background for mobile
             borderRadius: { xs: "8px", md: "0" }, // Rounded corners for mobile
+            p: { md: 0, xs: "30px" },
           }}
         >
-          <Typography sx={{ mb: 2 }}>Sign up today!</Typography>
+          <Typography sx={{ mb: 2 }}>Subscribe for newsletters</Typography>
           <Box
             sx={{
               display: "flex",
@@ -271,6 +227,7 @@ const Footer = () => {
                   color: "white",
                   opacity: 1,
                 },
+                pl: 1,
               }}
               placeholder="Email"
             />
@@ -333,22 +290,7 @@ const Footer = () => {
         }}
       >
         <Typography variant="body2" sx={{ color: "white", opacity: 0.7 }}>
-          © 2024 Endurofy. All rights reserved. |{" "}
-          <Link
-            component={RouterLink}
-            to={"/terms"}
-            style={{ textDecoration: "none", color: "white" }}
-          >
-            Terms of Use
-          </Link>{" "}
-          |{" "}
-          <Link
-            component={RouterLink}
-            to={"/privacy"}
-            style={{ textDecoration: "none", color: "white" }}
-          >
-            Privacy Policy
-          </Link>
+          Copyright © 2024 Endurofy. All rights reserved.
         </Typography>
       </Box>
     </Box>

@@ -32,6 +32,7 @@ function App() {
             <Route index element={<HomePage />} />
             <Route path="terms" element={<Terms />} />
             <Route path="privacy" element={<Privacy />} />
+            <Route path="/*" element={<NotFoundPage />} />
           </Route>
           {/* Routes under MainLayout */}
           <Route element={<PersistLogin />}>
@@ -50,7 +51,6 @@ function App() {
           {/* Auth and error pages */}
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
-          <Route path="/*" element={<NotFoundPage />} />
         </Routes>
       </ThemeProvider>
     </ColorModeContext.Provider>

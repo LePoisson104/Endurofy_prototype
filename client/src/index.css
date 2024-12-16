@@ -68,3 +68,7 @@ body,
 .animated-link:hover::before {
   transform: scaleX(1);
 }
+
+.footer-link:hover {
+  color: #e0e0e0;
+}

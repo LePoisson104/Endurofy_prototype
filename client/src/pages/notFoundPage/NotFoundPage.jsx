@@ -1,5 +1,4 @@
-import { Link } from "react-router-dom";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
@@ -14,13 +13,12 @@ const NotFoundPage = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        minHeight: "100vh",
+        height: "90vh",
         width: "100%",
         flexDirection: "column",
         textAlign: "center",
         bgcolor: colors.grey[1000],
         p: "2",
-        position: "fixed",
         overflow: "hidden",
       }}
     >
@@ -39,22 +37,6 @@ const NotFoundPage = () => {
           occured.
         </Typography>
       </Box>
-      <Button
-        variant="contained"
-        color="primary"
-        component={Link}
-        to="/login"
-        sx={{
-          width: "7rem",
-          mt: 3,
-          backgroundColor: "#868dfb",
-          "&:hover": {
-            backgroundColor: "#757de8",
-          },
-        }}
-      >
-        Go to Home
-      </Button>
     </Box>
   );
 };

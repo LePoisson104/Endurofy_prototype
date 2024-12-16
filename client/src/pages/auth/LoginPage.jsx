@@ -82,7 +82,6 @@ const Login = () => {
       >
         <Typography
           variant="h4" // Smaller variant for mobile
-          fontWeight="400"
           sx={{
             cursor: "pointer",
             fontSize: "1.75rem",
@@ -97,7 +96,9 @@ const Login = () => {
               color: "inherit",
             }}
           >
-            <span className="purple-style">Endurofy</span>
+            <span className="purple-style" style={{ fontWeight: "600" }}>
+              Endurofy
+            </span>
           </Link>
         </Typography>
       </Box>
