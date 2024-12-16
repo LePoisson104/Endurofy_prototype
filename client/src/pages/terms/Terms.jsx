@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, Typography, Container } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useTheme } from "@emotion/react";
@@ -9,7 +8,7 @@ const Terms = () => {
   const colors = tokens(theme.palette.mode);
 
   return (
-    <Container maxWidth="md" sx={{ py: 4 }}>
+    <Container maxWidth="md" sx={{ py: 7 }}>
       <Box>
         <Box
           sx={{
