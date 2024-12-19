@@ -152,25 +152,29 @@ const refresh = async (cookies) => {
           return reject(new errorResponse("Forbidden", 401));
         }
 
-        const foundUser = await Users.queryGetUsersCredentials(decoded.email);
+        try {
+          const foundUser = await Users.queryGetUsersCredentials(decoded.email);
 
-        if (!foundUser) {
-          throw new errorResponse("Unauthorized", 401);
-        }
+          if (!foundUser || foundUser.length === 0) {
+            return reject(new errorResponse("Unauthorized", 401));
+          }
 
-        const accessToken = jwt.sign(
-          {
-            UserInfo: {
-              userId: foundUser[0].user_id,
-              email: foundUser[0].email,
-              firstName: foundUser[0].first_name,
-              lastName: foundUser[0].last_name,
+          const accessToken = jwt.sign(
+            {
+              UserInfo: {
+                userId: foundUser[0].user_id,
+                email: foundUser[0].email,
+                firstName: foundUser[0].first_name,
+                lastName: foundUser[0].last_name,
+              },
             },
-          },
-          process.env.ACCESS_TOKEN_SECRET,
-          { expiresIn: "15m" }
-        );
-        resolve(accessToken);
+            process.env.ACCESS_TOKEN_SECRET,
+            { expiresIn: "15m" }
+          );
+          resolve(accessToken);
+        } catch (err) {
+          reject(new errorResponse("Server Error", 500)); // Catch any additional errors and reject
+        }
       }
     );
   });

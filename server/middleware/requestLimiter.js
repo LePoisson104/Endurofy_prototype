@@ -32,7 +32,14 @@ const signupLimiter = createLimiter({
   duration: "1 min",
 });
 
+const deleteAccountLimiter = createLimiter({
+  windowMs: 60 * 1000, // 1 minute
+  max: 5,
+  duration: "1 min",
+});
+
 module.exports = {
   loginLimiter,
   signupLimiter,
+  deleteAccountLimiter,
 };

@@ -72,11 +72,6 @@ const FoodMacrosModal = ({ open, onClose, food, currentDate, title, type }) => {
     }
   }, [food, type]);
 
-  // console.log("updated foodObject: ", updatedFoodObject);
-  // console.log("foodData", foodData);
-  // console.log("serving size: ", serving);
-  // console.log("serving unit: ", unit);
-
   if (type !== "edit") {
     if (findFoodMacros(food, "Energy")?.unitName === "kJ") {
       const KILOCALORIES = 0.239006;
