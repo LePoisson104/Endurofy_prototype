@@ -8,6 +8,7 @@ import {
   DialogContentText,
   DialogTitle,
   CircularProgress,
+  Typography,
 } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
@@ -72,22 +73,25 @@ const DeleteAccountModal = () => {
       {errMsg && (
         <ErrorAlert message={errMsg} duration={4000} setErrMsg={setErrMsg} />
       )}
-      <Button
+      <Typography
         onClick={handleClickOpen}
         sx={{
-          textTransform: "none",
-          backgroundColor: "#FF5B61",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
           color: "white",
-          height: "2.5rem",
-          maxWidth: "100px",
-          width: "100%",
+          width: "8rem",
+          height: "3rem",
+          borderRadius: "5px",
+          backgroundColor: "#FF5B61",
           "&:hover": {
-            backgroundColor: "#FF8488",
+            cursor: "pointer",
+            background: "#FF8488",
           },
         }}
       >
         Delete Account
-      </Button>
+      </Typography>
       <Dialog
         open={open}
         onClose={handleClose}

@@ -140,9 +140,7 @@ const Bar = () => {
               </IconButton>
             </Box>
           </Box>
-          <Box sx={{ height: "60vh" }}>
-            <BarChart />
-          </Box>
+          <BarChart />
         </Box>
         {/* Weight Chart */}
         <Box
@@ -215,9 +213,7 @@ const Bar = () => {
               </IconButton>
             </Box>
           </Box>
-          <Box sx={{ height: "60vh" }}>
-            <LineChart />
-          </Box>
+          <LineChart />
         </Box>
       </Box>
     </Box>

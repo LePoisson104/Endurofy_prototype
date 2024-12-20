@@ -212,14 +212,14 @@ const FoodMacrosModal = ({ open, onClose, food, currentDate, title, type }) => {
     <Modal open={open} onClose={onClose}>
       <Box
         sx={{
-          width: { xs: "90%", sm: "50%", md: "30%" },
+          width: "550px",
+          height: "380px",
           margin: "auto",
           mt: 20,
           p: 3,
           bgcolor: colors.primary[400],
           borderRadius: "8px",
           boxShadow: 24,
-          position: "relative",
         }}
       >
         <Box

@@ -42,8 +42,8 @@ const NutritionChart = ({ title, data, setAnimation = true }) => {
         flexDirection: "column",
         alignItems: "center",
         position: "relative",
-        width: { xl: "110px", lg: "90px", md: "90px" },
-        height: { xl: "110px", lg: "90px", md: "90px" },
+        width: { xl: "110px", md: "90px", xs: "90px" },
+        height: { xl: "110px", md: "90px", xs: "90px" },
       }}
     >
       {/* Doughnut Chart */}
