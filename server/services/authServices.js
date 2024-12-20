@@ -78,7 +78,7 @@ const signUp = async (userData) => {
   );
 
   if (!createUser) {
-    throw new errorResponse("Duplicate Email!", 409);
+    throw new errorResponse(`This email is already in use: ${email}`, 409);
   }
 
   return createUser;
@@ -117,7 +117,7 @@ const logIn = async (userData, res) => {
 
   // Generating JWT Refresh Token
   const refreshToken = jwt.sign(
-    { email: getCredentials[0].email },
+    { email: getCredentials[0].email, userId: getCredentials[0].user_id },
     process.env.REFRESH_TOKEN_SECRET,
     { expiresIn: "7d" }
   );
@@ -156,6 +156,10 @@ const refresh = async (cookies) => {
           const foundUser = await Users.queryGetUsersCredentials(decoded.email);
 
           if (!foundUser || foundUser.length === 0) {
+            return reject(new errorResponse("Unauthorized", 401));
+          }
+
+          if (foundUser[0].user_id !== decoded.userId) {
             return reject(new errorResponse("Unauthorized", 401));
           }
 

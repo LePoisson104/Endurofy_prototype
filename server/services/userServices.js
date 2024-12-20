@@ -130,7 +130,7 @@ const updateUserAccount = async (userId, userData) => {
   );
 
   if (!updateUser) {
-    throw new errorResponse("Duplicate Email!", 409); // conflict
+    throw new errorResponse(`This email is already in use: ${newEmail}`, 409);
   }
 
   if (updateUser.affectedRows !== 1) {

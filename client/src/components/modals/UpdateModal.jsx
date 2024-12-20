@@ -43,8 +43,16 @@ const UpdateModal = ({
   const [value2, setValue2] = useState(initialValue2 || "");
   const [value3, setValue3] = useState(initialValue3 || "");
   const [isUpdateEmail, setIsUpdateEmail] = useState(false);
-  const [updateUserAccount, { isLoading }] = useUpdateUserAccountMutation();
+  const [isUpdateEmailSuccess, setIsUpdateEmailSuccess] = useState(false);
+  const [updateUserAccount, { isLoading, isSuccess }] =
+    useUpdateUserAccountMutation();
   const { userId } = useAuth();
+
+  useEffect(() => {
+    if (isUpdateEmail && isSuccess) {
+      setIsUpdateEmailSuccess(true);
+    }
+  }, [isUpdateEmail, isSuccess]);
 
   useEffect(() => {
     // Update state when initialValues change
@@ -91,9 +99,6 @@ const UpdateModal = ({
 
     try {
       const data = await updateUserAccount({ userId, payload }).unwrap();
-      if (isUpdateEmail) {
-        console.log("in payload");
-      }
       setSuccessMsg(data?.message);
       handleClose();
     } catch (err) {
@@ -277,7 +282,7 @@ const UpdateModal = ({
           </DialogActions>
         </Dialog>
       </Fragment>
-      <LoginAgain open={isUpdateEmail} />
+      <LoginAgain open={isUpdateEmailSuccess} />
     </>
   );
 };
