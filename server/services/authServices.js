@@ -125,8 +125,8 @@ const logIn = async (userData, res) => {
   //   Create secure cookie with refresh token
   res.cookie("jwt", refreshToken, {
     httpOnly: true, // accessible only by web server
-    secure: true, // https
-    sameSite: "None", // cross-site cookie
+    secure: process.env.NODE_ENV === "production", // https
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // cross-site cookie
     maxAge: 7 * 24 * 60 * 60 * 1000, // cookie expiry: set to match rT
   });
 
@@ -194,8 +194,8 @@ const logout = (cookies, res) => {
 
   res.clearCookie("jwt", {
     httpOnly: true,
-    sameSite: "None",
-    secure: true,
+    secure: process.env.NODE_ENV === "production", // https
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // cross-site cookie
   });
 
   res.status(200).json({ message: "Cookie Cleared" });

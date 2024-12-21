@@ -35,6 +35,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
           dispatch(logOut());
           setTimeout(() => {
             dispatch(apiSlice.util.resetApiState());
+            localStorage.clear("sidebarState");
           }, 1000);
         } catch (err) {
           console.log(err);
