@@ -8,6 +8,7 @@ router.use(verifyJWT);
 // food
 router.get("/search-food", foodDiaryControllers.searchFood);
 router.get("/get-food-by-date/:userId", foodDiaryControllers.getAllFood);
+router.get("/get-log-dates/:userId", foodDiaryControllers.getLogDates);
 router.post("/add-food/:userId", foodDiaryControllers.addFood);
 router.patch("/update-food-by-id/:foodId", foodDiaryControllers.updateFood);
 router.delete("/delete-food-by-id/:foodId", foodDiaryControllers.deleteFood);

@@ -23,6 +23,28 @@ const queryGetAllFood = async (userId, date) => {
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
+// @queryGetLogDates
+////////////////////////////////////////////////////////////////////////////////////////////////
+const queryGetLogDates = async (userId, startDate, endDate) => {
+  try {
+    const response = await new Promise((resolve, reject) => {
+      const query =
+        "SELECT DISTINCT DATE(logged_at) as logged_date FROM foodLog WHERE user_id = ? AND DATE(logged_at) BETWEEN ? AND ? ORDER BY logged_date";
+      pool.query(query, [userId, startDate, endDate], (err, results) => {
+        if (err) {
+          reject(new Error(err.message));
+        } else {
+          resolve(results);
+        }
+      });
+    });
+    return response;
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////
 // @queryAddFood
 ////////////////////////////////////////////////////////////////////////////////////////////////
 const queryAddFood = async (
@@ -116,6 +138,7 @@ const queryDeleteFood = async (foodId) => {
 
 module.exports = {
   queryGetAllFood,
+  queryGetLogDates,
   queryAddFood,
   queryUpdateFood,
   queryDeleteFood,

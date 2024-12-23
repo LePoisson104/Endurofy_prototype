@@ -9,8 +9,11 @@ const getWaterIntake = async (userId, date) => {
 
   const waterIntake = await Water.queryGetWaterIntake(userId, date);
 
-  if (waterIntake.length === 0) {
-    throw new errorResponse("No waterlog found!", 404);
+  if (!waterIntake) {
+    throw new errorResponse(
+      "Something went wrong while trying to get water intake!",
+      500
+    );
   }
 
   return waterIntake;

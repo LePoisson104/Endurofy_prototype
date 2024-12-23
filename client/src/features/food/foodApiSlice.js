@@ -16,6 +16,17 @@ export const foodApiSlice = apiSlice.injectEndpoints({
           ? [{ type: "FoodLog", id: `${userId}-${currentDate}` }]
           : [{ type: "FoodLog", id: "LIST" }],
     }),
+    getLogDates: builder.query({
+      query: ({ userId, startDate, endDate }) => ({
+        url: `/food-diary/get-log-dates/${userId}?startDate=${startDate}&endDate=${endDate}`,
+        method: "GET",
+      }),
+      providesTags: (result, error, { userId, startDate, endDate }) => [
+        // Use startDate (or another suitable identifier for your invalidation)
+        { type: "FoodLog", id: `${userId}-${startDate}-${endDate}` },
+        { type: "FoodLog", id: "LIST" },
+      ],
+    }),
     searchFood: builder.query({
       query: ({ searchTerm }) => ({
         url: `/food-diary/search-food?query=${searchTerm}`,
@@ -28,9 +39,14 @@ export const foodApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: foodPayload,
       }),
-      invalidatesTags: (result, error, { userId, currentDate }) => [
+      invalidatesTags: (
+        result,
+        error,
+        { userId, currentDate, startDate, endDate }
+      ) => [
         { type: "FoodLog", id: `${userId}-${currentDate}` },
         { type: "FoodLog", id: "LIST" },
+        { type: "FoodLog", id: `${userId}-${startDate}-${endDate}` }, // Invalidate log dates
       ],
     }),
     deleteFood: builder.mutation({
@@ -63,4 +79,5 @@ export const {
   useAddFoodMutation,
   useDeleteFoodMutation,
   useEditFoodMutation,
+  useGetLogDatesQuery,
 } = foodApiSlice;

@@ -23,7 +23,7 @@ const FoodPage = () => {
     new Date().toLocaleDateString("en-CA") // Formats as "YYYY-MM-DD"
   );
 
-  const userData = useGetAllUsersInfoQuery(userId).data;
+  const userData = useGetAllUsersInfoQuery(userId)?.data;
   const { data, error, refetch, isFetching } = useGetAllFoodByDateQuery({
     userId,
     currentDate,

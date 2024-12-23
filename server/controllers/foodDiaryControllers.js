@@ -13,6 +13,23 @@ const getAllFood = async (req, res) => {
   }
 };
 
+const getLogDates = async (req, res) => {
+  const { userId } = req.params;
+  const { startDate, endDate } = req.query;
+
+  try {
+    const foodDates = await foodDiaryServices.getLogDates(
+      userId,
+      startDate,
+      endDate
+    );
+    return res.status(200).json(foodDates);
+  } catch (err) {
+    const statusCode = err.statusCode || 500;
+    return res.status(statusCode).json({ message: err.message });
+  }
+};
+
 const addFood = async (req, res) => {
   const { userId } = req.params;
   const foodPayload = req.body;
@@ -69,6 +86,7 @@ const searchFood = async (req, res) => {
 
 module.exports = {
   getAllFood,
+  getLogDates,
   addFood,
   updateFood,
   deleteFood,

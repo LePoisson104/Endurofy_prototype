@@ -9,15 +9,38 @@ const getAllFood = async (userId, date) => {
 
   const getAllFoods = await Foods.queryGetAllFood(userId, date);
 
-  if (getAllFoods.length === 0) {
-    throw new errorResponse("User Not Found!", 404);
+  if (!getAllFoods) {
+    throw new errorResponse(
+      "Something went wrong while trying to get all food logs!",
+      500
+    );
   }
 
   return getAllFoods;
 };
 
+const getLogDates = async (userId, startDate, endDate) => {
+  if (!userId && !startDate && !endDate) {
+    throw new errorResponse(
+      "userId, startDate, and endDate are required!",
+      400
+    );
+  }
+
+  const logDates = await Foods.queryGetLogDates(userId, startDate, endDate);
+
+  if (!logDates) {
+    throw new errorResponse(
+      "Something went wrong while trying to get log dates!",
+      500
+    );
+  }
+
+  return logDates;
+};
+
 const addFood = async (userId, foodPayload) => {
-  if (!userId || Object.keys(foodPayload).length === 0) {
+  if (!userId && Object.keys(foodPayload).length === 0) {
     throw new errorResponse("UserId and foodPayload are required!", 400);
   }
 
@@ -50,7 +73,10 @@ const addFood = async (userId, foodPayload) => {
   );
 
   if (!addFood) {
-    throw new errorResponse("Something Went Wrong!", 400);
+    throw new errorResponse(
+      "Something went wrong while trying to add food!",
+      400
+    );
   }
 
   return addedFood;
@@ -73,11 +99,19 @@ const deleteFood = async (foodId) => {
 
   const deletedFood = await Foods.queryDeleteFood(foodId);
 
+  if (!deletedFood) {
+    throw new errorResponse(
+      "Something went wrong while trying to delete food!",
+      500
+    );
+  }
+
   return deletedFood;
 };
 
 module.exports = {
   getAllFood,
+  getLogDates,
   addFood,
   updateFood,
   deleteFood,

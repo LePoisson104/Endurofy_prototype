@@ -22,6 +22,7 @@ const Settings = () => {
   const { userId } = useAuth();
   const { data, isLoading } = useGetAllUsersInfoQuery(userId);
   const newDate = new Date(data?.user_updated_at);
+
   const { date, time } = dateFormat(newDate);
   const [successMsg, setSuccessMsg] = useState("");
   const [errMsg, setErrMsg] = useState("");
