@@ -630,30 +630,25 @@ const Profile = () => {
                 mb: 3,
               }}
             >
-              <Box sx={{ width: "50%" }}>
-                <Typography
-                  variant="h5"
-                  sx={{ display: "flex", alignItems: "center" }}
-                >
-                  <Box
-                    sx={{
-                      display: "inline-block",
-                      width: "15px",
-                      height: "15px",
-                      backgroundColor: "#68afac",
-                      borderRadius: "50%",
-                      mr: 1,
-                    }}
-                  />
-                  Protein
-                  <Typography variant="h5" sx={{ ml: 1 }} fontWeight={"light"}>
-                    {Math.floor(
-                      (data.calories_target * data?.protein) /
-                        100 /
-                        MACROS.protein
-                    )}{" "}
-                    g
-                  </Typography>
+              <Box sx={{ width: "50%", display: "flex", alignItems: "center" }}>
+                <Box
+                  sx={{
+                    display: "inline-block",
+                    width: "15px",
+                    height: "15px",
+                    backgroundColor: "#68afac",
+                    borderRadius: "50%",
+                    mr: 1,
+                  }}
+                />
+                <Typography variant="h5">Protein</Typography>
+                <Typography variant="h5" sx={{ ml: 1 }} fontWeight={"light"}>
+                  {Math.floor(
+                    (data.calories_target * data?.protein) /
+                      100 /
+                      MACROS.protein
+                  )}{" "}
+                  g
                 </Typography>
               </Box>
               <Box
@@ -690,28 +685,23 @@ const Profile = () => {
                 mb: 3,
               }}
             >
-              <Box sx={{ width: "50%" }}>
-                <Typography
-                  variant="h5"
-                  sx={{ display: "flex", alignItems: "center" }}
-                >
-                  <Box
-                    sx={{
-                      display: "inline-block",
-                      width: "15px",
-                      height: "15px",
-                      backgroundColor: "#66b7cd",
-                      borderRadius: "50%",
-                      mr: 1,
-                    }}
-                  />
-                  Net Carbs
-                  <Typography variant="h5" sx={{ ml: 1 }} fontWeight={"light"}>
-                    {Math.floor(
-                      (data.calories_target * data?.carbs) / 100 / MACROS.carbs
-                    )}{" "}
-                    g
-                  </Typography>
+              <Box sx={{ width: "50%", display: "flex", alignItems: "center" }}>
+                <Box
+                  sx={{
+                    display: "inline-block",
+                    width: "15px",
+                    height: "15px",
+                    backgroundColor: "#66b7cd",
+                    borderRadius: "50%",
+                    mr: 1,
+                  }}
+                />
+                <Typography variant="h5">Net Carbs</Typography>
+                <Typography variant="h5" sx={{ ml: 1 }} fontWeight={"light"}>
+                  {Math.floor(
+                    (data.calories_target * data?.carbs) / 100 / MACROS.carbs
+                  )}{" "}
+                  g
                 </Typography>
               </Box>
               <Box
@@ -751,28 +741,23 @@ const Profile = () => {
                 mb: 3,
               }}
             >
-              <Box sx={{ width: "50%" }}>
-                <Typography
-                  variant="h5"
-                  sx={{ display: "flex", alignItems: "center" }}
-                >
-                  <Box
-                    sx={{
-                      display: "inline-block",
-                      width: "15px",
-                      height: "15px",
-                      backgroundColor: "#FFCC8A",
-                      borderRadius: "50%",
-                      mr: 1,
-                    }}
-                  />
-                  Fat
-                  <Typography variant="h5" sx={{ ml: 1 }} fontWeight={"light"}>
-                    {Math.floor(
-                      (data.calories_target * data?.fat) / 100 / MACROS.fat
-                    )}{" "}
-                    g
-                  </Typography>
+              <Box sx={{ width: "50%", display: "flex", alignItems: "center" }}>
+                <Box
+                  sx={{
+                    display: "inline-block",
+                    width: "15px",
+                    height: "15px",
+                    backgroundColor: "#FFCC8A",
+                    borderRadius: "50%",
+                    mr: 1,
+                  }}
+                />
+                <Typography variant="h5">Fat</Typography>
+                <Typography variant="h5" sx={{ ml: 1 }} fontWeight={"light"}>
+                  {Math.floor(
+                    (data.calories_target * data?.fat) / 100 / MACROS.fat
+                  )}{" "}
+                  g
                 </Typography>
               </Box>
               <Box

@@ -14,82 +14,41 @@ import BedtimeIcon from "@mui/icons-material/Bedtime";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 import { useGetAllUsersInfoQuery } from "../../features/users/usersApiSlice";
-import { useGetAllFoodByDateQuery } from "../../features/food/foodApiSlice";
 import useAuth from "../../hooks/useAuth";
 import { useState, useEffect } from "react";
-import { foodServingsHelper } from "../../helper/foodServingsHelper";
 import DotPulse from "../../components/DotPulse";
-import { useGetWaterIntakeQuery } from "../../features/water/waterApiSlice";
 import { dateFormat } from "../../helper/dateFormat";
+import { useSelector } from "react-redux";
+import { useGetLogDatesQuery } from "../../features/food/foodApiSlice";
+import { countStreaks } from "../../helper/countStreaks";
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { userId } = useAuth();
 
+  const {
+    totalCaloriesBurned,
+    totalCaloriesConsumed,
+    totalProteinConsumed,
+    totalCarbsConsumed,
+    totalFatConsumed,
+    remainingCalories,
+    totalWaterIntake,
+  } = useSelector((state) => state.macrosStates);
+
+  const { startDate, endDate } = useSelector((state) => state.dateRange);
+
+  // const logDates = useGetLogDatesQuery({ userId, startDate, endDate })?.data;
+
+  // const streak = countStreaks(logDates);
+  // console.log(streak);
+
   const formattedDateTime = `${dateFormat(new Date())?.date} | ${
     dateFormat(new Date())?.time
   } `;
 
-  const currentDate = new Date().toLocaleDateString("en-CA");
-
-  const waterData = useGetWaterIntakeQuery({
-    userId,
-    currentDate,
-  }).data;
-
   const userData = useGetAllUsersInfoQuery(userId).data;
-
-  const {
-    data: foodData,
-    error,
-    refetch,
-    isFetching,
-  } = useGetAllFoodByDateQuery({
-    userId,
-    currentDate,
-  });
-
-  // Set allFoodData to empty if error is 404 or while fetching, else use the fetched data
-  const allFoodData = error?.status === 404 || isFetching ? [] : foodData || [];
-
-  // Optional: useEffect to log or perform actions on date changes
-  useEffect(() => {
-    // Trigger refetch whenever `currentDate` changes, if needed
-    refetch();
-  }, [currentDate, refetch]);
-
-  const adjustedFoodData = allFoodData?.map((food) =>
-    foodServingsHelper({
-      serving: food.serving_size,
-      unit: food.serving_unit,
-      foodData: { ...food },
-    })
-  );
-
-  const totalCalBurned =
-    Math.round(userData?.BMR * parseFloat(userData?.activity_level)) +
-    userData?.BMR;
-
-  // if there are food data then calculate the total calories of all food else 0 kcal is consumed
-  const calculateTotal = (data, key, roundToDecimal = false) =>
-    data
-      ? Math.round(
-          data.reduce((total, item) => total + item[key], 0) *
-            (roundToDecimal ? 100 : 1)
-        ) / (roundToDecimal ? 100 : 1)
-      : 0;
-
-  const totalCaloriesConsumed = calculateTotal(adjustedFoodData, "calories");
-  const totalProteinConsumed = calculateTotal(
-    adjustedFoodData,
-    "protein",
-    true
-  );
-  const totalCarbsConsumed = calculateTotal(adjustedFoodData, "carbs", true);
-  const totalFatConsumed = calculateTotal(adjustedFoodData, "fat", true);
-
-  let remainingCalories = userData?.calories_target - totalCaloriesConsumed;
 
   const progress = Math.round(
     (totalCaloriesConsumed / remainingCalories) * 100
@@ -314,7 +273,7 @@ const Dashboard = () => {
                   fontWeight={500}
                   color={colors.primary[100]}
                 >
-                  {waterData?.[0]?.water_amount || 0}
+                  {totalWaterIntake || 0}
                 </Typography>
                 <Typography
                   variant="h4"
@@ -329,7 +288,7 @@ const Dashboard = () => {
                   variant="determinate"
                   value={Math.min(
                     100,
-                    Math.round((waterData?.[0]?.water_amount / 128) * 100 || 0)
+                    Math.round((totalWaterIntake / 128) * 100 || 0)
                   )}
                   sx={{
                     height: 7,
@@ -341,8 +300,7 @@ const Dashboard = () => {
                   }}
                 />
                 <Typography variant="body1" color={colors.primary[100]}>
-                  Progress:{" "}
-                  {Math.round((waterData?.[0]?.water_amount / 128) * 100) || 0}%
+                  Progress: {Math.round((totalWaterIntake / 128) * 100) || 0}%
                   of your goal
                 </Typography>
               </Box>
@@ -389,7 +347,7 @@ const Dashboard = () => {
                   fontWeight={500}
                   color={colors.primary[100]}
                 >
-                  {totalCalBurned}
+                  {totalCaloriesBurned}
                 </Typography>
                 <Typography
                   variant="h4"

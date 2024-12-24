@@ -16,10 +16,14 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { useGetWaterIntakeQuery } from "../../features/water/waterApiSlice";
 import useAuth from "../../hooks/useAuth";
 import { useSelector } from "react-redux";
+import { setTotalWaterIntake } from "../../features/food/foodSlice";
+import { useDispatch } from "react-redux";
 
 const WaterAccordion = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const dispatch = useDispatch();
+
   const { userId } = useAuth();
   const [openModal, setOpenModal] = useState(false);
   const [expanded, setExpanded] = useState(false);
@@ -38,6 +42,10 @@ const WaterAccordion = () => {
 
   const waterData = error?.status === 404 || isFetching ? [] : data || [];
   const percent = Math.round((waterData?.[0]?.water_amount / 128) * 100);
+
+  useEffect(() => {
+    dispatch(setTotalWaterIntake(waterData?.[0]?.water_amount));
+  }, [waterData]);
 
   // Optional: useEffect to log or perform actions on date changes
   useEffect(() => {

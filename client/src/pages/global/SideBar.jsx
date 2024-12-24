@@ -7,7 +7,7 @@ import {
   sidebarClasses,
 } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme, Tooltip } from "@mui/material";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { tokens } from "../../theme";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
@@ -24,7 +24,9 @@ import SportsGymnasticsIcon from "@mui/icons-material/SportsGymnastics";
 const Item = ({ title, to, icon, selected, setSelected, isCollapsed }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const navigate = useNavigate();
 
+  // We can wrap the MenuItem with a div or span to properly forward the ref
   return (
     <Tooltip
       title={
@@ -35,13 +37,18 @@ const Item = ({ title, to, icon, selected, setSelected, isCollapsed }) => {
       arrow
       disableHoverListener={!isCollapsed}
     >
-      <Link to={to} style={{ textDecoration: "none", color: "inherit" }}>
+      <div>
+        {" "}
+        {/* Wrapping the MenuItem with a div to apply Tooltip correctly */}
         <MenuItem
           active={selected === to}
           style={{
             color: colors.grey[100],
           }}
-          onClick={() => setSelected(to)}
+          onClick={() => {
+            setSelected(to);
+            navigate(to); // Use navigate for routing
+          }}
           icon={icon}
           rootStyles={{
             [`.${menuClasses.active}`]: {
@@ -61,7 +68,7 @@ const Item = ({ title, to, icon, selected, setSelected, isCollapsed }) => {
         >
           {!isCollapsed && <Typography>{title}</Typography>}
         </MenuItem>
-      </Link>
+      </div>
     </Tooltip>
   );
 };

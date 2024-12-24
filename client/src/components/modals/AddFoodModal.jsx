@@ -8,6 +8,7 @@ import {
   ListItem,
   ListItemText,
   IconButton,
+  CircularProgress,
 } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import CloseIcon from "@mui/icons-material/Close";
@@ -117,7 +118,14 @@ const AddFoodModal = ({ open, onClose, title }) => {
                 </ListItem>
               ))
             ) : (
-              <Typography>No matching food items</Typography>
+              <ListItem sx={{ display: "flex", justifyContent: "center" }}>
+                <CircularProgress
+                  sx={{
+                    color: "inherit",
+                  }}
+                  size="2rem"
+                />
+              </ListItem>
             )}
           </List>
         </Box>

@@ -13,13 +13,23 @@ import { useGetAllFoodByDateQuery } from "../../features/food/foodApiSlice";
 import { useEffect, useState } from "react";
 import { foodServingsHelper } from "../../helper/foodServingsHelper";
 import DotPulse from "../../components/DotPulse";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  setTotalCaloriesBurned,
+  setTotalCaloriesConsumed,
+  setTotalCarbsConsumed,
+  setTotalFatConsumed,
+  setTotalProteinCosumed,
+  setRemainingCalories,
+} from "../../features/food/foodSlice";
 
 const FoodPage = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const dispatch = useDispatch();
   const { userId } = useAuth();
+
   const { currentDate } = useSelector((state) => state.dateRange);
 
   const userData = useGetAllUsersInfoQuery(userId)?.data;
@@ -40,6 +50,7 @@ const FoodPage = () => {
   const totalCalBurned =
     Math.round(userData?.BMR * parseFloat(userData?.activity_level)) +
     userData?.BMR;
+
   const BMRPercent = Math.round((userData?.BMR / totalCalBurned) * 100);
   const baselinePercent = Math.round(
     (Math.round(userData?.BMR * parseFloat(userData?.activity_level)) /
@@ -78,6 +89,23 @@ const FoodPage = () => {
   const totalCalOfFat = Math.round(totalFatConsumed * MACROS.fat);
 
   let remainingCalories = userData?.calories_target - totalCaloriesConsumed;
+
+  useEffect(() => {
+    dispatch(setTotalCaloriesBurned(totalCalBurned));
+    dispatch(setTotalCaloriesConsumed(totalCaloriesConsumed));
+    dispatch(setTotalProteinCosumed(totalProteinConsumed));
+    dispatch(setTotalCarbsConsumed(totalCarbsConsumed));
+    dispatch(setTotalFatConsumed(totalFatConsumed));
+    dispatch(setRemainingCalories(remainingCalories));
+  }, [
+    totalCalBurned,
+    totalCaloriesConsumed,
+    totalProteinConsumed,
+    totalCarbsConsumed,
+    totalFatConsumed,
+    remainingCalories,
+    dispatch,
+  ]);
 
   const [calRemainTitle, setCalRemainTitle] = useState("Remaining");
 
