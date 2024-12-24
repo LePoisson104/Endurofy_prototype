@@ -29,14 +29,18 @@ const queryGetLogDates = async (userId, startDate, endDate) => {
   try {
     const response = await new Promise((resolve, reject) => {
       const query =
-        "SELECT DISTINCT DATE(logged_at) as logged_date FROM foodLog WHERE user_id = ? AND DATE(logged_at) BETWEEN ? AND ? ORDER BY logged_date";
-      pool.query(query, [userId, startDate, endDate], (err, results) => {
-        if (err) {
-          reject(new Error(err.message));
-        } else {
-          resolve(results);
+        "SELECT DISTINCT DATE(logged_at) as logged_date FROM (SELECT logged_at FROM foodLog WHERE user_id = ? AND DATE(logged_at) BETWEEN ? AND ? UNION SELECT logged_at FROM waterLog WHERE user_id = ? AND DATE(logged_at) BETWEEN ? AND ?) AS combined_logs ORDER BY logged_date";
+      pool.query(
+        query,
+        [userId, startDate, endDate, userId, startDate, endDate],
+        (err, results) => {
+          if (err) {
+            reject(new Error(err.message));
+          } else {
+            resolve(results);
+          }
         }
-      });
+      );
     });
     return response;
   } catch (err) {

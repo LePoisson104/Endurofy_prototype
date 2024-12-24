@@ -25,11 +25,10 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import AddIcon from "@mui/icons-material/Add";
 import LineChart from "../../components/charts/LineChart";
 import SortIcon from "@mui/icons-material/Sort";
-import { dateFormat } from "../../helper/dateFormat";
 import AddWeightLog from "../../components/modals/AddWeightLog";
 import FilterSelect from "../../components/selects/FilterSelect";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpSharpIcon from "@mui/icons-material/KeyboardArrowUpSharp";
+import { dateFormat } from "../../helper/dateFormat";
 
 const WeightLogPage = () => {
   const theme = useTheme();
@@ -39,9 +38,9 @@ const WeightLogPage = () => {
   const [expanded, setExpanded] = useState(false); // State for accordion
   const [weightLogs, setWeightLogs] = useState([]);
 
-  const formattedDateTime = `${dateFormat()?.date} | ${
-    dateFormat()?.time
-  } | Streaks: 2`;
+  const formattedDateTime = `${dateFormat(new Date())?.date} | ${
+    dateFormat(new Date())?.time
+  } `;
 
   const handleDeleteLog = (index) => {
     const updatedLogs = weightLogs.filter((log, i) => i !== index);

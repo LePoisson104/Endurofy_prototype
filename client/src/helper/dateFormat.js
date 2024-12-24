@@ -1,5 +1,6 @@
 export const dateFormat = (newDate) => {
   const todaysDate = new Date(newDate);
+  console.log("todays date", todaysDate);
 
   const date = todaysDate.toLocaleDateString("en-US", {
     month: "long",

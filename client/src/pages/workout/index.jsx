@@ -13,8 +13,9 @@ import { dateFormat } from "../../helper/dateFormat";
 const WorkoutLog = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
-  const formattedDateTime = `${dateFormat()?.date} | ${dateFormat()?.time} `;
+  const formattedDateTime = `${dateFormat(new Date())?.date} | ${
+    dateFormat(new Date())?.time
+  } `;
 
   const [selectedTab, setSelectedTab] = useState("today");
 

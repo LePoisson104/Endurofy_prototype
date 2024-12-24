@@ -14,8 +14,9 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import { useDeleteFoodMutation } from "../../features/food/foodApiSlice";
 import useAuth from "../../hooks/useAuth";
 import ErrorAlert from "../../components/alerts/ErrorAlert";
+import { useSelector } from "react-redux";
 
-const AccordionUsage = ({ title, data, originalData, currentDate }) => {
+const AccordionUsage = ({ title, data, originalData }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [modalOpen, setModalOpen] = useState(false);
@@ -26,6 +27,7 @@ const AccordionUsage = ({ title, data, originalData, currentDate }) => {
   const [deleteFood] = useDeleteFoodMutation();
   const { userId } = useAuth();
   const [errMsg, setErrMsg] = useState("");
+  const { currentDate } = useSelector((state) => state.dateRange);
 
   const handleOpenModal = (event) => {
     event.stopPropagation(); // Stop the event from propagating to the AccordionSummary
@@ -213,7 +215,6 @@ const AccordionUsage = ({ title, data, originalData, currentDate }) => {
         <AddFoodModal
           open={modalOpen}
           onClose={handleCloseModal}
-          currentDate={currentDate}
           title={title}
         />
         <FoodMacrosModal
@@ -221,7 +222,6 @@ const AccordionUsage = ({ title, data, originalData, currentDate }) => {
           onClose={handleCloseEditModal}
           food={editPayload}
           type={actionType}
-          currentDate={currentDate}
         />
       </Accordion>
     </>

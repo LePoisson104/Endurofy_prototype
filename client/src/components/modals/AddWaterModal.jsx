@@ -15,21 +15,18 @@ import { useAddWaterIntakeMutation } from "../../features/water/waterApiSlice";
 import { useUpdateWaterIntakeMutation } from "../../features/water/waterApiSlice";
 import ErrorAlert from "../alerts/ErrorAlert";
 import useAuth from "../../hooks/useAuth";
+import { useSelector } from "react-redux";
 
-const AddWaterModal = ({
-  openModal,
-  setOpenModal,
-  Type,
-  editData,
-  currentDate,
-}) => {
+const AddWaterModal = ({ openModal, setOpenModal, Type, editData }) => {
   const theme = useTheme();
   const { userId } = useAuth();
 
   const [errMsg, setErrMsg] = useState("");
   const [waterAmount, setWaterAmount] = useState("");
   const originalValueRef = useRef("");
-
+  const { currentDate, startDate, endDate } = useSelector(
+    (state) => state.dateRange
+  );
   const [addWaterIntake, { isLoading: isAddWaterLoading }] =
     useAddWaterIntakeMutation();
   const [updateWaterIntake, { isLoading: isEditWaterLoading }] =
@@ -65,11 +62,19 @@ const AddWaterModal = ({
 
     try {
       if (Type === "add") {
-        await addWaterIntake({ userId, currentDate, waterPayload }).unwrap();
+        await addWaterIntake({
+          userId,
+          currentDate,
+          startDate,
+          endDate,
+          waterPayload,
+        }).unwrap();
       } else if (Type === "edit") {
         await updateWaterIntake({
           userId,
           currentDate,
+          startDate,
+          endDate,
           waterId: editData?.[0]?.water_id,
           updatePayload: {
             water_amount: Number(waterAmount),

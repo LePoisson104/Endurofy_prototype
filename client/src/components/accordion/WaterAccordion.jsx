@@ -15,8 +15,9 @@ import AddWaterModal from "../modals/AddWaterModal";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { useGetWaterIntakeQuery } from "../../features/water/waterApiSlice";
 import useAuth from "../../hooks/useAuth";
+import { useSelector } from "react-redux";
 
-const WaterAccordion = ({ currentDate }) => {
+const WaterAccordion = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { userId } = useAuth();
@@ -24,10 +25,15 @@ const WaterAccordion = ({ currentDate }) => {
   const [expanded, setExpanded] = useState(false);
   const [type, setType] = useState("");
   const [editData, setEditData] = useState([]);
+  const { currentDate, startDate, endDate } = useSelector(
+    (state) => state.dateRange
+  );
 
   const { data, error, refetch, isFetching } = useGetWaterIntakeQuery({
     userId,
     currentDate,
+    startDate,
+    endDate,
   });
 
   const waterData = error?.status === 404 || isFetching ? [] : data || [];
@@ -176,7 +182,6 @@ const WaterAccordion = ({ currentDate }) => {
         setOpenModal={setOpenModal}
         Type={type}
         editData={editData}
-        currentDate={currentDate}
       />
     </Accordion>
   );

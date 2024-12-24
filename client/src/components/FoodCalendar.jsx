@@ -5,36 +5,33 @@ import "react-calendar/dist/Calendar.css";
 import "../styles/Calendar.css";
 import useAuth from "../hooks/useAuth";
 import { useGetLogDatesQuery } from "../features/food/foodApiSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setStartDate,
+  setEndDate,
+  setCurrentDate,
+} from "../features/date/dateRangeSlice";
+import {
+  getFirstDayOfPreviousMonth,
+  getLastDayOfNextMonth,
+  dateConvert,
+} from "../helper/getMonthRange";
 
-const dateConvert = (date) => {
-  return date.toISOString().split("T")[0];
-};
-
-const getFirstDayOfPreviousMonth = (currentMonth) => {
-  return new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1);
-};
-
-const getLastDayOfNextMonth = (currentMonth) => {
-  return new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 2, 0);
-};
-
-const FoodCalendar = ({ setCurrentDate }) => {
+const FoodCalendar = () => {
   const { userId } = useAuth();
   const [date, setDate] = useState(new Date());
   const [logDatesArr, setLogDatesArr] = useState([]);
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const dispatch = useDispatch();
 
-  // Calculate initial startDate and endDate
-  const initialFirstDayOfPreviousMonth =
-    getFirstDayOfPreviousMonth(currentMonth);
-  const initialLastDayOfNextMonth = getLastDayOfNextMonth(currentMonth);
+  const { startDate, endDate } = useSelector((state) => state.dateRange);
 
-  const [startDate, setStartDate] = useState(
-    dateConvert(initialFirstDayOfPreviousMonth)
-  );
-  const [endDate, setEndDate] = useState(
-    dateConvert(initialLastDayOfNextMonth)
-  );
+  useEffect(() => {
+    const newStartDate = dateConvert(getFirstDayOfPreviousMonth(currentMonth));
+    const newEndDate = dateConvert(getLastDayOfNextMonth(currentMonth));
+    dispatch(setStartDate(newStartDate));
+    dispatch(setEndDate(newEndDate));
+  }, [currentMonth]);
 
   const logDates = useGetLogDatesQuery({
     userId,
@@ -48,11 +45,6 @@ const FoodCalendar = ({ setCurrentDate }) => {
       setLogDatesArr(formattedDates);
     }
   }, [logDates]);
-
-  useEffect(() => {
-    setStartDate(dateConvert(getFirstDayOfPreviousMonth(currentMonth)));
-    setEndDate(dateConvert(getLastDayOfNextMonth(currentMonth)));
-  }, [currentMonth]);
 
   const tileClassName = ({ date, view }) => {
     if (view === "month") {
@@ -76,7 +68,7 @@ const FoodCalendar = ({ setCurrentDate }) => {
 
     const formattedDate = dateConvert(date);
     setDate(date);
-    setCurrentDate(formattedDate); // Update the parent component's state
+    dispatch(setCurrentDate(formattedDate));
   };
 
   const onActiveStartDateChange = ({ activeStartDate }) => {

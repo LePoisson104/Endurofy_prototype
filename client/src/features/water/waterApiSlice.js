@@ -15,6 +15,9 @@ export const foodApiSlice = apiSlice.injectEndpoints({
         // Always provide the tag for the date, even if the result is null or empty
         return [{ type: "WaterLog", id: `${userId}-${currentDate}` }];
       },
+      invalidatesTags: (result, error, { userId, startDate, endDate }) => [
+        { type: "FoodLog", id: `${userId}-${startDate}-${endDate}` }, // Invalidate log dates
+      ],
     }),
     addWaterIntake: builder.mutation({
       query: ({ userId, waterPayload }) => ({
@@ -22,8 +25,13 @@ export const foodApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: waterPayload,
       }),
-      invalidatesTags: (result, error, { userId, currentDate }) => [
+      invalidatesTags: (
+        result,
+        error,
+        { userId, currentDate, startDate, endDate }
+      ) => [
         { type: "WaterLog", id: `${userId}-${currentDate}` }, // Invalidate tag for the given date
+        { type: "FoodLog", id: `${userId}-${startDate}-${endDate}` }, // Invalidate log dates
       ],
     }),
     updateWaterIntake: builder.mutation({
@@ -32,8 +40,13 @@ export const foodApiSlice = apiSlice.injectEndpoints({
         method: "PATCH",
         body: updatePayload,
       }),
-      invalidatesTags: (result, error, { userId, currentDate }) => [
+      invalidatesTags: (
+        result,
+        error,
+        { userId, currentDate, startDate, endDate }
+      ) => [
         { type: "WaterLog", id: `${userId}-${currentDate}` }, // Invalidate tag for the given date
+        { type: "FoodLog", id: `${userId}-${startDate}-${endDate}` }, // Invalidate log dates
       ],
     }),
   }),

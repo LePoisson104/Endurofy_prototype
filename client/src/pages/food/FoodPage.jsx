@@ -13,15 +13,14 @@ import { useGetAllFoodByDateQuery } from "../../features/food/foodApiSlice";
 import { useEffect, useState } from "react";
 import { foodServingsHelper } from "../../helper/foodServingsHelper";
 import DotPulse from "../../components/DotPulse";
+import { useSelector } from "react-redux";
 
 const FoodPage = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const { userId } = useAuth();
-  const [currentDate, setCurrentDate] = useState(
-    new Date().toLocaleDateString("en-CA") // Formats as "YYYY-MM-DD"
-  );
+  const { currentDate } = useSelector((state) => state.dateRange);
 
   const userData = useGetAllUsersInfoQuery(userId)?.data;
   const { data, error, refetch, isFetching } = useGetAllFoodByDateQuery({
@@ -246,7 +245,7 @@ const FoodPage = () => {
               id="left"
             >
               <Box>
-                <WaterAccordion currentDate={currentDate} />
+                <WaterAccordion />
                 <AccordionUsage
                   title={"Uncategorized"}
                   data={adjustedFoodData?.filter(
@@ -255,7 +254,6 @@ const FoodPage = () => {
                   originalData={allFoodData?.filter(
                     (food) => food.meal_type === "uncategorized"
                   )}
-                  currentDate={currentDate}
                 />
                 <AccordionUsage
                   title={"Breakfast"}
@@ -265,7 +263,6 @@ const FoodPage = () => {
                   originalData={allFoodData?.filter(
                     (food) => food.meal_type === "breakfast"
                   )}
-                  currentDate={currentDate}
                 />
                 <AccordionUsage
                   title={"Lunch"}
@@ -275,7 +272,6 @@ const FoodPage = () => {
                   originalData={allFoodData?.filter(
                     (food) => food.meal_type === "lunch"
                   )}
-                  currentDate={currentDate}
                 />
                 <AccordionUsage
                   title={"Dinner"}
@@ -285,7 +281,6 @@ const FoodPage = () => {
                   originalData={allFoodData?.filter(
                     (food) => food.meal_type === "dinner"
                   )}
-                  currentDate={currentDate}
                 />
                 <AccordionUsage
                   title={"Snacks"}
@@ -295,7 +290,6 @@ const FoodPage = () => {
                   originalData={allFoodData?.filter(
                     (food) => food.meal_type === "snack"
                   )}
-                  currentDate={currentDate}
                 />
               </Box>
               <Box
@@ -698,7 +692,7 @@ const FoodPage = () => {
               }}
               id="right"
             >
-              <FoodCalendar setCurrentDate={setCurrentDate} />
+              <FoodCalendar />
             </Box>
           </Box>
         </>

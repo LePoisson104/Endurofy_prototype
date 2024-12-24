@@ -16,7 +16,7 @@ import { tokens } from "../../theme";
 import { useSearchFoodQuery } from "../../features/food/foodApiSlice";
 import ToggleButtons from "../buttons/ToggleButtons";
 
-const AddFoodModal = ({ open, onClose, currentDate, title }) => {
+const AddFoodModal = ({ open, onClose, title }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [searchTerm, setSearchTerm] = useState("");
@@ -128,7 +128,6 @@ const AddFoodModal = ({ open, onClose, currentDate, title }) => {
         open={macrosModalOpen}
         onClose={() => setMacrosModalOpen(false)}
         food={selectedFood}
-        currentDate={currentDate}
         title={title}
       />
     </>

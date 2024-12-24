@@ -13,7 +13,6 @@ import WaterDropIcon from "@mui/icons-material/WaterDrop";
 import BedtimeIcon from "@mui/icons-material/Bedtime";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
-import { dateFormat } from "../../helper/dateFormat";
 import { useGetAllUsersInfoQuery } from "../../features/users/usersApiSlice";
 import { useGetAllFoodByDateQuery } from "../../features/food/foodApiSlice";
 import useAuth from "../../hooks/useAuth";
@@ -21,13 +20,17 @@ import { useState, useEffect } from "react";
 import { foodServingsHelper } from "../../helper/foodServingsHelper";
 import DotPulse from "../../components/DotPulse";
 import { useGetWaterIntakeQuery } from "../../features/water/waterApiSlice";
+import { dateFormat } from "../../helper/dateFormat";
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { userId } = useAuth();
 
-  const formattedDateTime = `${dateFormat()?.date} | ${dateFormat()?.time} `;
+  const formattedDateTime = `${dateFormat(new Date())?.date} | ${
+    dateFormat(new Date())?.time
+  } `;
+
   const currentDate = new Date().toLocaleDateString("en-CA");
 
   const waterData = useGetWaterIntakeQuery({
