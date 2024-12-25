@@ -22,6 +22,7 @@ import {
   setTotalProteinCosumed,
   setRemainingCalories,
 } from "../../features/food/foodSlice";
+import { convertTimeZone } from "../../helper/convertTimeZone";
 
 const FoodPage = () => {
   const theme = useTheme();
@@ -31,6 +32,8 @@ const FoodPage = () => {
   const { userId } = useAuth();
 
   const { currentDate } = useSelector((state) => state.dateRange);
+
+  const dateFormat = convertTimeZone(currentDate);
 
   const userData = useGetAllUsersInfoQuery(userId)?.data;
   const { data, error, refetch, isFetching } = useGetAllFoodByDateQuery({
@@ -240,7 +243,7 @@ const FoodPage = () => {
 
   return (
     <Box m="20px" sx={{ display: "flex", flexDirection: "column" }}>
-      <Header title="Diary" subtitle="Your daily food intake and summary" />
+      <Header title="Diary" subtitle={`Current Log Date: ${dateFormat}`} />
       {!userData && (
         <Box
           sx={{

@@ -19,36 +19,62 @@ import { useState, useEffect } from "react";
 import DotPulse from "../../components/DotPulse";
 import { dateFormat } from "../../helper/dateFormat";
 import { useSelector } from "react-redux";
-import { useGetLogDatesQuery } from "../../features/food/foodApiSlice";
+import {
+  useGetAllFoodByDateQuery,
+  useGetLogDatesQuery,
+} from "../../features/food/foodApiSlice";
 import { countStreaks } from "../../helper/countStreaks";
+import { getTodaysDate } from "../../helper/getTodaysDate";
+import { foodServingsHelper } from "../../helper/foodServingsHelper";
+import { useGetWaterIntakeQuery } from "../../features/water/waterApiSlice";
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { userId } = useAuth();
 
-  const {
-    totalCaloriesBurned,
-    totalCaloriesConsumed,
-    totalProteinConsumed,
-    totalCarbsConsumed,
-    totalFatConsumed,
-    remainingCalories,
-    totalWaterIntake,
-  } = useSelector((state) => state.macrosStates);
-
-  const { startDate, endDate } = useSelector((state) => state.dateRange);
-
-  // const logDates = useGetLogDatesQuery({ userId, startDate, endDate })?.data;
-
-  // const streak = countStreaks(logDates);
-  // console.log(streak);
-
   const formattedDateTime = `${dateFormat(new Date())?.date} | ${
     dateFormat(new Date())?.time
   } `;
+  const currentDate = getTodaysDate();
 
+  // fetch data
   const userData = useGetAllUsersInfoQuery(userId).data;
+  const allFoodData = useGetAllFoodByDateQuery({ userId, currentDate })?.data;
+  const waterIntake = useGetWaterIntakeQuery({ userId, currentDate })?.data;
+
+  // calculate
+  const totalCaloriesBurned =
+    Math.round(userData?.BMR * parseFloat(userData?.activity_level)) +
+    userData?.BMR;
+
+  const adjustedFoodData = allFoodData?.map((food) =>
+    foodServingsHelper({
+      serving: food.serving_size,
+      unit: food.serving_unit,
+      foodData: { ...food },
+    })
+  );
+
+  // if there are food data then calculate the total calories of all food else 0 kcal is consumed
+  const calculateTotal = (data, key, roundToDecimal = false) =>
+    data
+      ? Math.round(
+          data.reduce((total, item) => total + item[key], 0) *
+            (roundToDecimal ? 100 : 1)
+        ) / (roundToDecimal ? 100 : 1)
+      : 0;
+
+  const totalCaloriesConsumed = calculateTotal(adjustedFoodData, "calories");
+  const totalProteinConsumed = calculateTotal(
+    adjustedFoodData,
+    "protein",
+    true
+  );
+  const totalCarbsConsumed = calculateTotal(adjustedFoodData, "carbs", true);
+  const totalFatConsumed = calculateTotal(adjustedFoodData, "fat", true);
+
+  let remainingCalories = userData?.calories_target - totalCaloriesConsumed;
 
   const progress = Math.round(
     (totalCaloriesConsumed / remainingCalories) * 100
@@ -273,7 +299,7 @@ const Dashboard = () => {
                   fontWeight={500}
                   color={colors.primary[100]}
                 >
-                  {totalWaterIntake || 0}
+                  {waterIntake?.[0]?.water_amount || 0}
                 </Typography>
                 <Typography
                   variant="h4"
@@ -288,7 +314,9 @@ const Dashboard = () => {
                   variant="determinate"
                   value={Math.min(
                     100,
-                    Math.round((totalWaterIntake / 128) * 100 || 0)
+                    Math.round(
+                      (waterIntake?.[0]?.water_amount / 128) * 100 || 0
+                    )
                   )}
                   sx={{
                     height: 7,
@@ -300,8 +328,10 @@ const Dashboard = () => {
                   }}
                 />
                 <Typography variant="body1" color={colors.primary[100]}>
-                  Progress: {Math.round((totalWaterIntake / 128) * 100) || 0}%
-                  of your goal
+                  Progress:{" "}
+                  {Math.round((waterIntake?.[0]?.water_amount / 128) * 100) ||
+                    0}
+                  % of your goal
                 </Typography>
               </Box>
             </Box>

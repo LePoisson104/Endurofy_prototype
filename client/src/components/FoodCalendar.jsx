@@ -16,23 +16,32 @@ import {
   getLastDayOfNextMonth,
   dateConvert,
 } from "../helper/getMonthRange";
+import { convertTimeZone } from "../helper/convertTimeZone";
 
 const FoodCalendar = () => {
   const { userId } = useAuth();
   const [date, setDate] = useState(new Date());
   const [logDatesArr, setLogDatesArr] = useState([]);
-  const [currentMonth, setCurrentMonth] = useState(new Date());
   const dispatch = useDispatch();
 
-  const { startDate, endDate } = useSelector((state) => state.dateRange);
+  const { startDate, endDate, currentDate } = useSelector(
+    (state) => state.dateRange
+  );
 
+  // if currentDate then use the currentDate's month to get the list of log dates
+  const [currentMonth, setCurrentMonth] = useState(
+    currentDate ? new Date(currentDate) : new Date()
+  );
+
+  // Update start and end dates whenever currentMonth changes
   useEffect(() => {
     const newStartDate = dateConvert(getFirstDayOfPreviousMonth(currentMonth));
     const newEndDate = dateConvert(getLastDayOfNextMonth(currentMonth));
     dispatch(setStartDate(newStartDate));
     dispatch(setEndDate(newEndDate));
-  }, [currentMonth]);
+  }, [currentMonth, dispatch]);
 
+  // Fetch logged dates
   const logDates = useGetLogDatesQuery({
     userId,
     startDate,
@@ -48,26 +57,37 @@ const FoodCalendar = () => {
 
   const tileClassName = ({ date, view }) => {
     if (view === "month") {
-      // Check if the date is in the highlighted dates array
-      if (
-        logDatesArr.some(
-          (highlightedDate) =>
-            highlightedDate.toDateString() === date.toDateString()
-        )
-      ) {
-        return "highlighted"; // Add your custom class for highlighting
+      const classes = [];
+      const dateString = date.toDateString();
+
+      const selectedDateString = currentDate
+        ? convertTimeZone(currentDate)
+        : null;
+
+      // Add class for selected date
+      if (dateString === selectedDateString) {
+        classes.push("react-calendar__tile--active");
       }
+
+      // Add class for logged dates
+      if (
+        logDatesArr.some((logDate) => logDate.toDateString() === dateString)
+      ) {
+        classes.push("highlighted");
+      }
+
+      return classes.length > 0 ? classes.join(" ") : null;
     }
     return null;
   };
 
-  const onChange = (date) => {
-    if (date.getMonth() + 1 !== currentMonth.getMonth() + 1) {
-      setCurrentMonth(date);
+  const onChange = (newDate) => {
+    if (newDate.getMonth() !== currentMonth.getMonth()) {
+      setCurrentMonth(newDate);
     }
 
-    const formattedDate = dateConvert(date);
-    setDate(date);
+    const formattedDate = dateConvert(newDate);
+    setDate(newDate);
     dispatch(setCurrentDate(formattedDate));
   };
 
@@ -86,7 +106,14 @@ const FoodCalendar = () => {
     >
       <Calendar
         onChange={onChange}
-        value={date}
+        value={
+          currentDate
+            ? new Date(
+                new Date(currentDate).getTime() +
+                  new Date().getTimezoneOffset() * 60000
+              ).toDateString()
+            : date
+        }
         tileClassName={tileClassName}
         onActiveStartDateChange={onActiveStartDateChange}
       />
