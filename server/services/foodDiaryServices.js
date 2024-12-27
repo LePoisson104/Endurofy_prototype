@@ -178,6 +178,12 @@ const deleteFavoriteFood = async (favFoodId) => {
     );
   }
 
+  if (deletedFavoriteFood.changedRows === 0) {
+    throw new errorResponse("Food Not Found", 404);
+  }
+
+  console.log(deletedFavoriteFood);
+
   return deletedFavoriteFood;
 };
 

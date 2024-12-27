@@ -52,7 +52,6 @@ const Profile = () => {
   const weightInKg = Math.round(data?.weight / 2.20462);
   const heightInCM = Math.round(data?.height * 2.54);
   const BMI = ((data?.weight * 703) / data?.height ** 2).toFixed(1);
-  let age;
 
   const [gender, setGender] = useState("");
   const [currentMonth, setCurrentMonth] = useState("");
@@ -67,7 +66,7 @@ const Profile = () => {
   const [carbs, setCarbs] = useState("");
   const [fat, setFat] = useState("");
   const [activity, setActivity] = useState("");
-
+  const [age, setAge] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
 
@@ -83,8 +82,8 @@ const Profile = () => {
       const [year, month, day] = dataBirthdate[0]?.split("-") || [];
       const feet = Math.floor(data?.height / 12);
       const inches = data?.height - feet * 12;
-      age = new Date().getFullYear() - year;
 
+      setAge(new Date().getFullYear() - year);
       setGender(data.gender || "");
       setCurrentMonth(month || "");
       setCurrentDay(day || "");

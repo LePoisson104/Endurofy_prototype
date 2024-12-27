@@ -16,6 +16,16 @@ export const foodApiSlice = apiSlice.injectEndpoints({
           ? [{ type: "FoodLog", id: `${userId}-${currentDate}` }]
           : [{ type: "FoodLog", id: "LIST" }],
     }),
+    getFavoriteFood: builder.query({
+      query: ({ userId }) => ({
+        url: `/food-diary/get-favorite-food/${userId}`,
+        method: "GET",
+      }),
+      providesTags: (result, error, { userId, currentDate }) =>
+        result
+          ? [{ type: "FavoriteFood", id: `${userId}-${currentDate}` }]
+          : [{ type: "FavoriteFood", id: "LIST" }],
+    }),
     getLogDates: builder.query({
       query: ({ userId, startDate, endDate }) => ({
         url: `/food-diary/get-log-dates/${userId}?startDate=${startDate}&endDate=${endDate}`,
@@ -75,6 +85,7 @@ export const foodApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useGetAllFoodByDateQuery,
+  useGetFavoriteFoodQuery,
   useSearchFoodQuery,
   useAddFoodMutation,
   useDeleteFoodMutation,

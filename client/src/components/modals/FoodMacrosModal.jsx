@@ -229,7 +229,6 @@ const FoodMacrosModal = ({ open, onClose, food, title, type }) => {
         <Box
           sx={{
             width: "550px",
-            height: "380px",
             margin: "auto",
             mt: 20,
             p: 3,

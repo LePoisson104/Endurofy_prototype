@@ -16,6 +16,8 @@ import FoodMacrosModal from "./FoodMacrosModal";
 import { tokens } from "../../theme";
 import { useSearchFoodQuery } from "../../features/food/foodApiSlice";
 import ToggleButtons from "../buttons/ToggleButtons";
+import CustomList from "../list/CustomList";
+import FavoriteList from "../list/FavoriteList";
 
 const AddFoodModal = ({ open, onClose, title }) => {
   const theme = useTheme();
@@ -24,6 +26,7 @@ const AddFoodModal = ({ open, onClose, title }) => {
   const [selectedFood, setSelectedFood] = useState("");
   const [macrosModalOpen, setMacrosModalOpen] = useState(false);
   const [foodData, setFoodData] = useState([]);
+  const [alignment, setAlignment] = useState("All");
 
   const { data, isLoading } = useSearchFoodQuery({ searchTerm });
 
@@ -97,37 +100,47 @@ const AddFoodModal = ({ open, onClose, title }) => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <ToggleButtons />
-          <List
-            sx={{
-              maxHeight: "50vh", // Set a max height for the list
-              overflowY: "auto", // Enable vertical scrolling
-            }}
-          >
-            {foodData?.length > 0 && !isLoading ? (
-              foodData?.map((food, index) => (
+          <ToggleButtons
+            alignment={alignment}
+            setAlignment={setAlignment}
+            setSearchTerm={setSearchTerm}
+          />
+          {alignment === "All" && (
+            <List
+              sx={{
+                maxHeight: "50vh", // Set a max height for the list
+                overflowY: "auto", // Enable vertical scrolling
+              }}
+            >
+              {foodData?.length > 0 ? (
+                foodData?.map((food, index) => (
+                  <ListItem
+                    button
+                    key={index}
+                    onClick={() => handleFoodSelect(index)}
+                  >
+                    <ListItemText
+                      secondary={food.brandName}
+                      primary={food.description}
+                    />
+                  </ListItem>
+                ))
+              ) : (
                 <ListItem
-                  button
-                  key={index}
-                  onClick={() => handleFoodSelect(index)}
+                  sx={{ display: "flex", justifyContent: "center", mt: 2 }}
                 >
-                  <ListItemText
-                    secondary={food.brandName}
-                    primary={food.description}
-                  />
+                  {!isLoading && <Typography>No Food Found</Typography>}
+                  {isLoading && (
+                    <CircularProgress sx={{ color: "inherit" }} size={25} />
+                  )}
                 </ListItem>
-              ))
-            ) : (
-              <ListItem sx={{ display: "flex", justifyContent: "center" }}>
-                <CircularProgress
-                  sx={{
-                    color: "inherit",
-                  }}
-                  size="2rem"
-                />
-              </ListItem>
-            )}
-          </List>
+              )}
+            </List>
+          )}
+          {alignment === "Favorites" && (
+            <FavoriteList searchTerm={searchTerm} />
+          )}
+          {alignment === "Custom" && <CustomList searchTerm={searchTerm} />}
         </Box>
       </Modal>
 

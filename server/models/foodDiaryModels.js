@@ -28,7 +28,7 @@ const queryGetAllFood = async (userId, date) => {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 const queryGetFavoriteFood = async (userId) => {
   try {
-    const reponse = await new Promise((resolve, reject) => {
+    const response = await new Promise((resolve, reject) => {
       const query = "SELECT * FROM favoriteFood WHERE user_id = ?";
       pool.query(query, [userId], (err, results) => {
         if (err) {

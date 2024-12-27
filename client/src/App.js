@@ -1,6 +1,6 @@
 import { ColorModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import MainLayout from "./layout/MainLayout";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Login from "./pages/auth/LoginPage";
@@ -18,6 +18,8 @@ import PersistLogin from "./pages/auth/PersistLogin";
 import Terms from "./pages/terms/Terms";
 import Privacy from "./pages/privacy/Privacy";
 import HomePageLayout from "./layout/HomePageLayout";
+import ResetPasswordPage from "./pages/auth/ResetPasswordPage";
+import ChangeYourPassword from "./pages/auth/ChangeYourPassword";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -50,6 +52,8 @@ function App() {
 
           {/* Auth and error pages */}
           <Route path="login" element={<Login />} />
+          <Route path="forgot-password" element={<ResetPasswordPage />} />
+          <Route path="change-password" element={<ChangeYourPassword />} />
           <Route path="signup" element={<Signup />} />
         </Routes>
       </ThemeProvider>

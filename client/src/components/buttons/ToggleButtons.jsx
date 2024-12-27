@@ -1,17 +1,10 @@
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import { useState } from "react";
-import { useTheme } from "@emotion/react";
-import { tokens } from "../../theme";
 
-const ToggleButtons = () => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-
-  const [alignment, setAlignment] = useState("All");
-
-  const handleChange = (event, newAlignment) => {
-    setAlignment(newAlignment);
+const ToggleButtons = ({ alignment, setAlignment, setSearchTerm }) => {
+  const handleChange = (e) => {
+    setAlignment(e.target.value);
+    setSearchTerm("");
   };
 
   const buttonStyles = {

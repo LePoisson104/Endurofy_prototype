@@ -1,30 +1,23 @@
-import { Button, Box, TextField, Typography } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
+import {
+  Box,
+  Typography,
+  Button,
+  TextField,
+  CircularProgress,
+} from "@mui/material";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
-import { useDispatch } from "react-redux";
-import { useLoginMutation } from "../../features/auth/authApiSlice";
-import { setCredentials } from "../../features/auth/authSlice";
-import PasswordField from "../../components/PasswordField";
-import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
-import CircularProgress from "@mui/material/CircularProgress";
-import GoogleBtn from "../../components/buttons/GoogleBtn";
+import { useRef, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import TermsOfService from "../../components/TermsOfService";
 
-const Login = () => {
+const ResetPasswordPage = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
+  const isLoading = false;
   const emailRef = useRef();
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
-
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const [login, { isLoading }] = useLoginMutation();
 
   useEffect(() => {
     emailRef.current.focus();
@@ -32,29 +25,12 @@ const Login = () => {
 
   useEffect(() => {
     setErrMsg("");
-  }, [email, password]);
+  }, [email]);
 
   const handleEmailInput = (e) => setEmail(e.target.value);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const { accessToken } = await login({ email, password }).unwrap();
-      dispatch(setCredentials({ accessToken }));
-      setEmail("");
-      setPassword("");
-      navigate("/dashboard");
-    } catch (err) {
-      if (!err.status) {
-        setErrMsg("No Server Response");
-      } else if (err.status === 400) {
-        setErrMsg(err.data?.message);
-      } else if (err.status === 401 || err.status === 404) {
-        setErrMsg("Incorrect email or password. Try again.");
-      } else {
-        setErrMsg(err.data?.message);
-      }
-    }
   };
 
   return (
@@ -118,31 +94,25 @@ const Login = () => {
         }}
       >
         <Typography
-          mb={3}
+          mb={2}
           mt={4}
           fontWeight="bold"
           color="#6d76fa"
           sx={{ fontSize: "1.5rem" }}
         >
-          Log In
+          Reset Your Password
         </Typography>
 
-        <GoogleBtn mt={3} />
-        {/* horizontal line */}
-        <Box
-          sx={{
-            display: "flex",
-            width: "100%",
-            alignItems: "center",
-            gap: 2,
-            mb: 3,
-            mt: 3,
-          }}
+        <Typography
+          variant="body1"
+          color={"textSecondary"}
+          mb={2}
+          sx={{ textAlign: "center" }}
         >
-          <Box sx={{ width: "100%", borderTop: "1px solid #D4D4D4" }}></Box>
-          <Typography>or</Typography>
-          <Box sx={{ width: "100%", borderTop: "1px solid #D4D4D4" }}></Box>
-        </Box>
+          Enter the email associated with your account and we'll send you
+          password reset instrucions.
+        </Typography>
+
         <Box
           sx={{
             display: "flex",
@@ -183,45 +153,7 @@ const Login = () => {
             },
           }}
         />
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            width: "100%",
-            mb: 1,
-          }}
-        >
-          <Typography fontWeight={500}>Password</Typography>
-          <Link
-            to={"/forgot-password"}
-            style={{ textDecoration: "none", color: colors.purpleAccent[400] }}
-          >
-            Forgot Password?
-          </Link>
-        </Box>
-        <PasswordField
-          id="password"
-          label="Please enter your password"
-          value={password}
-          setValue={setPassword}
-          fieldName="password"
-          validate={false} // Disable validation
-          errMsg={errMsg ? true : false}
-        />
-        {errMsg && (
-          <Box
-            sx={{
-              display: "flex",
-              color: "red",
-              width: "100%",
-              mt: 2,
-              flexDirection: "row",
-            }}
-          >
-            <PriorityHighIcon fontSize="small" />
-            <Typography>{errMsg}</Typography>
-          </Box>
-        )}
+
         <Button
           disabled={isLoading}
           type="submit"
@@ -238,12 +170,12 @@ const Login = () => {
             },
           }}
         >
-          {!isLoading && <Typography>Log In</Typography>}
+          {!isLoading && <Typography>Send Reset Instructions</Typography>}
           {isLoading && <CircularProgress size={20} sx={{ color: "white" }} />}
         </Button>
         <Button
           component={Link}
-          to="/signup"
+          to="/login"
           sx={{
             textTransform: "none",
             width: "100%",
@@ -252,7 +184,7 @@ const Login = () => {
             fontSize: 13,
           }}
         >
-          Or Sign Up Instead
+          Or Return to Log In
         </Button>
       </Box>
       <Box
@@ -269,4 +201,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ResetPasswordPage;
