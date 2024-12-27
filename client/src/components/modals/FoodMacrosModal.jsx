@@ -27,6 +27,7 @@ import useAuth from "../../hooks/useAuth";
 import FavoriteButton from "../buttons/FavoriteButton";
 import { useSelector } from "react-redux";
 import ErrorAlert from "../alerts/ErrorAlert";
+import { toKcal } from "../../helper/toKcal";
 
 const FoodMacrosModal = ({ open, onClose, food, title, type }) => {
   const theme = useTheme();
@@ -80,8 +81,7 @@ const FoodMacrosModal = ({ open, onClose, food, title, type }) => {
 
   if (type !== "edit") {
     if (findFoodMacros(food, "Energy")?.unitName === "kJ") {
-      const KILOCALORIES = 0.239006;
-      Kcal = Math.round(findFoodMacros(food, "Energy")?.value * KILOCALORIES);
+      Kcal = toKcal(findFoodMacros(food, "Energy")?.value);
     } else {
       Kcal = findFoodMacros(food, "Energy")?.value;
     }
@@ -284,7 +284,8 @@ const FoodMacrosModal = ({ open, onClose, food, title, type }) => {
                     mr: 1,
                   }}
                 />
-                Protein: {foodData?.protein?.toFixed(2)} {foodData?.proteinUnit}
+                Protein: {foodData?.protein?.toFixed(2)}{" "}
+                {foodData?.proteinUnit ? foodData?.proteinUnit : "g"}
                 <span style={{ color: "#68afac" }}>
                   {" "}
                   (
@@ -307,7 +308,8 @@ const FoodMacrosModal = ({ open, onClose, food, title, type }) => {
                     mr: 1,
                   }}
                 />
-                Carbs: {foodData?.carbs?.toFixed(2)} {foodData?.carbsUnit}
+                Carbs: {foodData?.carbs?.toFixed(2)}{" "}
+                {foodData?.carbsUnit ? foodData?.carbsUnit : "g"}
                 <span style={{ color: "#66b7cd" }}>
                   {" "}
                   (
@@ -330,7 +332,8 @@ const FoodMacrosModal = ({ open, onClose, food, title, type }) => {
                     mr: 1,
                   }}
                 />
-                Fat: {foodData?.fat?.toFixed(2)} {foodData?.fatUnit}
+                Fat: {foodData?.fat?.toFixed(2)}{" "}
+                {foodData?.fatUnit ? foodData?.fatUnit : "g"}
                 <span style={{ color: "#FFCC8A" }}>
                   {" "}
                   (
@@ -447,7 +450,7 @@ const FoodMacrosModal = ({ open, onClose, food, title, type }) => {
                 <MenuItem value={"oz"}>oz</MenuItem>
               </Select>
             </FormControl>
-            <FavoriteButton />
+            <FavoriteButton food={food} />
           </Box>
 
           <Box

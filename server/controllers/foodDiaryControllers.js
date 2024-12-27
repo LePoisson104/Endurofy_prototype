@@ -13,6 +13,18 @@ const getAllFood = async (req, res) => {
   }
 };
 
+const getFavoriteFood = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const getFavorites = await foodDiaryServices.getFavoriteFood(userId);
+    return res.status(200).json(getFavorites);
+  } catch (err) {
+    const statusCode = err.statusCode || 500;
+    return res.status(statusCode).json({ message: err.message });
+  }
+};
+
 const getLogDates = async (req, res) => {
   const { userId } = req.params;
   const { startDate, endDate } = req.query;
@@ -37,6 +49,21 @@ const addFood = async (req, res) => {
   try {
     await foodDiaryServices.addFood(userId, foodPayload);
     return res.status(200).json({ message: "Food Added Successfully!" });
+  } catch (err) {
+    const statusCode = err.statusCode || 500;
+    return res.status(statusCode).json({ message: err.message });
+  }
+};
+
+const addFavoriteFood = async (req, res) => {
+  const { userId } = req.params;
+  const foodPayload = req.body;
+
+  try {
+    await foodDiaryServices.addFavoriteFood(userId, foodPayload);
+    return res
+      .status(200)
+      .json({ message: "Favorite Food Added Successfully!" });
   } catch (err) {
     const statusCode = err.statusCode || 500;
     return res.status(statusCode).json({ message: err.message });
@@ -68,6 +95,20 @@ const deleteFood = async (req, res) => {
   }
 };
 
+const deleteFavoriteFood = async (req, res) => {
+  const { favFoodId } = req.params;
+
+  try {
+    await foodDiaryServices.deleteFavoriteFood(favFoodId);
+    return res
+      .status(200)
+      .json({ message: "Favorite Food Deleted Successfully!" });
+  } catch (err) {
+    const statusCode = err.statusCode || 500;
+    return res.status(statusCode).json({ message: err.message });
+  }
+};
+
 // search food
 const searchFood = async (req, res) => {
   const { query } = req.query;
@@ -86,9 +127,12 @@ const searchFood = async (req, res) => {
 
 module.exports = {
   getAllFood,
+  getFavoriteFood,
   getLogDates,
   addFood,
+  addFavoriteFood,
   updateFood,
   deleteFood,
+  deleteFavoriteFood,
   searchFood,
 };

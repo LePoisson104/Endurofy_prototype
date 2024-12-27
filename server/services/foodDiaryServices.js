@@ -19,6 +19,23 @@ const getAllFood = async (userId, date) => {
   return getAllFoods;
 };
 
+const getFavoriteFood = async (userId) => {
+  if (!userId) {
+    throw new errorResponse("UserId is required!", 400);
+  }
+
+  const getFavorites = await Foods.queryGetFavoriteFood(userId);
+
+  if (!getFavorites) {
+    throw new errorResponse(
+      "Something went wrong while trying to get favorite food!",
+      500
+    );
+  }
+
+  return getFavorites;
+};
+
 const getLogDates = async (userId, startDate, endDate) => {
   if (!userId && !startDate && !endDate) {
     throw new errorResponse(
@@ -72,7 +89,7 @@ const addFood = async (userId, foodPayload) => {
     loggedAt
   );
 
-  if (!addFood) {
+  if (!addedFood) {
     throw new errorResponse(
       "Something went wrong while trying to add food!",
       400
@@ -80,6 +97,44 @@ const addFood = async (userId, foodPayload) => {
   }
 
   return addedFood;
+};
+
+const addFavoriteFood = async (userId, foodPayload) => {
+  if ((!userId && Object.keys(foodPayload).length === 0) || !foodPayload) {
+    throw new errorResponse("UserId and foodPayload are required!", 400);
+  }
+
+  const {
+    favFoodId,
+    foodName,
+    foodBrand,
+    servingUnit,
+    calories,
+    protein,
+    carbs,
+    fat,
+  } = foodPayload;
+
+  const addFavoriteFood = await Foods.queryAddFavoriteFood(
+    favFoodId,
+    userId,
+    foodName,
+    foodBrand,
+    servingUnit,
+    calories,
+    protein,
+    carbs,
+    fat
+  );
+
+  if (!addFavoriteFood) {
+    throw new errorResponse(
+      "Something went wrong while trying to add favorite food!",
+      400
+    );
+  }
+
+  return addFavoriteFood;
 };
 
 const updateFood = async (foodId, updatePayload) => {
@@ -109,10 +164,30 @@ const deleteFood = async (foodId) => {
   return deletedFood;
 };
 
+const deleteFavoriteFood = async (favFoodId) => {
+  if (!favFoodId) {
+    throw new errorResponse("FavFoodId is required!", 400);
+  }
+
+  const deletedFavoriteFood = await Foods.queryDeleteFavoriteFood(favFoodId);
+
+  if (!deletedFavoriteFood) {
+    throw new errorResponse(
+      "Something went wrong while trying to delete favorite food!",
+      500
+    );
+  }
+
+  return deletedFavoriteFood;
+};
+
 module.exports = {
   getAllFood,
+  getFavoriteFood,
   getLogDates,
   addFood,
+  addFavoriteFood,
   updateFood,
   deleteFood,
+  deleteFavoriteFood,
 };

@@ -13,7 +13,6 @@ const HomePage = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [checked, setChecked] = useState(false);
-  console.log(checked);
 
   const handleSwitchChange = (event) => {
     setChecked(event.target.checked);

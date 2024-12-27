@@ -9,8 +9,17 @@ router.use(verifyJWT);
 router.get("/search-food", foodDiaryControllers.searchFood);
 router.get("/get-food-by-date/:userId", foodDiaryControllers.getAllFood);
 router.get("/get-log-dates/:userId", foodDiaryControllers.getLogDates);
+router.get("/get-favorite-food/:userId", foodDiaryControllers.getFavoriteFood);
+
 router.post("/add-food/:userId", foodDiaryControllers.addFood);
+router.post("/add-favorite-food/:userId", foodDiaryControllers.addFavoriteFood);
+
 router.patch("/update-food-by-id/:foodId", foodDiaryControllers.updateFood);
+
 router.delete("/delete-food-by-id/:foodId", foodDiaryControllers.deleteFood);
+router.delete(
+  "/delete-favorite-food-by-id/:favFoodId",
+  foodDiaryControllers.deleteFavoriteFood
+);
 
 module.exports = router;

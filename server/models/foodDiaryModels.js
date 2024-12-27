@@ -1,3 +1,4 @@
+const { response } = require("express");
 const pool = require("../utils/db");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -9,6 +10,27 @@ const queryGetAllFood = async (userId, date) => {
       const query =
         "SELECT * FROM foodLog WHERE user_id = ? AND DATE(logged_at) = ?";
       pool.query(query, [userId, date], (err, results) => {
+        if (err) {
+          reject(new Error(err.message));
+        } else {
+          resolve(results);
+        }
+      });
+    });
+    return response;
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// @queryGetFavoriteFood
+////////////////////////////////////////////////////////////////////////////////////////////////
+const queryGetFavoriteFood = async (userId) => {
+  try {
+    const reponse = await new Promise((resolve, reject) => {
+      const query = "SELECT * FROM favoriteFood WHERE user_id = ?";
+      pool.query(query, [userId], (err, results) => {
         if (err) {
           reject(new Error(err.message));
         } else {
@@ -99,6 +121,52 @@ const queryAddFood = async (
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
+// @queryAddFavoriteFood
+////////////////////////////////////////////////////////////////////////////////////////////////
+const queryAddFavoriteFood = async (
+  favFoodId,
+  userId,
+  foodName,
+  foodBrand,
+  servingUnit,
+  calories,
+  protein,
+  carbs,
+  fat
+) => {
+  try {
+    const reponse = await new Promise((resolve, reject) => {
+      const query =
+        "INSERT INTO favoriteFood (fav_food_id, user_id, food_name, food_brand, serving_unit, calories, protein, carbs, fat) VALUES (?,?,?,?,?,?,?,?,?)";
+      pool.query(
+        query,
+        [
+          favFoodId,
+          userId,
+          foodName,
+          foodBrand,
+          servingUnit,
+          calories,
+          protein,
+          carbs,
+          fat,
+        ],
+        (err, results) => {
+          if (err) {
+            reject(new Error(err.message));
+          } else {
+            resolve(results);
+          }
+        }
+      );
+    });
+    return response;
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////
 // @queryUpdateFoodByID
 ////////////////////////////////////////////////////////////////////////////////////////////////
 const queryUpdateFood = async (foodId, updatePayload) => {
@@ -140,10 +208,34 @@ const queryDeleteFood = async (foodId) => {
   }
 };
 
+////////////////////////////////////////////////////////////////////////////////////////////////
+// @queryDeleteFavoriteFood
+////////////////////////////////////////////////////////////////////////////////////////////////
+const queryDeleteFavoriteFood = async (favFoodId) => {
+  try {
+    const response = await new Promise((resolve, reject) => {
+      const query = "DELETE FROM favoriteFood WHERE fav_food_id = ?";
+      pool.query(query, [favFoodId], (err, results) => {
+        if (err) {
+          reject(new Error(err.message));
+        } else {
+          resolve(results);
+        }
+      });
+    });
+    return response;
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
 module.exports = {
   queryGetAllFood,
+  queryGetFavoriteFood,
   queryGetLogDates,
   queryAddFood,
+  queryAddFavoriteFood,
   queryUpdateFood,
   queryDeleteFood,
+  queryDeleteFavoriteFood,
 };
