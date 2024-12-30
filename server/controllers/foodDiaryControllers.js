@@ -25,6 +25,19 @@ const getFavoriteFood = async (req, res) => {
   }
 };
 
+const getIsFavoriteFood = async (req, res) => {
+  const { userId } = req.params;
+  const { foodId } = req.query;
+
+  try {
+    const result = await foodDiaryServices.getIsFavoriteFood(userId, foodId);
+    return res.status(200).json(result);
+  } catch (err) {
+    const statusCode = err.statusCode || 500;
+    return res.status(statusCode).json({ message: err.message });
+  }
+};
+
 const getLogDates = async (req, res) => {
   const { userId } = req.params;
   const { startDate, endDate } = req.query;
@@ -128,6 +141,7 @@ const searchFood = async (req, res) => {
 module.exports = {
   getAllFood,
   getFavoriteFood,
+  getIsFavoriteFood,
   getLogDates,
   addFood,
   addFavoriteFood,

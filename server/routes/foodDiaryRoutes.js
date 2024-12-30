@@ -10,6 +10,10 @@ router.get("/search-food", foodDiaryControllers.searchFood);
 router.get("/get-food-by-date/:userId", foodDiaryControllers.getAllFood);
 router.get("/get-log-dates/:userId", foodDiaryControllers.getLogDates);
 router.get("/get-favorite-food/:userId", foodDiaryControllers.getFavoriteFood);
+router.get(
+  "/get-is-favorite-food/:userId",
+  foodDiaryControllers.getIsFavoriteFood
+);
 
 router.post("/add-food/:userId", foodDiaryControllers.addFood);
 router.post("/add-favorite-food/:userId", foodDiaryControllers.addFavoriteFood);

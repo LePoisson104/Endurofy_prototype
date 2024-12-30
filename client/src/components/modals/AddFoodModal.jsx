@@ -108,7 +108,7 @@ const AddFoodModal = ({ open, onClose, title }) => {
           {alignment === "All" && (
             <List
               sx={{
-                maxHeight: "50vh", // Set a max height for the list
+                height: "50vh", // Set a max height for the list
                 overflowY: "auto", // Enable vertical scrolling
               }}
             >
@@ -138,9 +138,11 @@ const AddFoodModal = ({ open, onClose, title }) => {
             </List>
           )}
           {alignment === "Favorites" && (
-            <FavoriteList searchTerm={searchTerm} />
+            <FavoriteList searchTerm={searchTerm} title={title} />
           )}
-          {alignment === "Custom" && <CustomList searchTerm={searchTerm} />}
+          {alignment === "Custom" && (
+            <CustomList searchTerm={searchTerm} title={title} />
+          )}
         </Box>
       </Modal>
 

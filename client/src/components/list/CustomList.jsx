@@ -11,7 +11,7 @@ import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
 import AddIcon from "@mui/icons-material/Add";
 
-const CustomList = ({ searchTerm }) => {
+const CustomList = ({ searchTerm, title }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -32,9 +32,15 @@ const CustomList = ({ searchTerm }) => {
           sx={{
             color: "inherit",
             textTransform: "none",
-            bgcolor: colors.primary[300],
+            bgcolor:
+              theme.palette.mode === "dark"
+                ? colors.primary[300]
+                : colors.primary[900],
             "&:hover": {
-              bgcolor: colors.primary[200],
+              bgcolor:
+                theme.palette.mode === "dark"
+                  ? colors.primary[200]
+                  : colors.primary[800],
             },
           }}
         >
@@ -43,7 +49,7 @@ const CustomList = ({ searchTerm }) => {
       </Box>
       <List
         sx={{
-          maxHeight: "50vh", // Set a max height for the list
+          height: "45vh", // Set a max height for the list
           overflowY: "auto", // Enable vertical scrolling
         }}
       >

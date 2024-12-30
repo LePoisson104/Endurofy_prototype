@@ -36,6 +36,16 @@ const getFavoriteFood = async (userId) => {
   return getFavorites;
 };
 
+const getIsFavoriteFood = async (userId, foodId) => {
+  if (!userId && !foodId) {
+    throw new errorResponse("UserId and foodId are required!", 400);
+  }
+
+  const isFavoriteFood = await Foods.queryGetIsFavoriteFood(userId, foodId);
+
+  return isFavoriteFood;
+};
+
 const getLogDates = async (userId, startDate, endDate) => {
   if (!userId && !startDate && !endDate) {
     throw new errorResponse(
@@ -104,27 +114,16 @@ const addFavoriteFood = async (userId, foodPayload) => {
     throw new errorResponse("UserId and foodPayload are required!", 400);
   }
 
-  const {
-    favFoodId,
-    foodName,
-    foodBrand,
-    servingUnit,
-    calories,
-    protein,
-    carbs,
-    fat,
-  } = foodPayload;
+  const { foodId, foodName, foodBrand } = foodPayload;
+
+  const favFoodId = uuidv4();
 
   const addFavoriteFood = await Foods.queryAddFavoriteFood(
     favFoodId,
+    foodId,
     userId,
     foodName,
-    foodBrand,
-    servingUnit,
-    calories,
-    protein,
-    carbs,
-    fat
+    foodBrand
   );
 
   if (!addFavoriteFood) {
@@ -177,11 +176,6 @@ const deleteFavoriteFood = async (favFoodId) => {
       500
     );
   }
-
-  if (deletedFavoriteFood.changedRows === 0) {
-    throw new errorResponse("Food Not Found", 404);
-  }
-
   console.log(deletedFavoriteFood);
 
   return deletedFavoriteFood;
@@ -190,6 +184,7 @@ const deleteFavoriteFood = async (favFoodId) => {
 module.exports = {
   getAllFood,
   getFavoriteFood,
+  getIsFavoriteFood,
   getLogDates,
   addFood,
   addFavoriteFood,

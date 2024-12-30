@@ -29,7 +29,8 @@ const queryGetAllFood = async (userId, date) => {
 const queryGetFavoriteFood = async (userId) => {
   try {
     const response = await new Promise((resolve, reject) => {
-      const query = "SELECT * FROM favoriteFood WHERE user_id = ?";
+      const query =
+        "SELECT fav_food_id, food_id, food_brand, food_name FROM favoriteFood WHERE user_id = ?";
       pool.query(query, [userId], (err, results) => {
         if (err) {
           reject(new Error(err.message));
@@ -41,6 +42,32 @@ const queryGetFavoriteFood = async (userId) => {
     return response;
   } catch (err) {
     console.log(err.message);
+  }
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// @queryGetIsFavoriteFood
+////////////////////////////////////////////////////////////////////////////////////////////////
+const queryGetIsFavoriteFood = async (userId, foodId) => {
+  try {
+    const response = await new Promise((resolve, reject) => {
+      const query = `
+        SELECT COUNT(*) AS count 
+        FROM favoriteFood 
+        WHERE user_id = ? AND food_id = ?
+      `;
+      pool.query(query, [userId, foodId], (err, results) => {
+        if (err) {
+          reject(new Error(err.message));
+        } else {
+          resolve(results[0].count > 0); // Return true if count > 0
+        }
+      });
+    });
+    return response; // Returns true if the food ID is in favorites
+  } catch (err) {
+    console.log(err.message);
+    return false; // Return false in case of an error
   }
 };
 
@@ -125,32 +152,18 @@ const queryAddFood = async (
 ////////////////////////////////////////////////////////////////////////////////////////////////
 const queryAddFavoriteFood = async (
   favFoodId,
+  foodId,
   userId,
   foodName,
-  foodBrand,
-  servingUnit,
-  calories,
-  protein,
-  carbs,
-  fat
+  foodBrand
 ) => {
   try {
     const reponse = await new Promise((resolve, reject) => {
       const query =
-        "INSERT INTO favoriteFood (fav_food_id, user_id, food_name, food_brand, serving_unit, calories, protein, carbs, fat) VALUES (?,?,?,?,?,?,?,?,?)";
+        "INSERT INTO favoriteFood (fav_food_id, food_id, user_id, food_name, food_brand) VALUES (?,?,?,?,?)";
       pool.query(
         query,
-        [
-          favFoodId,
-          userId,
-          foodName,
-          foodBrand,
-          servingUnit,
-          calories,
-          protein,
-          carbs,
-          fat,
-        ],
+        [favFoodId, foodId, userId, foodName, foodBrand],
         (err, results) => {
           if (err) {
             reject(new Error(err.message));
@@ -233,6 +246,7 @@ module.exports = {
   queryGetAllFood,
   queryGetFavoriteFood,
   queryGetLogDates,
+  queryGetIsFavoriteFood,
   queryAddFood,
   queryAddFavoriteFood,
   queryUpdateFood,

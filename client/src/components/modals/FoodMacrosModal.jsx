@@ -28,8 +28,17 @@ import FavoriteButton from "../buttons/FavoriteButton";
 import { useSelector } from "react-redux";
 import ErrorAlert from "../alerts/ErrorAlert";
 import { toKcal } from "../../helper/toKcal";
+import CustomFoodDeleteBtn from "../buttons/CustomFoodDeleteBtn";
 
-const FoodMacrosModal = ({ open, onClose, food, title, type }) => {
+const FoodMacrosModal = ({
+  open,
+  onClose,
+  food,
+  title,
+  type,
+  mode,
+  favFood,
+}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { userId } = useAuth();
@@ -449,7 +458,10 @@ const FoodMacrosModal = ({ open, onClose, food, title, type }) => {
                 <MenuItem value={"oz"}>oz</MenuItem>
               </Select>
             </FormControl>
-            <FavoriteButton food={food} />
+            {mode !== "custom" && (
+              <FavoriteButton food={food} favFood={favFood} />
+            )}
+            {mode === "custom" && <CustomFoodDeleteBtn />}
           </Box>
 
           <Box

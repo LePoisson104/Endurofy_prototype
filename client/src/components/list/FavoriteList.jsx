@@ -7,18 +7,46 @@ import {
 } from "@mui/material";
 import { useGetFavoriteFoodQuery } from "../../features/food/foodApiSlice";
 import useAuth from "../../hooks/useAuth";
+import FoodMacrosModal from "../modals/FoodMacrosModal";
+import { useEffect, useState } from "react";
+import { useSearchFoodQuery } from "../../features/food/foodApiSlice";
 
-const FavoriteList = ({ searchTerm }) => {
+const FavoriteList = ({ searchTerm, title }) => {
   const { userId } = useAuth();
+
   const { data: favoriteFood, isLoading } = useGetFavoriteFoodQuery({ userId });
 
-  const testData = [
-    { food_name: "apple", food_brand: "Envy" },
-    { food_name: "chicken breast", food_brand: "Tyson" },
-    { food_name: "milk", food_brand: "Fairlife" },
-  ];
+  const [macrosModalOpen, setMacrosModalOpen] = useState(false);
+  const [selectedFood, setSelectedFood] = useState("");
+  const [foodId, setFoodId] = useState("");
+  const [triggerSearch, setTriggerSearch] = useState(false);
+  const [favFood, setFavFood] = useState("");
+
+  // Trigger the query only when triggerSearch is true
+  const { data: foodData, isLoading: isSearchFoodLoading } = useSearchFoodQuery(
+    { searchTerm: foodId },
+    { skip: !triggerSearch } // Skip the query if triggerSearch is false
+  );
+
+  const handleFoodSelect = (index) => {
+    if (favoriteFood) {
+      setFoodId(favoriteFood[index].food_id); // Set the foodId
+      setFavFood(favoriteFood[index]);
+      setTriggerSearch(true); // Trigger the query
+    }
+  };
+
+  // Use an effect to process the foodData once it's fetched
+  useEffect(() => {
+    if (!isSearchFoodLoading && foodData && triggerSearch && foodId) {
+      setSelectedFood(foodData?.foods?.[0]);
+      setTriggerSearch(false); // Reset triggerSearch to avoid re-fetching
+      setMacrosModalOpen(true); // Open the macros modal
+    }
+  }, [isSearchFoodLoading, foodData, triggerSearch, foodId]);
+
   // Filter the favoriteFood array based on searchTerm
-  const filteredFood = testData?.filter(
+  const filteredFood = favoriteFood?.filter(
     (food) =>
       food.food_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       food.food_brand.toLocaleLowerCase().includes(searchTerm.toLowerCase())
@@ -28,15 +56,19 @@ const FavoriteList = ({ searchTerm }) => {
     <>
       <List
         sx={{
-          maxHeight: "50vh", // Set a max height for the list
+          height: "50vh", // Set a max height for the list
           overflowY: "auto", // Enable vertical scrolling
         }}
       >
         {filteredFood?.length > 0 && !isLoading ? (
           filteredFood.map((food, index) => (
-            <ListItem button key={index}>
+            <ListItem
+              button
+              key={index}
+              onClick={() => handleFoodSelect(index)}
+            >
               <ListItemText
-                secondary={food.food_brand}
+                secondary={food.food_brand === "unknown" ? "" : food.food_brand}
                 primary={food.food_name}
               />
             </ListItem>
@@ -56,6 +88,13 @@ const FavoriteList = ({ searchTerm }) => {
           </ListItem>
         )}
       </List>
+      <FoodMacrosModal
+        open={macrosModalOpen}
+        onClose={() => setMacrosModalOpen(false)}
+        food={selectedFood}
+        title={title}
+        favFood={favFood}
+      />
     </>
   );
 };
