@@ -5,7 +5,7 @@ import {
   ListItemText,
   Typography,
   CircularProgress,
-  IconButton,
+  Button,
 } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
@@ -24,20 +24,22 @@ const CustomList = ({ searchTerm }) => {
         sx={{
           display: "flex",
           justifyContent: "flex-end",
-          mt: 2,
-          borderBottom: `1px solid ${colors.grey[1200]}`,
-          borderTop: `1px solid ${colors.grey[1200]}`,
           py: 1,
         }}
       >
-        <IconButton
+        <Button
+          endIcon={<AddIcon />}
           sx={{
-            textTransform: "none",
             color: "inherit",
+            textTransform: "none",
+            bgcolor: colors.primary[300],
+            "&:hover": {
+              bgcolor: colors.primary[200],
+            },
           }}
         >
-          <AddIcon />
-        </IconButton>
+          Add Food
+        </Button>
       </Box>
       <List
         sx={{
