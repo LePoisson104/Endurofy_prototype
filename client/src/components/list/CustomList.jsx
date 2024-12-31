@@ -10,11 +10,13 @@ import {
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
 import AddIcon from "@mui/icons-material/Add";
+import AddCustomFood from "../modals/AddCustomFood";
+import { useState } from "react";
 
 const CustomList = ({ searchTerm, title }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
+  const [openModal, setOpenModal] = useState(false);
   const customFood = [{ food_brand: "Tyson", food_name: "Chicken Breast" }];
   const isLoading = false;
 
@@ -29,6 +31,7 @@ const CustomList = ({ searchTerm, title }) => {
       >
         <Button
           endIcon={<AddIcon />}
+          onClick={() => setOpenModal(true)}
           sx={{
             color: "inherit",
             textTransform: "none",
@@ -82,6 +85,10 @@ const CustomList = ({ searchTerm, title }) => {
           </ListItem>
         )}
       </List>
+      <AddCustomFood
+        open={openModal}
+        onClose={() => setOpenModal(!openModal)}
+      />
     </>
   );
 };

@@ -41,15 +41,18 @@ const FavoriteButton = ({ food, favFood }) => {
     foodBrand: food?.brandName ? food?.brandName : "unknown",
   };
 
+  console.log("outside handlesubmit: ", isChecked);
+
   const handleSubmit = async () => {
-    setIsChecked((prev) => !prev);
+    const newCheckedState = !isChecked;
 
     try {
-      if (!isChecked) {
+      if (newCheckedState === true) {
         await addFavoriteFood({ userId, foodPayload });
-      } else {
+      } else if (newCheckedState === false) {
         await deleteFavoriteFood({ userId, favFoodId: favFood?.fav_food_id });
       }
+      setIsChecked((prev) => !prev);
     } catch (err) {
       if (!err.status) {
         setErrMsg("No Server Response");

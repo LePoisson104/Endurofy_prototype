@@ -176,7 +176,6 @@ const deleteFavoriteFood = async (favFoodId) => {
       500
     );
   }
-  console.log(deletedFavoriteFood);
 
   return deletedFavoriteFood;
 };
