@@ -145,29 +145,23 @@ const FoodMacrosModal = ({
     }
   }, [food, unit, serving]);
 
+  const isDataEmpty = !foodData?.fat && !foodData?.protein && !foodData?.carbs;
+
   const data = {
     datasets: [
       {
-        data: [
-          foodData?.fat || 100,
-          foodData?.protein || 0,
-          foodData?.carbs || 0,
-        ],
-        backgroundColor:
-          foodData?.fat === 0 &&
-          foodData?.protein === 0 &&
-          foodData?.carbs === 0
-            ? ["#D3D3D3", "#D3D3D3", "#D3D3D3"] // Colors for Fat, Protein, Carbs
-            : ["#FFCC8A", "#68afac", "#66b7cd"], // Gray color when no data
-        hoverBackgroundColor:
-          foodData?.fat === 0 &&
-          foodData?.protein === 0 &&
-          foodData?.carbs === 0
-            ? ["#D3D3D3", "#D3D3D3", "#D3D3D3"] // Colors for Fat, Protein, Carbs
-            : ["#FFCC8A", "#68afac", "#66b7cd"], // Gray color when no data
+        data: isDataEmpty
+          ? [100, 0, 0] // Single gray circle
+          : [foodData?.fat || 0, foodData?.protein || 0, foodData?.carbs || 0],
+        backgroundColor: isDataEmpty
+          ? ["#d3d3d3", "#d3d3d3", "#d3d3d3"] // Gray when no data
+          : ["#FFCC8A", "#68afac", "#66b7cd"],
+        hoverBackgroundColor: isDataEmpty
+          ? ["#d3d3d3", "#d3d3d3", "#d3d3d3"] // Gray when no data
+          : ["#FFCC8A", "#68afac", "#66b7cd"],
       },
     ],
-    totalCalories: Math.round(foodData?.calories),
+    totalCalories: Math.round(foodData?.calories) || 0,
   };
 
   const handleSubmit = async (e) => {

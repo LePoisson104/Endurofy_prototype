@@ -5,32 +5,109 @@ import {
   TextField,
   Button,
   IconButton,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
 } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
 import { textFieldStyles } from "../../pages/profile/TextFieldStyles";
 import NutrientDoughnutChart from "../../components/charts/NutrientDoughnutChart";
 import CloseIcon from "@mui/icons-material/Close";
+import { useEffect, useState } from "react";
 
 const AddCustomFood = ({ open, onClose }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const data = {
-    datasets: [
-      {
-        data: [100, 0, 0],
-        backgroundColor:
-          0 && 0 && 0
-            ? ["#D3D3D3", "#D3D3D3", "#D3D3D3"] // Colors for Fat, Protein, Carbs
-            : ["#FFCC8A", "#68afac", "#66b7cd"], // Gray color when no data
-        hoverBackgroundColor:
-          0 && 0 && 0
-            ? ["#D3D3D3", "#D3D3D3", "#D3D3D3"] // Colors for Fat, Protein, Carbs
-            : ["#FFCC8A", "#68afac", "#66b7cd"], // Gray color when no data
-      },
-    ],
-    totalCalories: 100,
-  };
+
+  const [unit, setUnit] = useState("g");
+  const [amount, setAmount] = useState(0);
+  const [foodName, setFoodName] = useState("");
+  const [foodBrand, setFoodBrand] = useState("");
+  const [calories, setCalories] = useState(0);
+  const [protein, setProtein] = useState(0);
+  const [carbs, setCarbs] = useState(0);
+  const [fat, setFat] = useState(0);
+  const [data, setData] = useState({});
+
+  // Reset states when modal closes
+  useEffect(() => {
+    if (!open) {
+      setUnit("g");
+      setAmount(0);
+      setFoodName("");
+      setFoodBrand("");
+      setCalories(0);
+      setProtein(0);
+      setCarbs(0);
+      setFat(0);
+      setData({
+        datasets: [
+          {
+            data: [100, 0, 0],
+            backgroundColor: ["#D3D3D3", "#D3D3D3", "#D3D3D3"],
+            hoverBackgroundColor: ["#D3D3D3", "#D3D3D3", "#D3D3D3"],
+          },
+        ],
+        totalCalories: 0,
+      });
+    } else if (open) {
+      setData({
+        datasets: [
+          {
+            data: [100, 0, 0],
+            backgroundColor: ["#D3D3D3", "#D3D3D3", "#D3D3D3"],
+            hoverBackgroundColor: ["#D3D3D3", "#D3D3D3", "#D3D3D3"],
+          },
+        ],
+        totalCalories: 0,
+      });
+    }
+  }, [open]);
+
+  useEffect(() => {
+    const isDataEmpty =
+      (fat === 0 || fat === "") &&
+      (protein === 0 || protein === "") &&
+      (carbs === 0 || carbs === "");
+
+    setData({
+      datasets: [
+        {
+          data: isDataEmpty
+            ? [100, 0, 0] // Single gray circle
+            : [fat || 0, protein || 0, carbs || 0],
+          backgroundColor: isDataEmpty
+            ? ["#D3D3D3", "#D3D3D3", "#D3D3D3"] // All gray
+            : ["#FFCC8A", "#68afac", "#66b7cd"], // Colors for Fat, Protein, Carbs
+          hoverBackgroundColor: isDataEmpty
+            ? ["#D3D3D3", "#D3D3D3", "#D3D3D3"] // All gray on hover
+            : ["#FFCC8A", "#68afac", "#66b7cd"], // Colors for Fat, Protein, Carbs
+        },
+      ],
+      totalCalories: calories || 0,
+    });
+  }, [calories, protein, carbs, fat]);
+
+  let proteinPercent;
+  let carbsPercent;
+  let fatPercent;
+
+  if (protein || carbs || fat) {
+    const newProtein = Number(protein ? protein : 0);
+    const newCarbs = Number(carbs ? carbs : 0);
+    const newFat = Number(fat ? fat : 0);
+
+    proteinPercent = Math.round(
+      (newProtein / (newProtein + newCarbs + newFat)) * 100
+    );
+    carbsPercent = Math.round(
+      (newCarbs / (newProtein + newCarbs + newFat)) * 100
+    );
+    fatPercent = Math.round((newFat / (newProtein + newCarbs + newFat)) * 100);
+  }
+
   return (
     <Modal open={open} onClose={onClose}>
       <Box
@@ -72,7 +149,8 @@ const AddCustomFood = ({ open, onClose }) => {
           }}
         >
           <Typography variant="body1" color={"textSecondary"} fontWeight={600}>
-            (Brand Name) Food Name
+            {foodBrand ? `(${foodBrand})` : `(Food Brand)`}{" "}
+            {foodName ? foodName : `Food Name`}
           </Typography>
         </Box>
 
@@ -104,8 +182,11 @@ const AddCustomFood = ({ open, onClose }) => {
                   mr: 1,
                 }}
               />
-              Protein: 0g
-              <span style={{ color: "#68afac" }}>%</span>
+              Protein: {protein ? protein : 0} g
+              <span style={{ color: "#68afac" }}>
+                {" "}
+                ({proteinPercent ? proteinPercent : 0} %)
+              </span>
             </Typography>
             <Typography variant="h5">
               <Box
@@ -118,8 +199,11 @@ const AddCustomFood = ({ open, onClose }) => {
                   mr: 1,
                 }}
               />
-              Carbs: 0g
-              <span style={{ color: "#66b7cd" }}>%</span>
+              Carbs: {carbs ? carbs : 0} g
+              <span style={{ color: "#66b7cd" }}>
+                {" "}
+                ({carbsPercent ? carbsPercent : 0} %)
+              </span>
             </Typography>
             <Typography variant="h5">
               <Box
@@ -132,8 +216,11 @@ const AddCustomFood = ({ open, onClose }) => {
                   mr: 1,
                 }}
               />
-              Fat: 0g
-              <span style={{ color: "#FFCC8A" }}>%</span>
+              Fat: {fat ? fat : 0} g
+              <span style={{ color: "#FFCC8A" }}>
+                {" "}
+                ({fatPercent ? fatPercent : 0} %)
+              </span>
             </Typography>
           </Box>
         </Box>
@@ -154,6 +241,7 @@ const AddCustomFood = ({ open, onClose }) => {
             fullWidth
             label="Food Name"
             size="small"
+            onChange={(e) => setFoodName(e.target.value)}
             sx={{
               mb: 2,
             }}
@@ -162,6 +250,7 @@ const AddCustomFood = ({ open, onClose }) => {
             fullWidth
             size="small"
             label="Food Brand - (optional)"
+            onChange={(e) => setFoodBrand(e.target.value)}
             sx={{ mb: 2 }}
           />
         </Box>
@@ -176,6 +265,7 @@ const AddCustomFood = ({ open, onClose }) => {
           <TextField
             fullWidth
             label="Calories (Kcal)"
+            onChange={(e) => setCalories(e.target.value)}
             size="small"
             type="number"
             sx={{
@@ -186,6 +276,7 @@ const AddCustomFood = ({ open, onClose }) => {
             fullWidth
             size="small"
             label="Protein (g)"
+            onChange={(e) => setProtein(e.target.value)}
             type="number"
             sx={{ mb: 2 }}
           />
@@ -194,6 +285,7 @@ const AddCustomFood = ({ open, onClose }) => {
             fullWidth
             size="small"
             label="Carbs (g)"
+            onChange={(e) => setCarbs(e.target.value)}
             type="number"
             sx={{ mb: 2 }}
           />
@@ -201,9 +293,64 @@ const AddCustomFood = ({ open, onClose }) => {
             fullWidth
             size="small"
             label="Fat (g)"
+            onChange={(e) => setFat(e.target.value)}
             type="number"
             sx={{ mb: 2 }}
           />
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            gap: 1,
+            alignItems: "center",
+          }}
+        >
+          <Typography>1 serving:</Typography>
+          <TextField
+            size="small"
+            label="amount (e.g. 100g)"
+            onChange={(e) => setAmount(e.target.value)}
+            type="number"
+            sx={{ ...textFieldStyles, width: 150 }}
+          />
+          <FormControl
+            sx={{
+              width: 100,
+            }}
+          >
+            <InputLabel
+              id="serving-unit-label"
+              sx={{
+                "&.Mui-focused": {
+                  color: "#6d76fa",
+                },
+              }}
+            >
+              Unit
+            </InputLabel>
+            <Select
+              labelId="serving-unit-label"
+              id="serving-unit-select"
+              value={unit}
+              label="Unit"
+              onChange={(e) => setUnit(e.target.value)}
+              sx={{
+                width: 100,
+                height: 37,
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#6d76fa", // Border color on hover
+                },
+                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#6d76fa",
+                },
+              }}
+            >
+              <MenuItem value={"g"}>g</MenuItem>
+              <MenuItem value={"oz"}>oz</MenuItem>
+              <MenuItem value={"ml"}>ml</MenuItem>
+            </Select>
+          </FormControl>
         </Box>
         <Box display="flex" justifyContent="end" mt={3} gap={1}>
           <Button
