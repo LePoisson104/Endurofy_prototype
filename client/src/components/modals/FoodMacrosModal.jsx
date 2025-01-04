@@ -38,6 +38,7 @@ const FoodMacrosModal = ({
   type,
   mode,
   favFood,
+  setCurrentFavFoodId,
 }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -453,7 +454,11 @@ const FoodMacrosModal = ({
               </Select>
             </FormControl>
             {mode !== "custom" && (
-              <FavoriteButton food={food} favFood={favFood} />
+              <FavoriteButton
+                food={food}
+                favFood={favFood}
+                setCurrentFavFoodId={setCurrentFavFoodId}
+              />
             )}
             {mode === "custom" && <CustomFoodDeleteBtn />}
           </Box>

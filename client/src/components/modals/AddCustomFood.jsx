@@ -335,6 +335,13 @@ const AddCustomFood = ({ open, onClose }) => {
               value={unit}
               label="Unit"
               onChange={(e) => setUnit(e.target.value)}
+              MenuProps={{
+                PaperProps: {
+                  sx: {
+                    bgcolor: colors.primary[400],
+                  },
+                },
+              }}
               sx={{
                 width: 100,
                 height: 37,

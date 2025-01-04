@@ -12,7 +12,7 @@ import {
   useDeleteFavoriteFoodMutation,
 } from "../../features/food/foodApiSlice";
 
-const FavoriteButton = ({ food, favFood }) => {
+const FavoriteButton = ({ food, favFood, setCurrentFavFoodId }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { userId } = useAuth();
@@ -24,7 +24,11 @@ const FavoriteButton = ({ food, favFood }) => {
   const [deleteFavoriteFood] = useDeleteFavoriteFoodMutation();
 
   // Trigger the query only when triggerSearch is true
-  const { data: isFavorite, isLoading } = useGetIsFavoriteFoodQuery({
+  const {
+    data: isFavorite,
+    isLoading,
+    refetch,
+  } = useGetIsFavoriteFoodQuery({
     userId,
     foodId: food?.fdcId,
   });
@@ -35,16 +39,21 @@ const FavoriteButton = ({ food, favFood }) => {
     }
   }, [isFavorite, isLoading]);
 
-  const foodPayload = {
-    foodId: food?.fdcId,
-    foodName: food?.description,
-    foodBrand: food?.brandName ? food?.brandName : "unknown",
-  };
-
-  console.log("outside handlesubmit: ", isChecked);
+  // if data from favorite food list then set the currentFoodId to check if this food id exists in food list after refetch
+  useEffect(() => {
+    if (favFood) {
+      setCurrentFavFoodId(food?.fdcId);
+    }
+  }, [favFood]);
 
   const handleSubmit = async () => {
     const newCheckedState = !isChecked;
+
+    const foodPayload = {
+      foodId: food?.fdcId,
+      foodName: food?.description,
+      foodBrand: food?.brandName ? food?.brandName : "unknown",
+    };
 
     try {
       if (newCheckedState === true) {
@@ -52,7 +61,12 @@ const FavoriteButton = ({ food, favFood }) => {
       } else if (newCheckedState === false) {
         await deleteFavoriteFood({ userId, favFoodId: favFood?.fav_food_id });
       }
-      setIsChecked((prev) => !prev);
+
+      // Toggle the checked state
+      setIsChecked(newCheckedState);
+
+      // Refetch to make sure the status is updated
+      refetch();
     } catch (err) {
       if (!err.status) {
         setErrMsg("No Server Response");
