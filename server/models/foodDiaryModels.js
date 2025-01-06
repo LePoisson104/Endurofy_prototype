@@ -51,23 +51,19 @@ const queryGetFavoriteFood = async (userId) => {
 const queryGetIsFavoriteFood = async (userId, foodId) => {
   try {
     const response = await new Promise((resolve, reject) => {
-      const query = `
-        SELECT COUNT(*) AS count 
-        FROM favoriteFood 
-        WHERE user_id = ? AND food_id = ?
-      `;
+      const query =
+        " SELECT * FROM favoriteFood WHERE user_id = ? AND food_id = ?";
       pool.query(query, [userId, foodId], (err, results) => {
         if (err) {
           reject(new Error(err.message));
         } else {
-          resolve(results[0].count > 0); // Return true if count > 0
+          resolve(results); // Return true if count > 0
         }
       });
     });
     return response; // Returns true if the food ID is in favorites
   } catch (err) {
     console.log(err.message);
-    return false; // Return false in case of an error
   }
 };
 

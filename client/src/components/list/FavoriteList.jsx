@@ -21,7 +21,6 @@ const FavoriteList = ({ searchTerm, title }) => {
   const [foodId, setFoodId] = useState("");
   const [triggerSearch, setTriggerSearch] = useState(false);
   const [favFood, setFavFood] = useState("");
-  const [currentFavFoodId, setCurrentFavFoodId] = useState(null);
 
   // Trigger the query only when triggerSearch is true
   const { data: foodData, isLoading: isSearchFoodLoading } = useSearchFoodQuery(
@@ -95,7 +94,6 @@ const FavoriteList = ({ searchTerm, title }) => {
         food={selectedFood}
         title={title}
         favFood={favFood}
-        setCurrentFavFoodId={setCurrentFavFoodId}
       />
     </>
   );

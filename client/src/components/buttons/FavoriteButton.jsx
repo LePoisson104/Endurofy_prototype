@@ -12,7 +12,7 @@ import {
   useDeleteFavoriteFoodMutation,
 } from "../../features/food/foodApiSlice";
 
-const FavoriteButton = ({ food, favFood, setCurrentFavFoodId }) => {
+const FavoriteButton = ({ food, favFood }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { userId } = useAuth();
@@ -35,16 +35,9 @@ const FavoriteButton = ({ food, favFood, setCurrentFavFoodId }) => {
 
   useEffect(() => {
     if (!isLoading) {
-      setIsChecked(isFavorite);
+      setIsChecked(isFavorite?.isFavorite);
     }
   }, [isFavorite, isLoading]);
-
-  // if data from favorite food list then set the currentFoodId to check if this food id exists in food list after refetch
-  useEffect(() => {
-    if (favFood) {
-      setCurrentFavFoodId(food?.fdcId);
-    }
-  }, [favFood]);
 
   const handleSubmit = async () => {
     const newCheckedState = !isChecked;

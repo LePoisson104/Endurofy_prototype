@@ -43,7 +43,11 @@ const getIsFavoriteFood = async (userId, foodId) => {
 
   const isFavoriteFood = await Foods.queryGetIsFavoriteFood(userId, foodId);
 
-  return isFavoriteFood;
+  if (isFavoriteFood.length === 0) {
+    return { isFavorite: false };
+  }
+
+  return { isFavorite: true, data: isFavoriteFood };
 };
 
 const getLogDates = async (userId, startDate, endDate) => {

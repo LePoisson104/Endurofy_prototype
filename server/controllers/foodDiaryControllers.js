@@ -31,6 +31,7 @@ const getIsFavoriteFood = async (req, res) => {
 
   try {
     const result = await foodDiaryServices.getIsFavoriteFood(userId, foodId);
+
     return res.status(200).json(result);
   } catch (err) {
     const statusCode = err.statusCode || 500;
