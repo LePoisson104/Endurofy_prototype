@@ -27,8 +27,6 @@ const FavoriteList = ({ searchTerm, title }) => {
     { skip: !triggerSearch } // Skip the query if triggerSearch is false
   );
 
-  // console.log("favoriteFood: ", favoriteFood);
-
   const handleFoodSelect = (index) => {
     if (favoriteFood) {
       setFoodId(favoriteFood[index].food_id); // Set the foodId

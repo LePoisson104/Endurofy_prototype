@@ -33,8 +33,6 @@ const FavoriteButton = ({ food }) => {
     foodId: food?.fdcId,
   }); // return {isFavorite: bool, data: [{fav_food_id, food_brand, food_id, food_name, user_id}]}
 
-  console.log("isFavorite, ", isFavorite?.data?.[0]?.fav_food_id);
-
   useEffect(() => {
     if (!isLoading) {
       setIsChecked(isFavorite?.isFavorite);
