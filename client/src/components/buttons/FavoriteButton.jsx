@@ -12,7 +12,7 @@ import {
   useDeleteFavoriteFoodMutation,
 } from "../../features/food/foodApiSlice";
 
-const FavoriteButton = ({ food, favFood }) => {
+const FavoriteButton = ({ food }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { userId } = useAuth();
@@ -31,7 +31,9 @@ const FavoriteButton = ({ food, favFood }) => {
   } = useGetIsFavoriteFoodQuery({
     userId,
     foodId: food?.fdcId,
-  });
+  }); // return {isFavorite: bool, data: [{fav_food_id, food_brand, food_id, food_name, user_id}]}
+
+  console.log("isFavorite, ", isFavorite?.data?.[0]?.fav_food_id);
 
   useEffect(() => {
     if (!isLoading) {
@@ -52,11 +54,11 @@ const FavoriteButton = ({ food, favFood }) => {
       if (newCheckedState === true) {
         await addFavoriteFood({ userId, foodPayload });
       } else if (newCheckedState === false) {
-        await deleteFavoriteFood({ userId, favFoodId: favFood?.fav_food_id });
+        await deleteFavoriteFood({
+          userId,
+          favFoodId: isFavorite?.data?.[0]?.fav_food_id,
+        });
       }
-
-      // Toggle the checked state
-      setIsChecked(newCheckedState);
 
       // Refetch to make sure the status is updated
       refetch();

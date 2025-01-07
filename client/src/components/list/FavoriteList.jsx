@@ -20,7 +20,6 @@ const FavoriteList = ({ searchTerm, title }) => {
   const [selectedFood, setSelectedFood] = useState("");
   const [foodId, setFoodId] = useState("");
   const [triggerSearch, setTriggerSearch] = useState(false);
-  const [favFood, setFavFood] = useState("");
 
   // Trigger the query only when triggerSearch is true
   const { data: foodData, isLoading: isSearchFoodLoading } = useSearchFoodQuery(
@@ -28,10 +27,11 @@ const FavoriteList = ({ searchTerm, title }) => {
     { skip: !triggerSearch } // Skip the query if triggerSearch is false
   );
 
+  // console.log("favoriteFood: ", favoriteFood);
+
   const handleFoodSelect = (index) => {
     if (favoriteFood) {
       setFoodId(favoriteFood[index].food_id); // Set the foodId
-      setFavFood(favoriteFood[index]);
       setTriggerSearch(true); // Trigger the query
     }
   };
@@ -93,7 +93,6 @@ const FavoriteList = ({ searchTerm, title }) => {
         onClose={() => setMacrosModalOpen(false)}
         food={selectedFood}
         title={title}
-        favFood={favFood}
       />
     </>
   );

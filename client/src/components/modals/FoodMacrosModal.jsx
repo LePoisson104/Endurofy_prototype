@@ -30,15 +30,7 @@ import ErrorAlert from "../alerts/ErrorAlert";
 import { toKcal } from "../../helper/toKcal";
 import CustomFoodDeleteBtn from "../buttons/CustomFoodDeleteBtn";
 
-const FoodMacrosModal = ({
-  open,
-  onClose,
-  food,
-  title,
-  type,
-  mode,
-  favFood,
-}) => {
+const FoodMacrosModal = ({ open, onClose, food, title, type, mode }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { userId } = useAuth();
@@ -452,9 +444,7 @@ const FoodMacrosModal = ({
                 <MenuItem value={"oz"}>oz</MenuItem>
               </Select>
             </FormControl>
-            {mode !== "custom" && (
-              <FavoriteButton food={food} favFood={favFood} />
-            )}
+            {mode !== "custom" && <FavoriteButton food={food} />}
             {mode === "custom" && <CustomFoodDeleteBtn />}
           </Box>
 
