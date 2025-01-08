@@ -1,5 +1,8 @@
 const foodDiaryServices = require("../services/foodDiaryServices");
 
+////////////////////////////////////////////////////////////////////////////////////////////////
+// @GET CONTROLLERS
+////////////////////////////////////////////////////////////////////////////////////////////////
 const getAllFood = async (req, res) => {
   const { userId } = req.params;
   const { date } = req.query;
@@ -56,6 +59,20 @@ const getLogDates = async (req, res) => {
   }
 };
 
+const getCustomFood = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const customFood = await foodDiaryServices.getCustomFood(userId);
+    return res.status(200).json(customFood);
+  } catch (err) {
+    const statusCode = err.statusCode || 500;
+    return res.status(statusCode).json({ message: err.message });
+  }
+};
+////////////////////////////////////////////////////////////////////////////////////////////////
+// @POST CONTROLLERS
+////////////////////////////////////////////////////////////////////////////////////////////////
 const addFood = async (req, res) => {
   const { userId } = req.params;
   const foodPayload = req.body;
@@ -84,6 +101,21 @@ const addFavoriteFood = async (req, res) => {
   }
 };
 
+const addCustomFood = async (req, res) => {
+  const { userId } = req.params;
+  const foodPayload = req.body;
+
+  try {
+    await foodDiaryServices.addCustomFood(userId, foodPayload);
+    return res.status(200).json({ message: "Custom food added successfully!" });
+  } catch (err) {
+    const statusCode = err.statusCode || 500;
+    return res.status(statusCode).json({ message: err.message });
+  }
+};
+////////////////////////////////////////////////////////////////////////////////////////////////
+// @PATCH CONTROLLERS
+////////////////////////////////////////////////////////////////////////////////////////////////
 const updateFood = async (req, res) => {
   const { foodId } = req.params;
   const updatePayload = req.body;
@@ -97,6 +129,24 @@ const updateFood = async (req, res) => {
   }
 };
 
+const updateCustomFood = async (req, res) => {
+  const { customFoodId } = req.params;
+  const updatePayload = req.body;
+
+  try {
+    await foodDiaryServices.updateCustomFood(customFoodId, updatePayload);
+    return res
+      .status(200)
+      .json({ message: "Custom food updated successfully!" });
+  } catch (err) {
+    const statusCode = err.statusCode || 500;
+    return res.status(statusCode).json({ message: err.message });
+  }
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// @DELETE CONTROLLERS
+////////////////////////////////////////////////////////////////////////////////////////////////
 const deleteFood = async (req, res) => {
   const { foodId } = req.params;
 
@@ -123,7 +173,22 @@ const deleteFavoriteFood = async (req, res) => {
   }
 };
 
-// search food
+const deleteCustomFood = async (req, res) => {
+  const { customFoodId } = req.params;
+
+  try {
+    await foodDiaryServices.deleteCustomFood(customFoodId);
+    return res
+      .status(200)
+      .json({ message: "Custom food delete successfully!" });
+  } catch (err) {
+    const statusCode = err.statusCode || 500;
+    return res.status(statusCode).json({ message: err.message });
+  }
+};
+////////////////////////////////////////////////////////////////////////////////////////////////
+// @SEARCH FOOD (GET METHOD)
+////////////////////////////////////////////////////////////////////////////////////////////////
 const searchFood = async (req, res) => {
   const { query } = req.query;
   try {
@@ -144,10 +209,14 @@ module.exports = {
   getFavoriteFood,
   getIsFavoriteFood,
   getLogDates,
+  getCustomFood,
   addFood,
   addFavoriteFood,
+  addCustomFood,
   updateFood,
+  updateCustomFood,
   deleteFood,
   deleteFavoriteFood,
+  deleteCustomFood,
   searchFood,
 };

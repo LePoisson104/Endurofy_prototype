@@ -12,13 +12,17 @@ import { tokens } from "../../theme";
 import AddIcon from "@mui/icons-material/Add";
 import AddCustomFood from "../modals/AddCustomFood";
 import { useState } from "react";
+import { useGetCustomFoodQuery } from "../../features/food/foodApiSlice";
+import useAuth from "../../hooks/useAuth";
 
 const CustomList = ({ searchTerm, title }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const { userId } = useAuth();
+
   const [openModal, setOpenModal] = useState(false);
-  const customFood = [{ food_brand: "Tyson", food_name: "Chicken Breast" }];
-  const isLoading = false;
+
+  const { data: customFood, isLoading } = useGetCustomFoodQuery({ userId });
 
   return (
     <>

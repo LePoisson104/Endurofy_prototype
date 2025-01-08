@@ -16,10 +16,13 @@ import { textFieldStyles } from "../../pages/profile/TextFieldStyles";
 import NutrientDoughnutChart from "../../components/charts/NutrientDoughnutChart";
 import CloseIcon from "@mui/icons-material/Close";
 import { useEffect, useState } from "react";
+import useAuth from "../../hooks/useAuth";
 
-const AddCustomFood = ({ open, onClose }) => {
+const AddCustomFood = ({ open, onClose, type }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const { userId } = useAuth();
 
   const [unit, setUnit] = useState("g");
   const [amount, setAmount] = useState(0);
@@ -29,6 +32,8 @@ const AddCustomFood = ({ open, onClose }) => {
   const [protein, setProtein] = useState(0);
   const [carbs, setCarbs] = useState(0);
   const [fat, setFat] = useState(0);
+
+  // macros doughnut data
   const [data, setData] = useState({});
 
   // Reset states when modal closes
@@ -108,9 +113,29 @@ const AddCustomFood = ({ open, onClose }) => {
     fatPercent = Math.round((newFat / (newProtein + newCarbs + newFat)) * 100);
   }
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const foodPayload = {
+      userId: userId,
+      foodName: foodName,
+      foodBrand: foodBrand ? foodBrand : "unknown",
+      calories: calories,
+      protein: protein,
+      carbs: carbs,
+      fat: fat,
+      servingSize: amount,
+      servingUnit: unit,
+    };
+
+    console.log(foodPayload);
+  };
+
   return (
     <Modal open={open} onClose={onClose}>
       <Box
+        component={"form"}
+        onSubmit={handleSubmit}
         sx={{
           width: "550px",
           margin: "auto",
@@ -371,6 +396,7 @@ const AddCustomFood = ({ open, onClose }) => {
             Cancel
           </Button>
           <Button
+            type="submit"
             sx={{
               textTransform: "none",
               color: "white",
@@ -378,7 +404,7 @@ const AddCustomFood = ({ open, onClose }) => {
               "&:hover": { bgcolor: colors.purpleAccent[300] },
             }}
           >
-            Add
+            {type === "edit" ? "edit" : "add"}
           </Button>
         </Box>
       </Box>

@@ -2,6 +2,9 @@ const errorResponse = require("../utils/errorResponse");
 const Foods = require("../models/foodDiaryModels");
 const { v4: uuidv4 } = require("uuid");
 
+////////////////////////////////////////////////////////////////////////////////////////////////
+// @GET SERVICES
+////////////////////////////////////////////////////////////////////////////////////////////////
 const getAllFood = async (userId, date) => {
   if (!userId && !date) {
     throw new errorResponse("UserId and date are required!", 400);
@@ -70,6 +73,25 @@ const getLogDates = async (userId, startDate, endDate) => {
   return logDates;
 };
 
+const getCustomFood = async (userId) => {
+  if (!userId) {
+    throw new errorResponse("UserId is required!", 400);
+  }
+
+  const customFood = await Foods.queryGetCustomFood(userId);
+
+  if (!customFood) {
+    throw new errorResponse(
+      "Something went wrong while trying to get custom food!",
+      500
+    );
+  }
+
+  return customFood;
+};
+////////////////////////////////////////////////////////////////////////////////////////////////
+// @POST SERVICES
+////////////////////////////////////////////////////////////////////////////////////////////////
 const addFood = async (userId, foodPayload) => {
   if (!userId && Object.keys(foodPayload).length === 0) {
     throw new errorResponse("UserId and foodPayload are required!", 400);
@@ -140,16 +162,126 @@ const addFavoriteFood = async (userId, foodPayload) => {
   return addFavoriteFood;
 };
 
-const updateFood = async (foodId, updatePayload) => {
-  if (!foodId && !updatePayload) {
-    throw new errorResponse("FoodId and updatePayload are Required!", 400);
+const addCustomFood = async (userId, foodPayload) => {
+  if ((!userId && Object.keys(foodPayload).length === 0) || !foodPayload) {
+    throw new errorResponse("UserId and foodPayload are required!", 400);
   }
 
+  const {
+    foodName,
+    foodBrand,
+    calories,
+    protein,
+    carbs,
+    fat,
+    servingSize,
+    servingUnit,
+  } = foodPayload;
+
+  const customFoodId = uuidv4();
+
+  const addCustom = await Foods.queryAddCustomFood(
+    customFoodId,
+    userId,
+    foodName,
+    foodBrand,
+    calories,
+    protein,
+    carbs,
+    fat,
+    servingSize,
+    servingUnit
+  );
+
+  if (!addCustom) {
+    throw new errorResponse(
+      "Something went wrong while trying to add custom food!",
+      400
+    );
+  }
+
+  return addCustom;
+};
+////////////////////////////////////////////////////////////////////////////////////////////////
+// @PATCH SERVICES
+////////////////////////////////////////////////////////////////////////////////////////////////
+const updateFood = async (foodId, updatePayload) => {
+  if ((!foodId && Object.keys(updatePayload).length === 0) || !updatePayload) {
+    throw new errorResponse("foodId and foodPayload are required!", 400);
+  }
+
+  const { serving_size, serving_unit } = updatePayload;
+
+  if (!serving_size || !serving_unit) {
+    throw new errorResponse(
+      "Make sure variable names are spelled correctly (serving_size, serving_unit)",
+      400
+    );
+  }
   const updatedFood = await Foods.queryUpdateFood(foodId, updatePayload);
+
+  if (!updatedFood) {
+    throw new errorResponse(
+      "Something went wrong while trying to update food!",
+      500
+    );
+  }
 
   return updatedFood;
 };
 
+const updateCustomFood = async (customFoodId, updatePayload) => {
+  if (
+    (!customFoodId && Object.keys(updatePayload).length === 0) ||
+    !updatePayload
+  ) {
+    throw new errorResponse("customFoodId and foodPayload are required!", 400);
+  }
+
+  const {
+    food_name,
+    food_brand,
+    calories,
+    protein,
+    carbs,
+    fat,
+    serving_size,
+    serving_unit,
+  } = updatePayload;
+
+  if (
+    !food_name ||
+    !food_brand ||
+    !calories ||
+    !protein ||
+    !carbs ||
+    !fat ||
+    !serving_size ||
+    !serving_unit
+  ) {
+    throw new errorResponse(
+      "Make sure your varible names are spelled correctly (food_name, food_brand, calories, protein, carbs, fat, serving_size, serving_unit)",
+      400
+    );
+  }
+
+  const updatedCustomFood = await Foods.queryUpdateCustomFood(
+    customFoodId,
+    updatePayload
+  );
+
+  if (!updatedCustomFood) {
+    throw new errorResponse(
+      "Something went wrong while trying to update custom food!",
+      500
+    );
+  }
+
+  return updatedCustomFood;
+};
+////////////////////////////////////////////////////////////////////////////////////////////////
+// @DELETE SERVICES
+////////////////////////////////////////////////////////////////////////////////////////////////
 const deleteFood = async (foodId) => {
   if (!foodId) {
     throw new errorResponse("FoodId is required!", 400);
@@ -184,14 +316,35 @@ const deleteFavoriteFood = async (favFoodId) => {
   return deletedFavoriteFood;
 };
 
+const deleteCustomFood = async (customFoodId) => {
+  if (!customFoodId) {
+    throw new errorResponse("customFoodId is required!", 400);
+  }
+
+  const deletedCustomFood = await Foods.queryDeleteCustomFood(customFoodId);
+
+  if (!deletedCustomFood) {
+    throw new errorResponse(
+      "Something went wrong while trying to delete custom food!",
+      500
+    );
+  }
+
+  return deletedCustomFood;
+};
+
 module.exports = {
   getAllFood,
   getFavoriteFood,
   getIsFavoriteFood,
   getLogDates,
+  getCustomFood,
   addFood,
   addFavoriteFood,
+  addCustomFood,
   updateFood,
+  updateCustomFood,
   deleteFood,
   deleteFavoriteFood,
+  deleteCustomFood,
 };

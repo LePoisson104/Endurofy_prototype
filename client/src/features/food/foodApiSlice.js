@@ -47,6 +47,16 @@ export const foodApiSlice = apiSlice.injectEndpoints({
         { type: "FoodLog", id: "LIST" },
       ],
     }),
+    getCustomFood: builder.query({
+      query: ({ userId }) => ({
+        url: `/food-diary/get-custom-food/${userId}`,
+        method: "GET",
+      }),
+      providesTags: (result, error, { userId }) =>
+        result
+          ? [{ type: "CustomFood", id: `${userId}` }]
+          : [{ type: "CustomFood", id: "LIST" }],
+    }),
     searchFood: builder.query({
       query: ({ searchTerm }) => ({
         url: `/food-diary/search-food?query=${searchTerm}`,
@@ -80,6 +90,17 @@ export const foodApiSlice = apiSlice.injectEndpoints({
         { type: "FavoriteFood", id: "LIST" },
       ],
     }),
+    addCustomFood: builder.mutation({
+      query: ({ userId, foodPayload }) => ({
+        url: `/food-diary/add-custom-food/${userId}`,
+        method: "POST",
+        body: foodPayload,
+      }),
+      invalidatesTags: (result, error, { userId }) => [
+        { type: "CustomFood", id: `${userId}` },
+        { type: "CustomFood", id: "LIST" },
+      ],
+    }),
     deleteFood: builder.mutation({
       query: ({ foodId }) => ({
         url: `/food-diary/delete-food-by-id/${foodId}`,
@@ -100,6 +121,16 @@ export const foodApiSlice = apiSlice.injectEndpoints({
         { type: "FavoriteFood", id: "LIST" },
       ],
     }),
+    deleteCustomFood: builder.mutation({
+      query: ({ customFoodId }) => ({
+        url: `/food-diary/delete-custom-food-by-id/${customFoodId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (result, error, { userId }) => [
+        { type: "CustomFood", id: `${userId}` },
+        { type: "CustomFood", id: "LIST" },
+      ],
+    }),
     editFood: builder.mutation({
       query: ({ foodId, updatePayload }) => ({
         url: `/food-diary/update-food-by-id/${foodId}`,
@@ -111,6 +142,17 @@ export const foodApiSlice = apiSlice.injectEndpoints({
         { type: "FoodLog", id: "LIST" },
       ],
     }),
+    editCustomFood: builder.mutation({
+      query: ({ customFoodId, updatePayload }) => ({
+        url: `/food-diary/update-custom-food-by-id/${customFoodId}`,
+        method: "PATCH",
+        body: updatePayload,
+      }),
+      invalidatesTags: (result, error, { userId, currentDate }) => [
+        { type: "CustomFood", id: `${userId}` },
+        { type: "CustomFood", id: "LIST" },
+      ],
+    }),
   }),
 });
 
@@ -118,11 +160,15 @@ export const {
   useGetAllFoodByDateQuery,
   useGetFavoriteFoodQuery,
   useGetIsFavoriteFoodQuery,
+  useGetCustomFoodQuery,
+  useGetLogDatesQuery,
   useSearchFoodQuery,
   useAddFoodMutation,
+  useAddCustomFoodMutation,
   useAddFavoriteFoodMutation,
   useDeleteFoodMutation,
   useDeleteFavoriteFoodMutation,
+  useDeleteCustomFoodMutation,
   useEditFoodMutation,
-  useGetLogDatesQuery,
+  useEditCustomFoodMutation,
 } = foodApiSlice;

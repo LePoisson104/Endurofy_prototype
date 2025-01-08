@@ -2,7 +2,7 @@ const { response } = require("express");
 const pool = require("../utils/db");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
-// @queryGetAllFood
+// @GET QUERIES
 ////////////////////////////////////////////////////////////////////////////////////////////////
 const queryGetAllFood = async (userId, date) => {
   try {
@@ -23,9 +23,6 @@ const queryGetAllFood = async (userId, date) => {
   }
 };
 
-////////////////////////////////////////////////////////////////////////////////////////////////
-// @queryGetFavoriteFood
-////////////////////////////////////////////////////////////////////////////////////////////////
 const queryGetFavoriteFood = async (userId) => {
   try {
     const response = await new Promise((resolve, reject) => {
@@ -45,9 +42,6 @@ const queryGetFavoriteFood = async (userId) => {
   }
 };
 
-////////////////////////////////////////////////////////////////////////////////////////////////
-// @queryGetIsFavoriteFood
-////////////////////////////////////////////////////////////////////////////////////////////////
 const queryGetIsFavoriteFood = async (userId, foodId) => {
   try {
     const response = await new Promise((resolve, reject) => {
@@ -67,9 +61,6 @@ const queryGetIsFavoriteFood = async (userId, foodId) => {
   }
 };
 
-////////////////////////////////////////////////////////////////////////////////////////////////
-// @queryGetLogDates
-////////////////////////////////////////////////////////////////////////////////////////////////
 const queryGetLogDates = async (userId, startDate, endDate) => {
   try {
     const response = await new Promise((resolve, reject) => {
@@ -93,8 +84,26 @@ const queryGetLogDates = async (userId, startDate, endDate) => {
   }
 };
 
+const queryGetCustomFood = async (userId) => {
+  try {
+    const response = await new Promise((resolve, reject) => {
+      const query =
+        "SELECT custom_food_id, food_name, food_brand, calories, protein, carbs, fat, serving_size, serving_unit FROM customFood WHERE user_id = ?";
+      pool.query(query, [userId], (err, results) => {
+        if (err) {
+          reject(new Error(err.message));
+        } else {
+          resolve(results);
+        }
+      });
+    });
+    return response;
+  } catch (err) {
+    console.log(err.message);
+  }
+};
 ////////////////////////////////////////////////////////////////////////////////////////////////
-// @queryAddFood
+// @POST QUERIES
 ////////////////////////////////////////////////////////////////////////////////////////////////
 const queryAddFood = async (
   foodId,
@@ -143,9 +152,6 @@ const queryAddFood = async (
   }
 };
 
-////////////////////////////////////////////////////////////////////////////////////////////////
-// @queryAddFavoriteFood
-////////////////////////////////////////////////////////////////////////////////////////////////
 const queryAddFavoriteFood = async (
   favFoodId,
   foodId,
@@ -175,8 +181,52 @@ const queryAddFavoriteFood = async (
   }
 };
 
+const queryAddCustomFood = async (
+  customFoodId,
+  userId,
+  foodName,
+  foodBrand,
+  calories,
+  protein,
+  carbs,
+  fat,
+  servingSize,
+  servingUnit
+) => {
+  try {
+    const response = await new Promise((resolve, reject) => {
+      const query =
+        "INSERT INTO customFood (custom_food_id, user_id, food_name, food_brand, calories, protein, carbs, fat, serving_size, serving_unit) VALUES (?,?,?,?,?,?,?,?,?,?)";
+      pool.query(
+        query,
+        [
+          customFoodId,
+          userId,
+          foodName,
+          foodBrand,
+          calories,
+          protein,
+          carbs,
+          fat,
+          servingSize,
+          servingUnit,
+        ],
+        (err, results) => {
+          if (err) {
+            reject(new Error(err.message));
+          } else {
+            resolve(results);
+          }
+        }
+      );
+    });
+    return response;
+  } catch (err) {
+    console.log(err.message);
+  }
+};
 ////////////////////////////////////////////////////////////////////////////////////////////////
-// @queryUpdateFoodByID
+// @PATCH QUERIES
 ////////////////////////////////////////////////////////////////////////////////////////////////
 const queryUpdateFood = async (foodId, updatePayload) => {
   try {
@@ -196,8 +246,25 @@ const queryUpdateFood = async (foodId, updatePayload) => {
   }
 };
 
+const queryUpdateCustomFood = async (customFoodId, updatePayload) => {
+  try {
+    const response = await new Promise((resolve, reject) => {
+      const query = "UPDATE customFood SET ? WHERE custom_food_id = ?";
+      pool.query(query, [updatePayload, customFoodId], (err, results) => {
+        if (err) {
+          reject(new Error(err.message));
+        } else {
+          resolve(results);
+        }
+      });
+    });
+    return response;
+  } catch (err) {
+    console.log(err.message);
+  }
+};
 ////////////////////////////////////////////////////////////////////////////////////////////////
-// @queryDeleteFoodById
+// @DELETE QUERIES
 ////////////////////////////////////////////////////////////////////////////////////////////////
 const queryDeleteFood = async (foodId) => {
   try {
@@ -217,9 +284,6 @@ const queryDeleteFood = async (foodId) => {
   }
 };
 
-////////////////////////////////////////////////////////////////////////////////////////////////
-// @queryDeleteFavoriteFood
-////////////////////////////////////////////////////////////////////////////////////////////////
 const queryDeleteFavoriteFood = async (favFoodId) => {
   try {
     const response = await new Promise((resolve, reject) => {
@@ -238,14 +302,36 @@ const queryDeleteFavoriteFood = async (favFoodId) => {
   }
 };
 
+const queryDeleteCustomFood = async (customFoodId) => {
+  try {
+    const response = await new Promise((resolve, reject) => {
+      const query = "DELETE FROM customFood WHERE custom_food_id = ?";
+      pool.query(query, [customFoodId], (err, results) => {
+        if (err) {
+          reject(new Error(err.message));
+        } else {
+          resolve(results);
+        }
+      });
+    });
+    return response;
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
 module.exports = {
   queryGetAllFood,
   queryGetFavoriteFood,
   queryGetLogDates,
   queryGetIsFavoriteFood,
+  queryGetCustomFood,
   queryAddFood,
   queryAddFavoriteFood,
+  queryAddCustomFood,
   queryUpdateFood,
+  queryUpdateCustomFood,
   queryDeleteFood,
   queryDeleteFavoriteFood,
+  queryDeleteCustomFood,
 };
