@@ -6,14 +6,17 @@ import {
   Typography,
   CircularProgress,
   Button,
+  IconButton,
 } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
 import AddIcon from "@mui/icons-material/Add";
+import EditNoteIcon from "@mui/icons-material/EditNote";
 import AddCustomFood from "../modals/AddCustomFood";
 import { useState } from "react";
 import { useGetCustomFoodQuery } from "../../features/food/foodApiSlice";
 import useAuth from "../../hooks/useAuth";
+import FoodMacrosModal from "../modals/FoodMacrosModal";
 
 const CustomList = ({ searchTerm, title }) => {
   const theme = useTheme();
@@ -21,8 +24,21 @@ const CustomList = ({ searchTerm, title }) => {
   const { userId } = useAuth();
 
   const [openModal, setOpenModal] = useState(false);
+  const [macrosModalOpen, setMacrosModalOpen] = useState(false);
+  const [selectedFood, setSelectedFood] = useState({});
 
   const { data: customFood, isLoading } = useGetCustomFoodQuery({ userId });
+
+  const filteredFood = customFood?.filter(
+    (food) =>
+      food.food_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      food.food_brand.toLocaleLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleFoodSelect = (index) => {
+    setMacrosModalOpen(true);
+    setSelectedFood(customFood?.[index]);
+  };
 
   return (
     <>
@@ -31,6 +47,7 @@ const CustomList = ({ searchTerm, title }) => {
           display: "flex",
           justifyContent: "flex-end",
           py: 1,
+          gap: 1,
         }}
       >
         <Button
@@ -60,14 +77,21 @@ const CustomList = ({ searchTerm, title }) => {
           overflowY: "auto", // Enable vertical scrolling
         }}
       >
-        {customFood?.length > 0 && !isLoading ? (
-          customFood?.map((food, index) => (
-            <ListItem button key={index}>
+        {filteredFood?.length > 0 && !isLoading ? (
+          filteredFood?.map((food, index) => (
+            <ListItem
+              button
+              key={index}
+              onClick={() => handleFoodSelect(index)}
+            >
               {/* onClick={() => handleFoodSelect(index)} */}
               <ListItemText
                 secondary={food.food_brand}
                 primary={food.food_name}
               />
+              <IconButton>
+                <EditNoteIcon />
+              </IconButton>
             </ListItem>
           ))
         ) : (
@@ -92,6 +116,14 @@ const CustomList = ({ searchTerm, title }) => {
       <AddCustomFood
         open={openModal}
         onClose={() => setOpenModal(!openModal)}
+      />
+      <FoodMacrosModal
+        open={macrosModalOpen}
+        onClose={() => setMacrosModalOpen(false)}
+        food={selectedFood}
+        title={title}
+        type={"edit"}
+        mode={"custom"}
       />
     </>
   );

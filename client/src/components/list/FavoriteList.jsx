@@ -29,7 +29,7 @@ const FavoriteList = ({ searchTerm, title }) => {
 
   const handleFoodSelect = (index) => {
     if (favoriteFood) {
-      setFoodId(favoriteFood[index].food_id); // Set the foodId
+      setFoodId(favoriteFood?.[index]?.food_id); // Set the foodId
       setTriggerSearch(true); // Trigger the query
     }
   };

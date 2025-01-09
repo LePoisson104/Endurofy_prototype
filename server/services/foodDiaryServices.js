@@ -99,6 +99,7 @@ const addFood = async (userId, foodPayload) => {
 
   const {
     foodName,
+    foodBrand,
     calories,
     protein,
     carbs,
@@ -115,6 +116,7 @@ const addFood = async (userId, foodPayload) => {
     foodId,
     userId,
     foodName,
+    foodBrand,
     calories,
     protein,
     carbs,

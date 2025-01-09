@@ -164,6 +164,7 @@ const FoodMacrosModal = ({ open, onClose, food, title, type, mode }) => {
     if (type !== "edit") {
       foodPayload = {
         foodName: food.description,
+        foodBrand: food.brandName ? food.brandName : "unknown",
         servingSize: serving,
         servingUnit: unit,
         calories: initialFoodData.calories,
@@ -240,10 +241,17 @@ const FoodMacrosModal = ({ open, onClose, food, title, type, mode }) => {
               alignItems: "center",
             }}
           >
-            <Typography variant="h5" fontWeight={600}>
-              {food?.brandName ? `(${food.brandName}) ` : ""}{" "}
-              {food?.description}
-            </Typography>
+            {type !== "edit" ? (
+              <Typography variant="h5" fontWeight={600}>
+                {food?.brandName ? `(${food.brandName}) ` : ""}{" "}
+                {food?.description}
+              </Typography>
+            ) : (
+              <Typography variant="h5" fontWeight={600}>
+                {food?.food_brand === "unknown" ? "" : `(${food.food_brand}) `}
+                {food?.food_name}
+              </Typography>
+            )}
 
             <IconButton onClick={onClose}>
               <CloseIcon />
@@ -445,7 +453,12 @@ const FoodMacrosModal = ({ open, onClose, food, title, type, mode }) => {
               </Select>
             </FormControl>
             {mode !== "custom" && <FavoriteButton food={food} />}
-            {mode === "custom" && <CustomFoodDeleteBtn />}
+            {mode === "custom" && (
+              <CustomFoodDeleteBtn
+                customFoodId={food?.custom_food_id}
+                onClose={onclose}
+              />
+            )}
           </Box>
 
           <Box

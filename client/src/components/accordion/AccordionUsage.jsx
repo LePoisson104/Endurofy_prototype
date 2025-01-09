@@ -120,6 +120,9 @@ const AccordionUsage = ({ title, data, originalData }) => {
             >
               <EditOutlinedIcon />
             </IconButton>
+            <Typography>
+              {item.food_brand === "unknown" ? "" : `(${item.food_brand})`}
+            </Typography>
             <Typography>{item.food_name}</Typography>
           </Box>
           <Box
