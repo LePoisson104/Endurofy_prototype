@@ -30,12 +30,13 @@ import ErrorAlert from "../alerts/ErrorAlert";
 import { toKcal } from "../../helper/toKcal";
 import CustomFoodDeleteBtn from "../buttons/CustomFoodDeleteBtn";
 
-const FoodMacrosModal = ({ open, onClose, food, title, type, mode }) => {
+const FoodMacrosModal = ({ open, onClose, food, title, type }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { userId } = useAuth();
 
   const [unit, setUnit] = useState("");
+
   const [serving, setServing] = useState(1);
   const [foodData, setFoodData] = useState({});
 
@@ -49,6 +50,7 @@ const FoodMacrosModal = ({ open, onClose, food, title, type, mode }) => {
   );
 
   let Kcal = 0;
+  // make a copy of the original data this data be alter and you don't want the alter data to be store in the db
   let updatedFoodObject;
 
   if (type === "edit") {
@@ -74,13 +76,16 @@ const FoodMacrosModal = ({ open, onClose, food, title, type, mode }) => {
       });
       setFoodData(calculatedData);
       // Mark as initialized
+    } else if (type === "custom" && food) {
+      setUnit(`${food?.serving_size}${food?.serving_unit}`);
+      setServing(1);
     } else {
       setUnit(food?.servingSizeUnit ? `100${food?.servingSizeUnit}` : "100g");
       setServing(1);
     }
   }, [food, type]);
 
-  if (type !== "edit") {
+  if (type !== "edit" && type !== "custom") {
     if (findFoodMacros(food, "Energy")?.unitName === "kJ") {
       Kcal = toKcal(findFoodMacros(food, "Energy")?.value);
     } else {
@@ -90,7 +95,7 @@ const FoodMacrosModal = ({ open, onClose, food, title, type, mode }) => {
 
   let initialFoodData = {};
 
-  if (type !== "edit") {
+  if (type !== "edit" && type !== "custom") {
     initialFoodData = {
       calories: Kcal,
       protein: findFoodMacros(food, "Protein")?.value || 0,
@@ -123,6 +128,14 @@ const FoodMacrosModal = ({ open, onClose, food, title, type, mode }) => {
           initialFoodData.fat * MACROS.fat
       );
     }
+  } else if (type === "custom") {
+    initialFoodData = {
+      calories: food?.calories,
+      protein: food?.protein,
+      carbs: food?.carbs,
+      fat: food?.fat,
+      servingSize: food?.serving_size,
+    };
   }
 
   // Set foodData based on unit and serving
@@ -161,10 +174,23 @@ const FoodMacrosModal = ({ open, onClose, food, title, type, mode }) => {
 
     let foodPayload;
 
-    if (type !== "edit") {
+    if (type !== "edit" && type !== "custom") {
       foodPayload = {
         foodName: food.description,
         foodBrand: food.brandName ? food.brandName : "unknown",
+        servingSize: serving,
+        servingUnit: unit,
+        calories: initialFoodData.calories,
+        protein: initialFoodData.protein,
+        carbs: initialFoodData.carbs,
+        fat: initialFoodData.fat,
+        mealType: title.toLowerCase(),
+        loggedAt: currentDate,
+      };
+    } else if (type === "custom") {
+      foodPayload = {
+        foodName: food.food_name,
+        foodBrand: food.food_brand,
         servingSize: serving,
         servingUnit: unit,
         calories: initialFoodData.calories,
@@ -241,7 +267,7 @@ const FoodMacrosModal = ({ open, onClose, food, title, type, mode }) => {
               alignItems: "center",
             }}
           >
-            {type !== "edit" ? (
+            {type !== "edit" && type !== "custom" ? (
               <Typography variant="h5" fontWeight={600}>
                 {food?.brandName ? `(${food.brandName}) ` : ""}{" "}
                 {food?.description}
@@ -439,12 +465,20 @@ const FoodMacrosModal = ({ open, onClose, food, title, type, mode }) => {
               >
                 <MenuItem
                   value={
-                    food?.servingSizeUnit
+                    type === "edit"
+                      ? food?.serving_unit
+                      : type === "custom"
+                      ? `${food?.serving_size}${food?.serving_unit}`
+                      : food?.servingSizeUnit
                       ? `100${food?.servingSizeUnit}`
                       : "100g"
                   }
                 >
-                  {food?.servingSizeUnit
+                  {type === "edit"
+                    ? food?.serving_unit
+                    : type === "custom"
+                    ? `${food?.serving_size}${food?.serving_unit}`
+                    : food?.servingSizeUnit
                     ? `100${food?.servingSizeUnit}`
                     : "100g"}
                 </MenuItem>
@@ -452,11 +486,11 @@ const FoodMacrosModal = ({ open, onClose, food, title, type, mode }) => {
                 <MenuItem value={"oz"}>oz</MenuItem>
               </Select>
             </FormControl>
-            {mode !== "custom" && <FavoriteButton food={food} />}
-            {mode === "custom" && (
+            {type !== "custom" && <FavoriteButton food={food} />}
+            {type === "custom" && (
               <CustomFoodDeleteBtn
                 customFoodId={food?.custom_food_id}
-                onClose={onclose}
+                closeModal={onClose}
               />
             )}
           </Box>

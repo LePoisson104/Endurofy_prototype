@@ -1,9 +1,11 @@
 export const foodServingsHelper = ({ serving, unit, foodData }) => {
   if (unit === "g" || unit === "GRM") {
-    foodData.calories = (foodData.calories / 100) * serving;
-    foodData.protein = (foodData.protein / 100) * serving;
-    foodData.carbs = (foodData.carbs / 100) * serving;
-    foodData.fat = (foodData.fat / 100) * serving;
+    const servingSize = foodData?.servingSize ? foodData?.servingSize : 100;
+
+    foodData.calories = (foodData.calories / servingSize) * serving;
+    foodData.protein = (foodData.protein / servingSize) * serving;
+    foodData.carbs = (foodData.carbs / servingSize) * serving;
+    foodData.fat = (foodData.fat / servingSize) * serving;
 
     return foodData;
   } else if (unit === "oz") {
@@ -11,12 +13,13 @@ export const foodServingsHelper = ({ serving, unit, foodData }) => {
 
     // Calculate the number of grams for the given serving size in ounces
     const gramsInServing = serving * OZ;
+    const servingSize = foodData?.servingSize ? foodData?.servingSize : 100;
 
     // Convert the values based on the serving size and the fact that they are given per 100 grams
-    foodData.calories = (foodData.calories / 100) * gramsInServing;
-    foodData.protein = (foodData.protein / 100) * gramsInServing;
-    foodData.carbs = (foodData.carbs / 100) * gramsInServing;
-    foodData.fat = (foodData.fat / 100) * gramsInServing;
+    foodData.calories = (foodData.calories / servingSize) * gramsInServing;
+    foodData.protein = (foodData.protein / servingSize) * gramsInServing;
+    foodData.carbs = (foodData.carbs / servingSize) * gramsInServing;
+    foodData.fat = (foodData.fat / servingSize) * gramsInServing;
 
     return foodData;
   } else if (unit !== "g") {

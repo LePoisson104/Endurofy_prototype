@@ -15,6 +15,7 @@ import { useDeleteFoodMutation } from "../../features/food/foodApiSlice";
 import useAuth from "../../hooks/useAuth";
 import ErrorAlert from "../../components/alerts/ErrorAlert";
 import { useSelector } from "react-redux";
+import { displayServingSize } from "../../helper/displayUnitSize";
 
 const AccordionUsage = ({ title, data, originalData }) => {
   const theme = useTheme();
@@ -135,12 +136,7 @@ const AccordionUsage = ({ title, data, originalData }) => {
               paddingRight: 5,
             }}
           >
-            <Typography>
-              {item.serving_unit === "100g"
-                ? parseInt(item.serving_size) * 100
-                : item.serving_size}{" "}
-              {item.serving_unit === "100g" ? "g" : item.serving_unit}
-            </Typography>
+            <Typography>{displayServingSize(item)}</Typography>
             <Typography>{Math.round(item.calories)} kcal</Typography>
           </Box>
         </AccordionDetails>

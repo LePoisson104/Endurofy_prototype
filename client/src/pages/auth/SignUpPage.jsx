@@ -172,7 +172,7 @@ const SignUp = () => {
     <Box
       ref={topRef}
       sx={{
-        minHeight: "160vh",
+        minHeight: { xl: "160vh", md: "180vh", xs: "180vh" },
         width: "100%",
         display: "flex",
         justifyContent: "center",

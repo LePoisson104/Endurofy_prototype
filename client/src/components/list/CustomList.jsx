@@ -122,8 +122,7 @@ const CustomList = ({ searchTerm, title }) => {
         onClose={() => setMacrosModalOpen(false)}
         food={selectedFood}
         title={title}
-        type={"edit"}
-        mode={"custom"}
+        type={"custom"}
       />
     </>
   );
