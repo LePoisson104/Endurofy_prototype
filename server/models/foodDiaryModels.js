@@ -102,6 +102,24 @@ const queryGetCustomFood = async (userId) => {
     console.log(err.message);
   }
 };
+
+const queryGetCustomFoodById = async (foodId) => {
+  try {
+    const response = await new Promise((resolve, reject) => {
+      const query = "SELECT * FROM customFood WHERE custom_food_id = ?";
+      pool.query(query, [foodId], (err, results) => {
+        if (err) {
+          reject(new Error(err.message));
+        } else {
+          resolve(results);
+        }
+      });
+    });
+    return response;
+  } catch (err) {
+    console.log(err.message);
+  }
+};
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // @POST QUERIES
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -328,6 +346,7 @@ module.exports = {
   queryGetLogDates,
   queryGetIsFavoriteFood,
   queryGetCustomFood,
+  queryGetCustomFoodById,
   queryAddFood,
   queryAddFavoriteFood,
   queryAddCustomFood,

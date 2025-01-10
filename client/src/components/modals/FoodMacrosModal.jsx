@@ -30,7 +30,7 @@ import ErrorAlert from "../alerts/ErrorAlert";
 import { toKcal } from "../../helper/toKcal";
 import CustomFoodDeleteBtn from "../buttons/CustomFoodDeleteBtn";
 
-const FoodMacrosModal = ({ open, onClose, food, title, type }) => {
+const FoodMacrosModal = ({ open, onClose, food, title, type, mode }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { userId } = useAuth();
@@ -239,6 +239,18 @@ const FoodMacrosModal = ({ open, onClose, food, title, type }) => {
       } else {
         setErrMsg(err.data?.message);
       }
+    }
+  };
+
+  const displayValue = () => {
+    if (type === "edit") {
+      return `${food?.serving_size}${food?.serving_unit}`;
+    } else if (type === "custom") {
+      return `${food?.serving_size}${food?.serving_unit}`;
+    } else if (food?.servingSizeUnit) {
+      return `100${food?.servingSizeUnit}`;
+    } else {
+      return "100g";
     }
   };
 
@@ -486,8 +498,8 @@ const FoodMacrosModal = ({ open, onClose, food, title, type }) => {
                 <MenuItem value={"oz"}>oz</MenuItem>
               </Select>
             </FormControl>
-            {type !== "custom" && <FavoriteButton food={food} />}
-            {type === "custom" && (
+            <FavoriteButton food={food} />
+            {mode === "custom" && (
               <CustomFoodDeleteBtn
                 customFoodId={food?.custom_food_id}
                 closeModal={onClose}

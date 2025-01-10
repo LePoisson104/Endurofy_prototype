@@ -70,6 +70,18 @@ const getCustomFood = async (req, res) => {
     return res.status(statusCode).json({ message: err.message });
   }
 };
+
+const getCustomFoodById = async (req, res) => {
+  const { foodId } = req.params;
+
+  try {
+    const customFoodById = await foodDiaryServices.getCustomFoodById(foodId);
+    return res.status(200).json(customFoodById);
+  } catch (err) {
+    const statusCode = err.statusCode || 500;
+    return res.status(statusCode).json({ message: err.message });
+  }
+};
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // @POST CONTROLLERS
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -210,6 +222,7 @@ module.exports = {
   getIsFavoriteFood,
   getLogDates,
   getCustomFood,
+  getCustomFoodById,
   addFood,
   addFavoriteFood,
   addCustomFood,

@@ -123,6 +123,7 @@ const CustomList = ({ searchTerm, title }) => {
         food={selectedFood}
         title={title}
         type={"custom"}
+        mode={"custom"}
       />
     </>
   );

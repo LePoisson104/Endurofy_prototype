@@ -30,7 +30,7 @@ const FavoriteButton = ({ food }) => {
     refetch,
   } = useGetIsFavoriteFoodQuery({
     userId,
-    foodId: food?.fdcId,
+    foodId: food?.custom_food_id ? food?.custom_food_id : food?.fdcId,
   }); // return {isFavorite: bool, data: [{fav_food_id, food_brand, food_id, food_name, user_id}]}
 
   useEffect(() => {
@@ -43,9 +43,13 @@ const FavoriteButton = ({ food }) => {
     const newCheckedState = !isChecked;
 
     const foodPayload = {
-      foodId: food?.fdcId,
-      foodName: food?.description,
-      foodBrand: food?.brandName ? food?.brandName : "unknown",
+      foodId: food?.fdcId ? food?.fdcId : food?.custom_food_id,
+      foodName: food?.description ? food?.description : food?.food_name,
+      foodBrand: food?.food_brand
+        ? food?.food_brand
+        : food?.brandName
+        ? food?.brandName
+        : "unknown",
     };
 
     try {

@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   List,
   ListItem,
@@ -5,49 +6,65 @@ import {
   CircularProgress,
   Typography,
 } from "@mui/material";
-import { useGetFavoriteFoodQuery } from "../../features/food/foodApiSlice";
+import {
+  useGetFavoriteFoodQuery,
+  useSearchFoodQuery,
+  useGetCustomFoodByIdQuery,
+} from "../../features/food/foodApiSlice";
 import useAuth from "../../hooks/useAuth";
 import FoodMacrosModal from "../modals/FoodMacrosModal";
-import { useEffect, useState } from "react";
-import { useSearchFoodQuery } from "../../features/food/foodApiSlice";
 
 const FavoriteList = ({ searchTerm, title }) => {
   const { userId } = useAuth();
-
   const { data: favoriteFood, isLoading } = useGetFavoriteFoodQuery({ userId });
 
   const [macrosModalOpen, setMacrosModalOpen] = useState(false);
-  const [selectedFood, setSelectedFood] = useState("");
-  const [foodId, setFoodId] = useState("");
-  const [triggerSearch, setTriggerSearch] = useState(false);
+  const [selectedFood, setSelectedFood] = useState(null);
+  const [foodId, setFoodId] = useState(null);
+  const [foodCategory, setFoodCategory] = useState(null);
 
-  // Trigger the query only when triggerSearch is true
   const { data: foodData, isLoading: isSearchFoodLoading } = useSearchFoodQuery(
     { searchTerm: foodId },
-    { skip: !triggerSearch } // Skip the query if triggerSearch is false
+    { skip: !foodId } // Only trigger query when foodId is set
   );
+
+  const { data: customFoodData, isLoading: isGetCustomFoodByIdLoading } =
+    useGetCustomFoodByIdQuery(
+      { foodId },
+      { skip: !foodId } // Only trigger query when foodId is set
+    );
 
   const handleFoodSelect = (index) => {
     if (favoriteFood) {
-      setFoodId(favoriteFood?.[index]?.food_id); // Set the foodId
-      setTriggerSearch(true); // Trigger the query
+      const selectedFoodId = favoriteFood[index]?.food_id;
+      setFoodId(selectedFoodId);
     }
   };
 
-  // Use an effect to process the foodData once it's fetched
   useEffect(() => {
-    if (!isSearchFoodLoading && foodData && triggerSearch && foodId) {
-      setSelectedFood(foodData?.foods?.[0]);
-      setTriggerSearch(false); // Reset triggerSearch to avoid re-fetching
-      setMacrosModalOpen(true); // Open the macros modal
+    if (!isSearchFoodLoading && !isGetCustomFoodByIdLoading && foodId) {
+      if (foodData?.foods?.length) {
+        setSelectedFood(foodData.foods[0]);
+        setFoodCategory(null);
+      } else if (customFoodData?.length) {
+        setFoodCategory("custom");
+        setSelectedFood(customFoodData[0]);
+      }
+      setMacrosModalOpen(true);
+      setFoodId(null); // Reset foodId to avoid re-fetching
     }
-  }, [isSearchFoodLoading, foodData, triggerSearch, foodId]);
+  }, [
+    isSearchFoodLoading,
+    isGetCustomFoodByIdLoading,
+    foodData,
+    customFoodData,
+    foodId,
+  ]);
 
-  // Filter the favoriteFood array based on searchTerm
   const filteredFood = favoriteFood?.filter(
     (food) =>
       food.food_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      food.food_brand.toLocaleLowerCase().includes(searchTerm.toLowerCase())
+      food.food_brand.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -74,12 +91,7 @@ const FavoriteList = ({ searchTerm, title }) => {
         ) : (
           <ListItem sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
             {isLoading ? (
-              <CircularProgress
-                sx={{
-                  color: "inherit",
-                }}
-                size={25}
-              />
+              <CircularProgress size={25} />
             ) : (
               <Typography>No Food Found</Typography>
             )}
@@ -90,6 +102,7 @@ const FavoriteList = ({ searchTerm, title }) => {
         open={macrosModalOpen}
         onClose={() => setMacrosModalOpen(false)}
         food={selectedFood}
+        type={foodCategory}
         title={title}
       />
     </>

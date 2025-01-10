@@ -89,6 +89,16 @@ const getCustomFood = async (userId) => {
 
   return customFood;
 };
+
+const getCustomFoodById = async (foodId) => {
+  if (!foodId) {
+    throw new errorResponse("FoodId is required!", 400);
+  }
+
+  const customFoodById = await Foods.queryGetCustomFoodById(foodId);
+
+  return customFoodById;
+};
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // @POST SERVICES
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -341,6 +351,7 @@ module.exports = {
   getIsFavoriteFood,
   getLogDates,
   getCustomFood,
+  getCustomFoodById,
   addFood,
   addFavoriteFood,
   addCustomFood,

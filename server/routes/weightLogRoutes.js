@@ -3,7 +3,7 @@ const router = express.Router();
 const weightLogControllers = require("../controllers/weightLogControllers");
 const verifyJWT = require("../middleware/verifyJWT");
 
-// router.use(verifyJWT);
+router.use(verifyJWT);
 
 router.get("/get-weight-logs/:userId", weightLogControllers.getWeightLogs);
 router.post("/add-weight-log/:userId", weightLogControllers.addWeightLog);

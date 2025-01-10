@@ -57,6 +57,16 @@ export const foodApiSlice = apiSlice.injectEndpoints({
           ? [{ type: "CustomFood", id: `${userId}` }]
           : [{ type: "CustomFood", id: "LIST" }],
     }),
+    getCustomFoodById: builder.query({
+      query: ({ foodId }) => ({
+        url: `/food-diary/get-custom-food-by-id/${foodId}`,
+        method: "GET",
+      }),
+      providesTags: (result, error, { userId }) =>
+        result
+          ? [{ type: "CustomFood", id: `${userId}` }]
+          : [{ type: "CustomFood", id: "LIST" }],
+    }),
     searchFood: builder.query({
       query: ({ searchTerm }) => ({
         url: `/food-diary/search-food?query=${searchTerm}`,
@@ -162,6 +172,7 @@ export const {
   useGetIsFavoriteFoodQuery,
   useGetCustomFoodQuery,
   useGetLogDatesQuery,
+  useGetCustomFoodByIdQuery,
   useSearchFoodQuery,
   useAddFoodMutation,
   useAddCustomFoodMutation,
