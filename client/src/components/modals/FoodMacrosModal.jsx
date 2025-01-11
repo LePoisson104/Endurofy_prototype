@@ -242,18 +242,6 @@ const FoodMacrosModal = ({ open, onClose, food, title, type, mode }) => {
     }
   };
 
-  const displayValue = () => {
-    if (type === "edit") {
-      return `${food?.serving_size}${food?.serving_unit}`;
-    } else if (type === "custom") {
-      return `${food?.serving_size}${food?.serving_unit}`;
-    } else if (food?.servingSizeUnit) {
-      return `100${food?.servingSizeUnit}`;
-    } else {
-      return "100g";
-    }
-  };
-
   return (
     <>
       {errMsg && (
