@@ -176,6 +176,7 @@ const FoodMacrosModal = ({ open, onClose, food, title, type, mode }) => {
 
     if (type !== "edit" && type !== "custom") {
       foodPayload = {
+        fdcId: food.fdcId,
         foodName: food.description,
         foodBrand: food.brandName ? food.brandName : "unknown",
         servingSize: serving,
@@ -191,6 +192,7 @@ const FoodMacrosModal = ({ open, onClose, food, title, type, mode }) => {
       foodPayload = {
         foodName: food.food_name,
         foodBrand: food.food_brand,
+        fdcId: food.custom_food_id,
         servingSize: serving,
         servingUnit: unit,
         calories: initialFoodData.calories,

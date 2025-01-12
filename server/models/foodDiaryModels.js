@@ -125,6 +125,7 @@ const queryGetCustomFoodById = async (foodId) => {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 const queryAddFood = async (
   foodId,
+  fdcId,
   userId,
   foodName,
   foodBrand,
@@ -140,7 +141,7 @@ const queryAddFood = async (
   try {
     const response = await new Promise((resolve, reject) => {
       const query =
-        "INSERT INTO foodLog (food_id, user_id, food_name, calories, protein, carbs, fat, serving_size, serving_unit, meal_type, logged_at, food_brand) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+        "INSERT INTO foodLog (food_id, user_id, food_name, calories, protein, carbs, fat, serving_size, serving_unit, meal_type, logged_at, food_brand, fdcId) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
       pool.query(
         query,
         [
@@ -156,6 +157,7 @@ const queryAddFood = async (
           mealType,
           loggedAt,
           foodBrand,
+          fdcId,
         ],
         (err, results) => {
           if (err) {

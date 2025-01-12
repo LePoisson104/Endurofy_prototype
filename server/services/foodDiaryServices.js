@@ -108,6 +108,7 @@ const addFood = async (userId, foodPayload) => {
   }
 
   const {
+    fdcId,
     foodName,
     foodBrand,
     calories,
@@ -124,6 +125,7 @@ const addFood = async (userId, foodPayload) => {
 
   const addedFood = await Foods.queryAddFood(
     foodId,
+    fdcId,
     userId,
     foodName,
     foodBrand,
