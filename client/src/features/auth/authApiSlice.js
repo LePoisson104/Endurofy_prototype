@@ -1,5 +1,6 @@
 import { apiSlice } from "../../app/api/apiSlice";
 import { logOut, setCredentials } from "./authSlice";
+import { setCurrentDate } from "../date/dateRangeSlice";
 
 export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -35,6 +36,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
           dispatch(logOut());
           setTimeout(() => {
             dispatch(apiSlice.util.resetApiState());
+            dispatch(setCurrentDate(new Date().toLocaleDateString("en-CA")));
             localStorage.clear("sidebarState");
           }, 1000);
         } catch (err) {

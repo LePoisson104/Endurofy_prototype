@@ -24,6 +24,7 @@ const CustomList = ({ searchTerm, title }) => {
   const { userId } = useAuth();
 
   const [openModal, setOpenModal] = useState(false);
+  const [type, setType] = useState(null);
   const [macrosModalOpen, setMacrosModalOpen] = useState(false);
   const [selectedFood, setSelectedFood] = useState({});
 
@@ -52,7 +53,10 @@ const CustomList = ({ searchTerm, title }) => {
       >
         <Button
           endIcon={<AddIcon />}
-          onClick={() => setOpenModal(true)}
+          onClick={() => {
+            setOpenModal(true);
+            setType("add");
+          }}
           sx={{
             color: "inherit",
             textTransform: "none",
@@ -89,7 +93,14 @@ const CustomList = ({ searchTerm, title }) => {
                 secondary={food.food_brand}
                 primary={food.food_name}
               />
-              <IconButton>
+              <IconButton
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setType("edit");
+                  setOpenModal(true);
+                  setSelectedFood(food);
+                }}
+              >
                 <EditNoteIcon />
               </IconButton>
             </ListItem>
@@ -116,6 +127,8 @@ const CustomList = ({ searchTerm, title }) => {
       <AddCustomFood
         open={openModal}
         onClose={() => setOpenModal(!openModal)}
+        type={type}
+        food={selectedFood}
       />
       <FoodMacrosModal
         open={macrosModalOpen}

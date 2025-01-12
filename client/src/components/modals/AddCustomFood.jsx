@@ -21,12 +21,12 @@ import useAuth from "../../hooks/useAuth";
 import { useAddCustomFoodMutation } from "../../features/food/foodApiSlice";
 import ErrorAlert from "../alerts/ErrorAlert";
 
-const AddCustomFood = ({ open, onClose, type }) => {
+const AddCustomFood = ({ open, onClose, type, food }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const { userId } = useAuth();
-
+  console.log(food);
   const [unit, setUnit] = useState("g");
   const [amount, setAmount] = useState(0);
   const [foodName, setFoodName] = useState("");
@@ -134,7 +134,9 @@ const AddCustomFood = ({ open, onClose, type }) => {
     };
 
     try {
-      await addCustomFood({ userId, foodPayload });
+      if (type === "add") {
+        await addCustomFood({ userId, foodPayload });
+      }
       onClose(true);
     } catch (err) {
       if (!err.status) {
