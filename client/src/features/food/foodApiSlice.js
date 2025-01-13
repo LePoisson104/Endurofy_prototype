@@ -158,7 +158,7 @@ export const foodApiSlice = apiSlice.injectEndpoints({
         method: "PATCH",
         body: updatePayload,
       }),
-      invalidatesTags: (result, error, { userId, currentDate }) => [
+      invalidatesTags: (result, error, { userId }) => [
         { type: "CustomFood", id: `${userId}` },
         { type: "CustomFood", id: "LIST" },
       ],

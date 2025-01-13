@@ -5,6 +5,7 @@ import {
   ListItemText,
   CircularProgress,
   Typography,
+  Box,
 } from "@mui/material";
 import {
   useGetFavoriteFoodQuery,
@@ -13,8 +14,13 @@ import {
 } from "../../features/food/foodApiSlice";
 import useAuth from "../../hooks/useAuth";
 import FoodMacrosModal from "../modals/FoodMacrosModal";
+import { useTheme } from "@emotion/react";
+import { tokens } from "../../theme";
 
 const FavoriteList = ({ searchTerm, title }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   const { userId } = useAuth();
   const { data: favoriteFood, isLoading } = useGetFavoriteFoodQuery({ userId });
 
@@ -69,6 +75,24 @@ const FavoriteList = ({ searchTerm, title }) => {
 
   return (
     <>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          px: 2,
+          py: 1,
+          border: `.5px solid ${colors.grey[1200]}`,
+          borderRadius: 2,
+        }}
+      >
+        <Typography variant="h6" fontWeight={600}>
+          Description
+        </Typography>
+        <Typography variant="h6" fontWeight={600}>
+          Source
+        </Typography>
+      </Box>
+
       <List
         sx={{
           height: "50vh", // Set a max height for the list
@@ -81,10 +105,15 @@ const FavoriteList = ({ searchTerm, title }) => {
               button
               key={index}
               onClick={() => handleFoodSelect(index)}
+              sx={{ display: "flex", gap: 2 }}
             >
               <ListItemText
                 secondary={food.food_brand === "unknown" ? "" : food.food_brand}
                 primary={food.food_name}
+              />
+              <ListItemText
+                primary={food?.food_id?.includes("-") ? "custom" : "FDC"}
+                sx={{ display: "flex", justifyContent: "end" }}
               />
             </ListItem>
           ))

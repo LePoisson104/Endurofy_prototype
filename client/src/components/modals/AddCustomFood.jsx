@@ -18,7 +18,10 @@ import NutrientDoughnutChart from "../../components/charts/NutrientDoughnutChart
 import CloseIcon from "@mui/icons-material/Close";
 import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
-import { useAddCustomFoodMutation } from "../../features/food/foodApiSlice";
+import {
+  useAddCustomFoodMutation,
+  useEditCustomFoodMutation,
+} from "../../features/food/foodApiSlice";
 import ErrorAlert from "../alerts/ErrorAlert";
 
 const AddCustomFood = ({ open, onClose, type, food }) => {
@@ -26,7 +29,7 @@ const AddCustomFood = ({ open, onClose, type, food }) => {
   const colors = tokens(theme.palette.mode);
 
   const { userId } = useAuth();
-  console.log(food);
+
   const [unit, setUnit] = useState("g");
   const [amount, setAmount] = useState(0);
   const [foodName, setFoodName] = useState("");
@@ -41,18 +44,20 @@ const AddCustomFood = ({ open, onClose, type, food }) => {
   const [data, setData] = useState({});
   const [addCustomFood, { isLoading: isAddingFoodLoading }] =
     useAddCustomFoodMutation();
+  const [editCustomFood, { isLoading: isEditingFoodLoading }] =
+    useEditCustomFoodMutation();
 
   // Reset states when modal closes
   useEffect(() => {
     if (!open) {
       setUnit("g");
-      setAmount(0);
+      setAmount("");
       setFoodName("");
       setFoodBrand("");
-      setCalories(0);
-      setProtein(0);
-      setCarbs(0);
-      setFat(0);
+      setCalories("");
+      setProtein("");
+      setCarbs("");
+      setFat("");
       setData({
         datasets: [
           {
@@ -63,7 +68,27 @@ const AddCustomFood = ({ open, onClose, type, food }) => {
         ],
         totalCalories: 0,
       });
-    } else if (open) {
+    } else if (open && food && type === "edit") {
+      setData({
+        datasets: [
+          {
+            data: [100, 0, 0],
+            backgroundColor: ["#D3D3D3", "#D3D3D3", "#D3D3D3"],
+            hoverBackgroundColor: ["#D3D3D3", "#D3D3D3", "#D3D3D3"],
+          },
+        ],
+        totalCalories: 0,
+      });
+
+      setUnit(food?.serving_unit);
+      setFoodName(food?.food_name);
+      setFoodBrand(food?.food_brand ? food?.food_brand : "");
+      setCalories(food?.calories);
+      setProtein(food?.protein);
+      setCarbs(food?.carbs);
+      setFat(food?.fat);
+      setAmount(food?.serving_size);
+    } else {
       setData({
         datasets: [
           {
@@ -75,7 +100,7 @@ const AddCustomFood = ({ open, onClose, type, food }) => {
         totalCalories: 0,
       });
     }
-  }, [open]);
+  }, [open, food, type]);
 
   useEffect(() => {
     const isDataEmpty =
@@ -121,24 +146,45 @@ const AddCustomFood = ({ open, onClose, type, food }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let foodPayload;
 
-    const foodPayload = {
-      foodName: foodName,
-      foodBrand: foodBrand ? foodBrand : "unknown",
-      calories: calories,
-      protein: protein,
-      carbs: carbs,
-      fat: fat,
-      servingSize: amount,
-      servingUnit: unit,
-    };
+    if (type === "add") {
+      foodPayload = {
+        foodName: foodName,
+        foodBrand: foodBrand ? foodBrand : "unknown",
+        calories: calories,
+        protein: protein,
+        carbs: carbs,
+        fat: fat,
+        servingSize: amount,
+        servingUnit: unit,
+      };
+    } else if (type === "edit") {
+      foodPayload = {
+        food_name: foodName,
+        food_brand: foodBrand ? foodBrand : "unknown",
+        calories: calories,
+        protein: protein,
+        carbs: carbs,
+        fat: fat,
+        serving_size: amount,
+        serving_unit: unit,
+      };
+    }
 
     try {
       if (type === "add") {
-        await addCustomFood({ userId, foodPayload });
+        await addCustomFood({ userId, foodPayload }).unwrap();
+      } else if (type === "edit") {
+        await editCustomFood({
+          customFoodId: food?.custom_food_id,
+          updatePayload: foodPayload,
+          userId,
+        }).unwrap();
       }
       onClose(true);
     } catch (err) {
+      console.log(err);
       if (!err.status) {
         setErrMsg("No Server Response");
       } else if (err.status === 400) {
@@ -185,7 +231,7 @@ const AddCustomFood = ({ open, onClose, type, food }) => {
             }}
           >
             <Typography variant="h5" fontWeight={600}>
-              Add Custom Food
+              {type?.charAt(0).toUpperCase() + type?.slice(1)} Custom Food
             </Typography>
 
             <IconButton onClick={onClose}>
@@ -295,17 +341,21 @@ const AddCustomFood = ({ open, onClose, type, food }) => {
             }}
           >
             <TextField
+              variant="outlined"
               fullWidth
               label="Food Name"
               size="small"
+              value={foodName}
               onChange={(e) => setFoodName(e.target.value)}
               sx={{
                 mb: 2,
               }}
             />
             <TextField
+              variant="outlined"
               fullWidth
               size="small"
+              value={foodBrand}
               label="Food Brand - (optional)"
               onChange={(e) => setFoodBrand(e.target.value)}
               sx={{ mb: 2 }}
@@ -320,8 +370,10 @@ const AddCustomFood = ({ open, onClose, type, food }) => {
             }}
           >
             <TextField
+              variant="outlined"
               fullWidth
               label="Calories (Kcal)"
+              value={calories}
               onChange={(e) => setCalories(e.target.value)}
               size="small"
               type="number"
@@ -330,26 +382,32 @@ const AddCustomFood = ({ open, onClose, type, food }) => {
               }}
             />
             <TextField
+              variant="outlined"
               fullWidth
               size="small"
               label="Protein (g)"
+              value={protein}
               onChange={(e) => setProtein(e.target.value)}
               type="number"
               sx={{ mb: 2 }}
             />
 
             <TextField
+              variant="outlined"
               fullWidth
               size="small"
               label="Carbs (g)"
+              value={carbs}
               onChange={(e) => setCarbs(e.target.value)}
               type="number"
               sx={{ mb: 2 }}
             />
             <TextField
+              variant="outlined"
               fullWidth
               size="small"
               label="Fat (g)"
+              value={fat}
               onChange={(e) => setFat(e.target.value)}
               type="number"
               sx={{ mb: 2 }}
@@ -365,8 +423,10 @@ const AddCustomFood = ({ open, onClose, type, food }) => {
           >
             <Typography>1 serving:</Typography>
             <TextField
+              variant="outlined"
               size="small"
               label="amount (e.g. 100g)"
+              value={amount}
               onChange={(e) => setAmount(e.target.value)}
               type="number"
               sx={{ ...textFieldStyles, width: 150 }}

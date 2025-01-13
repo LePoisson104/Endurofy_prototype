@@ -36,8 +36,7 @@ const FoodMacrosModal = ({ open, onClose, food, title, type, mode }) => {
   const { userId } = useAuth();
 
   const [unit, setUnit] = useState("");
-
-  const [serving, setServing] = useState(1);
+  const [serving, setServing] = useState("");
   const [foodData, setFoodData] = useState({});
 
   const [addFood, { isLoading: isAddFoodLoading }] = useAddFoodMutation();
@@ -66,24 +65,28 @@ const FoodMacrosModal = ({ open, onClose, food, title, type, mode }) => {
 
   // Set unit and serving size based on food data if editing
   useEffect(() => {
-    if (type === "edit" && food) {
-      setUnit(food?.serving_unit);
-      setServing(food?.serving_size);
-      const calculatedData = foodServingsHelper({
-        serving: updatedFoodObject?.serving_size,
-        unit: updatedFoodObject?.serving_unit,
-        foodData: updatedFoodObject,
-      });
-      setFoodData(calculatedData);
-      // Mark as initialized
-    } else if (type === "custom" && food) {
-      setUnit(`${food?.serving_size}${food?.serving_unit}`);
-      setServing(1);
+    if (open && food) {
+      if (type === "edit" && food) {
+        setUnit(food?.serving_unit);
+        setServing(food?.serving_size);
+        const calculatedData = foodServingsHelper({
+          serving: updatedFoodObject?.serving_size,
+          unit: updatedFoodObject?.serving_unit,
+          foodData: updatedFoodObject,
+        });
+        setFoodData(calculatedData);
+        // Mark as initialized
+      } else if (type === "custom" && food) {
+        setUnit(`${food?.serving_size}${food?.serving_unit}`);
+        setServing(1);
+      } else {
+        setUnit(food?.servingSizeUnit ? `100${food?.servingSizeUnit}` : "100g");
+        setServing(1);
+      }
     } else {
-      setUnit(food?.servingSizeUnit ? `100${food?.servingSizeUnit}` : "100g");
-      setServing(1);
+      setUnit("");
     }
-  }, [food, type]);
+  }, [food, type, open]);
 
   if (type !== "edit" && type !== "custom") {
     if (findFoodMacros(food, "Energy")?.unitName === "kJ") {
@@ -244,6 +247,21 @@ const FoodMacrosModal = ({ open, onClose, food, title, type, mode }) => {
     }
   };
 
+  const menuItemValues = [
+    type === "edit" ? food?.serving_unit : undefined,
+    type === "custom"
+      ? `${food?.serving_size}${food?.serving_unit}`
+      : undefined,
+    type !== "edit" && type !== "custom" && food?.servingSizeUnit
+      ? `100${food?.servingSizeUnit}`
+      : undefined,
+    "100g", // Default value
+    "g",
+    "oz",
+  ];
+  // Remove undefined values and duplicates using Set
+  const uniqueValues = [...new Set(menuItemValues.filter(Boolean))];
+
   return (
     <>
       {errMsg && (
@@ -400,7 +418,7 @@ const FoodMacrosModal = ({ open, onClose, food, title, type, mode }) => {
               Serving size:
             </Typography>
             <TextField
-              defaultValue={serving}
+              value={serving || ""}
               inputProps={{ max: 1000, min: 0 }}
               type="number"
               onChange={(e) => {
@@ -465,27 +483,11 @@ const FoodMacrosModal = ({ open, onClose, food, title, type, mode }) => {
                   },
                 }}
               >
-                <MenuItem
-                  value={
-                    type === "edit"
-                      ? food?.serving_unit
-                      : type === "custom"
-                      ? `${food?.serving_size}${food?.serving_unit}`
-                      : food?.servingSizeUnit
-                      ? `100${food?.servingSizeUnit}`
-                      : "100g"
-                  }
-                >
-                  {type === "edit"
-                    ? food?.serving_unit
-                    : type === "custom"
-                    ? `${food?.serving_size}${food?.serving_unit}`
-                    : food?.servingSizeUnit
-                    ? `100${food?.servingSizeUnit}`
-                    : "100g"}
-                </MenuItem>
-                <MenuItem value={"g"}>g</MenuItem>
-                <MenuItem value={"oz"}>oz</MenuItem>
+                {uniqueValues.map((value) => (
+                  <MenuItem key={value} value={value}>
+                    {value}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
             <FavoriteButton food={food} />

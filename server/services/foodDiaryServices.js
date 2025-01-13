@@ -150,7 +150,11 @@ const addFood = async (userId, foodPayload) => {
 };
 
 const addFavoriteFood = async (userId, foodPayload) => {
-  if ((!userId && Object.keys(foodPayload).length === 0) || !foodPayload) {
+  if (
+    (!userId && Object.keys(foodPayload).length === 0) ||
+    !foodPayload ||
+    !userId
+  ) {
     throw new errorResponse("UserId and foodPayload are required!", 400);
   }
 
@@ -177,7 +181,11 @@ const addFavoriteFood = async (userId, foodPayload) => {
 };
 
 const addCustomFood = async (userId, foodPayload) => {
-  if ((!userId && Object.keys(foodPayload).length === 0) || !foodPayload) {
+  if (
+    (!userId && Object.keys(foodPayload).length === 0) ||
+    !foodPayload ||
+    !userId
+  ) {
     throw new errorResponse("UserId and foodPayload are required!", 400);
   }
 
@@ -220,7 +228,10 @@ const addCustomFood = async (userId, foodPayload) => {
 // @PATCH SERVICES
 ////////////////////////////////////////////////////////////////////////////////////////////////
 const updateFood = async (foodId, updatePayload) => {
-  if ((!foodId && Object.keys(updatePayload).length === 0) || !updatePayload) {
+  if (
+    (!foodId && Object.keys(updatePayload).length === 0) ||
+    (!updatePayload && !foodId)
+  ) {
     throw new errorResponse("foodId and foodPayload are required!", 400);
   }
 
@@ -247,7 +258,8 @@ const updateFood = async (foodId, updatePayload) => {
 const updateCustomFood = async (customFoodId, updatePayload) => {
   if (
     (!customFoodId && Object.keys(updatePayload).length === 0) ||
-    !updatePayload
+    !updatePayload ||
+    !customFoodId
   ) {
     throw new errorResponse("customFoodId and foodPayload are required!", 400);
   }
@@ -264,14 +276,14 @@ const updateCustomFood = async (customFoodId, updatePayload) => {
   } = updatePayload;
 
   if (
-    !food_name ||
-    !food_brand ||
-    !calories ||
-    !protein ||
-    !carbs ||
-    !fat ||
-    !serving_size ||
-    !serving_unit
+    food_name === undefined ||
+    food_brand === undefined ||
+    calories === undefined ||
+    protein === undefined ||
+    carbs === undefined ||
+    fat === undefined ||
+    serving_size === undefined ||
+    serving_unit === undefined
   ) {
     throw new errorResponse(
       "Make sure your varible names are spelled correctly (food_name, food_brand, calories, protein, carbs, fat, serving_size, serving_unit)",
