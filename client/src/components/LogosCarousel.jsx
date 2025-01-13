@@ -6,6 +6,7 @@ import StravaLogo from "../images/StravaLogo.png";
 import AppleHealthLogo from "../images/AppleHealth.png";
 import SamsungHealthLogo from "../images/SamsungHealthLogo.png";
 import GoogleFit from "../images/GoogleFit.png";
+import MyFitnessPalLogo from "../images/MyFitnessPalLogo.png";
 
 const LogosCarousel = () => {
   return (
@@ -19,7 +20,7 @@ const LogosCarousel = () => {
     >
       <Box
         sx={{
-          width: "1200px", // Adjust width for the fade effect
+          width: "1130px", // Adjust width for the fade effect
           // overflow: "hidden",
         }}
       >
@@ -78,11 +79,12 @@ const LogosCarousel = () => {
             />
             <Box
               component="img"
-              src={FitTrack}
+              src={MyFitnessPalLogo}
               sx={{
-                width: "140px", // Adjust width
-                height: "140px", // Adjust height
+                width: "60px", // Adjust width
+                height: "60px", // Adjust height
                 objectFit: "contain", // Ensures the image scales without distortion
+                borderRadius: 2,
               }}
             />
           </Box>
