@@ -482,6 +482,13 @@ const FoodMacrosModal = ({ open, onClose, food, title, type, mode }) => {
                     borderColor: "#6d76fa",
                   },
                 }}
+                MenuProps={{
+                  PaperProps: {
+                    sx: {
+                      bgcolor: colors.primary[400], // Background color for the dropdown
+                    },
+                  },
+                }}
               >
                 {uniqueValues.map((value) => (
                   <MenuItem key={value} value={value}>
