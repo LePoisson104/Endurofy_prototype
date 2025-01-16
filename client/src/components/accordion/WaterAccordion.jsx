@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AddWaterModal from "../modals/AddWaterModal";
@@ -40,12 +40,17 @@ const WaterAccordion = () => {
     endDate,
   });
 
-  const waterData = error?.status === 404 || isFetching ? [] : data || [];
-  const percent = Math.round((waterData?.[0]?.water_amount / 128) * 100);
+  const waterData = useMemo(() => {
+    return error?.status === 404 || isFetching ? [] : data || [];
+  }, [error, isFetching, data]);
+
+  const percent = useMemo(() => {
+    return Math.round((waterData?.[0]?.water_amount / 128) * 100);
+  }, [waterData]);
 
   useEffect(() => {
     dispatch(setTotalWaterIntake(waterData?.[0]?.water_amount));
-  }, [waterData]);
+  }, [waterData, dispatch]);
 
   // Optional: useEffect to log or perform actions on date changes
   useEffect(() => {
@@ -77,7 +82,7 @@ const WaterAccordion = () => {
         aria-controls="panel1-content"
         id="panel1-header"
         sx={{
-          color: theme.palette.mode == "dark" ? "white" : "black",
+          color: theme.palette.mode === "dark" ? "white" : "black",
           backgroundColor:
             theme.palette.mode === "dark" ? "#23395d" : colors.grey[1000],
         }}
@@ -100,7 +105,7 @@ const WaterAccordion = () => {
             <IconButton
               size="small"
               onClick={(e) => handleOpen(e, "add")}
-              sx={{ color: theme.palette.mode == "dark" ? "white" : "black" }}
+              sx={{ color: theme.palette.mode === "dark" ? "white" : "black" }}
             >
               <AddIcon />
             </IconButton>
@@ -129,7 +134,7 @@ const WaterAccordion = () => {
             alignItems: "center",
             width: "50%",
             bgcolor:
-              theme.palette.mode == "light" ? "#f2f2f2" : colors.primary[500],
+              theme.palette.mode === "light" ? "#f2f2f2" : colors.primary[500],
             p: 2,
             borderRadius: 2,
             mt: 1,

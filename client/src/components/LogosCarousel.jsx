@@ -1,7 +1,6 @@
 import { Box } from "@mui/material";
 import Marquee from "react-fast-marquee";
 import FitBitLogo from "../images/FitBitLogo.png";
-import FitTrack from "../images/FitTrack.png";
 import StravaLogo from "../images/StravaLogo.png";
 import AppleHealthLogo from "../images/AppleHealth.png";
 import SamsungHealthLogo from "../images/SamsungHealthLogo.png";

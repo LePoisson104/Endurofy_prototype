@@ -42,7 +42,7 @@ const AddWeightLog = ({
         sx: {
           width: "400px", // Set the width of the modal
           height: "280px",
-          bgcolor: theme.palette.mode == "dark" ? "#101624" : "white",
+          bgcolor: theme.palette.mode === "dark" ? "#101624" : "white",
         },
       }}
     >

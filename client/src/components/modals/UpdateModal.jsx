@@ -75,7 +75,7 @@ const UpdateModal = ({
 
   useEffect(() => {
     setErrMsg("");
-  }, [value1, value2, value3]);
+  }, [value1, value2, value3, setErrMsg]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

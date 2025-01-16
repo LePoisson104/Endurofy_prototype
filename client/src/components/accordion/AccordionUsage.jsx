@@ -156,7 +156,7 @@ const AccordionUsage = ({ title, data, originalData }) => {
           aria-controls="panel1-content"
           id="panel1-header"
           sx={{
-            color: theme.palette.mode == "dark" ? "white" : "black",
+            color: theme.palette.mode === "dark" ? "white" : "black",
             backgroundColor:
               theme.palette.mode === "dark" ? "#23395d" : colors.grey[1000],
           }}
@@ -179,7 +179,9 @@ const AccordionUsage = ({ title, data, originalData }) => {
               <IconButton
                 size="small"
                 onClick={handleOpenModal}
-                sx={{ color: theme.palette.mode == "dark" ? "white" : "black" }}
+                sx={{
+                  color: theme.palette.mode === "dark" ? "white" : "black",
+                }}
               >
                 <AddIcon />
               </IconButton>

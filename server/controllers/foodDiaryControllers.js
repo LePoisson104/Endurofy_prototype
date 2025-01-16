@@ -1,4 +1,5 @@
 const foodDiaryServices = require("../services/foodDiaryServices");
+const controllerErrorResponse = require("../utils/controllerErrorResponse");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // @GET CONTROLLERS
@@ -11,8 +12,7 @@ const getAllFood = async (req, res) => {
     const getAllFoods = await foodDiaryServices.getAllFood(userId, date);
     return res.status(200).json(getAllFoods);
   } catch (err) {
-    const statusCode = err.statusCode || 500;
-    return res.status(statusCode).json({ message: err.message });
+    controllerErrorResponse(res, err);
   }
 };
 
@@ -23,8 +23,7 @@ const getFavoriteFood = async (req, res) => {
     const getFavorites = await foodDiaryServices.getFavoriteFood(userId);
     return res.status(200).json(getFavorites);
   } catch (err) {
-    const statusCode = err.statusCode || 500;
-    return res.status(statusCode).json({ message: err.message });
+    controllerErrorResponse(res, err);
   }
 };
 
@@ -37,8 +36,7 @@ const getIsFavoriteFood = async (req, res) => {
 
     return res.status(200).json(result);
   } catch (err) {
-    const statusCode = err.statusCode || 500;
-    return res.status(statusCode).json({ message: err.message });
+    controllerErrorResponse(res, err);
   }
 };
 
@@ -54,8 +52,7 @@ const getLogDates = async (req, res) => {
     );
     return res.status(200).json(foodDates);
   } catch (err) {
-    const statusCode = err.statusCode || 500;
-    return res.status(statusCode).json({ message: err.message });
+    controllerErrorResponse(res, err);
   }
 };
 
@@ -66,8 +63,7 @@ const getCustomFood = async (req, res) => {
     const customFood = await foodDiaryServices.getCustomFood(userId);
     return res.status(200).json(customFood);
   } catch (err) {
-    const statusCode = err.statusCode || 500;
-    return res.status(statusCode).json({ message: err.message });
+    controllerErrorResponse(res, err);
   }
 };
 
@@ -78,8 +74,7 @@ const getCustomFoodById = async (req, res) => {
     const customFoodById = await foodDiaryServices.getCustomFoodById(foodId);
     return res.status(200).json(customFoodById);
   } catch (err) {
-    const statusCode = err.statusCode || 500;
-    return res.status(statusCode).json({ message: err.message });
+    controllerErrorResponse(res, err);
   }
 };
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -93,8 +88,7 @@ const addFood = async (req, res) => {
     await foodDiaryServices.addFood(userId, foodPayload);
     return res.status(200).json({ message: "Food Added Successfully!" });
   } catch (err) {
-    const statusCode = err.statusCode || 500;
-    return res.status(statusCode).json({ message: err.message });
+    controllerErrorResponse(res, err);
   }
 };
 
@@ -108,8 +102,7 @@ const addFavoriteFood = async (req, res) => {
       .status(200)
       .json({ message: "Favorite Food Added Successfully!" });
   } catch (err) {
-    const statusCode = err.statusCode || 500;
-    return res.status(statusCode).json({ message: err.message });
+    controllerErrorResponse(res, err);
   }
 };
 
@@ -121,8 +114,7 @@ const addCustomFood = async (req, res) => {
     await foodDiaryServices.addCustomFood(userId, foodPayload);
     return res.status(200).json({ message: "Custom food added successfully!" });
   } catch (err) {
-    const statusCode = err.statusCode || 500;
-    return res.status(statusCode).json({ message: err.message });
+    controllerErrorResponse(res, err);
   }
 };
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -136,8 +128,7 @@ const updateFood = async (req, res) => {
     await foodDiaryServices.updateFood(foodId, updatePayload);
     return res.status(200).json({ message: "Food Updated Successfully!" });
   } catch (err) {
-    const statusCode = err.statusCode || 500;
-    return res.status(statusCode).json({ message: err.message });
+    controllerErrorResponse(res, err);
   }
 };
 
@@ -151,8 +142,7 @@ const updateCustomFood = async (req, res) => {
       .status(200)
       .json({ message: "Custom food updated successfully!" });
   } catch (err) {
-    const statusCode = err.statusCode || 500;
-    return res.status(statusCode).json({ message: err.message });
+    controllerErrorResponse(res, err);
   }
 };
 
@@ -166,8 +156,7 @@ const deleteFood = async (req, res) => {
     await foodDiaryServices.deleteFood(foodId);
     return res.status(200).json({ message: "Food Deleted Successfully!" });
   } catch (err) {
-    const statusCode = err.statusCode || 500;
-    return res.status(statusCode).json({ message: err.message });
+    controllerErrorResponse(res, err);
   }
 };
 
@@ -180,8 +169,7 @@ const deleteFavoriteFood = async (req, res) => {
       .status(200)
       .json({ message: "Favorite Food Deleted Successfully!" });
   } catch (err) {
-    const statusCode = err.statusCode || 500;
-    return res.status(statusCode).json({ message: err.message });
+    controllerErrorResponse(res, err);
   }
 };
 
@@ -194,8 +182,7 @@ const deleteCustomFood = async (req, res) => {
       .status(200)
       .json({ message: "Custom food delete successfully!" });
   } catch (err) {
-    const statusCode = err.statusCode || 500;
-    return res.status(statusCode).json({ message: err.message });
+    controllerErrorResponse(res, err);
   }
 };
 ////////////////////////////////////////////////////////////////////////////////////////////////

@@ -255,7 +255,7 @@ const TodayLog = () => {
         sx={{ width: "100%", borderTop: "2px solid #888", mb: 1, mt: 1 }}
       ></Box>
 
-      {exerciseData.length == 0 && (
+      {exerciseData.length === 0 && (
         <Box
           sx={{
             display: "flex",

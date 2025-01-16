@@ -101,8 +101,8 @@ const WorkoutLog = () => {
       <Box
         sx={{ width: "100%", borderTop: "1px solid #888", mb: 3, mt: 1 }}
       ></Box>
-      {selectedTab == "today" && <TodayLog />}
-      {selectedTab != "today" && <WorkoutLogs selectedTab={selectedTab} />}
+      {selectedTab === "today" && <TodayLog />}
+      {selectedTab !== "today" && <WorkoutLogs selectedTab={selectedTab} />}
     </Box>
   );
 };

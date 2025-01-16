@@ -1,4 +1,5 @@
 const userServices = require("../services/userServices");
+const controllerErrorResponse = require("../utils/controllerErrorResponse");
 
 const getUserInfoById = async (req, res) => {
   const { userId } = req.params;
@@ -7,8 +8,7 @@ const getUserInfoById = async (req, res) => {
     const getUserInfo = await userServices.getUserInfoById(userId);
     return res.status(200).json(getUserInfo);
   } catch (err) {
-    const statusCode = err.statusCode || 500; // default to 500 if not provided
-    return res.status(statusCode).json({ message: err.message });
+    controllerErrorResponse(res, err);
   }
 };
 
@@ -30,8 +30,7 @@ const updateUserAccount = async (req, res) => {
       .status(200)
       .json({ message: "User Account Updated Successfully!" });
   } catch (err) {
-    const statusCode = err.statusCode || 500;
-    return res.status(statusCode).json({ message: err.message });
+    controllerErrorResponse(res, err);
   }
 };
 
@@ -60,8 +59,7 @@ const updateUserProfile = async (req, res) => {
       .status(200)
       .json({ message: "User Profile Updated Successfully! " });
   } catch (err) {
-    const statusCode = err.statusCode || 500;
-    return res.status(statusCode).json({ message: err.message });
+    controllerErrorResponse(res, err);
   }
 };
 
@@ -76,8 +74,7 @@ const updateUserTarget = async (req, res) => {
       .status(200)
       .json({ message: "User Target Updated Successfully!" });
   } catch (err) {
-    const statusCode = err.statusCode || 500;
-    return res.status(statusCode).json({ message: err.message });
+    controllerErrorResponse(res, err);
   }
 };
 
@@ -94,8 +91,7 @@ const deleteUserAccount = async (req, res) => {
 
     return res.status(200).json({ message: "User Deleted Successfully!" });
   } catch (err) {
-    const statusCode = err.statusCode || 500;
-    return res.status(statusCode).json({ message: err.message });
+    controllerErrorResponse(res, err);
   }
 };
 

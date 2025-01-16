@@ -1,32 +1,30 @@
+const controllerErrorResponse = require("../utils/controllerErrorResponse");
+
 const getWeightLogs = async (req, res) => {
   try {
   } catch (err) {
-    const statusCode = err.statusCode || 500;
-    return res.statusCode(statusCode).json({ message: err.message });
+    controllerErrorResponse(res, err);
   }
 };
 
 const addWeightLog = async (req, res) => {
   try {
   } catch (err) {
-    const statusCode = err.statusCode || 500;
-    return res.statusCode(statusCode).json({ message: err.message });
+    controllerErrorResponse(res, err);
   }
 };
 
 const updateWeightLog = async (req, res) => {
   try {
   } catch (err) {
-    const statusCode = err.statusCode || 500;
-    return res.statusCode(statusCode).json({ message: err.message });
+    controllerErrorResponse(res, err);
   }
 };
 
 const deleteWeightLog = async (req, res) => {
   try {
   } catch (err) {
-    const statusCode = err.statusCode || 500;
-    return res.statusCode(statusCode).json({ message: err.message });
+    controllerErrorResponse(res, err);
   }
 };
 

@@ -563,11 +563,11 @@ const Dashboard = () => {
                     flexDirection: "column",
                     justifyContent: "center",
                     alignItems: "center",
-                    color: theme.palette.mode == "dark" ? "white" : "black",
+                    color: theme.palette.mode === "dark" ? "white" : "black",
                     fontSize: "2rem",
                     fontWeight: "bold",
                     border: `1px solid ${
-                      theme.palette.mode == "dark" ? "white" : "gray"
+                      theme.palette.mode === "dark" ? "white" : "gray"
                     }`,
                     mt: 2,
                     mb: 2,

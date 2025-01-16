@@ -27,7 +27,7 @@ const GetStartedBtn = () => {
         mb: 3,
       }}
     >
-      Get started <a style={{ fontWeight: 300 }}>- it's free</a>
+      Get started <span style={{ fontWeight: 300 }}>- it's free</span>
     </Button>
   );
 };
