@@ -30,7 +30,10 @@ const PersistLogin = () => {
       }
     };
 
-    if (effectRan.current === true || process.env.NODE_ENV !== "development") {
+    if (
+      effectRan.current === true ||
+      import.meta.env.VITE_NODE_ENV !== "development"
+    ) {
       if (!token && persist) {
         verifyRefreshToken();
       }
