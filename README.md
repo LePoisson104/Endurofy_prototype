@@ -9,12 +9,13 @@
 - **Food Log:** Keep track of everything you eat and monitor your calorie intake.
 - **Workout Log:** Record your exercises, sets, reps, and track your progress over time.
 - **Weight Tracking:** Easily log your daily weigh-ins and visualize your progress.
+- **Future implementations:** Allow the users to connect with (Google fit, Apple Health, Fitbit, Strava, Myfitnesspal)
 
 ### Tech Stack:
 
-- **Frontend:** React.js, MUI, RTK query, Redux
+- **Frontend:** React.js, MUI, RTK query, Redux, Vite
 - **Backend:** Node.js, Express.js, MySQL, external API's
-- **Hosting:** AWS RDS/EC2, Vercel
+- **Hosting:** AWS RDS/EC2, Render
 
 ## Installation
 
