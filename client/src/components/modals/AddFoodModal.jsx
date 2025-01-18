@@ -54,7 +54,7 @@ const AddFoodModal = ({ open, onClose, title }) => {
             borderRadius: "8px",
             boxShadow: 24,
             position: "relative",
-            width: 600,
+            minWidth: 600,
           }}
         >
           <Box

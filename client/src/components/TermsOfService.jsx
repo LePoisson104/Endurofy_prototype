@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../theme";
@@ -8,14 +8,20 @@ const TermsOfService = () => {
   const colors = tokens(theme.palette.mode);
 
   const linkStyle = {
-    color: "black",
     fontWeight: 400,
     color: colors.purpleAccent[400],
     textDecoration: "none",
   };
 
   return (
-    <>
+    <Box
+      sx={{
+        textAlign: "center", // Center text within the box
+        width: { sm: "400px", xs: "350px" },
+        p: 2, // Padding for spacing
+        mt: "auto",
+      }}
+    >
       <Typography fontWeight={300}>
         By proceeding you acknowledge that you have read,
       </Typography>
@@ -29,7 +35,7 @@ const TermsOfService = () => {
           Privacy Policy.
         </Link>
       </Typography>
-    </>
+    </Box>
   );
 };
 

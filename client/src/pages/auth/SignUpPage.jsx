@@ -232,7 +232,7 @@ const SignUp = () => {
           flexDirection: "column",
           alignItems: "center",
           border: "none",
-          width: "100%",
+          maxWidth: "100%",
           width: { sm: "400px", xs: "300px" },
           mt: "auto",
           animation: "fadeIn 1s ease-out", // Add animation here
@@ -759,16 +759,7 @@ const SignUp = () => {
           Or Log In Instead
         </Button>
       </Box>
-      <Box
-        sx={{
-          textAlign: "center", // Center text within the box
-          width: { sm: "400px", xs: "350px" },
-          p: 2, // Padding for spacing
-          mt: "auto",
-        }}
-      >
-        <TermsOfService />
-      </Box>
+      <TermsOfService />
     </Box>
   );
 };

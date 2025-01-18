@@ -79,7 +79,7 @@ const ChangeYourPassword = () => {
           flexDirection: "column",
           alignItems: "center",
           border: "none",
-          width: "100%",
+          maxWidth: "100%",
           width: { sm: "400px", xs: "300px" },
         }}
       >
