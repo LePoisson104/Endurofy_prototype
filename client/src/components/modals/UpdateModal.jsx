@@ -14,6 +14,7 @@ import { tokens } from "../../theme";
 import { useUpdateUserAccountMutation } from "../../features/users/usersApiSlice";
 import useAuth from "../../hooks/useAuth";
 import LoginAgain from "../alerts/LoginAgain";
+import { errorResponse } from "../../helper/errorResponse";
 
 const UpdateModal = ({
   title,
@@ -102,19 +103,7 @@ const UpdateModal = ({
       setSuccessMsg(data?.message);
       handleClose();
     } catch (err) {
-      if (!err.status) {
-        setErrMsg("No Server Response");
-      } else if (err.status === 400) {
-        setErrMsg(err.data?.message);
-      } else if (err.status === 401) {
-        setErrMsg(err.data?.message);
-      } else if (err.status === 404) {
-        setErrMsg(err.data?.message);
-      } else if (err.status === 409) {
-        setErrMsg(err.data?.message);
-      } else {
-        setErrMsg(err.data?.message);
-      }
+      errorResponse(err, setErrMsg);
     }
   };
 

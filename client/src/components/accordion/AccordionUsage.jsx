@@ -16,6 +16,7 @@ import useAuth from "../../hooks/useAuth";
 import ErrorAlert from "../../components/alerts/ErrorAlert";
 import { useSelector } from "react-redux";
 import { displayServingSize } from "../../helper/displayUnitSize";
+import { errorResponse } from "../../helper/errorResponse";
 
 const AccordionUsage = ({ title, data, originalData }) => {
   const theme = useTheme();
@@ -56,19 +57,7 @@ const AccordionUsage = ({ title, data, originalData }) => {
         foodId: item.food_id,
       }).unwrap();
     } catch (err) {
-      if (!err.status) {
-        setErrMsg("No Server Response");
-      } else if (err.status === 400) {
-        setErrMsg(err.data?.message);
-      } else if (err.status === 401) {
-        setErrMsg(err.data?.message);
-      } else if (err.status === 404) {
-        setErrMsg(err.data?.message);
-      } else if (err.status === 409) {
-        setErrMsg(err.data?.message);
-      } else {
-        setErrMsg(err.data?.message);
-      }
+      errorResponse(err, setErrMsg);
     }
   };
 

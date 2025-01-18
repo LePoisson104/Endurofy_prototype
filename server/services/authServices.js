@@ -5,6 +5,7 @@ const { v4: uuidv4 } = require("uuid");
 const errorResponse = require("../utils/errorResponse");
 const userServices = require("./userServices");
 const { BMR } = require("../helper/BMR");
+const { passwordRegex } = require("../helper/passwordRegex");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // @signup
@@ -34,6 +35,8 @@ const signUp = async (userData) => {
     throw new errorResponse("All Fields Are Required!", 400);
   }
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  // length: atleast 8, Captial letter: atleast 1, lowercase letter: atleast 1, digit: atleast 1, special char: atleast 1
+
   const validDate = new Date(birthdate);
   if (
     !(
@@ -46,6 +49,13 @@ const signUp = async (userData) => {
 
   if (emailPattern.test(email) === false) {
     throw new errorResponse("Invalid email", 400);
+  }
+
+  if (passwordRegex(password) === false) {
+    throw new errorResponse(
+      "Password must be at least 10 characters long.",
+      400
+    );
   }
 
   const hashedPassword = await bcrypt.hash(password, 10); // 10 salts

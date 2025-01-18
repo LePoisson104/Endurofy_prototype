@@ -16,6 +16,7 @@ import useAuth from "../../hooks/useAuth";
 import { useDeleteUserAccountMutation } from "../../features/users/usersApiSlice";
 import ErrorAlert from "../alerts/ErrorAlert";
 import { useLogoutMutation } from "../../features/auth/authApiSlice";
+import { errorResponse } from "../../helper/errorResponse";
 
 const DeleteAccountModal = () => {
   const theme = useTheme();
@@ -54,17 +55,7 @@ const DeleteAccountModal = () => {
       handleClose();
       await logout();
     } catch (err) {
-      if (!err.status) {
-        setErrMsg("No Server Response");
-      } else if (err.status === 400) {
-        setErrMsg(err.data?.message);
-      } else if (err.status === 401) {
-        setErrMsg(err.data?.message);
-      } else if (err.status === 404) {
-        setErrMsg(err.data?.message);
-      } else {
-        setErrMsg(err.data?.message);
-      }
+      errorResponse(err, setErrMsg);
     }
   };
 

@@ -33,6 +33,7 @@ import UpdateBtn from "../../components/buttons/UpdateBtn";
 import DotPulse from "../../components/DotPulse";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
+import { errorResponse } from "../../helper/errorResponse";
 
 const Profile = () => {
   const theme = useTheme();
@@ -123,19 +124,7 @@ const Profile = () => {
 
       setSuccessMsg(response.message);
     } catch (err) {
-      if (!err.status) {
-        setErrMsg("No Server Response");
-      } else if (err.status === 400) {
-        setErrMsg(err.data?.message);
-      } else if (err.status === 401) {
-        setErrMsg(err.data?.message);
-      } else if (err.status === 404) {
-        setErrMsg(err.data?.message);
-      } else if (err.status === 409) {
-        setErrMsg(err.data?.message);
-      } else {
-        setErrMsg(err.data?.message);
-      }
+      errorResponse(err, setErrMsg);
     }
   };
 
@@ -165,19 +154,7 @@ const Profile = () => {
       const data = await updateUserTarget({ userId, payload }).unwrap();
       setSuccessMsg(data?.message);
     } catch (err) {
-      if (!err.status) {
-        setErrMsg("No Server Response");
-      } else if (err.status === 400) {
-        setErrMsg(err.data?.message);
-      } else if (err.status === 401) {
-        setErrMsg(err.data?.message);
-      } else if (err.status === 404) {
-        setErrMsg(err.data?.message);
-      } else if (err.status === 409) {
-        setErrMsg(err.data?.message);
-      } else {
-        setErrMsg(err.data?.message);
-      }
+      errorResponse(err, setErrMsg);
     }
   };
 

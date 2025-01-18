@@ -4,6 +4,7 @@ import { useDeleteCustomFoodMutation } from "../../features/food/foodApiSlice";
 import ErrorAlert from "../alerts/ErrorAlert";
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
+import { errorResponse } from "../../helper/errorResponse";
 
 const CustomFoodDeleteBtn = ({ customFoodId, closeModal }) => {
   const { userId } = useAuth();
@@ -16,19 +17,7 @@ const CustomFoodDeleteBtn = ({ customFoodId, closeModal }) => {
       await deleteCustomFood({ userId, customFoodId }).unwrap();
       closeModal(true);
     } catch (err) {
-      if (!err.status) {
-        setErrMsg("No Server Response");
-      } else if (err.status === 400) {
-        setErrMsg(err.data?.message);
-      } else if (err.status === 401) {
-        setErrMsg(err.data?.message);
-      } else if (err.status === 404) {
-        setErrMsg(err.data?.message);
-      } else if (err.status === 409) {
-        setErrMsg(err.data?.message);
-      } else {
-        setErrMsg(err.data?.message);
-      }
+      errorResponse(err, setErrMsg);
     }
   };
 

@@ -16,6 +16,7 @@ import { useUpdateWaterIntakeMutation } from "../../features/water/waterApiSlice
 import ErrorAlert from "../alerts/ErrorAlert";
 import useAuth from "../../hooks/useAuth";
 import { useSelector } from "react-redux";
+import { errorResponse } from "../../helper/errorResponse";
 
 const AddWaterModal = ({ openModal, setOpenModal, Type, editData }) => {
   const theme = useTheme();
@@ -84,19 +85,7 @@ const AddWaterModal = ({ openModal, setOpenModal, Type, editData }) => {
 
       setOpenModal(false);
     } catch (err) {
-      if (!err.status) {
-        setErrMsg("No Server Response");
-      } else if (err.status === 400) {
-        setErrMsg(err.data?.message);
-      } else if (err.status === 401) {
-        setErrMsg(err.data?.message);
-      } else if (err.status === 404) {
-        setErrMsg(err.data?.message);
-      } else if (err.status === 409) {
-        setErrMsg(err.data?.message);
-      } else {
-        setErrMsg("An error occurred!");
-      }
+      errorResponse(err, setErrMsg);
     }
   };
 

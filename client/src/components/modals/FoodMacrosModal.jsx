@@ -29,6 +29,7 @@ import { useSelector } from "react-redux";
 import ErrorAlert from "../alerts/ErrorAlert";
 import { toKcal } from "../../helper/toKcal";
 import CustomFoodDeleteBtn from "../buttons/CustomFoodDeleteBtn";
+import { errorResponse } from "../../helper/errorResponse";
 
 const FoodMacrosModal = ({ open, onClose, food, title, type, mode }) => {
   const theme = useTheme();
@@ -231,19 +232,7 @@ const FoodMacrosModal = ({ open, onClose, food, title, type, mode }) => {
       }
       onClose(true);
     } catch (err) {
-      if (!err.status) {
-        setErrMsg("No Server Response");
-      } else if (err.status === 400) {
-        setErrMsg(err.data?.message);
-      } else if (err.status === 401) {
-        setErrMsg(err.data?.message);
-      } else if (err.status === 404) {
-        setErrMsg(err.data?.message);
-      } else if (err.status === 409) {
-        setErrMsg(err.data?.message);
-      } else {
-        setErrMsg(err.data?.message);
-      }
+      errorResponse(err, setErrMsg);
     }
   };
 

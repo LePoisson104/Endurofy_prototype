@@ -14,10 +14,13 @@ import SuccessAlert from "../../components/alerts/SuccessAlert";
 import ErrorAlert from "../../components/alerts/ErrorAlert";
 import GoogleBtn from "../../components/buttons/GoogleBtn";
 import TermsOfService from "../../components/TermsOfService";
+import { errorResponse } from "../../helper/errorResponse";
 
 const SignUp = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const passwordPattern = /^[A-Za-z\d@$!%*?&]{10,}$/;
+
   // State for form fields
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -31,6 +34,7 @@ const SignUp = () => {
   const [feet, setFeet] = useState("");
   const [inches, setInches] = useState("");
   const [weight, setWeight] = useState("");
+  const [matchLength, setMatchLength] = useState(false);
 
   const topRef = useRef();
   const location = useLocation();
@@ -77,6 +81,14 @@ const SignUp = () => {
       }));
     }
   };
+
+  useEffect(() => {
+    if (passwordPattern.test(password) === true) {
+      setMatchLength(true);
+    } else {
+      setMatchLength(false);
+    }
+  }, [password, passwordPattern]);
 
   useEffect(() => {
     setErrMsg("");
@@ -156,15 +168,7 @@ const SignUp = () => {
       setWeight("");
       setSuccessMsg(response.message);
     } catch (err) {
-      if (!err.status) {
-        setErrMsg("No Server Response");
-      } else if (err.status === 400) {
-        setErrMsg(err.data?.message);
-      } else if (err.status === 409) {
-        setErrMsg(err.data?.message);
-      } else {
-        setErrMsg(err.data?.message);
-      }
+      errorResponse(err, setErrMsg);
     }
   };
 
@@ -455,6 +459,27 @@ const SignUp = () => {
             <Typography fontWeight={500} sx={{ mb: 1 }}>
               Password
             </Typography>
+
+            <Typography
+              variant="body2"
+              sx={{
+                display: "flex",
+                mb: 2,
+                color: matchLength === true ? "green" : "black",
+              }}
+            >
+              <span
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginRight: "0.25rem",
+                }}
+              >
+                {matchLength === true ? "✓" : "•"}
+              </span>
+              At-least 10 characters long
+            </Typography>
+
             <PasswordField
               id="password"
               label="Password"

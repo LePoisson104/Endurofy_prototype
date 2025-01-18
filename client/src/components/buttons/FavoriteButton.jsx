@@ -11,6 +11,7 @@ import {
   useGetIsFavoriteFoodQuery,
   useDeleteFavoriteFoodMutation,
 } from "../../features/food/foodApiSlice";
+import { errorResponse } from "../../helper/errorResponse";
 
 const FavoriteButton = ({ food }) => {
   const theme = useTheme();
@@ -65,19 +66,7 @@ const FavoriteButton = ({ food }) => {
       // Refetch to make sure the status is updated
       refetch();
     } catch (err) {
-      if (!err.status) {
-        setErrMsg("No Server Response");
-      } else if (err.status === 400) {
-        setErrMsg(err.data?.message);
-      } else if (err.status === 401) {
-        setErrMsg(err.data?.message);
-      } else if (err.status === 404) {
-        setErrMsg(err.data?.message);
-      } else if (err.status === 409) {
-        setErrMsg(err.data?.message);
-      } else {
-        setErrMsg(err.data?.message);
-      }
+      errorResponse(err, setErrMsg);
     }
   };
 

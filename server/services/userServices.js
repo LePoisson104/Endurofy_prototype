@@ -2,6 +2,7 @@ const Users = require("../models/userModels");
 const bycrypt = require("bcrypt");
 const errorResponse = require("../utils/errorResponse");
 const { BMR } = require("../helper/BMR");
+const { passwordRegex } = require("../helper/passwordRegex");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // @getUserCredentials
@@ -112,6 +113,13 @@ const updateUserAccount = async (userId, userData) => {
 
     if (!match) {
       throw new errorResponse("Password Does Not Match!", 401); // unauthorized
+    }
+
+    if (passwordRegex(newPassword) === false) {
+      throw new errorResponse(
+        "Password must be at least 10 characters long",
+        400
+      );
     }
 
     const hashed_password = await bycrypt.hash(newPassword, 10); // 10 salts
