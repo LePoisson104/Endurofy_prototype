@@ -303,7 +303,7 @@ const SignUp = () => {
                 <Typography fontWeight={500}>First</Typography>
                 <TextField
                   id="first-name"
-                  label="Jone"
+                  label="John"
                   variant="outlined"
                   type="text"
                   size="small"
