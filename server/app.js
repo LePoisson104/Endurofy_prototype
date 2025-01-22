@@ -14,5 +14,6 @@ app.use("/users", require("./routes/userRoutes"));
 app.use("/auth", require("./routes/authRoutes"));
 app.use("/food-diary", require("./routes/foodDiaryRoutes"));
 app.use("/water-diary", require("./routes/waterLogRoutes"));
+app.use("/weight-diary", require("./routes/weightLogRoutes"));
 
 module.exports = app;

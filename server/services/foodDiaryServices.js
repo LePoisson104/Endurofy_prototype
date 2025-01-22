@@ -275,6 +275,7 @@ const updateCustomFood = async (customFoodId, updatePayload) => {
     serving_unit,
   } = updatePayload;
 
+  // reason for not using ! is because protein, carbs, fat can contains 0, so we only need to check if the variables are undefined not when it's equal to 0
   if (
     food_name === undefined ||
     food_brand === undefined ||

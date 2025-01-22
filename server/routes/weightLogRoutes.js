@@ -3,16 +3,26 @@ const router = express.Router();
 const weightLogControllers = require("../controllers/weightLogControllers");
 const verifyJWT = require("../middleware/verifyJWT");
 
-router.use(verifyJWT);
+// router.use(verifyJWT);
 
-router.get("/get-weight-logs/:userId", weightLogControllers.getWeightLogs);
+router.get(
+  "/get-all-weight-logs/:userId",
+  weightLogControllers.getAllWeightLogs
+);
+router.get(
+  "/get-weight-logs-by-dates/:userId",
+  weightLogControllers.getWeightLogsByDates
+);
+
 router.post("/add-weight-log/:userId", weightLogControllers.addWeightLog);
+
 router.patch(
-  "/update-weight-log/:weightId",
+  "/update-weight-log/:weightLogId",
   weightLogControllers.updateWeightLog
 );
+
 router.delete(
-  "/delete-weight-log/:weightId",
+  "/delete-weight-log/:weightLogId",
   weightLogControllers.deleteWeightLog
 );
 

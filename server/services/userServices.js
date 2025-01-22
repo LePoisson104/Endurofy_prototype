@@ -3,6 +3,7 @@ const bycrypt = require("bcrypt");
 const errorResponse = require("../utils/errorResponse");
 const { BMR } = require("../helper/BMR");
 const { passwordRegex } = require("../helper/passwordRegex");
+const { validDate } = require("../helper/validDate");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // @getUserCredentials
@@ -158,7 +159,6 @@ const updateUserAccount = async (userId, userData) => {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 const updateUserProfile = async (userId, userData) => {
   const { gender, birthdate, height, weight } = userData;
-  const validDate = new Date(birthdate);
 
   if (!userId) {
     throw new errorResponse("userId is Required!", 400);
@@ -168,12 +168,7 @@ const updateUserProfile = async (userId, userData) => {
     throw new errorResponse("All Fields Are Required!", 400);
   }
 
-  if (
-    !(
-      !isNaN(validDate.getTime()) &&
-      validDate.toISOString().slice(0, 10) === birthdate
-    )
-  ) {
+  if (validDate(birthdate) === false) {
     throw new errorResponse("Invalid date", 400);
   }
 
