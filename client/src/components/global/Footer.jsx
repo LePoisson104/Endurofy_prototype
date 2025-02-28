@@ -290,7 +290,7 @@ const Footer = () => {
         }}
       >
         <Typography variant="body2" sx={{ color: "white", opacity: 0.7 }}>
-          Copyright © 2025 Endurofy. All rights reserved.
+          &copy; {new Date().getFullYear()} Endurofy. All rights reserved.
         </Typography>
       </Box>
     </Box>
