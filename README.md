@@ -15,7 +15,7 @@
 
 - **Frontend:** React.js, MUI, RTK query, Redux, Vite
 - **Backend:** Node.js, Express.js, MySQL, external API's
-- **Hosting:** AWS RDS/EC2, Render
+- **Hosting:** AWS RDS, Render
 
 ## Installation
 
