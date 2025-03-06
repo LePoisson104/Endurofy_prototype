@@ -127,9 +127,9 @@ const Login = () => {
           Log In
         </Typography>
 
-        <GoogleBtn mt={3} />
+        {/* <GoogleBtn mt={3} /> */}
         {/* horizontal line */}
-        <Box
+        {/* <Box
           sx={{
             display: "flex",
             width: "100%",
@@ -142,7 +142,7 @@ const Login = () => {
           <Box sx={{ width: "100%", borderTop: "1px solid #D4D4D4" }}></Box>
           <Typography>or</Typography>
           <Box sx={{ width: "100%", borderTop: "1px solid #D4D4D4" }}></Box>
-        </Box>
+        </Box> */}
         <Box
           sx={{
             display: "flex",

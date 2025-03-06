@@ -1,11 +1,4 @@
-import {
-  Box,
-  Menu,
-  MenuItem,
-  IconButton,
-  Typography,
-  Input,
-} from "@mui/material";
+import { Box, Menu, MenuItem, IconButton } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useState, useEffect } from "react";
 import { useTheme } from "@emotion/react";
@@ -87,20 +80,6 @@ const UserAvatarBtn = ({ avatarBgColor, setAvatarBgColor }) => {
             },
           }}
         >
-          <MenuItem>
-            {/* Upload Photo */}
-            <label htmlFor="upload-photo">
-              <Input
-                id="upload-photo"
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-                sx={{ display: "none" }} // Hide the default file input
-              />
-              <Typography>Upload a photo</Typography>
-            </label>
-          </MenuItem>
-          <MenuItem onClick={handleClose}>Remove photo</MenuItem>
           <MenuItem onClick={handleOpenColorChange}>Change color</MenuItem>
           <MenuItem onClick={logout}>Logout</MenuItem>
         </Menu>

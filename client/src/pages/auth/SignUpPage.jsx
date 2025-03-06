@@ -176,7 +176,7 @@ const SignUp = () => {
     <Box
       ref={topRef}
       sx={{
-        minHeight: { xl: "160vh", md: "180vh", xs: "180vh" },
+        minHeight: { xl: "160vh", md: "180vh", xs: "160vh" },
         width: "100%",
         display: "flex",
         justifyContent: "center",
@@ -250,9 +250,9 @@ const SignUp = () => {
           Sign Up
         </Typography>
 
-        <GoogleBtn mb={3} />
+        {/* <GoogleBtn mb={3} /> */}
         {/* horizontal line */}
-        <Box
+        {/* <Box
           sx={{
             display: "flex",
             width: "100%",
@@ -264,7 +264,7 @@ const SignUp = () => {
           <Box sx={{ width: "100%", borderTop: "1px solid #D4D4D4" }}></Box>
           <Typography>or</Typography>
           <Box sx={{ width: "100%", borderTop: "1px solid #D4D4D4" }}></Box>
-        </Box>
+        </Box> */}
         <Box
           sx={{
             display: "flex",
