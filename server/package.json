@@ -6,8 +6,8 @@
   "scripts": {
     "start": "nodemon server.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Viet Pham",
+  "license": "MIT",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
